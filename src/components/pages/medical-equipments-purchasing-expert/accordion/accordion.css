@@ -1,0 +1,4 @@
+.accordion input[type="radio"]:checked ~ .accordion-title::before {
+  transform: rotate(135deg);
+  transition: all 0.2s ease-in-out;
+}
