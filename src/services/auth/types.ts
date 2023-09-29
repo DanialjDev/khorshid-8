@@ -55,3 +55,14 @@ export interface ForgetPasswordData {
   object: null | Object;
   list: null;
 }
+
+export interface ChangePasswordData {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: string | null;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: null;
+}

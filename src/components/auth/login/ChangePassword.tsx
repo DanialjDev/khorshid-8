@@ -1,11 +1,15 @@
+import React from "react";
 import FormButton from "@/components/main/button/FormButton";
 import Input from "@/components/main/input/AuthInput";
-import { useAppDispatch } from "@/redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { changePasswordHandler } from "@/services/auth";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
-import React from "react";
+import { toast } from "react-hot-toast";
+import { authToggler } from "@/redux/features/auth/authSlice";
 
 const ChangePassword = () => {
+  const { email } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("changePassword")!;
 
@@ -13,13 +17,27 @@ const ChangePassword = () => {
     {
       initialValues,
       validationSchema,
-      onSubmit: (values) => console.log(values),
+      onSubmit: async (values) => {
+        const data = {
+          ...values,
+          email,
+        };
+        const response = await changePasswordHandler(data);
+        if (response && response.message) {
+          if (response.status === 200) {
+            toast.success(response.message, { duration: 3000 });
+            dispatch(authToggler("login"));
+          } else {
+            toast.error(response.message, { duration: 3000 });
+          }
+        }
+      },
     }
   );
   return (
     <form onSubmit={handleSubmit}>
       <Input
-        name="otpCode"
+        name="verificationCode"
         placeholder="کد تایید را وارد کنید"
         label="کد تایید"
         errors={errors}

@@ -95,6 +95,7 @@ const MedicalMarket = async ({
                   className="xl:col-span-2 lg:col-span-3 col-span-6 h-fit"
                 >
                   <ProductItem
+                    deviceId={String(deviceId)}
                     companyName={companyName}
                     name={deviceName}
                     imageUrl={imageUrl}

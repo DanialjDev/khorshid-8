@@ -22,3 +22,29 @@ export interface ShopDevices {
   };
   list: null;
 }
+
+export interface SingleProduct {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null;
+  operationDate: string;
+  status: number;
+  object: SingleProductData;
+  list: null;
+}
+
+export interface SingleProductData {
+  deviceId: number;
+  deviceName: string;
+  brand: string;
+  country: string;
+  categoryNames: string[];
+  faxNumber: string;
+  email: string;
+  companyName: string;
+  orderedByMobileNumber: string;
+  orderedByFullName: string;
+  website: string;
+  address: string;
+}

@@ -1,14 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
-import WaterSplash from "../../../../public/assets/images/home-page/water-splash.png";
 import Button from "../../main/button/Button";
-import { HomeDevice } from "@/services/homePage/types";
+import { useRouter } from "next/navigation";
 
 interface ProductProps {
   companyName: string;
   imageUrl: string;
   name: string;
   orderedByMobileNumber: string;
+  deviceId: string;
 }
 
 const ProductItem = ({
@@ -16,9 +18,18 @@ const ProductItem = ({
   imageUrl,
   name,
   orderedByMobileNumber,
+  deviceId,
 }: ProductProps) => {
+  const { push } = useRouter();
   return (
-    <div className="col-span-1 w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px]">
+    <div
+      onClick={() =>
+        push(
+          `/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`
+        )
+      }
+      className="col-span-1 w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
+    >
       <div className="w-full flex justify-center items-center">
         <Image width={300} height={300} src={imageUrl} alt="water splash" />
       </div>
@@ -35,6 +46,7 @@ const ProductItem = ({
         </ul>
         <div className="flex justify-start mt-4">
           <Button
+            href={`/medical-equipments-market/singleProduct?name=${name}`}
             padding="py-2"
             text="خرید محصول"
             color="text-secondary"

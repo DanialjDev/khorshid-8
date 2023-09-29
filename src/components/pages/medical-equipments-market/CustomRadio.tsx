@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import "./radio.css";
 
 const CustomRadio = ({ id, title }: { id: string; title: string }) => {

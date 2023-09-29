@@ -11,6 +11,8 @@ interface SectionBoxProps {
   btnBgColor?: string;
   margin?: string;
   hasBtn?: boolean;
+  btnHover?: string;
+  href?: string;
 }
 const SectionBox = ({
   children,
@@ -19,6 +21,8 @@ const SectionBox = ({
   btnBgColor,
   margin,
   hasBtn,
+  btnHover,
+  href,
 }: SectionBoxProps) => {
   return (
     <div className="w-full flex flex-col relative">
@@ -37,7 +41,9 @@ const SectionBox = ({
             className={` w-full flex justify-center ${margin ? margin : ""}`}
           >
             <Button
+              hover={btnHover}
               bg={btnBgColor}
+              href={href}
               dir="rtl"
               color={"text-white"}
               icon={

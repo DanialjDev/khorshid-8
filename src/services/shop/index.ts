@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import { get } from "../axios";
-import { Device, ShopDevices } from "./types";
+import { Device, ShopDevices, SingleProduct, SingleProductData } from "./types";
 
 type ReturnTyp = {
   status?: number;
@@ -31,6 +31,34 @@ export const getDevices = async (
           message: error.response.data.message,
         };
       }
+    }
+  }
+};
+
+type SingleProductReturnType = {
+  data?: SingleProductData;
+  message?: string | undefined;
+};
+
+// Get Single Device
+export const getSingleDevice = async (
+  deviceId: string
+): Promise<SingleProductReturnType | undefined> => {
+  try {
+    const { data, status } = await get<SingleProduct>(
+      `Shop/GetShopSingleDevice/${deviceId}`
+    );
+
+    if (status === 200) {
+      return {
+        data: data.object,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
     }
   }
 };

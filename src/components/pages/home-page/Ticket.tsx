@@ -34,8 +34,9 @@ const Ticket = ({
         <div className="mt-4">
           <Button
             bg={btnBgColor}
+            disabled
             dir={dir}
-            opacity={btnOpacity ? btnBgColor : "opacity-40"}
+            // opacity={btnBgColor}
             text={btnText}
             icon={icon}
             color={color}

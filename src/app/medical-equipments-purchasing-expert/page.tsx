@@ -10,6 +10,7 @@ import BlueSquare from "../../../public/assets/images/home-page/blue-square.svg"
 import MedicalExpert from "../../../public/assets/images/medical-expert/medical-expert.svg";
 import { getCounselorData } from "@/services/counselor";
 import { toast } from "react-hot-toast";
+import Button from "@/components/main/button/Button";
 
 const MedicalEquipmentsPurchasingExpert = async () => {
   const counselorData = await getCounselorData();
@@ -212,9 +213,15 @@ const MedicalEquipmentsPurchasingExpert = async () => {
                     </svg>
                   }
                 />
-                <button className="w-full bg-primary rounded-md text-white text-[16px] py-2">
+                {/* <button className="w-full hover:bg-btnPrimaryHover transition duration-200 bg-primary rounded-md text-white text-[16px] py-2">
                   ثبت درخواست
-                </button>
+                </button> */}
+                <Button
+                  text="ثبت درخواست"
+                  color="text-white"
+                  width="w-full"
+                  hover="hover:bg-btnPrimaryHover"
+                />
               </div>
             </div>
           </Box>

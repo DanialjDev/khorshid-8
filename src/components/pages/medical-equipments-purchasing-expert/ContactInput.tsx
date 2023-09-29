@@ -13,7 +13,7 @@ const ContactInput = ({
 }) => {
   return (
     <div
-      className={`w-full flex relative items-center rounded-md border border-[#E6E6E6] p-2 ${
+      className={`w-full flex relative hover:shadow-inputHover transition duration-200 items-center rounded-md border border-[#E6E6E6] p-2 ${
         margin ? margin : ""
       }`}
     >

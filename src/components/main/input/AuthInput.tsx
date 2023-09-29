@@ -53,7 +53,7 @@ const AuthInput = ({
         type={type}
         name={name}
         id={name}
-        className={`border border-[#E2E8F0] rounded-lg p-[12px] bg-transparent outline-none mt-1 ${
+        className={`border border-[#E2E8F0] rounded-lg p-[12px] bg-transparent outline-none mt-1 hover:shadow-inputHover hover:border-inputHoverBorder transition duration-200 ${
           error && touchedInput ? "border-borderError" : ""
         }`}
         placeholder={placeholder}

@@ -17,11 +17,11 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   }, []);
   return (
     <div
-      className={`w-full bg-[#FCFCFC] ${
+      className={`w-full bg-white-gray ${
         authAction !== "" || showModal ? "fixed" : ""
       } xl:pt-0 pt-10`}
     >
-      <div className="w-full bg-[#FCFCFC] px-5 2xl:px-32 xl:px-20">
+      <div className="w-full bg-white-gray pt-32 px-5 2xl:px-32 xl:px-20">
         {children}
       </div>
       <Footer />

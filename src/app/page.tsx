@@ -1,5 +1,3 @@
-export const revalidate = 100;
-
 import Image from "next/image";
 import Button from "@/components/main/button/Button";
 import { getTitle } from "@/utills/getTitle";
@@ -47,7 +45,7 @@ export default async function Home() {
                   </p>
                   <div className="mt-10">
                     <Button
-                      href=""
+                      hover="hover:bg-btnPrimaryHover"
                       color="text-white"
                       text="دریافت مشاوره"
                       icon={
@@ -295,7 +293,7 @@ export default async function Home() {
               </p>
               <div className="mt-6">
                 <Button
-                  href=""
+                  hover="hover:bg-btnSecondaryHover"
                   color="text-white"
                   bg="bg-secondary"
                   text="دریافت مشاوره"
@@ -351,6 +349,7 @@ export default async function Home() {
               </p>
               <div className="mt-4">
                 <Button
+                  hover="hover:bg-btnPrimaryHover"
                   href={"/register-medical-equipments-device"}
                   text="تکمیل فرم ثبت دستگاه"
                   color="text-white"
@@ -382,13 +381,15 @@ export default async function Home() {
         </div>
         {/* Some of the products */}
         <SectionBox
+          href="/medical-equipments-market"
+          btnHover="hover:bg-btnSecondaryHover"
           hasBtn
           btnBgColor="bg-secondary"
           SquareLogo={
             <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
           }
           title={
-            <p className="text-black text-2xl z-50 p-2 bg-white-gray">
+            <p className="text-black text-2xl z-40 p-2 bg-white-gray">
               برخی از <span className="text-secondary">محصولات ما</span>
             </p>
           }
@@ -401,9 +402,11 @@ export default async function Home() {
                 name,
                 orderedByMobileNumber,
                 imageUrl,
-                companyWebsite,
+                deviceId,
               }) => (
                 <ProductItem
+                  deviceId={String(deviceId)}
+                  key={deviceId}
                   imageUrl={imageUrl}
                   name={name}
                   orderedByMobileNumber={orderedByMobileNumber}
@@ -417,6 +420,7 @@ export default async function Home() {
         {/* medical equipments groups */}
         <div className="w-full my-[8em]">
           <SectionBox
+            btnHover="hover:bg-btnPrimaryHover"
             hasBtn
             SquareLogo={
               <Image
@@ -448,13 +452,14 @@ export default async function Home() {
         </div>
         {/* News */}
         <SectionBox
+          btnHover="hover:bg-btnSecondaryHover"
           hasBtn
           margin="mt-28 mb-10"
           SquareLogo={
             <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
           }
           title={
-            <p className="text-secondary text-2xl z-50 p-2 bg-white-gray">
+            <p className="text-secondary text-2xl z-40 p-2 bg-white-gray">
               اخبار
             </p>
           }

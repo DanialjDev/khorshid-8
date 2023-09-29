@@ -40,7 +40,7 @@ const useValidation = (action: Action): ReturnType | undefined => {
     [Yup.ref("password"), null],
     "رمز عبورها با هم برابر نیستند."
   );
-  const otpCode = defaultErrorValidation;
+  const verificationCode = defaultErrorValidation;
 
   const firstName = defaultErrorValidation;
   const lastName = defaultErrorValidation;
@@ -90,12 +90,13 @@ const useValidation = (action: Action): ReturnType | undefined => {
 
     case "changePassword":
       initialValues = {
-        otpCode: "",
+        email: "",
+        verificationCode: "",
         password: "",
         confirmPassword: "",
       };
       validationSchema = Yup.object().shape({
-        otpCode,
+        verificationCode,
         password,
         confirmPassword,
       });

@@ -42,7 +42,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const { push } = useRouter();
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { isLoggedIn, username } = useAppSelector((state) => state.auth);
   const authHandler = () => {
     if (isLoggedIn) {
       push("/profile");
@@ -54,9 +54,9 @@ const Navbar = () => {
   const [nav, setNav] = useState<boolean>(false);
 
   return (
-    <nav className="w-full flex items-center flex-col">
+    <nav id="nav" className="w-full flex items-center flex-col fixed z-50">
       {/* Top Nav */}
-      <div className="w-full flex justify-center items-center shadow-md py-2">
+      <div className="w-full flex justify-center items-center shadow-md py-2 bg-white">
         <div className="w-[85%] h-[64px] flex justify-between items-center">
           <button className="lg:hidden flex" onClick={() => setNav(true)}>
             <svg
@@ -145,7 +145,7 @@ const Navbar = () => {
                 className="flex justify-center text-[12px] items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
-                  {!isLoggedIn ? (
+                  {!isLoggedIn && !username ? (
                     <p className="ml-1 lg:flex hidden">حساب کاربری</p>
                   ) : (
                     <p className="ml-1 lg:flex hidden">پروفایل</p>
@@ -172,7 +172,7 @@ const Navbar = () => {
       <div
         className={`w-full lg:h-auto h-screen flex lg:flex-row flex-col lg:justify-center justify-start items-center lg:relative fixed ${
           nav ? "right-0" : "lg:right-0 right-[-100vw]"
-        } lg:bg-transparent bg-menuBg z-50 lg:mt-5 transition-all duration-200 ease-in-out`}
+        } lg:bg-white-gray bg-menuBg z-50 lg:pt-5 transition-all duration-200 ease-in-out`}
       >
         <div className="w-full lg:hidden flex px-5 justify-between items-center">
           <div className="flex justify-center items-center">

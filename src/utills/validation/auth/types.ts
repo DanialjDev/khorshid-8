@@ -32,13 +32,13 @@ interface ForgotPasswordSchemaAnyObject {
 }
 
 interface ChnagePasswordInitalValues {
-  otpCode: string;
+  verificationCode: string;
   password: string;
   confirmPassword: string;
 }
 
 interface ChnagePasswordSchemaAnyObject {
-  otpCode: undefined;
+  verificationCode: undefined;
   password: undefined;
   confirmPassword: undefined;
 }

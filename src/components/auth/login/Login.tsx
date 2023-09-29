@@ -5,6 +5,7 @@ import {
   authToggler,
   setIsLoggedIn,
   setShowForm,
+  setUserName,
 } from "@/redux/features/auth/authSlice";
 import FormButton from "../../main/button/FormButton";
 import FormLayout from "../layout/FormLayout";

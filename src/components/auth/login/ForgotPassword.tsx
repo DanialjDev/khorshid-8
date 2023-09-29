@@ -1,8 +1,9 @@
 import FormButton from "@/components/main/button/FormButton";
 import AuthInput from "@/components/main/input/AuthInput";
-import { authToggler } from "@/redux/features/auth/authSlice";
+import { authToggler, setEmail } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { forgotPasswordHandler } from "@/services/auth";
+import { InitialValues } from "@/utills/validation/auth/types";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
 import React from "react";
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
     {
       initialValues,
       validationSchema,
-      onSubmit: async (values) => {
+      onSubmit: async (values: InitialValues) => {
         const response = await forgotPasswordHandler(values);
         console.log(response);
 
@@ -26,7 +27,9 @@ const ForgotPassword = () => {
           }
           if (response.status === 200 && response.message) {
             toast.success(response.message, { duration: 3000 });
-            dispatch(authToggler("forgotPassword"));
+            dispatch(authToggler("changePassword"));
+            // @ts-ignore
+            dispatch(setEmail(values.email));
           }
         }
       },

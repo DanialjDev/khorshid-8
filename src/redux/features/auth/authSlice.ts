@@ -6,12 +6,16 @@ interface InitialState {
   authAction: Action;
   showForm: boolean;
   isLoggedIn: boolean;
+  email: string;
+  username: string;
 }
 
 const initialState: InitialState = {
   authAction: "",
   showForm: false,
   isLoggedIn: false,
+  email: "",
+  username: "",
 };
 
 const AuthSlice = createSlice({
@@ -34,9 +38,23 @@ const AuthSlice = createSlice({
       state.isLoggedIn = action.payload;
       return state;
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+      return state;
+    },
+    setUserName: (state, action) => {
+      state.username = action.payload;
+      return state;
+    },
   },
 });
 
-export const { authToggler, setShowForm, setIsLoggedIn } = AuthSlice.actions;
+export const {
+  authToggler,
+  setShowForm,
+  setIsLoggedIn,
+  setEmail,
+  setUserName,
+} = AuthSlice.actions;
 
 export default AuthSlice.reducer;
