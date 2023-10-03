@@ -14,6 +14,8 @@ interface ButtonProps {
   hover?: string;
   disabled?: boolean;
   width?: string;
+  type?: "button" | "submit" | "reset" | undefined;
+  fontSize?: string;
 }
 
 const Button = ({
@@ -28,6 +30,8 @@ const Button = ({
   hover,
   disabled,
   width = "w-fit",
+  type,
+  fontSize,
 }: ButtonProps) => {
   return (
     <>
@@ -43,12 +47,17 @@ const Button = ({
           } rounded-xl`}
         >
           {icon}
-          <p className={`text-[16px] ${dir === "rtl" ? "ml-3" : "mr-3"}`}>
+          <p
+            className={`${fontSize ? fontSize : "text-[16px]"} ${
+              dir === "rtl" ? "ml-3" : "mr-3"
+            }`}
+          >
             {text}
           </p>
         </Link>
       ) : (
         <button
+          type={type ? type : "button"}
           disabled={disabled}
           className={`${width} transition duration-200 ease-in-out flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed ${
             hover ? hover : ""
@@ -59,7 +68,11 @@ const Button = ({
           } rounded-xl`}
         >
           {icon}
-          <p className={`text-[16px] ${dir === "rtl" ? "ml-3" : "mr-3"}`}>
+          <p
+            className={`${fontSize ? fontSize : "text-[16px]"} ${
+              dir === "rtl" ? "ml-3" : "mr-3"
+            }`}
+          >
             {text}
           </p>
         </button>

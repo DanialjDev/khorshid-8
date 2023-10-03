@@ -28,7 +28,7 @@ const ProductItem = ({
           `/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`
         )
       }
-      className="col-span-1 w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
+      className="w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
     >
       <div className="w-full flex justify-center items-center">
         <Image width={300} height={300} src={imageUrl} alt="water splash" />

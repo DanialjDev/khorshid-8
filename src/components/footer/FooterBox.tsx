@@ -10,9 +10,11 @@ const FooterBox = ({
   width?: string;
 }) => {
   return (
-    <div className={`${width ? width : "w-[90%]"} grid mr-10`}>
+    <div
+      className={`w-full xl:col-span-1 md:col-span-2 col-span-4 flex flex-col items-center md:border-none border-b border-gray md:pb-0 pb-5`}
+    >
       <div className="w-full">
-        <p className="text-white text-[20px]">{title}</p>
+        <p className="text-white text-[19px]">{title}</p>
       </div>
       <div className="w-full mt-4">{children}</div>
     </div>

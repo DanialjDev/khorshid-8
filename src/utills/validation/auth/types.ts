@@ -116,6 +116,21 @@ export interface RegisterDeviceAnyObject {
   file: undefined;
 }
 
+// Consulation
+export interface ConsulationInitialValues {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  comment: string;
+}
+
+export interface ConsulationAnyObject {
+  firstName: undefined;
+  lastName: undefined;
+  phoneNumber: undefined;
+  comment: undefined;
+}
+
 // Initial Values
 export type InitialValues =
   | SignupInitialValues
@@ -124,7 +139,8 @@ export type InitialValues =
   | ChnagePasswordInitalValues
   | ContactUsValues
   | ProfileComponyData
-  | RegisterDeviceValues;
+  | RegisterDeviceValues
+  | ConsulationInitialValues;
 
 // Validation Schema
 export type ValidateSchemaAnyObject =
@@ -134,7 +150,8 @@ export type ValidateSchemaAnyObject =
   | ChnagePasswordSchemaAnyObject
   | ContactUsSchemaAnyObject
   | ProfileComponyDataSchemaAnyObject
-  | RegisterDeviceAnyObject;
+  | RegisterDeviceAnyObject
+  | ConsulationAnyObject;
 
 export type ValidationSchemaType = Yup.ObjectSchema<
   InitialValues,

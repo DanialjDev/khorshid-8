@@ -27,7 +27,7 @@ const ContactUs = () => {
             <div className="w-full flex flex-col px-4 py-2 h-full">
               <div className="w-full flex flex-col">
                 <p className="text-xl text-dark">آدرس:</p>
-                <p className="w-[80%] text-[#4E4E4E] text-[16px] mt-5">
+                <p className="md:w-[80%] w-full text-[#4E4E4E] text-[16px] mt-5">
                   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
                   استفاده از طراحان گرافیک است. چاپگرها ...
                 </p>

@@ -5,14 +5,14 @@ interface Conference {
   link: string;
 }
 
-interface HomeDevice {
+interface DeviceCategories {
+  id: number;
+  categoryName: string;
+}
+
+export interface HomeDevice {
   deviceId?: number;
-  categories?: [
-    {
-      id: number;
-      categoryName: string;
-    }
-  ];
+  categories?: DeviceCategories[];
   name: string;
   brand?: string;
   country?: string;
@@ -33,7 +33,7 @@ interface HomeSideBanner {
   link: string;
 }
 
-interface News {
+export interface News {
   newsId?: number;
   title?: string;
   description?: string;

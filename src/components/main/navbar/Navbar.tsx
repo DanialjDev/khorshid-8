@@ -171,7 +171,7 @@ const Navbar = () => {
       {/* Botton Nav */}
       <div
         className={`w-full lg:h-auto h-screen flex lg:flex-row flex-col lg:justify-center justify-start items-center lg:relative fixed ${
-          nav ? "right-0" : "lg:right-0 right-[-100vw]"
+          nav ? "right-0" : "lg:right-0 right-[-120vw]"
         } lg:bg-white-gray bg-menuBg z-50 lg:pt-5 transition-all duration-200 ease-in-out`}
       >
         <div className="w-full lg:hidden flex px-5 justify-between items-center">

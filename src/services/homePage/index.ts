@@ -1,5 +1,5 @@
 import { get } from "../axios";
-import type { HomePageDate, HomePageDiveces } from "./types";
+import type { HomeDevice, HomePageDate, HomePageDiveces } from "./types";
 
 // Get Home Page Date
 export const getHomePageDate = async () => {
@@ -16,16 +16,14 @@ export const getHomePageDate = async () => {
 };
 
 // Get Home‌ Page Devices
-export const getHomePageDevies = async (
-  pageContain: number = 4,
-  pageNumber: number = 1
-) => {
+type ReturnType = HomeDevice[];
+export const getHomePageDevies = async (): Promise<ReturnType | undefined> => {
   try {
     const { data, status } = await get<HomePageDiveces>(
-      `HomePage/GetPagedDevices?PageContain=${pageContain}&PageNumber${pageNumber}/`
+      `HomePage/GetPagedDevices?PageContain=4&PageNumber=1`
     );
     if (status === 200) {
-      return data.object;
+      return data.object.data;
     }
   } catch (error) {
     console.log(error);

@@ -105,21 +105,25 @@ const CustomeTable = ({ headers, items }: TableProps) => {
   const dispatch = useAppDispatch();
   return (
     <div className="w-full overflow-x-auto flex justify-center items-center mt-5">
-      <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl">
-        <thead className="bg-tableHeadColor shadow-md w-full h-12">
-          <tr className="rounded-xl text-[13px]">
-            <td className="py-5 flex pr-2 rounded-tr-lg">ردیف</td>
-            {headers.map((headerItem, key) => (
-              <td className={`py-2`} key={key}>
-                {headerItem}
-              </td>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-white-gray">
-          {items}
-        </tbody>
-      </table>
+      <div className="inline-block min-w-full">
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl">
+            <thead className="bg-tableHeadColor shadow-md w-full h-12">
+              <tr className="rounded-xl text-[13px]">
+                <td className="py-5 flex pr-2 rounded-tr-lg">ردیف</td>
+                {headers.map((headerItem, key) => (
+                  <td className={`p-4 whitespace-nowrap`} key={key}>
+                    {headerItem}
+                  </td>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-white-gray">
+              {items}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -12,17 +12,25 @@ import Card from "@/components/pages/about-us/Card";
 const AboutUs = () => {
   return (
     <div className="w-full flex flex-col">
-      <div className="w-full flex justify-between px-6">
-        <div className="flex flex-col justify-center relative w-[45%]">
-          <div className="w-full flex text-[26px] relative mb-5">
+      <div className="w-full flex flex-col lg:flex-row justify-between md:px-6 px-3">
+        <div className="flex flex-col justify-center relative lg:w-[45%] w-full">
+          <div className="flex lg:text-[26px] items-center md:text-[20px] text-[17px] relative mb-5 xl:mr-0 md:mr-20 mr-14">
             <p className="text-dark">
               درباره کانون <span className="text-secondary">خورشید هشت</span>
             </p>
-            <div className="flex items-center absolute right-[-130px] top-[-28px]">
-              <Image src={WhiteLogo} alt="" />
+            <div className="flex items-center absolute md:right-[-130px] right-[-100px] md:top-[-28px] top-[-17px]">
+              <Image
+                className="lg:w-full md:w-[80%] w-[60%]"
+                src={WhiteLogo}
+                alt=""
+              />
             </div>
-            <div className="flex items-center absolute right-[-100px] top-[-28px]">
-              <Image src={GreenLogo} alt="" />
+            <div className="flex items-center absolute md:right-[-100px] right-[-70px] md:top-[-28px] top-[-17px]">
+              <Image
+                className="lg:w-full md:w-[80%] w-[60%]"
+                src={GreenLogo}
+                alt=""
+              />
             </div>
           </div>
           <div className="text-[#979797] text-[16px]">
@@ -45,14 +53,14 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-        <div className="w-[40%]">
+        <div className="lg:w-[40%] w-full flex justify-center items-center lg:m-0 mt-8">
           <Image src={MeetingLogo} className="rounded-xl" alt="" />
         </div>
       </div>
       <div className="w-full mt-48">
         <SectionBox
           title={
-            <p className="z-30 p-1 bg-white-gray text-2xl">
+            <p className="z-30 p-1 bg-white-gray lg:text-2xl text-[16px]">
               راهنمای <span className="text-primary">خرید</span> لوازم و تجهیزات
               پزشکی
             </p>
@@ -65,7 +73,7 @@ const AboutUs = () => {
             />
           }
         >
-          <div className="w-full grid grid-cols-4 gap-8 px-4 mt-8">
+          <div className="w-full grid grid-cols-4 gap-8 px-4 lg:mt-8 mt-12">
             <Card
               title="درخواست مشاوره"
               desc="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده چاپ، و با استفاده "

@@ -9,6 +9,7 @@ export type Action =
   | "contact-us"
   | "profile-company-data"
   | "register-medical-device"
+  | "consulation"
   | "";
 
 type ReturnType = [
@@ -179,6 +180,19 @@ const useValidation = (action: Action): ReturnType | undefined => {
         deviceName: defaultErrorValidation,
         country: defaultErrorValidation,
       });
+    case 'consulation':
+      initialValues = {
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        comment: ''
+      }
+      validationSchema = Yup.object().shape({
+        firstName,
+        lastName,
+        phoneNumber,
+        comment
+      })
       return [initialValues, validationSchema];
     default:
       return undefined;

@@ -17,7 +17,7 @@ const NewsItem = ({
   const now = new Date();
   const DaysRange = getDatesRange(now, new Date(creationDate));
   return (
-    <div className="w-full flex items-center flex-col col-span-1 relative">
+    <div className="w-full flex items-center flex-col xl:col-span-1 md:col-span-2 col-span-4 relative lg:mb-8 md:mb-16 mb-32">
       <div className="w-full">
         <Image
           width={0}
@@ -28,7 +28,7 @@ const NewsItem = ({
           src={imageUrl}
         />
       </div>
-      <div className="w-[90%] flex flex-col p-4 bg-white shadow-md absolute top-[55%] rounded-lg">
+      <div className="w-[90%] flex flex-col p-4 bg-white shadow-md absolute xl:top-[55%] md:top-[70%] top-[85%] rounded-lg">
         <p className="text-[14px]">{title}</p>
         <p className="text-[#898989] my-4 text-[12px]">{description}</p>
         <div className="w-full flex justify-between items-center rounded-br-3xl rounded-bl-3xl bg-[#F9F9F9] p-2">
@@ -47,11 +47,14 @@ const NewsItem = ({
                 fill="#979797"
               />
             </svg>
-            <p className="text-[#898989] mr-2 text-[14px]">{DaysRange}</p>
+            <p className="text-[#898989] mr-2 xl:text-[14px] text-[11px]">
+              {DaysRange}
+            </p>
           </div>
           <div className="">
             <Button
               href={link}
+              fontSize="xl:text-[14px] text-[10px]"
               padding="p-0"
               icon={
                 <svg

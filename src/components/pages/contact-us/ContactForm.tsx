@@ -11,40 +11,35 @@ import { toast } from "react-hot-toast";
 const ContactForm = () => {
   const [initialValues, validationSchema] = useValidation("contact-us")!;
 
-  const {
-    handleSubmit,
-    handleChange,
-    handleBlur,
-    errors,
-    touched,
-    handleReset,
-  } = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: async (values) => {
-      const { status, message } = (await contactUsPost(values)) as {
-        status: number;
-        message: string | undefined;
-      };
-      if (message) {
-        if (status === 200 && message) {
-          toast.success(message, {
-            duration: 2500,
-          });
-        } else {
-          toast.error(message, {
-            duration: 2500,
-          });
+  const { handleSubmit, handleChange, handleBlur, errors, touched } = useFormik(
+    {
+      initialValues,
+      validationSchema,
+      onSubmit: async (values) => {
+        const { status, message } = (await contactUsPost(values)) as {
+          status: number;
+          message: string | undefined;
+        };
+        if (message) {
+          if (status === 200 && message) {
+            toast.success(message, {
+              duration: 2500,
+            });
+          } else {
+            toast.error(message, {
+              duration: 2500,
+            });
+          }
         }
-      }
-    },
-  });
+      },
+    }
+  );
   return (
     <form
       onSubmit={handleSubmit}
       className="grid grid-cols-2 gap-x-5 w-full h-full"
     >
-      <div className="col-span-1">
+      <div className="sm:col-span-1 col-span-2">
         <AuthInput
           errors={errors}
           handleBlur={handleBlur}
@@ -54,7 +49,7 @@ const ContactForm = () => {
           name="firstName"
         />
       </div>
-      <div className="col-span-1">
+      <div className="sm:col-span-1 col-span-2">
         <AuthInput
           label="نام خانوادگی"
           name="lastName"

@@ -10,10 +10,12 @@ import { DeviceName } from "@/services/common/types";
 
 const MedicalMarket = async ({
   deviceCategories,
+  devices,
 }: {
   deviceCategories: DeviceName[] | undefined;
+  devices: Device[] | null;
 }) => {
-  let devices = await getDevices();
+  // let devices = await getDevices();
   // const [search, setSearch] = useState("");
 
   // const getDevicesOnSearch = async () => {
@@ -82,7 +84,7 @@ const MedicalMarket = async ({
         {/* @ts-ignore */}
         {devices && devices.length !== 0 ? (
           <div className="w-full grid content-baseline col-span-6 grid-cols-6 gap-8">
-            {devices.data?.map(
+            {devices.map(
               ({
                 companyName,
                 deviceId,
@@ -98,7 +100,7 @@ const MedicalMarket = async ({
                     deviceId={String(deviceId)}
                     companyName={companyName}
                     name={deviceName}
-                    imageUrl={imageUrl}
+                    imageUrl={imageUrl ? imageUrl : ""}
                     orderedByMobileNumber={orderedByMobileNumber}
                   />
                 </div>

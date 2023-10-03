@@ -35,13 +35,19 @@ const Footer = () => {
           </svg>
         </div>
       </button>
-      <div className="w-full flex items-center flex-col py-10 px-32 bg-[#010101]">
+      <div className="w-full flex items-center flex-col py-10 2xl:px-32 px-10 bg-[#010101]">
         {/* Top Footer Section */}
-        <div className="w-full grid grid-cols-3 justify-between border-b border-white-gray pb-14">
-          <div className="w-full col-span-1">
-            <Image width={226} height={160} src={Logo} alt="خورشید هشت" />
+        <div className="w-full grid grid-cols-3 lg:justify-between justify-center border-b border-white-gray pb-14">
+          <div className="w-full lg:col-span-1 m-auto col-span-3">
+            <Image
+              className="m-auto"
+              width={226}
+              height={160}
+              src={Logo}
+              alt="خورشید هشت"
+            />
           </div>
-          <div className="w-full flex flex-col col-span-1 place-items-center">
+          <div className="w-full flex flex-col lg:col-span-1 col-span-3 justify-center place-items-center">
             <p className="text-white-gray mt-4 text-[18px]">
               ما را در فضای مجازی دنبال کنید
             </p>
@@ -152,7 +158,7 @@ const Footer = () => {
               />
             </div>
           </div>
-          <div className="w-full col-span-1">
+          <div className="w-full hidden lg:flex col-span-1">
             <Image
               width={226}
               height={160}
@@ -164,7 +170,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Fotter Section */}
-        <div className="w-full flex grid-cols-4 !justify-between mt-8">
+        <div className="w-full grid grid-cols-4 gap-4 lg:gap-12 !justify-between mt-8">
           <FooterBox title="همه روزه ۲۴ ساعته همراه شما هستیم">
             <div className="w-full flex flex-col text-[18px]">
               <div className="w-full flex items-center mb-5">
@@ -303,7 +309,7 @@ const Footer = () => {
               <div className="w-full col-span-1 bg-white rounded-xl h-[120px] "></div>
             </div>
           </FooterBox>
-          <FooterBox title="لینک های مفید" width="w-[500px]">
+          <FooterBox title="لینک های مفید">
             <div className="w-full flex flex-col justify-between h-[200px]">
               <Link className="text-white-gray text-[17px]" href={"/about-us"}>
                 درباره ما

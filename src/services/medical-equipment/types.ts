@@ -1,3 +1,5 @@
+import { HomeDevice } from "../homePage/types";
+
 // Medical Equipmet => ********** Device Banner **********
 export interface DeviceBannerObject {
   imageUrl: string;
@@ -241,11 +243,13 @@ export type OperationNames =
   | "GetHospotals"
   | "GetLabs"
   | "GetVicePresidentsOfTreatment"
-  | "GetUniversities";
+  | "GetUniversities"
+  | "HomePageDevices";
 export type TableData = (Company &
   MedicalDevice &
   DeansOfUniversitiesData &
   EventsData &
   HospitalsData &
   LabsData &
-  LabsData)[];
+  LabsData &
+  HomeDevice)[];

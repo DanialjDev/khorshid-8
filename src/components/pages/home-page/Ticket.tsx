@@ -26,11 +26,13 @@ const Ticket = ({
   border?: string;
 }) => {
   return (
-    <div className="w-full grid grid-cols-5 mt-5 gap-5">
-      <div className="col-span-2 rounded-xl overflow-hidden">{img}</div>
-      <div className="col-span-3 flex flex-col h-[90%]">
+    <div className="w-full grid grid-cols-5 items-stretch mt-5 gap-5 justify-center">
+      <div className="lg:col-span-2 col-span-5 rounded-xl overflow-hidden lg:w-full md:w-[70%] w-full">
+        {img}
+      </div>
+      <div className="lg:col-span-3 col-span-5 flex flex-col h-[90%]">
         {title}
-        <p className="text-gray w-[80%] text-[16px] my-10">{text}</p>
+        <p className="text-gray md:w-[80%] w-full text-[16px] my-10">{text}</p>
         <div className="mt-4">
           <Button
             bg={btnBgColor}

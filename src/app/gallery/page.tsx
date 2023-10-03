@@ -10,7 +10,7 @@ const Gallery = async () => {
     return <BounceLoader size={20} color="red" />;
   }
   return (
-    <div className="w-full mt-10 grid grid-cols-6">
+    <div className="w-full grid grid-cols-6">
       {galleryItems?.data?.map(({ id, imageUrl }) => (
         <div className="lg:col-span-2 md:col-span-3 col-span-6">
           <Image

@@ -10,9 +10,14 @@ import React from "react";
 const MedicalEquipmentsMarket = async () => {
   // let devices: Device[];
   const deviceCategories = await getDeviceCategories();
+  const devices = await getDevices();
+  console.log(devices);
   return (
     <div className="w-full grid grid-cols-8 gap-4">
-      <MedicalMarket deviceCategories={deviceCategories?.data} />
+      <MedicalMarket
+        devices={devices?.data ? devices.data : null}
+        deviceCategories={deviceCategories?.data}
+      />
     </div>
   );
 };

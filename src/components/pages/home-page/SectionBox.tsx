@@ -27,7 +27,7 @@ const SectionBox = ({
   return (
     <div className="w-full flex flex-col relative">
       <div className="w-full flex justify-center items-center">
-        <div className="flex absolute right-[-120px]">
+        <div className="sm:flex hidden absolute 2xl:right-[-120px] xl:right-[-30px] right-[-10px]">
           <Image className="z-30" src={WhiteSquare} alt="" />
           {SquareLogo}
         </div>

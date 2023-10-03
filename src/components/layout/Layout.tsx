@@ -21,7 +21,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         authAction !== "" || showModal ? "fixed" : ""
       } xl:pt-0 pt-10`}
     >
-      <div className="w-full bg-white-gray pt-32 px-5 2xl:px-32 xl:px-20">
+      <div className="w-full bg-white-gray lg:pt-32 pt-10 px-5 2xl:px-28 xl:px-14">
         {children}
       </div>
       <Footer />
