@@ -9,6 +9,7 @@ import Logo from "../../../../public/assets/images/navbar-logo.png";
 import { authToggler } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import Cookies from "js-cookie";
+import { decrypt } from "@/utills/crypto";
 
 const MenuItem = ({
   href,
@@ -42,9 +43,22 @@ const Navbar = () => {
   const pathname = usePathname();
   const { push } = useRouter();
   const dispatch = useAppDispatch();
-  const { isLoggedIn, username } = useAppSelector((state) => state.auth);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  // if (Cookies.get("token")) {
+  const userInfo = JSON.parse(decrypt(Cookies.get("userInfo")))
+    ? JSON.parse(decrypt(Cookies.get("userInfo")))
+    : {
+        name: "",
+        maxDeviceNumber: "",
+        roleName: "",
+        roleNameEn: "",
+        mobileNumber: "",
+        email: "",
+      };
+  // }
+
   const authHandler = () => {
-    if (isLoggedIn) {
+    if (userInfo) {
       push("/profile");
     } else {
       dispatch(authToggler("login"));
@@ -145,11 +159,12 @@ const Navbar = () => {
                 className="flex justify-center text-[12px] items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
-                  {!isLoggedIn && !username ? (
+                  {Cookies.get("token") && !userInfo.name ? (
                     <p className="ml-1 lg:flex hidden">حساب کاربری</p>
                   ) : (
-                    <p className="ml-1 lg:flex hidden">پروفایل</p>
+                    <p className="ml-1 lg:flex hidden">{userInfo.name}</p>
                   )}
+                  {/* <p className="ml-1 lg:flex hidden">حساب کاربری</p> */}
                 </div>
                 <svg
                   width="23"

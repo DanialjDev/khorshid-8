@@ -55,10 +55,11 @@ const ContactInput = ({
         ) : (
           <input
             type={type}
+            name={name}
             onChange={onChange}
             onBlur={handleBlur}
             placeholder={placeholder}
-            className={`outline-none w-full text-[14px] mr-6 bg-transparent placeholder:text-[#707070] ${
+            className={`outline-none w-full text-[14px] caret-transparent mr-6 bg-transparent placeholder:text-[#707070] ${
               error && touchedInput ? "border-borderError" : ""
             }`}
           />

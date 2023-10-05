@@ -3,6 +3,8 @@ import React, { ReactNode, useEffect } from "react";
 import Footer from "../footer/Footer";
 import Cookies from "js-cookie";
 import { setIsLoggedIn } from "@/redux/features/auth/authSlice";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -28,6 +30,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         {children}
       </div>
       <Footer />
+      <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
 };

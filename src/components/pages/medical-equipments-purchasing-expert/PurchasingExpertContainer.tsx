@@ -16,30 +16,36 @@ import { useFormik } from "formik";
 import useValidation from "@/utills/validation/auth/validation";
 import { contactUsPost } from "@/services/contact-us";
 import { toast } from "react-hot-toast";
+import {
+  InitialValues,
+  ValidationSchemaType,
+} from "@/utills/validation/auth/types";
 
 const PurchasingExpertContainer = ({
   counselorData,
 }: {
   counselorData: CounselorObject;
 }) => {
-  const [initialValues, validationSchema] = useValidation("contact-us")!;
+  const [initialValues, validationSchema] = useValidation("contact-us") as [
+    InitialValues,
+    ValidationSchemaType
+  ];
 
   const { handleSubmit, handleChange, handleBlur, errors, touched } = useFormik(
     {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-        const { status, message } = (await contactUsPost(values)) as {
-          status: number;
-          message: string | undefined;
-        };
-        if (message) {
-          if (status === 200 && message) {
-            toast.success(message, {
+        console.log(values);
+        const response = await contactUsPost(values);
+        console.log(response);
+        if (response?.message) {
+          if (response.status === 200 && response.message) {
+            toast.success(response.message, {
               duration: 2500,
             });
           } else {
-            toast.error(message, {
+            toast.error(response.message, {
               duration: 2500,
             });
           }
@@ -141,7 +147,7 @@ const PurchasingExpertContainer = ({
               </div>
               <form
                 onSubmit={handleSubmit}
-                className="w-full grid grid-cols-3 gap-5 items-center mt-5"
+                className="w-full grid grid-cols-3 gap-5 items-start mt-5"
               >
                 <div className="md:col-span-1 col-span-3">
                   <ContactInput

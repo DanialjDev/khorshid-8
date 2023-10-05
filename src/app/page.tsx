@@ -51,6 +51,7 @@ export default async function Home() {
                   </p>
                   <div className="mt-10">
                     <Button
+                      href="/medical-equipments-purchasing-expert"
                       hover="hover:bg-btnPrimaryHover"
                       color="text-white"
                       text="دریافت مشاوره"
@@ -113,7 +114,7 @@ export default async function Home() {
                 <Ticket
                   isDisabled
                   color="text-white"
-                  btnText="مشاهده بخش مناقصات"
+                  btnText="به زودی ..."
                   icon={
                     <svg
                       width="24"
@@ -330,6 +331,7 @@ export default async function Home() {
                     hover="hover:bg-btnSecondaryHover"
                     color="text-white"
                     bg="bg-secondary"
+                    href="/medical-equipments-purchasing-expert"
                     text="دریافت مشاوره"
                     icon={
                       <svg
@@ -462,6 +464,7 @@ export default async function Home() {
         {/* medical equipments groups */}
         <div className="w-full my-[8em]">
           <SectionBox
+            href="/medical-equipments-list"
             btnHover="hover:bg-btnPrimaryHover"
             hasBtn
             SquareLogo={

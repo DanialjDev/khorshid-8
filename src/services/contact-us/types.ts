@@ -1,4 +1,4 @@
-interface ContactUsResponse {
+export interface ContactUsResponse {
   success: boolean;
   operationName: string;
   message: string;

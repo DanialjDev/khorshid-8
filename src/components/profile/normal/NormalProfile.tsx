@@ -7,14 +7,17 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { authToggler } from "@/redux/features/auth/authSlice";
+import { UserInfoType } from "@/services/auth/types";
+import { InitialValues } from "@/utills/validation/auth/types";
 
-const NormalProfile = () => {
+const NormalProfile = ({ userInfo }: { userInfo: InitialValues }) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
-  const user = Cookies.get("user");
+  const user = Cookies.get("userInfo");
+  console.log(userInfo);
 
   useEffect(() => {
     if (!user) {
@@ -101,7 +104,7 @@ const NormalProfile = () => {
             </button>
           </div>
         </div>
-        {selectedTab === "userInfo" ? <UserInfo /> : null}
+        {selectedTab === "userInfo" ? <UserInfo userInfo={userInfo} /> : null}
       </div>
     </div>
   );

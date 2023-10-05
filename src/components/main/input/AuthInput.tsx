@@ -14,8 +14,8 @@ const AuthInput = ({
   handleBlur,
   errors,
   touched,
-}: // value,
-{
+  value,
+}: {
   label?: string;
   placeholder?: string;
   name: string;
@@ -25,7 +25,7 @@ const AuthInput = ({
   handleBlur: (e: React.FocusEvent<any, Element>) => void;
   errors: FormikErrors<InitialValues>;
   touched: FormikTouched<InitialValues>;
-  // value: string;
+  value: string;
 }) => {
   // @ts-ignore
   const error = errors[name];
@@ -59,7 +59,7 @@ const AuthInput = ({
         placeholder={placeholder}
         onChange={onChange}
         onBlur={handleBlur}
-        // value={value}
+        value={value}
       />
       {error && touchedInput && <p className=" text-borderError">{error}</p>}
     </div>

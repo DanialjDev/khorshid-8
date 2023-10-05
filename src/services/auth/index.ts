@@ -3,6 +3,7 @@ import { post, put } from "../axios";
 import { ChangePasswordData, LoginData, SignupData } from "./types";
 import { isAxiosError } from "axios";
 import Cookies from "js-cookie";
+import { encrypt } from "@/utills/crypto";
 
 type SignupReturnType = {
   message?: string | undefined;
@@ -21,7 +22,18 @@ export const signupHandler = async (
     if (status === 200) {
       console.log(data);
       if (data.object?.authData?.token) {
-        Cookies.set("user", data.object?.authData?.token);
+        Cookies.set("token", data.object?.authData?.token, { expires: 1 / 6 });
+        const encryptedData = encrypt(
+          JSON.stringify({
+            name: data.object.managerFullName,
+            maxDeviceNumber: data.object.maxDeviceNumber,
+            roleName: data.object.roleName,
+            roleNameEn: data.object.roleNameEn,
+            mobileNumber: data.object.mobileNumber,
+            email: data.object.email,
+          })
+        );
+        Cookies.set("userInfo", encryptedData, { expires: 1 / 6 });
         return {
           message: data.message,
           status: data.status,
@@ -45,7 +57,7 @@ export const loginHandler = async (
   userData: InitialValues
 ): Promise<SignupReturnType | undefined> => {
   try {
-    const { data, status } = await post<LoginData>(
+    const { data, status } = await post<SignupData>(
       "Auth/Login/",
       JSON.stringify(userData),
       {
@@ -56,12 +68,25 @@ export const loginHandler = async (
     );
     if (status === 200) {
       console.log(data);
-      Cookies.set("user", data.object.authData.token);
-      // Cookies.set('userData', data.object);
-      return {
-        message: data.message,
-        status: data.status,
-      };
+      if (data.object?.authData?.token) {
+        Cookies.set("token", data.object?.authData?.token, { expires: 1 / 6 });
+        const encryptedData = encrypt(
+          JSON.stringify({
+            name: data.object.managerFullName,
+            maxDeviceNumber: data.object.maxDeviceNumber,
+            roleName: data.object.roleName,
+            roleNameEn: data.object.roleNameEn,
+            mobileNumber: data.object.mobileNumber,
+            email: data.object.email,
+          })
+        );
+        Cookies.set("userInfo", encryptedData, { expires: 1 / 6 });
+        // Cookies.set('userData', data.object);
+        return {
+          message: data.message,
+          status: data.status,
+        };
+      }
     }
   } catch (error) {
     if (isAxiosError(error)) {

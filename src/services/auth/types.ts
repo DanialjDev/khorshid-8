@@ -4,7 +4,7 @@ export interface SignupData {
   message: string;
   object: null | {
     email: string;
-    fullName: null;
+    managerFullName: null;
     maxDeviceNumber: number;
     mobileNumber: string;
     roleId: number;
@@ -65,4 +65,14 @@ export interface ChangePasswordData {
   status: number;
   object: null;
   list: null;
+}
+
+export interface UserInfoType {
+  companyName: string | null;
+  companyManagerFullName: "دانیال جمالی";
+  faxNumber: string | null;
+  website: string | null;
+  mobileNumber: "09395722978";
+  email: "danialjdev81@gmail.com";
+  address: string | null;
 }

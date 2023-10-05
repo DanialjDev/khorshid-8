@@ -1,24 +1,29 @@
-import { get } from "@/services/axios";
+import { get, put } from "@/services/axios";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Cookies from "js-cookie";
-import { CompanyData, CompanyObject } from "./types";
+import { CompanyData, CompanyObject, UpdateProfileData } from "./types";
 import { isAxiosError } from "axios";
+import { encrypt } from "@/utills/crypto";
 
 type ReturnType = {
   status?: number;
   message?: string;
   userInfo?: CompanyObject;
+  initialValues?: InitialValues;
 };
 
-export const getProfileCompanyData = async (): Promise<
-  ReturnType | undefined
-> => {
+// Get Profile Company Data
+export const getProfileCompanyData = async (
+  token: string
+): Promise<ReturnType | undefined> => {
   try {
+    console.log("Cookie", token);
     const { data, status } = await get<CompanyData>(
-      "Profile/GetProfileCompanyData/",
+      "Profile/GetProfileCompanyData",
       {
         headers: {
-          Authorization: `Bearer ${Cookies.get("user")}`,
+          Authorization: `bearer ${token}`,
+          "Content-Type": "application/json",
         },
       }
     );
@@ -26,13 +31,77 @@ export const getProfileCompanyData = async (): Promise<
       return {
         status: data.status,
         message: data.message,
-        userInfo: data.object,
+        initialValues: {
+          companyName: data.object.companyName ? data.object.companyName : "",
+          companyManagerFullName: data.object?.companyManagerFullName
+            ? data.object.companyManagerFullName
+            : "",
+          faxNumber: data.object?.faxNumber ? data.object.faxNumber : "",
+          website: data.object?.website ? data.object.website : "",
+          mobileNumber: data.object?.mobileNumber
+            ? data.object.mobileNumber
+            : "",
+          email: data.object?.email ? data.object.email : "",
+          password: "",
+          confirmPassword: "",
+          address: data.object?.address ? data.object.address : "",
+        },
+      };
+    }
+  } catch (error) {
+    // console.log(error);
+    if (isAxiosError(error)) {
+      return {
+        status: error.response?.status,
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// Update Profile Compont Data
+
+type UpdateProfile = {
+  message: string | undefined;
+  status?: number;
+};
+export const updateProfileCompanyData = async (
+  userData: InitialValues
+): Promise<UpdateProfile | undefined> => {
+  try {
+    const { data, status } = await put<UpdateProfileData>(
+      "Profile/UpdateProfileCompanyData",
+      JSON.stringify(userData),
+      {
+        headers: {
+          Authorization: `bearer ${Cookies.get("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (status === 200) {
+      Cookies.set("token", data.object.authData.token, { expires: 1 / 6 });
+      const encryptedData = encrypt(
+        JSON.stringify({
+          name: data.object.managerFullName,
+          maxDeviceNumber: data.object.maxDeviceNumber,
+          roleName: data.object.roleName,
+          roleNameEn: data.object.roleNameEn,
+          mobileNumber: data.object.mobileNumber,
+          email: data.object.email,
+        })
+      );
+      Cookies.set("userInfo", encryptedData, { expires: 1 / 6 });
+      console.log(data);
+      return {
+        status,
+        message: data.message,
       };
     }
   } catch (error) {
     if (isAxiosError(error)) {
       return {
-        status: error.response?.status,
         message: error.response?.data.message,
       };
     }

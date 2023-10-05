@@ -1,6 +1,7 @@
 import { InitialValues } from "@/utills/validation/auth/types";
 import { post } from "../axios";
 import { isAxiosError } from "axios";
+import { ContactUsResponse } from "./types";
 
 type ReturnType = {
   status: number;
@@ -13,7 +14,7 @@ export const contactUsPost = async (
   console.log(userData);
   try {
     const { status, data } = await post<ContactUsResponse>(
-      "ContactUs/PostCosulation/",
+      "ContactUs/PostCosulation",
       JSON.stringify(userData)
     );
     if (status === 200) {
@@ -22,7 +23,8 @@ export const contactUsPost = async (
         message: data.message,
       };
     }
-  } catch (error: any) {
+  } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.data) {
         return {

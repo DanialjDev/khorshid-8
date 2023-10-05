@@ -16,21 +16,23 @@ const ContactForm = () => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-        const { status, message } = (await contactUsPost(values)) as {
-          status: number;
-          message: string | undefined;
-        };
-        if (message) {
-          if (status === 200 && message) {
-            toast.success(message, {
-              duration: 2500,
-            });
-          } else {
-            toast.error(message, {
-              duration: 2500,
-            });
-          }
-        }
+        // const { status, message } = (await contactUsPost(values)) as {
+        //   status: number;
+        //   message: string | undefined;
+        // };
+        // if (message) {
+        //   if (status === 200 && message) {
+        //     toast.success(message, {
+        //       duration: 2500,
+        //     });
+        //   } else {
+        //     toast.error(message, {
+        //       duration: 2500,
+        //     });
+        //   }
+        // }
+        const response = await contactUsPost(values);
+        console.log(response);
       },
     }
   );

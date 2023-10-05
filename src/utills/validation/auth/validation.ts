@@ -180,19 +180,19 @@ const useValidation = (action: Action): ReturnType | undefined => {
         deviceName: defaultErrorValidation,
         country: defaultErrorValidation,
       });
-    case 'consulation':
+      // case "consulation":
       initialValues = {
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        comment: ''
-      }
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        comment: "",
+      };
       validationSchema = Yup.object().shape({
         firstName,
         lastName,
         phoneNumber,
-        comment
-      })
+        comment,
+      });
       return [initialValues, validationSchema];
     default:
       return undefined;
