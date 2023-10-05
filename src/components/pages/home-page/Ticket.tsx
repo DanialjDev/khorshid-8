@@ -13,6 +13,8 @@ const Ticket = ({
   color,
   btnOpacity,
   border,
+  isDisabled,
+  href,
 }: {
   title: ReactNode;
   text: string;
@@ -24,6 +26,8 @@ const Ticket = ({
   color?: string;
   btnOpacity?: string;
   border?: string;
+  isDisabled?: boolean;
+  href?: string;
 }) => {
   return (
     <div className="w-full grid grid-cols-5 items-stretch mt-5 gap-5 justify-center">
@@ -36,7 +40,8 @@ const Ticket = ({
         <div className="mt-4">
           <Button
             bg={btnBgColor}
-            disabled
+            disabled={isDisabled}
+            href={href ? href : undefined}
             dir={dir}
             // opacity={btnBgColor}
             text={btnText}

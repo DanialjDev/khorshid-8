@@ -170,7 +170,7 @@ const Navbar = () => {
       </div>
       {/* Botton Nav */}
       <div
-        className={`w-full lg:h-auto h-screen flex lg:flex-row flex-col lg:justify-center justify-start items-center lg:relative fixed ${
+        className={`w-full bottom-nav lg:h-auto h-screen flex lg:flex-row flex-col lg:justify-center justify-start items-center lg:relative fixed ${
           nav ? "right-0" : "lg:right-0 right-[-120vw]"
         } lg:bg-white-gray bg-menuBg z-50 lg:pt-5 transition-all duration-200 ease-in-out`}
       >
@@ -201,7 +201,7 @@ const Navbar = () => {
             </svg>
           </div>
         </div>
-        <ul className="lg:w-[85%] w-[95%] lg:flex-row flex-col h-[70%] flex justify-between items-center mt-5 lg:m-0">
+        <ul className="lg:w-[85%] w-[95%] lg:flex-row flex-col h-[70%] flex justify-between items-center mt-5 lg:m-0 pb-4">
           <MenuItem
             setNav={setNav}
             text="صفحه اصلی"
@@ -257,7 +257,7 @@ const Navbar = () => {
             pathname={pathname}
           />
         </ul>
-        <div className="w-[400px] h-[40px] lg:hidden flex justify-between border-2 border-slate-200 rounded-md p-1">
+        <div className="sm2:w-[400px] w-[250px] h-[40px] lg:hidden flex justify-between border-2 border-slate-200 rounded-md p-1">
           <input
             className="w-[270px] outline-none p-1 bg-transparent placeholder:text-[12px]"
             placeholder="لطفا کلمه ی مورد نظر خود را جستجو کنید"

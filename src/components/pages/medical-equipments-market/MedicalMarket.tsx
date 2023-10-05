@@ -33,13 +33,13 @@ const MedicalMarket = async ({
 
   return (
     <>
-      <div className="w-full col-span-2 grid gap-3 grid-cols-2">
-        <div className="col-span-2 flex justify-between items-center p-4 bg-white shadow-xs rounded-lg">
+      <div className="w-full h-fit col-span-2 grid gap-3 grid-cols-2">
+        <div className="col-span-2 w-full flex justify-between items-center p-4 bg-white shadow-xs rounded-lg">
           <input
             // value={search}
             // onChange={(e) => setSearch(e.target.value)}
             type="text"
-            className="outline-none text-[16px] bg-transparent placeholder:text-[16px]"
+            className="w-[120px] outline-none text-[16px] bg-transparent placeholder:text-[16px]"
             placeholder="جستجو محصول"
           />
           <div
@@ -80,37 +80,35 @@ const MedicalMarket = async ({
           </form>
         </div>
       </div>
-      <>
-        {/* @ts-ignore */}
-        {devices && devices.length !== 0 ? (
-          <div className="w-full grid content-baseline col-span-6 grid-cols-6 gap-8">
-            {devices.map(
-              ({
-                companyName,
-                deviceId,
-                deviceName,
-                imageUrl,
-                orderedByMobileNumber,
-              }) => (
-                <div
-                  key={deviceId}
-                  className="xl:col-span-2 lg:col-span-3 col-span-6 h-fit"
-                >
-                  <ProductItem
-                    deviceId={String(deviceId)}
-                    companyName={companyName}
-                    name={deviceName}
-                    imageUrl={imageUrl ? imageUrl : ""}
-                    orderedByMobileNumber={orderedByMobileNumber}
-                  />
-                </div>
-              )
-            )}
-          </div>
-        ) : (
-          <NoDeviceFound />
-        )}
-      </>
+      {/* @ts-ignore */}
+      {devices && devices.length !== 0 ? (
+        <div className="w-full grid col-span-6 grid-cols-6 gap-8">
+          {devices.map(
+            ({
+              companyName,
+              deviceId,
+              deviceName,
+              imageUrl,
+              orderedByMobileNumber,
+            }) => (
+              <div
+                key={deviceId}
+                className="xl:col-span-2 lg:col-span-3 col-span-6"
+              >
+                <ProductItem
+                  deviceId={String(deviceId)}
+                  companyName={companyName}
+                  name={deviceName}
+                  imageUrl={imageUrl ? imageUrl : ""}
+                  orderedByMobileNumber={orderedByMobileNumber}
+                />
+              </div>
+            )
+          )}
+        </div>
+      ) : (
+        <NoDeviceFound />
+      )}
     </>
   );
 };

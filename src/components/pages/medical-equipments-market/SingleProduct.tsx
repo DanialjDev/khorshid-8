@@ -6,13 +6,19 @@ import { getSingleDevice } from "@/services/shop";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import ProductInfoBox from "./ProductInfoBox";
+import { getHomePageDevies } from "@/services/homePage";
+import SectionBox from "../home-page/SectionBox";
+
+import GreenSquare from "../../../../public/assets/images/home-page/green-square.svg";
+import ProductItem from "../home-page/ProductItem";
 
 const SingleProductPage = async () => {
   const deviceId = useSearchParams().get("id")!;
   const response = await getSingleDevice(deviceId);
-  console.log(deviceId);
+  const relatedProducts = await getHomePageDevies();
 
-  console.log(response?.data);
+  console.log();
   return (
     <>
       {!response?.data ? (
@@ -26,13 +32,27 @@ const SingleProductPage = async () => {
           <div className="w-full flex">
             <Box>
               <div className="w-full grid grid-cols-9 gap-4">
-                <div className="col-span-2 border border-primary">
-                  {/* <Image src={} /> */}
+                <div className="lg:col-span-2 col-span-9 h-fit">
+                  <Box>
+                    <Image
+                      src={response.data.imageUrl}
+                      width={300}
+                      height={300}
+                      // sizes="100vw"
+                      objectFit="contain"
+                      className="m-auto"
+                      alt={response.data.deviceName}
+                    />
+                  </Box>
                 </div>
-                <div className="col-span-7 flex flex-col p-4 border border-secondary">
-                  <div className="w-full flex items-center justify-between">
-                    <p className="text-primary text-[20px]">اطلاعات دستگاه</p>
+                <div className="lg:col-span-7 col-span-9 flex flex-col md:p-4">
+                  <div className="w-full sm2:flex-row flex-col flex items-center justify-between">
+                    <p className="text-primary text-[20px] sm2:m-0 mb-3">
+                      اطلاعات دستگاه
+                    </p>
                     <Button
+                      padding="lg:px-3 py-2 px-2"
+                      fontSize="lg:text-[16px] text-[12px]"
                       icon={
                         <svg
                           width="20"
@@ -57,25 +77,61 @@ const SingleProductPage = async () => {
                     />
                   </div>
                   <div className="w-full flex gap-10 flex-col mt-5">
-                    <div className="w-full grid grid-cols-4 gap-20">
-                      <div className="col-span-2 flex justify-between items-center border">
-                        <p className="">نام دستگاه:</p>
-                        <p>{response.data.deviceName}</p>
-                      </div>
-                      <div className="col-span-2 flex justify-between items-center border">
-                        <p className="">نام دستگاه:</p>
-                        <p>{response.data.deviceName}</p>
-                      </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="نام دستگاه:"
+                        text={response.data.deviceName}
+                      />
+                      <ProductInfoBox
+                        label="نام شرکت فروشنده:"
+                        text={response.data.companyName}
+                      />
                     </div>
-                    <div className="w-full grid grid-cols-4 gap-20">
-                      <div className="col-span-2 flex justify-between items-center border">
-                        <p className="">نام دستگاه:</p>
-                        <p>{response.data.brand}</p>
-                      </div>
-                      <div className="col-span-2 flex justify-between items-center border">
-                        <p className="">نام دستگاه:</p>
-                        <p>{response.data.deviceName}</p>
-                      </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="مارک دستگاه:"
+                        text={response.data.brand}
+                      />
+                      <ProductInfoBox
+                        label="شماره شرکت:"
+                        text={response.data.orderedByMobileNumber}
+                      />
+                    </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="کشور سازنده:"
+                        text={response.data.country}
+                      />
+                      <ProductInfoBox
+                        label="نام مسئول فروش:"
+                        text={response.data.orderedByFullName}
+                      />
+                    </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="گروه کاربردی:"
+                        text={response.data.categoryNames}
+                      />
+                    </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="فکس شرکت:"
+                        text={response.data.faxNumber}
+                      />
+                      <ProductInfoBox
+                        label="وب سایت:"
+                        text={response.data.website}
+                      />
+                    </div>
+                    <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
+                      <ProductInfoBox
+                        label="ایمیل:"
+                        text={response.data.email}
+                      />
+                      <ProductInfoBox
+                        label="آدرس:"
+                        text={response.data.address}
+                      />
                     </div>
                   </div>
                 </div>
@@ -84,6 +140,47 @@ const SingleProductPage = async () => {
           </div>
         </div>
       )}
+      <div className="w-full mt-24">
+        <SectionBox
+          href="/medical-equipments-market"
+          btnHover="hover:bg-btnSecondaryHover"
+          hasBtn
+          btnBgColor="bg-secondary"
+          SquareLogo={
+            <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
+          }
+          title={
+            <p className="text-black text-2xl z-40 p-2 bg-white-gray">
+              برخی از <span className="text-secondary">محصولات ما</span>
+            </p>
+          }
+          margin="mt-10"
+        >
+          <div className="w-full grid grid-cols-4 gap-4 mt-5">
+            {relatedProducts &&
+              relatedProducts.map(
+                ({
+                  companyName,
+                  name,
+                  orderedByMobileNumber,
+                  imageUrl,
+                  deviceId,
+                }) => (
+                  <div className="lg:col-span-1 md:col-span-2 col-span-4">
+                    <ProductItem
+                      deviceId={String(deviceId)}
+                      key={deviceId}
+                      imageUrl={imageUrl ? imageUrl : ""}
+                      name={name}
+                      orderedByMobileNumber={orderedByMobileNumber}
+                      companyName={companyName ? companyName : ""}
+                    />
+                  </div>
+                )
+              )}
+          </div>
+        </SectionBox>
+      </div>
     </>
   );
 };

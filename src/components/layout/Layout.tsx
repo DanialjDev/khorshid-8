@@ -20,6 +20,9 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       className={`w-full bg-white-gray ${
         authAction !== "" || showModal ? "fixed" : ""
       } xl:pt-0 pt-10`}
+      onScroll={() => {
+        document.querySelector(".bottom-nav")?.classList.add("shadow-md");
+      }}
     >
       <div className="w-full bg-white-gray lg:pt-32 pt-10 px-5 2xl:px-28 xl:px-14">
         {children}

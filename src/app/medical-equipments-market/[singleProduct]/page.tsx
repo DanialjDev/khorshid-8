@@ -10,3 +10,9 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
+
+export const generateMetadata = async (ctx: any) => {
+  return {
+    title: ctx.searchParams.name,
+  };
+};

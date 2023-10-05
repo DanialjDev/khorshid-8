@@ -14,6 +14,7 @@ import { getDeviceBanner, getSectionsData } from "@/services/medical-equipment";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { getDeviceCategories } from "@/services/common";
 import { DeviceName } from "@/services/common/types";
+import { decrypt, encrypt } from "@/utills/crypto";
 
 type MedicalEquipmentDevices = {
   data?: TableData;
@@ -28,7 +29,19 @@ const MedicalEquipmentsListSection = async () => {
   const response = await getDeviceCategories();
   const medicalEquipmentData = await getSectionsData(sectionName);
   const bannerData = await getDeviceBanner(sectionName);
-  console.log("sdfsdf");
+  console.log(
+    JSON.parse(
+      decrypt(
+        encrypt(
+          JSON.stringify({
+            name: "danial",
+            age: 21,
+          })
+        )
+      )
+    )
+  );
+
   return (
     <div className="w-full flex flex-col">
       {/* Choose Section */}

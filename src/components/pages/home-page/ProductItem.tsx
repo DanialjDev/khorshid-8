@@ -46,7 +46,7 @@ const ProductItem = ({
         </ul>
         <div className="flex justify-start mt-4">
           <Button
-            href={`/medical-equipments-market/singleProduct?name=${name}`}
+            href={`/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`}
             padding="py-2"
             text="خرید محصول"
             color="text-secondary"

@@ -47,4 +47,5 @@ export interface SingleProductData {
   orderedByFullName: string;
   website: string;
   address: string;
+  imageUrl: string;
 }

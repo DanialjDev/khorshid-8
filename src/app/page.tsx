@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <div className={`w-full`}>
       <div className="w-full">
-        <div className={`w-full grid grid-cols-9 pt-32 gap-4`}>
+        <div className={`w-full grid grid-cols-9 pt-12 gap-4`}>
           <div className="xl:col-span-7 col-span-9">
             {/* Main Banner */}
             <div className="flex w-full lg:flex-row flex-col-reverse rounded-xl bg-white border border-white-gray shadow-md overflow-hidden">
@@ -111,6 +111,7 @@ export default async function Home() {
               </div>
               <div className="w-full flex flex-col">
                 <Ticket
+                  isDisabled
                   color="text-white"
                   btnText="مشاهده بخش مناقصات"
                   icon={
@@ -146,6 +147,8 @@ export default async function Home() {
                 استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله"
                 />
                 <Ticket
+                  href="/about-us"
+                  isDisabled={false}
                   btnBgColor="bg-[#54E3460D]"
                   btnText="مشاهده بیشتر"
                   dir="rtl"
@@ -371,18 +374,19 @@ export default async function Home() {
           </div>
         </div>
         {/* Register Medical Devices */}
-        <div className="w-full border-[#F2F2F2] border bg-white flex shadow-xs rounded-lg my-10 py-8 px-10">
+        <div className="w-full border-[#F2F2F2] border bg-white flex shadow-xs rounded-lg my-10 sm:py-8 py-4 sm:px-10 px-5">
           <div className="lg:w-[90%] w-full flex lg:flex-row flex-col justify-between items-center">
             <div className="lg:w-[60%] w-full flex flex-col justify-center">
-              <p className="text-primary text-[24px]">
+              <p className="text-primary md:text-[24px] text-[20px]">
                 ثبت دستگاه تجهیزات پزشکی
               </p>
-              <p className="text-gray text-[16px] my-5">
+              <p className="text-gray sm:text-[16px] text-[14px] my-5">
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
                 استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
               </p>
               <div className="mt-4">
                 <Button
+                  padding="sm:px-[30px] px-[18px] py-[10px] "
                   fontSize="md:text-[14px] text-[12px]"
                   hover="hover:bg-btnPrimaryHover"
                   href={"/register-medical-equipments-device"}
@@ -424,7 +428,7 @@ export default async function Home() {
             <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
           }
           title={
-            <p className="text-black text-2xl z-40 p-2 bg-white-gray">
+            <p className="text-black md:text-2xl text-lg z-40 p-2 bg-white-gray">
               برخی از <span className="text-secondary">محصولات ما</span>
             </p>
           }
@@ -469,7 +473,7 @@ export default async function Home() {
             }
             btnBgColor="bg-primary"
             title={
-              <p className="text-primary text-2xl z-50 p-2 bg-white-gray">
+              <p className="text-primary md:text-2xl text-lg z-50 p-2 bg-white-gray">
                 گروه های تخصصی تجهیزات پزشکی
               </p>
             }
