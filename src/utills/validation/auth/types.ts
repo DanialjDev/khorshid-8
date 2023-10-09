@@ -83,37 +83,23 @@ interface ProfileComponyDataSchemaAnyObject {
 
 // Register Medical Device
 export interface RegisterDeviceValues {
-  companyName: string;
-  managerFullName: string;
-  faxNumber: string;
-  website: string;
-  contactInfo: string;
-  email: string;
-  address: string;
-  deviceName: string;
   brand: string;
+  name: string;
+  OrderedByName: string;
+  OrderedByLastName: string;
+  OrderedByMobileNumber: string;
+  Image: any;
   country: string;
-  customerName: string;
-  customerLastName: string;
-  customerPhone: string;
-  file: any;
 }
 
 export interface RegisterDeviceAnyObject {
-  companyName: undefined;
-  managerFullName: undefined;
-  faxNumber: undefined;
-  website: undefined;
-  contactInfo: undefined;
-  email: undefined;
-  address: undefined;
-  deviceName: undefined;
   brand: undefined;
+  name: undefined;
+  OrderedByName: undefined;
+  OrderedByLastName: undefined;
+  OrderedByMobileNumber: undefined;
+  Image: undefined;
   country: undefined;
-  customerName: undefined;
-  customerLastName: undefined;
-  customerPhone: undefined;
-  file: undefined;
 }
 
 // Consulation

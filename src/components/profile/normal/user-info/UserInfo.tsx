@@ -10,13 +10,25 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const UserInfo = ({ userInfo }: { userInfo: InitialValues }) => {
+const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
   const [showIcon, setShowIcon] = useState(false);
   const validationSchema = useProfileValidation();
 
   const { errors, values, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
-      initialValues: userInfo,
+      initialValues: userInfo
+        ? userInfo
+        : {
+            companyName: "",
+            companyManagerFullName: "",
+            address: "",
+            website: "",
+            email: "",
+            faxNumber: "",
+            mobileNumber: "",
+            password: "",
+            confirmPassword: "",
+          },
       validationSchema,
       onSubmit: async (values: InitialValues) => {
         const data = {

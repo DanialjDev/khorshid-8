@@ -5,9 +5,11 @@ import Cookies from "js-cookie";
 import { setIsLoggedIn } from "@/redux/features/auth/authSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { usePathname } from "next/navigation";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
   const { authAction } = useAppSelector((state) => state.auth);
   const { showModal } = useAppSelector((state) => state.modal);
   const user = Cookies.get("user");
@@ -21,15 +23,21 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
     <div
       className={`w-full bg-white-gray ${
         authAction !== "" || showModal ? "fixed" : ""
-      } xl:pt-0 pt-10`}
+      } ${!pathname.includes("panel") ? "xl:pt-0 pt-10" : ""}`}
       onScroll={() => {
         document.querySelector(".bottom-nav")?.classList.add("shadow-md");
       }}
     >
-      <div className="w-full bg-white-gray lg:pt-32 pt-10 px-5 2xl:px-28 xl:px-14">
+      <div
+        className={`w-full bg-white-gray ${
+          !pathname.includes("panel")
+            ? "lg:pt-32 pt-10 px-5 2xl:px-28 xl:px-14"
+            : ""
+        }`}
+      >
         {children}
       </div>
-      <Footer />
+      {!pathname.includes("panel") && <Footer />}
       <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );

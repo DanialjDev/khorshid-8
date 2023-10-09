@@ -11,20 +11,28 @@ const Textarea = ({
   handleBlur,
   errors,
   touched,
+  value,
+  disabled,
 }: {
   label?: string;
   placeholder?: string;
   name: string;
   isRequired?: boolean;
-  onChange: (e: ChangeEvent<any>) => void;
-  handleBlur: (e: React.FocusEvent<any, Element>) => void;
-  errors: FormikErrors<InitialValues>;
-  touched: FormikTouched<InitialValues>;
+  onChange?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: React.FocusEvent<any, Element>) => void;
+  errors?: FormikErrors<InitialValues>;
+  touched?: FormikTouched<InitialValues>;
+  value?: string;
+  disabled?: boolean;
 }) => {
-  // @ts-ignore
-  const error = errors[name];
-  // @ts-ignore
-  const touchedInput = touched[name];
+  let error: any;
+  let touchedInput: any;
+  if (errors || touched) {
+    // @ts-ignore
+    error = errors[name];
+    // @ts-ignore
+    touchedInput = touched[name];
+  }
   return (
     <div className="w-full flex flex-col mt-7">
       <div className="w-fit relative">
@@ -40,9 +48,17 @@ const Textarea = ({
         )}
       </div>
       <textarea
+        disabled={disabled}
+        value={value}
         name={name}
         id={name}
-        className={`border border-[#E2E8F0] rounded-lg p-[15px] bg-transparent outline-none mt-1 h-[8rem] ${
+        className={`border border-[#E2E8F0] disabled:opacity-60 rounded-lg p-[15px]
+        ${
+          !disabled
+            ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+            : ""
+        }
+        bg-transparent outline-none mt-1 h-[8rem] ${
           error && touchedInput ? "border-[#FF0606]" : ""
         }`}
         placeholder={placeholder}

@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import { get } from "../axios";
-import { DeviceCategories, DeviceName } from "./types";
+import { DeviceCategories, DeviceName, HeaderPhoneNumber } from "./types";
 
 // Common => Get Device Categories
 type ReturnType = {
@@ -27,4 +27,17 @@ export const getDeviceCategories = async (): Promise<
       };
     }
   }
+};
+
+// get Header PhoneNumber
+export const getHeaderPhoneNumber = async (): Promise<string | undefined> => {
+  try {
+    const { data, status } = await get<HeaderPhoneNumber>(
+      "Common/GetHeaderPhoneNumber"
+    );
+
+    if (status === 200) {
+      return data.object.phoneNumber;
+    }
+  } catch (error) {}
 };

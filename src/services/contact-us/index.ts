@@ -14,7 +14,7 @@ export const contactUsPost = async (
   console.log(userData);
   try {
     const { status, data } = await post<ContactUsResponse>(
-      "ContactUs/PostCosulation",
+      "Common/PostConsulation",
       JSON.stringify(userData)
     );
     if (status === 200) {

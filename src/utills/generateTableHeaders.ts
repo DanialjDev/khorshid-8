@@ -45,6 +45,23 @@ export const generateHeaders = (category: Category): string[] | undefined => {
       return ["نام دانشگاه / دانشکده", "آدرس سایت"];
     case "GetVicePresidentsOfTreatment":
       return ["نام دانشگاه / دانشکده", "معونت درمان", "شماره تماس"];
+    case "ProfileDevices":
+      return [
+        "نام دستگاه",
+        "مارک دستگاه",
+        "کشور سازنده",
+        "شماره تماس",
+        "تصاویر",
+        "وضعیت",
+      ];
+    case "panel_consulation":
+      return [
+        "نام و نام خانوادگی",
+        "شماره تماس",
+        "انتخاب واحد مشاوره",
+        "تاریخ ثبت درخواست",
+        "اطلاعات بیشتر",
+      ];
     default:
       return undefined;
   }

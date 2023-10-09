@@ -14,7 +14,7 @@ const Footer = () => {
     });
   };
   return (
-    <>
+    <div className="w-full flex flex-col">
       <button
         onClick={scrollTopHandler}
         className="w-full h-[56px] bg-primary flex justify-center items-center mt-16"
@@ -327,7 +327,7 @@ const Footer = () => {
           </FooterBox>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

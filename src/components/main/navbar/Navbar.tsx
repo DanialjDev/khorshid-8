@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { authToggler } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import Cookies from "js-cookie";
 import { decrypt } from "@/utills/crypto";
+import { getHeaderPhoneNumber } from "@/services/common";
 
 const MenuItem = ({
   href,
@@ -40,22 +41,34 @@ const MenuItem = ({
 };
 
 const Navbar = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const pathname = usePathname();
   const { push } = useRouter();
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-  // if (Cookies.get("token")) {
-  const userInfo = JSON.parse(decrypt(Cookies.get("userInfo")))
-    ? JSON.parse(decrypt(Cookies.get("userInfo")))
-    : {
-        name: "",
-        maxDeviceNumber: "",
-        roleName: "",
-        roleNameEn: "",
-        mobileNumber: "",
-        email: "",
-      };
-  // }
+  let userInfo: any;
+  if (Cookies.get("token")) {
+    userInfo = JSON.parse(decrypt(Cookies.get("userInfo")))
+      ? JSON.parse(decrypt(Cookies.get("userInfo")))
+      : {
+          name: "",
+          maxDeviceNumber: "",
+          roleName: "",
+          roleNameEn: "",
+          mobileNumber: "",
+          email: "",
+        };
+  }
+
+  useEffect(() => {
+    getHeaderPhoneNumber()
+      .then((res) => {
+        if (res) {
+          setPhoneNumber(res);
+        }
+      })
+      .catch((err) => null);
+  }, []);
 
   const authHandler = () => {
     if (userInfo) {
@@ -130,7 +143,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <div className="flex">
               <Link
-                href={"/"}
+                href={`callto:${phoneNumber}`}
                 className="flex text-[12px] justify-center items-center bg-primaryLight p-3 rounded-md border-2 border-primary xl:scale-100 scale-[.8]"
               >
                 <svg
@@ -154,17 +167,16 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex mr-2">
-              <button
+              <div
                 onClick={authHandler}
                 className="flex justify-center text-[12px] items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
-                  {Cookies.get("token") && !userInfo.name ? (
-                    <p className="ml-1 lg:flex hidden">حساب کاربری</p>
-                  ) : (
-                    <p className="ml-1 lg:flex hidden">{userInfo.name}</p>
-                  )}
-                  {/* <p className="ml-1 lg:flex hidden">حساب کاربری</p> */}
+                  <p className="ml-1 lg:flex hidden">
+                    {!Cookies.get("token") && !userInfo
+                      ? "حساب کاربری"
+                      : userInfo.name}
+                  </p>
                 </div>
                 <svg
                   width="23"
@@ -178,7 +190,7 @@ const Navbar = () => {
                     fill="#2C9CF0"
                   />
                 </svg>
-              </button>
+              </div>
             </div>
           </div>
         </div>

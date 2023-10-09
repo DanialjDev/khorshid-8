@@ -1,4 +1,4 @@
-import { get, put } from "@/services/axios";
+import { get, post, put } from "@/services/axios";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Cookies from "js-cookie";
 import { CompanyData, CompanyObject, UpdateProfileData } from "./types";
@@ -14,7 +14,8 @@ type ReturnType = {
 
 // Get Profile Company Data
 export const getProfileCompanyData = async (
-  token: string
+  token: string,
+  action?: string
 ): Promise<ReturnType | undefined> => {
   try {
     console.log("Cookie", token);
@@ -28,25 +29,52 @@ export const getProfileCompanyData = async (
       }
     );
     if (status === 200) {
-      return {
-        status: data.status,
-        message: data.message,
-        initialValues: {
-          companyName: data.object.companyName ? data.object.companyName : "",
-          companyManagerFullName: data.object?.companyManagerFullName
-            ? data.object.companyManagerFullName
-            : "",
-          faxNumber: data.object?.faxNumber ? data.object.faxNumber : "",
-          website: data.object?.website ? data.object.website : "",
-          mobileNumber: data.object?.mobileNumber
-            ? data.object.mobileNumber
-            : "",
-          email: data.object?.email ? data.object.email : "",
-          password: "",
-          confirmPassword: "",
-          address: data.object?.address ? data.object.address : "",
-        },
-      };
+      if (action === "registerDevice") {
+        return {
+          // initialValues: {
+          //   OrderedByName: "",
+          //   OrderedByLastName: "",
+          //   OrderedByMobileNumber: "",
+          //   Image: "",
+          //   name: "",
+          //   brand: "",
+          //   country: ''
+          // },
+          initialValues: {
+            companyName: data.object.companyName ? data.object.companyName : "",
+            companyManagerFullName: data.object?.companyManagerFullName
+              ? data.object.companyManagerFullName
+              : "",
+            faxNumber: data.object?.faxNumber ? data.object.faxNumber : "",
+            website: data.object?.website ? data.object.website : "",
+            mobileNumber: data.object?.mobileNumber
+              ? data.object.mobileNumber
+              : "",
+            email: data.object?.email ? data.object.email : "",
+            address: data.object?.address ? data.object.address : "",
+          },
+        };
+      } else {
+        return {
+          status: data.status,
+          message: data.message,
+          initialValues: {
+            companyName: data.object.companyName ? data.object.companyName : "",
+            companyManagerFullName: data.object?.companyManagerFullName
+              ? data.object.companyManagerFullName
+              : "",
+            faxNumber: data.object?.faxNumber ? data.object.faxNumber : "",
+            website: data.object?.website ? data.object.website : "",
+            mobileNumber: data.object?.mobileNumber
+              ? data.object.mobileNumber
+              : "",
+            email: data.object?.email ? data.object.email : "",
+            password: "",
+            confirmPassword: "",
+            address: data.object?.address ? data.object.address : "",
+          },
+        };
+      }
     }
   } catch (error) {
     // console.log(error);
@@ -105,5 +133,24 @@ export const updateProfileCompanyData = async (
         message: error.response?.data.message,
       };
     }
+  }
+};
+
+// Register Device
+export const postProfileDevice = async (userData: any, token: string) => {
+  try {
+    const { data, status } = await post(
+      "Profile/PostProfileDevice",
+      JSON.stringify(userData),
+      {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    console.log(data);
+  } catch (error) {
+    console.log(error);
   }
 };

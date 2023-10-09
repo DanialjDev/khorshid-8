@@ -6,7 +6,7 @@ import { contactUsPost } from "@/services/contact-us";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
 import React from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const ContactForm = () => {
   const [initialValues, validationSchema] = useValidation("contact-us")!;
@@ -16,23 +16,24 @@ const ContactForm = () => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-        // const { status, message } = (await contactUsPost(values)) as {
-        //   status: number;
-        //   message: string | undefined;
-        // };
-        // if (message) {
-        //   if (status === 200 && message) {
-        //     toast.success(message, {
-        //       duration: 2500,
-        //     });
-        //   } else {
-        //     toast.error(message, {
-        //       duration: 2500,
-        //     });
-        //   }
-        // }
         const response = await contactUsPost(values);
         console.log(response);
+
+        if (response?.status === 200 && response.message) {
+          toast.success(response.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
+        } else {
+          toast.error(response?.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
+        }
       },
     }
   );

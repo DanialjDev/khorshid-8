@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { changePasswordHandler } from "@/services/auth";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { authToggler } from "@/redux/features/auth/authSlice";
 
 const ChangePassword = () => {
@@ -13,8 +13,8 @@ const ChangePassword = () => {
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("changePassword")!;
 
-  const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
-    {
+  const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
+    useFormik({
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
@@ -25,18 +25,19 @@ const ChangePassword = () => {
         const response = await changePasswordHandler(data);
         if (response && response.message) {
           if (response.status === 200) {
-            toast.success(response.message, { duration: 3000 });
+            toast.success(response.message, { autoClose: 3000 });
             dispatch(authToggler("login"));
           } else {
-            toast.error(response.message, { duration: 3000 });
+            toast.error(response.message, { autoClose: 3000 });
           }
         }
       },
-    }
-  );
+    });
   return (
     <form onSubmit={handleSubmit}>
       <Input
+        // @ts-ignore
+        value={values.verificationCode}
         name="verificationCode"
         placeholder="کد تایید را وارد کنید"
         label="کد تایید"
@@ -46,6 +47,8 @@ const ChangePassword = () => {
         touched={touched}
       />
       <Input
+        // @ts-ignore
+        value={values.password}
         name="password"
         placeholder="رمز عبور را وارد کنید"
         label="رمز عبور"
@@ -55,6 +58,8 @@ const ChangePassword = () => {
         touched={touched}
       />
       <Input
+        // @ts-ignore
+        value={values.confirmPassword}
         name="confirmPassword"
         placeholder="رمز عبور جدید را وارد کنید"
         label="رمز عبور جدید"

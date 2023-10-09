@@ -1,4 +1,5 @@
 import { HomeDevice } from "../homePage/types";
+import { ConsulationData } from "../profile/admin/consulation/types";
 
 // Medical Equipmet => ********** Device Banner **********
 export interface DeviceBannerObject {
@@ -244,12 +245,13 @@ export type OperationNames =
   | "GetLabs"
   | "GetVicePresidentsOfTreatment"
   | "GetUniversities"
-  | "HomePageDevices";
+  | "HomePageDevices"
+  | "GetCounsulations";
 export type TableData = (Company &
   MedicalDevice &
   DeansOfUniversitiesData &
   EventsData &
   HospitalsData &
   LabsData &
-  LabsData &
-  HomeDevice)[];
+  HomeDevice &
+  ConsulationData)[];

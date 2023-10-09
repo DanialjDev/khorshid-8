@@ -145,41 +145,24 @@ const useValidation = (action: Action): ReturnType | undefined => {
       return [initialValues, validationSchema];
     case "register-medical-device":
       initialValues = {
-        address: "",
         brand: "",
-        companyName: "",
-        contactInfo: "",
+        OrderedByName: "",
+        OrderedByLastName: "",
+        OrderedByMobileNumber: "",
+        Image: "",
         country: "",
-        customerLastName: "",
-        customerName: "",
-        customerPhone: "",
-        deviceName: "",
-        email: "",
-        faxNumber: "",
-        file: "",
-        managerFullName: "",
-        website: "",
+        name: "",
       };
       validationSchema = Yup.object().shape({
-        address: defaultErrorValidation,
         brand: defaultErrorValidation,
-        companyName: defaultErrorValidation,
-        contactInfo: defaultErrorValidation,
-        email: defaultErrorValidation.email("ایمیل وارد شده اشتباه است"),
-        faxNumber: defaultErrorValidation,
-        managerFullName: defaultErrorValidation,
-        website: defaultErrorValidation.test(
-          "web",
-          "آدرس سایت وارد شده نامعتبر است",
-          (val) => val.startsWith("www.")
-        ),
-        file: Yup.mixed().required("لطفا تصویر دستگاه را بارگذاری کنید."),
-        customerLastName: defaultErrorValidation,
-        customerName: defaultErrorValidation,
-        customerPhone: defaultErrorValidation,
-        deviceName: defaultErrorValidation,
+        Image: Yup.mixed().required("لطفا تصویر دستگاه را بارگذاری کنید."),
+        OrderedByLastName: defaultErrorValidation,
+        OrderedByName: defaultErrorValidation,
+        OrderedByMobileNumber: defaultErrorValidation,
         country: defaultErrorValidation,
+        name: defaultErrorValidation,
       });
+      return [initialValues, validationSchema];
       // case "consulation":
       initialValues = {
         firstName: "",

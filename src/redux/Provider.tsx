@@ -17,10 +17,10 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
   return (
     <Provider store={store}>
       <div className="w-full relative no-scrollbar">
-        <Navbar />
+        {!pathname.includes("panel") && <Navbar />}
         <div className="w-full">
           <MainLayout>
-            {pathname !== "/" && <Breadcrumb />}
+            {pathname !== "/" && !pathname.includes("panel") && <Breadcrumb />}
             {children}
           </MainLayout>
           <ImageModal />

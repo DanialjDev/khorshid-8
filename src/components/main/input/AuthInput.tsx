@@ -15,22 +15,28 @@ const AuthInput = ({
   errors,
   touched,
   value,
+  disabled,
 }: {
   label?: string;
   placeholder?: string;
   name: string;
   isRequired?: boolean;
   type?: string;
-  onChange: (e: ChangeEvent<any>) => void;
-  handleBlur: (e: React.FocusEvent<any, Element>) => void;
-  errors: FormikErrors<InitialValues>;
-  touched: FormikTouched<InitialValues>;
-  value: string;
+  onChange?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: React.FocusEvent<any, Element>) => void;
+  errors?: FormikErrors<InitialValues>;
+  touched?: FormikTouched<InitialValues>;
+  value?: string;
+  disabled?: boolean;
 }) => {
-  // @ts-ignore
-  const error = errors[name];
-  // @ts-ignore
-  const touchedInput = touched[name];
+  let error: any;
+  let touchedInput: any;
+  if (errors || touched) {
+    // @ts-ignore
+    error = errors[name];
+    // @ts-ignore
+    touchedInput = touched[name];
+  }
   return (
     <div className="w-full flex flex-col mt-7 relative">
       <div className="w-fit relative">
@@ -50,10 +56,15 @@ const AuthInput = ({
         )}
       </div>
       <input
+        disabled={disabled}
         type={type}
         name={name}
         id={name}
-        className={`border border-[#E2E8F0] rounded-lg p-[12px] bg-transparent outline-none mt-1 hover:shadow-inputHover hover:border-inputHoverBorder transition duration-200 ${
+        className={`border border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+          !disabled
+            ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+            : ""
+        } transition duration-200 ${
           error && touchedInput ? "border-borderError" : ""
         }`}
         placeholder={placeholder}

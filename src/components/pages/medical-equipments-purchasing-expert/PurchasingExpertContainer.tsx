@@ -15,7 +15,7 @@ import AccordionContainer from "./accordion/AccordionContainer";
 import { useFormik } from "formik";
 import useValidation from "@/utills/validation/auth/validation";
 import { contactUsPost } from "@/services/contact-us";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import {
   InitialValues,
   ValidationSchemaType,
@@ -42,11 +42,17 @@ const PurchasingExpertContainer = ({
         if (response?.message) {
           if (response.status === 200 && response.message) {
             toast.success(response.message, {
-              duration: 2500,
+              autoClose: 2500,
+              style: {
+                width: "max-content",
+              },
             });
           } else {
             toast.error(response.message, {
-              duration: 2500,
+              autoClose: 2500,
+              style: {
+                width: "max-content",
+              },
             });
           }
         }
