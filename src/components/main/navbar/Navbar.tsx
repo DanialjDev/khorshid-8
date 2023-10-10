@@ -169,7 +169,7 @@ const Navbar = () => {
             <div className="flex mr-2">
               <div
                 onClick={authHandler}
-                className="flex justify-center text-[12px] items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
+                className="flex justify-center text-[12px] cursor-pointer items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
                   <p className="ml-1 lg:flex hidden">

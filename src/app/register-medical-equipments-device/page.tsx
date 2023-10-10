@@ -19,7 +19,20 @@ const RegisterMedicalDevicePage = async () => {
   console.log("managerInfo", managerInfo);
   return (
     <RegisterMedicalDevice
-      userInfo={managerInfo?.initialValues!}
+      // @ts-ignore
+      userInfo={
+        managerInfo?.initialValues
+          ? managerInfo.initialValues
+          : {
+              companyName: "",
+              companyManagerFullName: "",
+              faxNumber: "",
+              website: "",
+              mobileNumber: "",
+              email: "",
+              address: "",
+            }
+      }
       devices={response?.data}
     />
   );

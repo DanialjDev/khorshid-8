@@ -43,3 +43,15 @@ export interface UpdateProfileData {
     };
   };
 }
+
+// PostProfileDevice
+export interface PostProfileDevice {
+  exMessage: null | string;
+  list: null;
+  message: string;
+  object: null;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+}

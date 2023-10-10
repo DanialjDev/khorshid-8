@@ -1,7 +1,12 @@
 import { get, post, put } from "@/services/axios";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Cookies from "js-cookie";
-import { CompanyData, CompanyObject, UpdateProfileData } from "./types";
+import {
+  CompanyData,
+  CompanyObject,
+  PostProfileDevice,
+  UpdateProfileData,
+} from "./types";
 import { isAxiosError } from "axios";
 import { encrypt } from "@/utills/crypto";
 
@@ -137,20 +142,38 @@ export const updateProfileCompanyData = async (
 };
 
 // Register Device
-export const postProfileDevice = async (userData: any, token: string) => {
+
+type PostProfileDeviceReturnType = {
+  status?: number;
+  message: string;
+};
+export const postProfileDevice = async (
+  userData: any,
+  token: string
+): Promise<PostProfileDeviceReturnType | undefined> => {
   try {
-    const { data, status } = await post(
+    const { data, status } = await post<PostProfileDevice>(
       "Profile/PostProfileDevice",
-      JSON.stringify(userData),
+      userData,
       {
         headers: {
-          // "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
           Authorization: `bearer ${token}`,
         },
       }
     );
-    console.log(data);
+
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
   }
 };

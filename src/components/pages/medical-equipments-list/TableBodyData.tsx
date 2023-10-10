@@ -162,9 +162,12 @@ const TableBodyData = ({
             <td className="whitespace-nowrap p-4">{item.comment}</td>
             <td className="whitespace-nowrap p-4">{item.creationDate}</td>
             <td className="whitespace-nowrap p-4">
-              <p className="py-3 px-7 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight">
+              <Link
+                href={"/panel/counsulation-request/update-counselor"}
+                className="py-3 px-7 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
+              >
                 تماس
-              </p>
+              </Link>
             </td>
           </tr>
         ));

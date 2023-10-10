@@ -15,6 +15,7 @@ import DeviceCategory from "./DeviceCategory";
 import { imageValidation } from "@/utills/imageValidation";
 import { postProfileDevice } from "@/services/profile/user";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const RegisterMedicalDevice = ({
   devices,
@@ -27,11 +28,9 @@ const RegisterMedicalDevice = ({
     "register-medical-device"
   ) as [InitialValues, ValidationSchemaType];
   const [checked, setChecked] = useState(false);
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState<File | null>(null);
 
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  // const deviceIds: string[]
-  console.log(initialValues);
   const { handleSubmit, handleBlur, handleChange, values, errors, touched } =
     useFormik({
       initialValues,
@@ -40,9 +39,9 @@ const RegisterMedicalDevice = ({
         const formData = new FormData();
 
         // @ts-ignore
-        formData.append("Name", values.name);
+        formData.append("Name", values.companyName);
         // @ts-ignore
-        formData.append("Brand", values.brand);
+        formData.append("Brand", values.companyManagerFullName);
         // @ts-ignore
         formData.append("Country", values.country);
         // @ts-ignore
@@ -53,16 +52,32 @@ const RegisterMedicalDevice = ({
         formData.append("OrderedByLastName", values.OrderedByLastName);
         // @ts-ignore
         formData.append("OrderedByMobileNumber", values.OrderedByMobileNumber);
-        formData.append("CategoryIDs", "1");
+        deviceIds.map((id) => formData.append("CategoryIDs", id));
         const response = await postProfileDevice(
           formData,
           Cookies.get("token")!
         );
-        // console.log(response);
+
+        if (response?.status === 200) {
+          toast.success(response.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
+        } else {
+          toast.error(response?.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
+        }
       },
     });
 
-  console.log(userInfo);
+  console.log(deviceIds);
+
   return (
     <div className="w-full flex flex-col bg-[#FCFCFC]">
       <RegisterForm title="لطفا برای ثبت شرکت خود فرم زیر را تکمیل کنید.">
@@ -70,7 +85,7 @@ const RegisterMedicalDevice = ({
           <div className="xl:col-span-1 md:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.companyName}
+              value={userInfo.companyName ? userInfo.companyName : ""}
               disabled
               label="نام کامل شرکت"
               name="companyName"
@@ -79,7 +94,13 @@ const RegisterMedicalDevice = ({
           <div className="xl:col-span-1 md:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.companyManagerFullName}
+              value={
+                // @ts-ignore
+                userInfo.companyManagerFullName
+                  ? // @ts-ignore
+                    userInfo.companyManagerFullName
+                  : ""
+              }
               // errors={errors}
               // handleBlur={handleBlur}
               // onChange={handleChange}
@@ -92,7 +113,7 @@ const RegisterMedicalDevice = ({
           <div className="xl:col-span-1 md:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.faxNumber}
+              value={userInfo.faxNumber ? userInfo.faxNumber : ""}
               // errors={errors}
               // handleBlur={handleBlur}
               // onChange={handleChange}
@@ -105,7 +126,7 @@ const RegisterMedicalDevice = ({
           <div className="xl:col-span-1 md:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.website}
+              value={userInfo.website ? userInfo.website : ""}
               // errors={errors}
               // handleBlur={handleBlur}
               // onChange={handleChange}
@@ -118,7 +139,7 @@ const RegisterMedicalDevice = ({
           <div className="lg:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.mobileNumber}
+              value={userInfo.mobileNumber ? userInfo.mobileNumber : ""}
               // errors={errors}
               // handleBlur={handleBlur}
               // onChange={handleChange}
@@ -131,7 +152,7 @@ const RegisterMedicalDevice = ({
           <div className="lg:col-span-2 col-span-4">
             <AuthInput
               // @ts-ignore
-              value={userInfo.email}
+              value={userInfo.email ? userInfo.email : ""}
               // errors={errors}
               // handleBlur={handleBlur}
               // onChange={handleChange}
@@ -151,7 +172,7 @@ const RegisterMedicalDevice = ({
               label="آدرس شرکت"
               name="address"
               // @ts-ignore
-              value={userInfo.address}
+              value={userInfo.address ? userInfo.address : ""}
             />
           </div>
         </div>
@@ -276,7 +297,7 @@ const RegisterMedicalDevice = ({
                     </div>
                     <button
                       type="button"
-                      onClick={() => setFile("")}
+                      onClick={() => setFile(null)}
                       className="flex justify-center items-center md:p-2 p-1 border border-[#E21414] rounded-md bg-[#f6e1e1]"
                     >
                       <svg

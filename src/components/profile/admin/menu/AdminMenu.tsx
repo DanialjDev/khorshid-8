@@ -225,7 +225,7 @@ const AdminMenu = () => {
             text="تصاویر و پوستر ها"
           />
           <AdminMenuItem
-            href="/panel/consulation-request"
+            href="/panel/counsulation-request"
             icon={
               <svg
                 width="24"
