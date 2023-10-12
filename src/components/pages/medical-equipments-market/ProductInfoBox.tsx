@@ -15,13 +15,15 @@ const ProductInfoBox = ({
           : "lg:col-span-2 col-span-4"
       } flex justify-between items-center flex-wrap`}
     >
-      <p className="text-gray2 text-[16px]">{label}</p>
+      <p className="text-gray2 text-[14px]">{label}</p>
       {typeof text === "string" ? (
-        <p className="text-dark text-[16px]">{text}</p>
+        <p className="text-dark text-[14px]">{text}</p>
       ) : (
         <div className="w-fit flex lg:justify-start justify-end flex-wrap">
           {text.map((item, index) => (
-            <p className="text-dark text-[16px] mr-3">{item}</p>
+            <p key={index} className="text-dark text-[14px] mr-3">
+              {item} ,
+            </p>
           ))}
         </div>
       )}

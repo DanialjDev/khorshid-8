@@ -17,8 +17,6 @@ const AuthLayout = () => {
   const { push } = useRouter();
   const { authAction, showForm } = useAppSelector((state) => state.auth);
 
-  const user = Cookies.get("user");
-
   return (
     <>
       {authAction !== "" && (
@@ -76,7 +74,7 @@ const AuthLayout = () => {
                     />
                   </svg>
                 </div>
-                <div className="w-full flex flex-col px-12 mt-10">
+                <div className="w-full flex flex-col px-8 mt-10">
                   <FormLayout />
                 </div>
               </motion.div>

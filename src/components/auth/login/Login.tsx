@@ -15,9 +15,11 @@ import { useFormik } from "formik";
 import { loginHandler } from "@/services/auth";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const { push, refresh } = useRouter();
   const [initialValues, validationSchema] = useValidation("login")!;
 
   const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
@@ -32,8 +34,11 @@ const Login = () => {
             dispatch(setIsLoggedIn(true));
             setTimeout(() => {
               dispatch(authToggler(""));
-              window.location.reload();
+              refresh();
             }, 1500);
+            if (response.role === "admin") {
+              push("panel/counsulation-request");
+            }
           } else if (response?.status === 400) {
             if (response.message) {
               toast.error(response.message);

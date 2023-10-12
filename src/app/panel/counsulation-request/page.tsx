@@ -17,11 +17,8 @@ const ConsulationRequest = async () => {
   });
   console.log("response", response);
 
-  if (response?.message) {
-    toast.error(response.message, { autoClose: 2500 });
-  }
   return (
-    <div className="w-full flex flex-col mt-2">
+    <div className="w-full flex flex-col">
       <div className="w-full flex justify-start items-center">
         <h2 className="text-[16px] text-primary font-bold">
           درخواست های مشاوره
@@ -40,7 +37,9 @@ const ConsulationRequest = async () => {
             items={TableData}
           />
         </div>
-      ) : null}
+      ) : (
+        <div>sfsfsdf</div>
+      )}
     </div>
   );
 };

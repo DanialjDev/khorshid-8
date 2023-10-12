@@ -16,8 +16,20 @@ interface UpdateCounselorAnyObject {
   // Image: undefined;
 }
 
-export type PanelInitialValues = UpdateCounselorValues;
-export type PanelValidationSchemaAnyObject = UpdateCounselorAnyObject;
+// Update Poster
+interface UpdatePoster {
+  HomeSideBannerId: string;
+  Link: string;
+}
+interface UpdatePosterAnyObject {
+  HomeSideBannerId: undefined;
+  Link: undefined;
+}
+
+export type PanelInitialValues = UpdateCounselorValues | UpdatePoster;
+export type PanelValidationSchemaAnyObject =
+  | UpdateCounselorAnyObject
+  | UpdatePosterAnyObject;
 
 export type PanelValidationSchemaType = Yup.ObjectSchema<
   PanelInitialValues,

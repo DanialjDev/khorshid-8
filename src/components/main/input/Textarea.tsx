@@ -38,7 +38,10 @@ const Textarea = ({
     <div className="w-full flex flex-col mt-7">
       <div className="w-fit relative">
         {label && (
-          <label className="text-[#2D3748] mr-[2px]" id={name}>
+          <label
+            className="text-inputLabelColor text-[14px] mr-[2px]"
+            id={name}
+          >
             {label}
           </label>
         )}
@@ -59,7 +62,7 @@ const Textarea = ({
             ? "hover:shadow-inputHover hover:border-inputHoverBorder"
             : ""
         }
-        bg-transparent outline-none mt-1 h-[8rem] ${
+        bg-transparent outline-none mt-1 h-[8rem] placeholder:text-[13px] ${
           error && touchedInput ? "border-[#FF0606]" : ""
         }`}
         placeholder={placeholder}

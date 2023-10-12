@@ -8,6 +8,7 @@ import { encrypt } from "@/utills/crypto";
 type SignupReturnType = {
   message?: string | undefined;
   status?: number;
+  role?: string;
 };
 
 // Signin
@@ -85,6 +86,7 @@ export const loginHandler = async (
         return {
           message: data.message,
           status: data.status,
+          role: data.object.roleNameEn,
         };
       }
     }

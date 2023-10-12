@@ -15,6 +15,7 @@ import ProductItem from "../home-page/ProductItem";
 
 const SingleProductPage = async () => {
   const deviceId = useSearchParams().get("id")!;
+  console.log(deviceId);
   const response = await getSingleDevice(deviceId);
   const relatedProducts = await getHomePageDevies();
 
@@ -37,7 +38,7 @@ const SingleProductPage = async () => {
                     <Image
                       src={response.data.imageUrl}
                       width={300}
-                      height={300}
+                      height={500}
                       // sizes="100vw"
                       objectFit="contain"
                       className="m-auto"
@@ -47,12 +48,12 @@ const SingleProductPage = async () => {
                 </div>
                 <div className="lg:col-span-7 col-span-9 flex flex-col md:p-4">
                   <div className="w-full sm2:flex-row flex-col flex items-center justify-between">
-                    <p className="text-primary text-[20px] sm2:m-0 mb-3">
+                    <p className="text-primary lg:text-[18px] text-[16px] sm2:m-0 mb-3">
                       اطلاعات دستگاه
                     </p>
                     <Button
                       padding="lg:px-3 py-2 px-2"
-                      fontSize="lg:text-[16px] text-[12px]"
+                      fontSize="lg:text-[14px] text-[12px]"
                       icon={
                         <svg
                           width="20"
@@ -150,7 +151,7 @@ const SingleProductPage = async () => {
             <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
           }
           title={
-            <p className="text-black text-2xl z-40 p-2 bg-white-gray">
+            <p className="text-black lg:text-xl text-lg z-40 p-2 bg-white-gray">
               برخی از <span className="text-secondary">محصولات ما</span>
             </p>
           }

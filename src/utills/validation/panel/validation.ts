@@ -1,10 +1,14 @@
-import { isMobile } from "@/utills/formatHelper";
+import { isMobile, isUrl } from "@/utills/formatHelper";
 import { PanelInitialValues, PanelValidationSchemaType } from "./types";
 import * as Yup from "yup";
 
-type Action = "updateCounselor";
+type Action = "updateCounselor" | "updatePoster";
 
-const usePanelValidation = (action: Action) => {
+type ReturnType = [
+  initialValues: PanelInitialValues,
+  validationSchema: PanelValidationSchemaType
+];
+const usePanelValidation = (action: Action): ReturnType | undefined => {
   let initialValues: PanelInitialValues;
   let validationSchema: PanelValidationSchemaType;
 
@@ -20,9 +24,12 @@ const usePanelValidation = (action: Action) => {
     (value) => isMobile(value)
   );
   const Position = defaultErrorValidation;
-  const Image = Yup.string().required(
-    "لطفا تصویر مشاوره دهنده را بارگذاری کنید."
+  const Link = defaultErrorValidation.test(
+    "isUrl",
+    "آردس وارد شده نامعتبر است",
+    (value) => Boolean(isUrl(value))
   );
+  const HomeSideBannerId = defaultErrorValidation;
 
   switch (action) {
     case "updateCounselor":
@@ -41,6 +48,18 @@ const usePanelValidation = (action: Action) => {
         // Image,
       });
       return [initialValues, validationSchema];
+    case "updatePoster":
+      initialValues = {
+        Link: "",
+        HomeSideBannerId: "",
+      };
+      validationSchema = Yup.object().shape({
+        Link,
+        HomeSideBannerId,
+      });
+      return [initialValues, validationSchema];
+    default:
+      return undefined;
   }
 };
 

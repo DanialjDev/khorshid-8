@@ -2,7 +2,7 @@
 
 import { InitialValues } from "@/utills/validation/auth/types";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
-import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
+import { FormikErrors, FormikTouched } from "formik";
 import React, { ChangeEvent } from "react";
 
 const AuthInput = ({
@@ -44,7 +44,7 @@ const AuthInput = ({
         {label && (
           <label
             htmlFor={name}
-            className="text-[#2D3748] text-[14px] mr-[2px]"
+            className="text-inputLabelColor text-[14px] mr-[2px]"
             id={name}
           >
             {label}

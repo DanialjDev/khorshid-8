@@ -6,6 +6,7 @@ import Login from "../login/Login";
 import Signup from "../signup/Signup";
 import ForgotPassword from "../login/ForgotPassword";
 import ChangePassword from "../login/ChangePassword";
+import UpdatePosterModal from "@/components/profile/admin/posters/UpdatePosterModal";
 
 const FormLayout = () => {
   const { authAction, showForm } = useAppSelector((state) => state.auth);
@@ -20,6 +21,8 @@ const FormLayout = () => {
         <ForgotPassword />
       ) : authAction === "changePassword" && showForm ? (
         <ChangePassword />
+      ) : authAction === "updatePoster" && showForm ? (
+        <UpdatePosterModal />
       ) : null}
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Image from "next/image";
 
 import KhorshidLogo from "@/../public/assets/images/admin/AdminLogo.png";
@@ -13,16 +13,21 @@ const AdminMenuItem = ({
   icon,
   text,
   href,
+  setNav,
 }: {
   icon: ReactNode;
   text: string;
   href?: string;
+  setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
   return (
     <li
+      onClick={() => setNav(false)}
       className={`flex justify-between items-center w-full p-3 my-[8px] rounded-lg ${
-        pathname === href ? "bg-primaryLight activeItem" : "bg-transparent"
+        pathname === href
+          ? "bg-adminMenuItemActive activeItem"
+          : "bg-transparent"
       }`}
     >
       {href ? (
@@ -50,9 +55,36 @@ const AdminMenuItem = ({
   );
 };
 
-const AdminMenu = () => {
+const AdminMenu = ({
+  nav,
+  setNav,
+}: {
+  nav: boolean;
+  setNav: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
-    <div className="w-[270px] h-screen fixed bg-primaryDark2 flex flex-col">
+    <div
+      className={`w-[270px] h-screen fixed ${
+        nav ? "right-0" : "-right-[100vw]"
+      } lg:!right-0 !transition-all duration-200 bg-primaryDark2 flex flex-col z-50`}
+    >
+      <div
+        className="lg:hidden flex bg-primary absolute -left-3 top-7 p-1 rounded-full"
+        onClick={() => setNav(false)}
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.5001 17.2253C7.65843 17.2253 7.81676 17.1669 7.94176 17.0419L13.3751 11.6086C14.2584 10.7253 14.2584 9.27526 13.3751 8.39193L7.94176 2.95859C7.7001 2.71693 7.3001 2.71693 7.05843 2.95859C6.81676 3.20026 6.81676 3.60026 7.05843 3.84193L12.4918 9.27526C12.8918 9.67526 12.8918 10.3253 12.4918 10.7253L7.05843 16.1586C6.81676 16.4003 6.81676 16.8003 7.05843 17.0419C7.18343 17.1586 7.34176 17.2253 7.5001 17.2253Z"
+            fill="white"
+          />
+        </svg>
+      </div>
       <div className="w-full flex justify-center items-center p-5">
         <Image
           src={KhorshidLogo}
@@ -64,6 +96,7 @@ const AdminMenu = () => {
       <div className="w-full flex items-center justify-center p-4 pt-0">
         <ul className="w-full flex flex-col">
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/statistics"
             icon={
               <svg
@@ -116,6 +149,7 @@ const AdminMenu = () => {
             text="آمار سایت"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/medical-equipments-list"
             icon={
               <svg
@@ -142,6 +176,7 @@ const AdminMenu = () => {
             text="لیست تجهیزات پزشکی"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/register-product-requests"
             icon={
               <svg
@@ -168,6 +203,7 @@ const AdminMenu = () => {
             text="درخواست های ثبت محصول"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/registered-devices"
             icon={
               <svg
@@ -190,6 +226,7 @@ const AdminMenu = () => {
             text="محصولات ثبت شده"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/posters"
             icon={
               <svg
@@ -225,6 +262,7 @@ const AdminMenu = () => {
             text="تصاویر و پوستر ها"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/counsulation-request"
             icon={
               <svg
@@ -243,6 +281,7 @@ const AdminMenu = () => {
             text="درخواست های مشاوره"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/update-counselor"
             icon={
               <svg
@@ -277,6 +316,7 @@ const AdminMenu = () => {
             text="تغییر شماره تماس مشاوره"
           />
           <AdminMenuItem
+            setNav={setNav}
             href="/panel/charge-account"
             icon={
               <svg
@@ -329,6 +369,7 @@ const AdminMenu = () => {
             text="شارژ حساب کاربری"
           />
           <AdminMenuItem
+            setNav={setNav}
             icon={
               <svg
                 width="24"

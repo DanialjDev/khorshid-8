@@ -1,12 +1,13 @@
 "use client";
 
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import AdminMenu from "../profile/admin/menu/AdminMenu";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const [nav, setNav] = useState(false);
   const { back } = useRouter();
   const userToken = Cookies.get("token");
 
@@ -18,9 +19,31 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   }, []);
   return (
     <div className="w-full h-full flex">
-      <AdminMenu />
-      <div className="w-[calc(100%-270px)] !h-screen overflow-scroll relative flex flex-col py-5 px-10 mr-auto">
-        <div className="w-full flex items-center py-2 pb-4 justify-end border-b border-menuHeaderBorder">
+      <AdminMenu setNav={setNav} nav={nav} />
+      <div
+        className={`w-full h-screen bg-[#e6e6e686] absolute ${
+          nav ? "flex" : "hidden"
+        } z-40`}
+      ></div>
+
+      <div className="lg:w-[calc(100%-270px)] w-full !h-screen overflow-scroll relative flex flex-col py-5 sm:px-10 px-6 mr-auto">
+        <div className="w-full flex items-center py-2 pb-4 lg:justify-end justify-between border-b border-menuHeaderBorder">
+          <button className="lg:hidden flex" onClick={() => setNav(true)}>
+            <svg
+              width="20"
+              height="14"
+              viewBox="0 0 20 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M19 12C19.5523 12 20 12.4477 20 13C20 13.5523 19.5523 14 19 14H1C0.447715 14 0 13.5523 0 13C0 12.4477 0.447715 12 1 12H19ZM19 6C19.5523 6 20 6.44772 20 7C20 7.55228 19.5523 8 19 8H1C0.447715 8 0 7.55228 0 7C0 6.44772 0.447715 6 1 6H19ZM19 0C19.5523 0 20 0.447715 20 1C20 1.55228 19.5523 2 19 2H1C0.447715 2 0 1.55228 0 1C0 0.447715 0.447715 0 1 0H19Z"
+                fill="#292D32"
+              />
+            </svg>
+          </button>
           <div className="flex flex-row-reverse items-center">
             <div className="flex justify-center items-center mr-14">
               <p className="text-[14px] text-primaryDark3">Admin</p>
@@ -41,7 +64,9 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
         </div>
-        <div className="w-full h-full">{children}</div>
+        <div className="w-full justify-center flex m-auto h-full mt-6">
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -102,7 +102,7 @@ const Navbar = () => {
             </svg>
           </button>
           <div className="flex lg:w-[30rem] w-auto justify-between items-center">
-            <div className="flex justify-center items-center">
+            <div className="hidden sm2:flex justify-center items-center">
               <Image src={Logo} alt="خورشید هشت" width={100} height={100} />
             </div>
             <div className="w-[400px] h-[40px] lg:flex hidden justify-between border-2 border-slate-200 rounded-md p-1">
@@ -172,7 +172,7 @@ const Navbar = () => {
                 className="flex justify-center text-[12px] cursor-pointer items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
-                  <p className="ml-1 lg:flex hidden">
+                  <p className="ml-1 flex">
                     {!Cookies.get("token") ? "حساب کاربری" : userInfo.name}
                   </p>
                 </div>

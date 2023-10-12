@@ -10,6 +10,7 @@ export type Action =
   | "profile-company-data"
   | "register-medical-device"
   | "consulation"
+  | "updatePoster"
   | "";
 
 type ReturnType = [

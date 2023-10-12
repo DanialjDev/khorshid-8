@@ -42,10 +42,10 @@ const FilterSection = () => {
             حذف فیلترها
           </button>
         </div>
-        <form className="w-full flex flex-col mt-4">
-          <CustomRadio id="radio1" title="ارتوپدی" />
+        {/* <form className="w-full flex flex-col mt-4">
+          <CustomRadio  id="radio1" title="ارتوپدی" />
           <CustomRadio id="radio2" title="اورژانس" />
-        </form>
+        </form> */}
       </div>
     </>
   );

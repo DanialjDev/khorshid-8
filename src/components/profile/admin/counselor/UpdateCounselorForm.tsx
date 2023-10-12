@@ -16,7 +16,7 @@ const UpdateCounselorForm = () => {
   const [img, setImg] = useState<File | null>(null);
 
   const [initialValues, validationSchema] =
-    usePanelValidation("updateCounselor");
+    usePanelValidation("updateCounselor")!;
 
   const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
     useFormik({
@@ -53,9 +53,9 @@ const UpdateCounselorForm = () => {
     <Box>
       <form
         onSubmit={handleSubmit}
-        className="w-full grid grid-cols-4 gap-8 p-3"
+        className="w-full grid grid-cols-4 gap-8 sm:p-3 p-0"
       >
-        <div className="col-span-2">
+        <div className="sm:col-span-2 col-span-4">
           <AuthInput
             label="نام مشاوره دهنده"
             placeholder="بین 8 تا 40 کارکتر بدون @_#..."
@@ -68,7 +68,7 @@ const UpdateCounselorForm = () => {
             value={values.FullName}
           />
         </div>
-        <div className="col-span-2">
+        <div className="sm:col-span-2 col-span-4">
           <AuthInput
             label="جایگاه مشاوره دهنده"
             placeholder="کارشناس خرید تجهیزات پزشکی"
@@ -94,7 +94,7 @@ const UpdateCounselorForm = () => {
             value={values.Comment}
           />
         </div>
-        <div className="col-span-2">
+        <div className="md:col-span-2 col-span-4">
           <AuthInput
             label="شماره تماس مشاوره دهنده"
             placeholder="...  ... - ۰۲۱"
@@ -107,7 +107,7 @@ const UpdateCounselorForm = () => {
             value={values.PhoneNumber}
           />
         </div>
-        <div className="col-span-2">
+        <div className="xl:col-span-2 md:col-span-3 col-span-4">
           <ImageInput
             img={img}
             setImg={setImg}
@@ -119,7 +119,7 @@ const UpdateCounselorForm = () => {
             // touched={touched as FormikTouched<PanelInitialValues>}
           />
         </div>
-        <div className="w-full flex items-center justify-start">
+        <div className="col-span-4">
           <Button
             width="w-fit"
             padding="py-2 px-12"
