@@ -21,7 +21,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   }, []);
   return (
     <div
-      className={`w-full bg-white-gray ${
+      className={`w-full bg-white-gray h-full ${
         authAction !== "" || showModal ? "fixed" : ""
       } ${!pathname.includes("panel") ? "xl:pt-0 pt-10" : ""}`}
       onScroll={() => {
@@ -29,7 +29,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       }}
     >
       <div
-        className={`w-full bg-white-gray ${
+        className={`w-full bg-white-gray h-full ${
           !pathname.includes("panel")
             ? "lg:pt-32 pt-10 px-5 2xl:px-28 xl:px-14"
             : ""
@@ -38,7 +38,6 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         {children}
       </div>
       {!pathname.includes("panel") && <Footer />}
-      <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
 };

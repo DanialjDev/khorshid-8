@@ -9,18 +9,43 @@ type ReturnTyp = {
 };
 
 export const getDevices = async (
-  product?: string
+  product?: string,
+  categories?: string
 ): Promise<ReturnTyp | undefined> => {
-  let reqUrl = `Shop/GetShopDevices`;
+  const baseUrl = "Shop/GetShopDevices";
+  let reqUrl = "";
+  let categoryBasedUrl = "";
   try {
-    if (product) {
-      reqUrl = `${reqUrl}?Search=${product}`;
-    }
-    const { data, status } = await get<ShopDevices>(reqUrl);
+    // if (product && !categories) {
+    //   reqUrl = `${baseUrl}?Search=${product}`;
+    // }
+    // if (categories && !product) {
+    //   console.log(categories);
+    //   const lastIndex = categories.slice(-1);
+    // if (lastIndex === "&") {
+    //   categories = categories.substring(0, categories.length - 1);
+    // }
+    //   reqUrl = `${baseUrl}${categories}`;
+    // }
+
+    // if (categories && product) {
+    //   const lastIndex = categories.slice(-1);
+    //   if (lastIndex === "&") {
+    //     categories = categories.substring(0, categories.length - 1);
+    //   }
+    //   categoryBasedUrl += "&" + categories;
+    //   reqUrl = `${baseUrl}?Search=${product}${categories}`;
+    //   console.log(reqUrl);
+    //   console.log("categoryBasedUrl", categoryBasedUrl);
+    // }
+
+    const { data, status } = await get<ShopDevices>(baseUrl);
+    console.log(data);
 
     if (status === 200) {
       return {
         data: data.object.data,
+        status,
       };
     }
   } catch (error) {
@@ -31,6 +56,48 @@ export const getDevices = async (
           message: error.response.data.message,
         };
       }
+    }
+  }
+};
+
+// Filter Device
+export const filterDevices = async (
+  searchInput?: string,
+  categories?: string
+): Promise<ReturnTyp | undefined> => {
+  const baseUrl = "Shop/GetShopDevices";
+  let reqUrl = "";
+  try {
+    if (searchInput && !categories) {
+      reqUrl = `${baseUrl}?Search=${searchInput}`;
+    } else if (!searchInput && categories) {
+      const lastIndex = categories.slice(-1);
+      if (lastIndex === "&") {
+        categories = categories.substring(0, categories.length - 1);
+      }
+      reqUrl = `${baseUrl}?${categories}`;
+    } else if (searchInput && categories) {
+      const lastIndex = categories.slice(-1);
+      if (lastIndex === "&") {
+        categories = categories.substring(0, categories.length - 1);
+      }
+      reqUrl = `${baseUrl}?Search=${searchInput}&${categories}`;
+    } else {
+      reqUrl = baseUrl;
+    }
+    const { data, status } = await get<ShopDevices>(reqUrl);
+    if (status === 200) {
+      console.log(data);
+      return {
+        status,
+        data: data.object.data,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
     }
   }
 };

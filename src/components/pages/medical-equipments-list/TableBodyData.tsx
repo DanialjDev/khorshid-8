@@ -1,4 +1,5 @@
 import { OperationNames, TableData } from "@/services/medical-equipment/types";
+import { gregorianIsoToJalaali } from "@/utills/formatHelper";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -15,17 +16,21 @@ const TableBodyData = ({
       case "GetMedicalEquipmentDevices":
         return data.map((item, index) => (
           <tr className="" key={item.deviceId}>
-            <td className="p-4 whitespace-nowrap">{index + 1}</td>
-            <td className="p-4 whitespace-nowrap">{item.name}</td>
-            <td className="whitespace-nowrap p-4">{item.brand}</td>
-            <td className="whitespace-nowrap p-4">{item.country}</td>
-            <td className="whitespace-nowrap p-4">{item.companyName}</td>
-            <td className="whitespace-nowrap p-4">
+            <td className="p-4 whitespace-nowrap text-[13px]">{index + 1}</td>
+            <td className="p-4 whitespace-nowrap text-[13px]">{item.name}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{item.brand}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.country}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.companyName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <p className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full">
                 {item.orderedByMobileNumber}
               </p>
             </td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <Link
                 className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
                 // target="_blank"
@@ -34,7 +39,7 @@ const TableBodyData = ({
                 مشاهده
               </Link>
             </td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <Link
                 className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
                 // target="_blank"
@@ -48,12 +53,18 @@ const TableBodyData = ({
       case "GetMedicalEquipmentCompanies":
         return data.map((item, index) => (
           <tr key={item.companyId}>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.name}</td>
-            <td className="whitespace-nowrap p-4">{item.managerFullName}</td>
-            <td className="whitespace-nowrap p-4">{item.faxNumber}</td>
-            <td className="whitespace-nowrap p-4">{item.address}</td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{item.name}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.managerFullName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.faxNumber}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.address}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               {item.phones.map((phone, index) => (
                 <span
                   className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full"
@@ -68,11 +79,19 @@ const TableBodyData = ({
       case "GetDeansOfUniversities":
         return data.map((item, index) => (
           <tr key={item.id}>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.cityName}</td>
-            <td className="whitespace-nowrap p-4">{item.deanOfUniFullName}</td>
-            <td className="whitespace-nowrap p-4">{item.address}</td>
-            <td className="whitespace-nowrap p-4">{item.telephone}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.cityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.deanOfUniFullName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.address}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.telephone}
+            </td>
           </tr>
         ));
       case "GetEvents":
@@ -80,62 +99,102 @@ const TableBodyData = ({
           <tr key={item.id}>
             <td className="whitespace-nowrap p-4">{index + 1}</td>
             <td className="whitespace-nowrap p-4">{item.eventName}</td>
-            <td className="whitespace-nowrap p-4">{item.eventDate}</td>
+            <td className="whitespace-nowrap p-4">
+              {gregorianIsoToJalaali(item.eventDate)}
+            </td>
           </tr>
         ));
       case "GetHospotals":
         return data.map((item, index) => (
           <tr key={item.id}>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.cityName}</td>
-            <td className="whitespace-nowrap p-4">{item.hospitalName}</td>
-            <td className="whitespace-nowrap p-4">{item.category}</td>
-            <td className="whitespace-nowrap p-4">{item.coveredName}</td>
-            <td className="whitespace-nowrap p-4">{item.numberOfBeds}</td>
-            <td className="whitespace-nowrap p-4">{item.universityName}</td>
-            <td className="whitespace-nowrap p-4">{item.address}</td>
-            <td className="whitespace-nowrap p-4">{item.telephone}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.cityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.hospitalName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.category}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.coveredName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.numberOfBeds}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.universityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.address}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.telephone}
+            </td>
           </tr>
         ));
       case "GetLabs":
         return data.map((item, index) => (
           <tr key={item.id}>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.universityName}</td>
-            <td className="whitespace-nowrap p-4">{item.headOfLaboratory}</td>
-            <td className="whitespace-nowrap p-4">{item.address}</td>
-            <td className="whitespace-nowrap p-4">{item.telephone}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.universityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.headOfLaboratory}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.address}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.telephone}
+            </td>
           </tr>
         ));
       case "GetVicePresidentsOfTreatment":
         return data.map((item, index) => (
           <tr>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.universityName}</td>
-            <td className="whitespace-nowrap p-4">{item.vicePresident}</td>
-            <td className="whitespace-nowrap p-4">{item.telephone}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.universityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.vicePresident}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.telephone}
+            </td>
           </tr>
         ));
       case "GetUniversities":
         return data.map((item, index) => (
           <tr>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.universityName}</td>
-            <td className="whitespace-nowrap p-4">{item.website}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.universityName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.website}
+            </td>
           </tr>
         ));
       case "HomePageDevices":
         return data.map((item, index) => (
           <tr>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.name}</td>
-            <td className="whitespace-nowrap p-4">{item.brand}</td>
-            <td className="whitespace-nowrap p-4">{item.country}</td>
-            <td className="whitespace-nowrap p-4">{item.companyName}</td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{item.name}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{item.brand}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.country}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.companyName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               {item.orderedByMobileNumber}
             </td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <Link
                 className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
                 href={item.companyWebsite}
@@ -143,7 +202,7 @@ const TableBodyData = ({
                 مشاهده
               </Link>
             </td>
-            <td className="whitespace-nowrap p-4">
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <Link
                 className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
                 href={item.imageUrl}
@@ -155,15 +214,23 @@ const TableBodyData = ({
         ));
       case "GetCounsulations":
         return data.map((item, index) => (
-          <tr>
-            <td className="whitespace-nowrap p-4">{index + 1}</td>
-            <td className="whitespace-nowrap p-4">{item.fullName}</td>
-            <td className="whitespace-nowrap p-4">{item.phoneNumber}</td>
-            <td className="whitespace-nowrap p-4">{item.comment}</td>
-            <td className="whitespace-nowrap p-4">{item.creationDate}</td>
-            <td className="whitespace-nowrap p-4">
+          <tr key={index}>
+            <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.fullName}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.phoneNumber}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {item.comment}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
+              {gregorianIsoToJalaali(item.creationDate)}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               <Link
-                href={"/panel/counsulation-request/update-counselor"}
+                href={`callto:${item.phoneNumber}`}
                 className="py-3 px-7 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
               >
                 تماس

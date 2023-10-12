@@ -25,10 +25,10 @@ const ChangePassword = () => {
         const response = await changePasswordHandler(data);
         if (response && response.message) {
           if (response.status === 200) {
-            toast.success(response.message, { autoClose: 3000 });
+            toast.success(response.message);
             dispatch(authToggler("login"));
           } else {
-            toast.error(response.message, { autoClose: 3000 });
+            toast.error(response.message);
           }
         }
       },

@@ -1,6 +1,7 @@
+"use client";
+
 import Link, { LinkProps } from "next/link";
 import React, { ReactNode } from "react";
-import { Url } from "url";
 
 interface ButtonProps {
   text: string;
@@ -16,6 +17,7 @@ interface ButtonProps {
   width?: string;
   type?: "button" | "submit" | "reset" | undefined;
   fontSize?: string;
+  onClick?: () => void;
 }
 
 const Button = ({
@@ -32,6 +34,7 @@ const Button = ({
   width = "w-fit",
   type,
   fontSize,
+  onClick,
 }: ButtonProps) => {
   return (
     <>
@@ -48,7 +51,7 @@ const Button = ({
         >
           {icon}
           <p
-            className={`${fontSize ? fontSize : "text-[16px]"} ${
+            className={`${fontSize ? fontSize : "text-[14px]"} ${
               dir === "rtl" ? "ml-3" : "mr-3"
             }`}
           >
@@ -57,6 +60,7 @@ const Button = ({
         </Link>
       ) : (
         <button
+          onClick={onClick}
           type={type ? type : "button"}
           disabled={disabled}
           className={`${width} transition duration-200 ease-in-out flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed ${
@@ -69,7 +73,7 @@ const Button = ({
         >
           {icon}
           <p
-            className={`${fontSize ? fontSize : "text-[16px]"} ${
+            className={`${fontSize ? fontSize : "text-[14px]"} ${
               dir === "rtl" ? "ml-3" : "mr-3"
             }`}
           >

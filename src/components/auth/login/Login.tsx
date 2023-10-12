@@ -14,7 +14,7 @@ import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
 import { loginHandler } from "@/services/auth";
 import Cookies from "js-cookie";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -28,16 +28,15 @@ const Login = () => {
         const response = await loginHandler(values);
         if (response) {
           if (response.status === 200 && response.message) {
-            toast.success(response.message, { duration: 3000 });
+            toast.success(response.message);
             dispatch(setIsLoggedIn(true));
             setTimeout(() => {
               dispatch(authToggler(""));
+              window.location.reload();
             }, 1500);
           } else if (response?.status === 400) {
             if (response.message) {
-              toast.error(response.message, {
-                duration: 3000,
-              });
+              toast.error(response.message);
             }
           }
         }
@@ -77,7 +76,7 @@ const Login = () => {
           border="border-2 border-primary"
         />
       </div>
-      <div className="mt-20 mb-4 flex justify-center items-center">
+      <div className="mt-20 mb-4 text-[14px] flex justify-center items-center">
         <p className="text-[#A0AEC0]">
           آیا حساب کاربری ندارید؟{" "}
           <span

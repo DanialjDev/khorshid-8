@@ -22,7 +22,7 @@ const FormButton = ({
   return (
     <button
       type="submit"
-      className={`${width} ${bg} ${textColor} ${padding} ${rounded} ${
+      className={`${width} ${bg} ${textColor} ${padding} ${rounded} text-[14px] ${
         border ? border : ""
       }`}
       onClick={onClick}

@@ -25,7 +25,7 @@ const MenuItem = ({
 }) => {
   return (
     <li
-      className={`lg:w-auto h-full w-full flex items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
+      className={`lg:w-auto h-full w-full flex peer items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
         pathname === href ? "text-primary" : "text-dark"
       }`}
       onClick={() => setNav(false)}
@@ -48,7 +48,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   let userInfo: any;
   if (Cookies.get("token")) {
-    userInfo = JSON.parse(decrypt(Cookies.get("userInfo")))
+    userInfo = Cookies.get("token")
       ? JSON.parse(decrypt(Cookies.get("userInfo")))
       : {
           name: "",
@@ -173,9 +173,7 @@ const Navbar = () => {
               >
                 <div>
                   <p className="ml-1 lg:flex hidden">
-                    {!Cookies.get("token") && !userInfo
-                      ? "حساب کاربری"
-                      : userInfo.name}
+                    {!Cookies.get("token") ? "حساب کاربری" : userInfo.name}
                   </p>
                 </div>
                 <svg

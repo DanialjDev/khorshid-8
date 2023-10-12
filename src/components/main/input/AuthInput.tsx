@@ -1,6 +1,7 @@
 "use client";
 
 import { InitialValues } from "@/utills/validation/auth/types";
+import { PanelInitialValues } from "@/utills/validation/panel/types";
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
 import React, { ChangeEvent } from "react";
 
@@ -24,8 +25,8 @@ const AuthInput = ({
   type?: string;
   onChange?: (e: ChangeEvent<any>) => void;
   handleBlur?: (e: React.FocusEvent<any, Element>) => void;
-  errors?: FormikErrors<InitialValues>;
-  touched?: FormikTouched<InitialValues>;
+  errors?: FormikErrors<PanelInitialValues | InitialValues>;
+  touched?: FormikTouched<PanelInitialValues | InitialValues>;
   value?: string;
   disabled?: boolean;
 }) => {
@@ -43,7 +44,7 @@ const AuthInput = ({
         {label && (
           <label
             htmlFor={name}
-            className="text-[#2D3748] text-[16px] mr-[2px]"
+            className="text-[#2D3748] text-[14px] mr-[2px]"
             id={name}
           >
             {label}
@@ -64,7 +65,7 @@ const AuthInput = ({
           !disabled
             ? "hover:shadow-inputHover hover:border-inputHoverBorder"
             : ""
-        } transition duration-200 ${
+        } transition duration-200 placeholder:text-[13px] ${
           error && touchedInput ? "border-borderError" : ""
         }`}
         placeholder={placeholder}

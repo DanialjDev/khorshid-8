@@ -7,7 +7,7 @@ import { InitialValues } from "@/utills/validation/auth/types";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
 import React from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
@@ -19,14 +19,13 @@ const ForgotPassword = () => {
       validationSchema,
       onSubmit: async (values: InitialValues) => {
         const response = await forgotPasswordHandler(values);
-        console.log(response);
 
         if (response) {
           if (response.status === 500 && response.message) {
-            toast.error(response.message, { duration: 3000 });
+            toast.error(response.message);
           }
           if (response.status === 200 && response.message) {
-            toast.success(response.message, { duration: 3000 });
+            toast.success(response.message);
             dispatch(authToggler("changePassword"));
             // @ts-ignore
             dispatch(setEmail(values.email));

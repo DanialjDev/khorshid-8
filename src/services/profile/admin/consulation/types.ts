@@ -22,3 +22,15 @@ export interface Consulations {
   };
   list: null;
 }
+
+// Update Counselor
+export interface UpdateCounselorProps {
+  exMessage: null | string;
+  list: null;
+  message: string;
+  object: null;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+}

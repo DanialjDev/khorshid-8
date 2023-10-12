@@ -19,7 +19,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
         src={imageUrl}
         alt=""
       />
-      <p className="text-[16px] mr-3">{name}</p>
+      <p className="text-[14px] mr-3">{name}</p>
     </Link>
   );
 };

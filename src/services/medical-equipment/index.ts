@@ -20,7 +20,8 @@ export type Category =
   | "GetLabs"
   | "GetVicePresidentsOfTreatment"
   | "GetUniversities"
-  | "ProfileDevices";
+  | "ProfileDevices"
+  | "panel_consulation";
 
 // Get Device Banner
 export const getDeviceBanner = async (

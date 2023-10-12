@@ -39,6 +39,7 @@ const NewsItem = ({
               viewBox="0 0 12 12"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="scale-90"
             >
               <path
                 fillRule="evenodd"
@@ -47,14 +48,14 @@ const NewsItem = ({
                 fill="#979797"
               />
             </svg>
-            <p className="text-[#898989] mr-2 xl:text-[14px] text-[11px]">
+            <p className="text-[#898989] mr-2 xl:text-[12px] text-[11px]">
               {DaysRange}
             </p>
           </div>
           <div className="">
             <Button
               href={link}
-              fontSize="xl:text-[14px] text-[10px]"
+              fontSize="xl:text-[12px] text-[10px]"
               padding="p-0"
               icon={
                 <svg
@@ -63,6 +64,7 @@ const NewsItem = ({
                   viewBox="0 0 14 14"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="scale-90"
                 >
                   <path
                     d="M6.59191 7.1464L11.8127 7.1464"

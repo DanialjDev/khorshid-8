@@ -13,12 +13,12 @@ const MedicalEquipmentsMarket = async () => {
   const devices = await getDevices();
   console.log(devices);
   return (
-    <div className="w-full grid grid-cols-8 gap-4">
+    <>
       <MedicalMarket
         devices={devices?.data ? devices.data : null}
         deviceCategories={deviceCategories?.data}
       />
-    </div>
+    </>
   );
 };
 

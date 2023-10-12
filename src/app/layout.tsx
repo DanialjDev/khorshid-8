@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir="rtl">
-      <body className="text-dark !bg-[#FCFCFC] h-[100vh]">
+      <body className="text-dark !bg-[#FCFCFC] h-full">
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>

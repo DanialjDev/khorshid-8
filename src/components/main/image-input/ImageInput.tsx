@@ -1,5 +1,6 @@
 import { imageValidation } from "@/utills/imageValidation";
 import { InitialValues } from "@/utills/validation/auth/types";
+import { PanelInitialValues } from "@/utills/validation/panel/types";
 import { FormikErrors, FormikTouched } from "formik";
 import React, { ChangeEvent } from "react";
 
@@ -11,23 +12,36 @@ const ImageInput = ({
   errors,
   handleBlur,
   onChange,
+  touched,
+  isRequired,
 }: {
   title: string;
   desc: string;
   img: File | null;
   setImg: React.Dispatch<React.SetStateAction<File | null>>;
-  errors?: FormikErrors<InitialValues>;
-  touched?: FormikTouched<InitialValues>;
-  onChange: (e: ChangeEvent<any>) => void;
+  errors?: FormikErrors<PanelInitialValues | InitialValues>;
+  touched?: FormikTouched<PanelInitialValues | InitialValues>;
+  onChange?: (e: ChangeEvent<any>) => void;
   handleBlur?: (e: React.FocusEvent<any, Element>) => void;
+  isRequired?: boolean;
 }) => {
+  let validationStyle;
+  let errorMsg;
+  // @ts-ignore
+  if (isRequired && errors["Image"]) {
+    validationStyle = isRequired
+      ? // @ts-ignore
+        errors["Image"] && touched["Image"]
+        ? "border border-borderError"
+        : ""
+      : "";
+    // @ts-ignore
+    errorMsg = isRequired ? errors["Image"] : "";
+  }
   return (
     <div className="2xl:col-span-1 xl:col-span-2 col-span-3 h-full">
       <div
-        className={`grid grid-cols-9 gap-5 w-full ${
-          // @ts-ignore
-          errors["Image"] && touched["Image"] ? "border border-borderError" : ""
-        } shadow-xs rounded-lg p-4 h-[120px]`}
+        className={`grid grid-cols-9 justify-between gap-5 w-full ${validationStyle} shadow-xs rounded-lg p-4 h-[120px]`}
       >
         <div className="flex flex-col md:col-span-7 col-span-6 justify-between h-full">
           <div className="flex items-start justify-between w-full">
@@ -74,7 +88,7 @@ const ImageInput = ({
                 بارگذاری تصویر دستگاه
               </p>
             </div>
-            <button
+            {/* <button
               type="button"
               onClick={() => setImg(null)}
               className="flex justify-center items-center md:p-2 p-1 border border-[#E21414] rounded-md bg-[#f6e1e1]"
@@ -122,7 +136,7 @@ const ImageInput = ({
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
           <div className="w-full text-[#979797] lg:text-base text-sm">
             {!img ? (
@@ -132,17 +146,17 @@ const ImageInput = ({
             )}
           </div>
         </div>
-        <div className="md:col-span-2 col-span-3 h-full cursor-pointer">
+        <div className="md:col-span-2 col-span-3 flex items-start flex-row-reverse gap-x-4 justify-self-end h-full cursor-pointer">
           <label
             htmlFor="inputFile"
-            className={`w-full rounded-md cursor-pointer flex justify-center items-center border-2 ${
+            className={`w-[100px] rounded-md cursor-pointer flex justify-center items-center border-2 ${
               img
                 ? "bg-[#F0F0F0] border-secondary"
                 : "bg-[#eceff6] border-primary"
             }  border-dashed h-full `}
           >
             {/* @ts-ignore */}
-            {!file ? (
+            {!img ? (
               <svg
                 width="36"
                 height="36"
@@ -193,7 +207,6 @@ const ImageInput = ({
                   setImg(e.target.files[0]);
                 }
                 console.log(e.target.value);
-                onChange(e);
                 imageValidation(e);
                 // console.log(file);
               }}
@@ -202,12 +215,64 @@ const ImageInput = ({
               id="inputFile"
             />
           </label>
+          <button
+            type="button"
+            onClick={() => setImg(null)}
+            className="flex justify-center items-center md:p-2 p-1 border border-[#E21414] rounded-md bg-[#f6e1e1]"
+          >
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M24.5 6.97738C20.615 6.59238 16.7067 6.39404 12.81 6.39404C10.5 6.39404 8.19 6.51071 5.88 6.74404L3.5 6.97738"
+                stroke="#E21414"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9.91699 5.7985L10.1737 4.27016C10.3603 3.16183 10.5003 2.3335 12.472 2.3335H15.5287C17.5003 2.3335 17.652 3.2085 17.827 4.28183L18.0837 5.7985"
+                stroke="#E21414"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M21.9921 10.6631L21.2338 22.4114C21.1055 24.2431 21.0005 25.6664 17.7455 25.6664H10.2555C7.00046 25.6664 6.89546 24.2431 6.76712 22.4114L6.00879 10.6631"
+                stroke="#E21414"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M12.0518 19.25H15.9368"
+                stroke="#E21414"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M11.083 14.5835H16.9163"
+                stroke="#E21414"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       {/* @ts-ignore */}
-      {!file ? (
+      {!img ? (
         // @ts-ignore
-        <p className="text-borderError mt-2">{errors["Image"]}</p>
+        <p className="text-borderError mt-2">
+          {/* @ts-ignore */}
+          {errorMsg}
+        </p>
       ) : null}
     </div>
   );

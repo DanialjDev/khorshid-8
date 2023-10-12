@@ -1,4 +1,5 @@
 import { InitialValues } from "@/utills/validation/auth/types";
+import { PanelInitialValues } from "@/utills/validation/panel/types";
 import { FormikErrors, FormikTouched } from "formik";
 import React, { ChangeEvent } from "react";
 
@@ -20,8 +21,8 @@ const Textarea = ({
   isRequired?: boolean;
   onChange?: (e: ChangeEvent<any>) => void;
   handleBlur?: (e: React.FocusEvent<any, Element>) => void;
-  errors?: FormikErrors<InitialValues>;
-  touched?: FormikTouched<InitialValues>;
+  errors?: FormikErrors<PanelInitialValues | InitialValues>;
+  touched?: FormikTouched<PanelInitialValues | InitialValues>;
   value?: string;
   disabled?: boolean;
 }) => {

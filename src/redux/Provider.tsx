@@ -9,7 +9,7 @@ import Breadcrumb from "@/components/main/breadcrumb/Breadcrumb";
 import AuthLayout from "@/components/auth/layout/AuthLayout";
 import MainLayout from "@/components/layout/Layout";
 import ImageModal from "@/components/pages/home-page/ImageModal";
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 const ReduxProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -18,7 +18,7 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
     <Provider store={store}>
       <div className="w-full relative no-scrollbar">
         {!pathname.includes("panel") && <Navbar />}
-        <div className="w-full">
+        <div className="w-full h-full">
           <MainLayout>
             {pathname !== "/" && !pathname.includes("panel") && <Breadcrumb />}
             {children}
@@ -27,7 +27,15 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
           <AuthLayout />
         </div>
       </div>
-      <Toaster position="top-left" />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2500}
+        closeOnClick
+        theme="colored"
+        style={{
+          width: "max-content",
+        }}
+      />
     </Provider>
   );
 };

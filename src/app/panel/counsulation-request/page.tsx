@@ -2,17 +2,20 @@ import CustomeTable from "@/components/main/table/CustomeTable";
 import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
 import { getConsulations } from "@/services/profile/admin/consulation";
 import { generateHeaders } from "@/utills/generateTableHeaders";
+import { cookies } from "next/headers";
 import React from "react";
 import { toast } from "react-toastify";
 
 const ConsulationRequest = async () => {
-  const response = await getConsulations();
+  const cookie = cookies().get("token")?.value;
+  const response = await getConsulations(cookie!);
   const tableHeaders = generateHeaders("panel_consulation");
   const TableData = TableBodyData({
     // @ts-ignore
     data: response?.consulationData ? response.consulationData : null,
     operationName: "GetCounsulations",
   });
+  console.log("response", response);
 
   if (response?.message) {
     toast.error(response.message, { autoClose: 2500 });

@@ -10,7 +10,7 @@ import {
 } from "@/utills/validation/auth/types";
 import { useFormik } from "formik";
 import { signupHandler } from "@/services/auth";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const dispatch = useAppDispatch();
@@ -28,13 +28,11 @@ const Signup = () => {
         const response = await signupHandler(values);
         if (response !== undefined && response.message) {
           if (response.status === 409) {
-            toast.error(response.message, {
-              duration: 2500,
-            });
+            toast.error(response.message);
           }
         }
         if (response?.status === 200 && response.message) {
-          toast.success(response.message, { duration: 3000 });
+          toast.success(response.message);
           dispatch(authToggler(""));
           dispatch(setIsLoggedIn(true));
         }

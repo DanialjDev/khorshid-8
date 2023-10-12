@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import Button from "../../main/button/Button";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ProductProps {
   companyName: string;
@@ -20,18 +20,13 @@ const ProductItem = ({
   orderedByMobileNumber,
   deviceId,
 }: ProductProps) => {
-  const { push } = useRouter();
   return (
-    <div
-      onClick={() =>
-        push(
-          `/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`
-        )
-      }
+    <Link
+      href={`/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`}
       className="w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
     >
       <div className="w-full flex justify-center items-center">
-        <Image width={300} height={300} src={imageUrl} alt="water splash" />
+        <Image width={200} height={100} src={imageUrl} alt={name} />
       </div>
       <div className="flex flex-col justify-start w-full p-2 bg-[#F9F9F9] rounded-md my-5">
         <p className="text-[14px]">{name}</p>
@@ -46,7 +41,6 @@ const ProductItem = ({
         </ul>
         <div className="flex justify-start mt-4">
           <Button
-            href={`/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`}
             padding="py-2"
             text="خرید محصول"
             color="text-secondary"
@@ -81,7 +75,7 @@ const ProductItem = ({
           />
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

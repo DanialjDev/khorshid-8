@@ -36,7 +36,7 @@ const Ticket = ({
       </div>
       <div className="lg:col-span-3 col-span-5 flex flex-col h-[90%]">
         {title}
-        <p className="text-gray md:w-[80%] w-full text-[16px] my-10">{text}</p>
+        <p className="text-gray md:w-[80%] w-full text-[15px] my-10">{text}</p>
         <div className="mt-4">
           <Button
             bg={btnBgColor}

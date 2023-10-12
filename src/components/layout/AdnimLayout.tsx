@@ -1,11 +1,25 @@
-import React, { ReactNode } from "react";
+"use client";
+
+import React, { ReactNode, useEffect } from "react";
 import AdminMenu from "../profile/admin/menu/AdminMenu";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const { back } = useRouter();
+  const userToken = Cookies.get("token");
+
+  useEffect(() => {
+    if (!userToken) {
+      back();
+      toast.warning("تنها کاربر ادمین به این مسیر دسترسی دارد");
+    }
+  }, []);
   return (
-    <>
+    <div className="w-full h-full flex">
       <AdminMenu />
-      <div className="w-[calc(100%-270px)] flex flex-col h-screen py-5 px-10">
+      <div className="w-[calc(100%-270px)] !h-screen overflow-scroll relative flex flex-col py-5 px-10 mr-auto">
         <div className="w-full flex items-center py-2 pb-4 justify-end border-b border-menuHeaderBorder">
           <div className="flex flex-row-reverse items-center">
             <div className="flex justify-center items-center mr-14">
@@ -27,9 +41,9 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
         </div>
-        <div className="w-full">{children}</div>
+        <div className="w-full h-full">{children}</div>
       </div>
-    </>
+    </div>
   );
 };
 

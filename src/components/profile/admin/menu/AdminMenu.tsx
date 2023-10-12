@@ -52,7 +52,7 @@ const AdminMenuItem = ({
 
 const AdminMenu = () => {
   return (
-    <div className="w-[270px] h-screen bg-primaryDark2 flex flex-col">
+    <div className="w-[270px] h-screen fixed bg-primaryDark2 flex flex-col">
       <div className="w-full flex justify-center items-center p-5">
         <Image
           src={KhorshidLogo}
@@ -243,7 +243,7 @@ const AdminMenu = () => {
             text="درخواست های مشاوره"
           />
           <AdminMenuItem
-            href="/panel/change-phoneNumber"
+            href="/panel/update-counselor"
             icon={
               <svg
                 width="24"
