@@ -17,7 +17,7 @@ interface TableProps {
 
 const EmptyTable = () => {
   return (
-    <>
+    <div className="w-full">
       <p>sfsdjj</p>
       <svg
         width="221"
@@ -96,21 +96,20 @@ const EmptyTable = () => {
           </clipPath>
         </defs>
       </svg>
-    </>
+    </div>
   );
 };
 
 const CustomeTable = ({ headers, items }: TableProps) => {
   console.log(items);
-  const dispatch = useAppDispatch();
   return (
     <div className="w-full overflow-x-auto flex justify-center items-center mt-5">
       <div className="inline-block min-w-full">
         <div className="overflow-x-auto">
-          <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl">
+          <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl relative">
             <thead className="bg-tableHeadColor shadow-md w-full h-12">
               <tr className="rounded-xl text-[13px]">
-                <td className="py-5 flex pr-2 rounded-tr-lg">ردیف</td>
+                <td className="py-5 flex pr-2 rounded-tr-xl">ردیف</td>
                 {headers.map((headerItem, key) => (
                   <td className={`p-4 whitespace-nowrap`} key={key}>
                     {headerItem}
@@ -118,7 +117,7 @@ const CustomeTable = ({ headers, items }: TableProps) => {
                 ))}
               </tr>
             </thead>
-            <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-white-gray">
+            <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-tableRowColor">
               {items}
             </tbody>
           </table>

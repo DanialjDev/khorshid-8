@@ -11,6 +11,7 @@ export type Action =
   | "register-medical-device"
   | "consulation"
   | "updatePoster"
+  | "updateDeviceNumber"
   | "";
 
 type ReturnType = [

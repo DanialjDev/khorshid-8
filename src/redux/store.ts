@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./features/auth/authSlice";
 import medicalSectionSlice from "./features/medical-sections/medicalSectionSlice";
 import imageSlice from "./features/image-modal/imageSlice";
+import userSlice from "./features/user/userSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     medicalSection: medicalSectionSlice,
     modal: imageSlice,
+    user: userSlice,
   },
 });
 

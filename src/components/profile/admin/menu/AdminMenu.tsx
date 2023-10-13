@@ -25,7 +25,7 @@ const AdminMenuItem = ({
     <li
       onClick={() => setNav(false)}
       className={`flex justify-between items-center w-full p-3 my-[8px] rounded-lg ${
-        pathname === href
+        pathname.startsWith(href!)
           ? "bg-adminMenuItemActive activeItem"
           : "bg-transparent"
       }`}

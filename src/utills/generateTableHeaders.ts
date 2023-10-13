@@ -1,14 +1,4 @@
 import { Category } from "@/services/medical-equipment";
-import {
-  Company,
-  MedicalDevice,
-  MedicalDeviceTypes,
-  MedicalDevices,
-  OperationNames,
-} from "@/services/medical-equipment/types";
-import React, { ReactNode } from "react";
-
-type Action = "GetMedicalEquipmentDevices";
 
 export const generateHeaders = (category: Category): string[] | undefined => {
   switch (category) {
@@ -60,6 +50,25 @@ export const generateHeaders = (category: Category): string[] | undefined => {
         "شماره تماس",
         "انتخاب واحد مشاوره",
         "تاریخ ثبت درخواست",
+        "اطلاعات بیشتر",
+      ];
+    case "charge_account":
+      return [
+        "نام حساب کاربری",
+        "نام شرکت",
+        "نام مدیر عامل",
+        "تعداد ظرفیت ",
+        "تعداد ظرفیت باقی مانده",
+        "اطلاعات بیشتر",
+      ];
+    case "GetUserAcceptedDevices":
+      return [
+        "نام دستگاه",
+        "مارک دستگاه",
+        "کشور سازنده",
+        "شرکت نمایندگی",
+        "نام سفارش دهنده",
+        "تلفن سفارش دهنده",
         "اطلاعات بیشتر",
       ];
     default:

@@ -1,4 +1,4 @@
-import { get } from "@/services/axios";
+import { get, put } from "@/services/axios";
 import {
   Gallery,
   HomeSideBanners,
@@ -37,5 +37,24 @@ export const getPanelPosters = async (
         message: error.response?.data.message,
       };
     }
+  }
+};
+
+// Update HomePagePosters
+export const updateHomePagePosters = async (userData: any, token: string) => {
+  try {
+    const { data, status } = await put(
+      "Panel_Posters/UpdateHomeSideBanner",
+      userData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    console.log(data);
+  } catch (error) {
+    console.log(error);
   }
 };

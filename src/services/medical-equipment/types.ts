@@ -1,4 +1,5 @@
 import { HomeDevice } from "../homePage/types";
+import { User, UserDevice } from "../profile/admin/charge-account/types";
 import { ConsulationData } from "../profile/admin/consulation/types";
 
 // Medical Equipmet => ********** Device Banner **********
@@ -246,7 +247,9 @@ export type OperationNames =
   | "GetVicePresidentsOfTreatment"
   | "GetUniversities"
   | "HomePageDevices"
-  | "GetCounsulations";
+  | "GetCounsulations"
+  | "GetUsers"
+  | "GetUserAcceptedDevices";
 export type TableData = (Company &
   MedicalDevice &
   DeansOfUniversitiesData &
@@ -254,4 +257,6 @@ export type TableData = (Company &
   HospitalsData &
   LabsData &
   HomeDevice &
-  ConsulationData)[];
+  ConsulationData &
+  User &
+  UserDevice)[];

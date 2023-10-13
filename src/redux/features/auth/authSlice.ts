@@ -1,6 +1,7 @@
 import { Action } from "@/utills/validation/auth/validation";
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
+
+type UpdateAction = "homeSideBanner" | "medicalEquipment" | "gallery" | "";
 
 interface InitialState {
   authAction: Action;
@@ -8,6 +9,8 @@ interface InitialState {
   isLoggedIn: boolean;
   email: string;
   username: string;
+  isLinkRequired: boolean;
+  updateAction: UpdateAction;
 }
 
 const initialState: InitialState = {
@@ -16,6 +19,8 @@ const initialState: InitialState = {
   isLoggedIn: false,
   email: "",
   username: "",
+  isLinkRequired: false,
+  updateAction: "",
 };
 
 const AuthSlice = createSlice({
@@ -46,6 +51,14 @@ const AuthSlice = createSlice({
       state.username = action.payload;
       return state;
     },
+    setLinkRequired: (state, action) => {
+      state.isLinkRequired = action.payload;
+      return state;
+    },
+    setUpdateAction: (state, action) => {
+      state.updateAction = action.payload;
+      return state;
+    },
   },
 });
 
@@ -55,6 +68,8 @@ export const {
   setIsLoggedIn,
   setEmail,
   setUserName,
+  setLinkRequired,
+  setUpdateAction,
 } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

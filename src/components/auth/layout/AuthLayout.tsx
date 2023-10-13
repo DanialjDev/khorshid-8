@@ -6,15 +6,13 @@ import Image from "next/image";
 
 import Logo from "../../../../public/assets/images/navbar-logo.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { authToggler } from "@/redux/features/auth/authSlice";
+import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
 import { authVariant } from "@/animations/auth/authVariants";
 import FormLayout from "./FormLayout";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const AuthLayout = () => {
   const dispatch = useAppDispatch();
-  const { push } = useRouter();
   const { authAction, showForm } = useAppSelector((state) => state.auth);
 
   return (
@@ -48,6 +46,7 @@ const AuthLayout = () => {
                 <div
                   onClick={() => {
                     dispatch(authToggler(""));
+                    dispatch(setLinkRequired(false));
                   }}
                   className="absolute z-50 top-2 right-2 p-2 cursor-pointer"
                 >

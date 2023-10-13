@@ -1,4 +1,8 @@
-import { authToggler } from "@/redux/features/auth/authSlice";
+import {
+  authToggler,
+  setLinkRequired,
+  setUpdateAction,
+} from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import {
   Gallery,
@@ -36,7 +40,7 @@ const PosterBox = ({
   const dispatch = useAppDispatch();
   return (
     <div
-      className={`w-full md:col-span-2 sm:col-span-3 col-span-6 p-2 border-2 rounded-[8px] cursor-pointer ${
+      className={`w-full md:col-span-2 hover:border-primary hover:bg-primaryLight3 transition-all duration-200 sm:col-span-3 col-span-6 p-2 border-2 rounded-[8px] cursor-pointer ${
         !posterData.imageUrl
           ? "border-posterBoxBorder"
           : "border-posterBoxActiveBorder"
@@ -151,7 +155,17 @@ const PosterBox = ({
                 }
               />
               <IconBox
-                onClick={() => dispatch(authToggler("updatePoster"))}
+                onClick={() => {
+                  dispatch(authToggler("updatePoster"));
+                  if (posterData.id) {
+                    dispatch(setLinkRequired(true));
+                    dispatch(setUpdateAction("gallery"));
+                  } else if (posterData.bannerId) {
+                    dispatch(setUpdateAction("medicalEquipment"));
+                  } else {
+                    dispatch(setUpdateAction("homeSideBanner"));
+                  }
+                }}
                 icon={
                   <svg
                     width="18"
@@ -230,7 +244,20 @@ const PosterBox = ({
             </>
           ) : (
             <div className="w-full flex justify-center items-center">
-              <div className="flex justify-center items-center">
+              <div
+                className="flex justify-center items-center"
+                onClick={() => {
+                  dispatch(authToggler("updatePoster"));
+                  if (posterData.id) {
+                    dispatch(setLinkRequired(true));
+                    dispatch(setUpdateAction("gallery"));
+                  } else if (posterData.bannerId) {
+                    dispatch(setUpdateAction("medicalEquipment"));
+                  } else {
+                    dispatch(setUpdateAction("homeSideBanner"));
+                  }
+                }}
+              >
                 <svg
                   width="18"
                   height="18"

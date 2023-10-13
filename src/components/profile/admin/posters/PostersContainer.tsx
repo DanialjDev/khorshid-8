@@ -35,7 +35,7 @@ const PostersContainer = ({
         data={medicalEquipmentBanners ? medicalEquipmentBanners : []}
       />
       <PosterSection
-        title="بنر های صفحه لیست تجهیزات پزشکی"
+        title="گالری تصاویر"
         // @ts-ignore
         data={gallery ? gallery : []}
       />

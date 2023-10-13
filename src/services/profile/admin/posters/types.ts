@@ -13,7 +13,7 @@ export interface MedicalEquipmentBanners {
 
 export interface Gallery {
   id: number;
-  imageUrl: string | null;
+  imageUrl: string;
 }
 
 export interface Posters {

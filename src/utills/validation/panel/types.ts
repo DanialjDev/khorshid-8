@@ -18,18 +18,29 @@ interface UpdateCounselorAnyObject {
 
 // Update Poster
 interface UpdatePoster {
-  HomeSideBannerId: string;
-  Link: string;
+  Link?: string;
+  Image: File | string;
 }
 interface UpdatePosterAnyObject {
-  HomeSideBannerId: undefined;
-  Link: undefined;
+  Link?: undefined;
+  Image: undefined;
 }
 
-export type PanelInitialValues = UpdateCounselorValues | UpdatePoster;
+interface UpdateDeviceNumber {
+  maxDeviceNumber: string;
+}
+interface UpdateDeviceNumberAnyObject {
+  maxDeviceNumber: undefined;
+}
+
+export type PanelInitialValues =
+  | UpdateCounselorValues
+  | UpdatePoster
+  | UpdateDeviceNumber;
 export type PanelValidationSchemaAnyObject =
   | UpdateCounselorAnyObject
-  | UpdatePosterAnyObject;
+  | UpdatePosterAnyObject
+  | UpdateDeviceNumberAnyObject;
 
 export type PanelValidationSchemaType = Yup.ObjectSchema<
   PanelInitialValues,

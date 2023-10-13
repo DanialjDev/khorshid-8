@@ -21,7 +21,9 @@ export type Category =
   | "GetVicePresidentsOfTreatment"
   | "GetUniversities"
   | "ProfileDevices"
-  | "panel_consulation";
+  | "panel_consulation"
+  | "charge_account"
+  | "GetUserAcceptedDevices";
 
 // Get Device Banner
 export const getDeviceBanner = async (

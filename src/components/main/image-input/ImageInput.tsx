@@ -2,18 +2,17 @@ import { imageValidation } from "@/utills/imageValidation";
 import { InitialValues } from "@/utills/validation/auth/types";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
 import { FormikErrors, FormikTouched } from "formik";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useMemo, useRef } from "react";
 
 const ImageInput = ({
   title,
   desc,
   img,
   setImg,
-  errors,
   handleBlur,
-  onChange,
   touched,
   isRequired,
+  name,
 }: {
   title: string;
   desc: string;
@@ -21,23 +20,25 @@ const ImageInput = ({
   setImg: React.Dispatch<React.SetStateAction<File | null>>;
   errors?: FormikErrors<PanelInitialValues | InitialValues>;
   touched?: FormikTouched<PanelInitialValues | InitialValues>;
-  onChange?: (e: ChangeEvent<any>) => void;
+  handleChange?: (e: ChangeEvent<any>) => void;
   handleBlur?: (e: React.FocusEvent<any, Element>) => void;
+  handleReset?: (e: any) => void;
   isRequired?: boolean;
+  name?: string;
 }) => {
+  console.log("img", img);
   let validationStyle;
   let errorMsg;
   // @ts-ignore
-  if (isRequired && errors["Image"]) {
-    validationStyle = isRequired
-      ? // @ts-ignore
-        errors["Image"] && touched["Image"]
-        ? "border border-borderError"
-        : ""
-      : "";
+  if (isRequired) {
+    validationStyle =
+      // @ts-ignore
+      !img && touched["Image"] ? "border border-borderError" : "";
     // @ts-ignore
-    errorMsg = isRequired ? errors["Image"] : "";
+    errorMsg = touched["Image"] ? "انتخاب تصویر الزامی است" : "";
   }
+
+  const inputRef = useRef(null);
   return (
     <div className="2xl:col-span-1 xl:col-span-2 col-span-3 h-full">
       <div
@@ -154,21 +155,28 @@ const ImageInput = ({
               type="file"
               onBlur={handleBlur}
               onChange={(e) => {
-                if (e.target.files) {
-                  setImg(e.target.files[0]);
-                }
-                console.log(e.target.value);
-                imageValidation(e);
-                // console.log(file);
+                // @ts-ignore
+                setImg(e.target.files[0]);
               }}
               className="hidden"
-              name="Image"
+              name={name}
               id="inputFile"
             />
           </label>
           <button
             type="button"
-            onClick={() => setImg(null)}
+            name={name}
+            id={name}
+            onClick={() => {
+              // @ts-ignore
+              setImg(null);
+              if (inputRef.current) {
+                // @ts-ignore
+                inputRef.current.value = "";
+              }
+              // @ts-ignore
+              console.log(img);
+            }}
             className="flex justify-center items-center md:p-2 p-1 border border-[#E21414] rounded-md bg-[#f6e1e1]"
           >
             <svg
