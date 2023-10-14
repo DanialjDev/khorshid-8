@@ -11,19 +11,30 @@ import { UserInfoType } from "@/services/auth/types";
 import { InitialValues } from "@/utills/validation/auth/types";
 import RegisteredDevices from "./registered-devices/RegisteredDevices";
 import Button from "@/components/main/button/Button";
+import { PostProfileDevice } from "@/services/profile/user/types";
+import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
+import { decrypt } from "@/utills/crypto";
 
 const NormalProfile = ({
   userInfo,
+  userDevices,
 }: {
   userInfo: InitialValues | undefined;
+  userDevices: PostProfileDevice[] | undefined;
 }) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
-  const user = Cookies.get("userInfo");
-  console.log(userInfo);
+  const user = Cookies.get("userInfo")
+    ? JSON.parse(decrypt(Cookies.get("userInfo")))
+    : null;
+  const TableBody = TableBodyData({
+    // @ts-ignore
+    data: userDevices,
+    operationName: "GetProfileDevices",
+  });
 
   useEffect(() => {
     if (!user) {
@@ -72,7 +83,10 @@ const NormalProfile = ({
           </div>
           <div className="flex mr-4">
             <p className="text-[15px]">
-              شما مجاز به ثبت <span className="text-primary underline">۳۰</span>{" "}
+              شما مجاز به ثبت{" "}
+              <span className="text-primary underline">
+                {user.maxDeviceNumber}
+              </span>{" "}
               عدد دستگاه به صورت رایگان هستید .!
             </p>
           </div>
@@ -109,7 +123,7 @@ const NormalProfile = ({
               ></span>
             </button>
           </div>
-          {selectedTab === "devices" && (
+          {selectedTab === "devices" ? (
             <div className="flex items-center">
               <div className="">
                 <Button
@@ -192,12 +206,58 @@ const NormalProfile = ({
                 />
               </div>
             </div>
+          ) : (
+            <div className="">
+              <Button
+                text="خروج از حساب کاربری"
+                bg="bg-redColorLight"
+                color="text-redColor"
+                border="border border-redColor"
+                onClick={() => {
+                  Cookies.remove("token");
+                  Cookies.remove("userInfo");
+
+                  push("/");
+                }}
+                icon={
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.1001 7.56023C14.7901 3.96023 12.9401 2.49023 8.8901 2.49023H8.7601C4.2901 2.49023 2.5001 4.28023 2.5001 8.75023V15.2702C2.5001 19.7402 4.2901 21.5302 8.7601 21.5302H8.8901C12.9101 21.5302 14.7601 20.0802 15.0901 16.5402"
+                      stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8.99988 12H20.3799"
+                      stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M18.15 8.6499L21.5 11.9999L18.15 15.3499"
+                      stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                }
+              />
+            </div>
           )}
         </div>
         {selectedTab === "userInfo" ? (
           <UserInfo userInfo={userInfo} />
         ) : (
-          <RegisteredDevices />
+          <RegisteredDevices tableItems={TableBody} />
         )}
       </div>
     </div>

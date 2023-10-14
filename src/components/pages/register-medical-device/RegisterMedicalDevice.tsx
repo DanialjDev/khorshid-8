@@ -73,6 +73,7 @@ const RegisterMedicalDevice = ({
             },
           });
         }
+        console.log(response);
       },
     });
 
@@ -189,7 +190,9 @@ const RegisterMedicalDevice = ({
               {devices &&
                 devices.map(({ categoryName, id }) => (
                   <DeviceCategory
-                    onClick={() => setDeviceIds([...deviceIds, String(id)])}
+                    deviceIds={deviceIds}
+                    setDeviceIds={setDeviceIds}
+                    id={id}
                     key={id}
                     text={categoryName}
                   />

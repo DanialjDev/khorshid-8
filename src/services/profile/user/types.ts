@@ -55,3 +55,35 @@ export interface PostProfileDevice {
   status: number;
   success: boolean;
 }
+
+// User Registered Devices
+export interface UserRegisteredDevices {
+  exMessage: string | null;
+  message: string;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+  object: {
+    totalItemsCount: number;
+    totalPagesCount: null | number;
+    pageContain: null | number;
+    currentPageNumber: null | number;
+    data: UserProfileDevice[];
+  };
+  list: null;
+}
+
+export interface UserProfileDevice {
+  deviceId: number;
+  name: string;
+  brand: string;
+  country: string;
+  orderedByName: string;
+  orderedByLastName: string;
+  orderedByMobileNumber: string;
+  imageUrl: string;
+  stateCode: number;
+  stateTitle: string;
+  declinedStateMessage: null | string;
+}

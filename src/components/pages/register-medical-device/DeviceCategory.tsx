@@ -2,16 +2,16 @@ import React from "react";
 
 const DeviceCategory = ({
   text,
-  // setDeviceIds,
-  // deviceIds,
-  // id,
-  onClick,
-}: {
+  setDeviceIds,
+  deviceIds,
+  id,
+}: // onClick,
+{
   text: string;
-  // setDeviceIds: React.Dispatch<React.SetStateAction<string[]>>;
-  // deviceIds: string[];
-  // id: number;
-  onClick: () => void;
+  setDeviceIds: React.Dispatch<React.SetStateAction<string[]>>;
+  deviceIds: string[];
+  id: number;
+  // onClick: () => void;
 }) => {
   return (
     <div className="basis-1/4 shrink my-4 flex items-center">
@@ -20,8 +20,18 @@ const DeviceCategory = ({
         type="checkbox"
         name={text}
         className="checkbox-accent border-[1px] checkbox cursor-pointer bg-none"
+        checked={deviceIds.some((deviceId) => deviceId === String(id))}
+        onChange={(e) => {
+          if (e.target.checked) {
+            setDeviceIds([...deviceIds, String(id)]);
+          } else {
+            setDeviceIds((deviceIDs) => {
+              return deviceIDs.filter((deviceId) => deviceId !== String(id));
+            });
+          }
+        }}
       />
-      <label onClick={onClick} htmlFor={text} className="mr-2 cursor-pointer">
+      <label htmlFor={text} className="mr-2 cursor-pointer">
         {text}
       </label>
     </div>

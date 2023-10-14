@@ -27,21 +27,6 @@ const usePanelValidation = (
     (value) => isMobile(value)
   );
   const Position = defaultErrorValidation;
-  // const Link = isLinkRequired
-  //   ? defaultErrorValidation.test(
-  //       "isUrl",
-  //       "آردس وارد شده نامعتبر است",
-  //       (value) => Boolean(isUrl(value))
-  //     )
-  //   : Yup.string()
-  //       .optional()
-  //       .test("isUrl", "آردس وارد شده نامعتبر است", (value) => {
-  //         if (value && value?.length !== 0) {
-  //           return Boolean(isUrl(value));
-  //         } else {
-  //           return true;
-  //         }
-  //       });
   const Link = Yup.string().test(
     "isUrl",
     "آردس وارد شده نامعتبر است",

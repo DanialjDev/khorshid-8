@@ -6,6 +6,8 @@ import {
   CompanyObject,
   PostProfileDevice,
   UpdateProfileData,
+  UserProfileDevice,
+  UserRegisteredDevices,
 } from "./types";
 import { isAxiosError } from "axios";
 import { encrypt } from "@/utills/crypto";
@@ -36,15 +38,6 @@ export const getProfileCompanyData = async (
     if (status === 200) {
       if (action === "registerDevice") {
         return {
-          // initialValues: {
-          //   OrderedByName: "",
-          //   OrderedByLastName: "",
-          //   OrderedByMobileNumber: "",
-          //   Image: "",
-          //   name: "",
-          //   brand: "",
-          //   country: ''
-          // },
           initialValues: {
             companyName: data.object.companyName ? data.object.companyName : "",
             companyManagerFullName: data.object?.companyManagerFullName
@@ -162,11 +155,58 @@ export const postProfileDevice = async (
         },
       }
     );
+    console.log(data);
 
     if (status === 200) {
       return {
         status,
         message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.log(error);
+      if (error.response?.status === 409) {
+        // console.log("sfsdf");
+        // if (error.response?.status === 409) {
+        console.log("sfsdf");
+        return {
+          message: error.response.data.message,
+        };
+        // }
+      }
+      if (error.response?.data.errors.CategoryIDs) {
+        console.log("sdfsdf");
+        return {
+          message: "لطفا نوع دستگاه خود را انتخاب کنید",
+        };
+      }
+    }
+  }
+};
+
+// get user registered devices
+type UserRegisteredDevicesReturnType = {
+  data?: UserProfileDevice[];
+  message?: string;
+};
+
+export const getUserRegisteredDevices = async (
+  token: string
+): Promise<UserRegisteredDevicesReturnType | undefined> => {
+  try {
+    const { data, status } = await get<UserRegisteredDevices>(
+      "Profile/GetProfileDevices",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return {
+        data: data.object.data,
       };
     }
   } catch (error) {
