@@ -42,3 +42,18 @@ export interface HomePagePosters {
   status: number;
   success: boolean;
 }
+
+interface HomePagePosterData {
+  homeSideBannerID: number;
+}
+interface MedicalPosterData {
+  bannerID: number;
+}
+interface GalleryPosterData {
+  id: number;
+}
+
+export type PosterDataType =
+  | HomePagePosterData
+  | MedicalPosterData
+  | GalleryPosterData;

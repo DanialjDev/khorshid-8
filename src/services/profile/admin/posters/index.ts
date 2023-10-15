@@ -1,12 +1,13 @@
-import { get, put } from "@/services/axios";
+import { get, put, deleteService } from "@/services/axios";
 import {
   Gallery,
   HomePagePosters,
   HomeSideBanners,
   MedicalEquipmentBanners,
+  PosterDataType,
   Posters,
 } from "./types";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 
 type PanelPostersReturnType = {
   homeSideBanners?: HomeSideBanners[];
@@ -47,17 +48,56 @@ type HomePagePostersUpdateReturnType = {
   message: string;
 };
 
-export const updateHomePagePosters = async (
+export const updatePosters = async (
   userData: any,
-  token: string
+  token: string,
+  url: string
 ): Promise<HomePagePostersUpdateReturnType | undefined> => {
   try {
     const { data, status } = await put<HomePagePosters>(
-      "Panel_Posters/UpdateHomeSideBanner",
+      `Panel_Posters/${url}`,
       userData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// delete posters
+type DeletePostersReturnType = {
+  status?: number;
+  message: string;
+};
+
+export const deletePoster = async (
+  posterData: PosterDataType,
+  token: string,
+  url: string
+): Promise<DeletePostersReturnType | undefined> => {
+  try {
+    console.log(posterData);
+    const { data, status } = await axios.delete<HomePagePosters>(
+      `Panel_Posters/${url}`,
+      {
+        data: posterData,
+        headers: {
           Authorization: `bearer ${token}`,
         },
       }

@@ -54,6 +54,7 @@ const config: Config = {
         posterNoImgText: "#E41819",
         adminBg: "#F5F5F7",
         tableRowColor: "#F7F7F7",
+        emptyTableText: "#191919",
       },
       boxShadow: {
         xs: "0px 2px 8px 0px rgba(151, 151, 151, 0.15)",

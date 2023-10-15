@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import SectionLayout from "./SectionLayout";
 import Select from "@/components/main/input/Select";
 import CustomInput from "@/components/main/input/CustomInput";
@@ -30,11 +30,6 @@ const MedicalSection = async ({
   tableHeaders: string[];
   operationName: OperationNames;
 }) => {
-  const Data = TableBodyData({
-    data,
-    operationName,
-  });
-
   return (
     <>
       {banner && banner ? (
@@ -48,7 +43,11 @@ const MedicalSection = async ({
           className="my-5"
         />
       ) : null}
-      <SectionLayout data={Data} tableHeaders={tableHeaders}>
+      <SectionLayout
+        data={data}
+        operationName={operationName}
+        tableHeaders={tableHeaders}
+      >
         <div className="w-full grid gap-8 xl:grid-cols-3 lg:grid-cols-2">
           <div className="xl:col-span-1 lg:col-span-1">
             <Select

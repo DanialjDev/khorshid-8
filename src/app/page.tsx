@@ -451,6 +451,7 @@ export default async function Home() {
                 "تصویر",
               ]}
               items={TableData}
+              text="در حال حاضر دستگاهی برای نمایش وجود ندارد"
             />
           </SectionBox>
         </div>

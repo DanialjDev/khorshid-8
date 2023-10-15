@@ -5,12 +5,17 @@ import {
 } from "@/redux/features/auth/authSlice";
 import { setId } from "@/redux/features/user/userSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
+import { deletePoster } from "@/services/profile/admin/posters";
 import {
   Gallery,
   HomeSideBanners,
   MedicalEquipmentBanners,
+  PosterDataType,
 } from "@/services/profile/admin/posters/types";
 import React, { ReactNode } from "react";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type PosterData = HomeSideBanners & MedicalEquipmentBanners & Gallery;
 
@@ -38,7 +43,44 @@ const PosterBox = ({
   posterData: PosterData;
   fontSize?: string;
 }) => {
+  const { refresh } = useRouter();
+  const token = Cookies.get("token");
   const dispatch = useAppDispatch();
+
+  const deleteBannerHandler = async () => {
+    let url = "";
+    let dataObj: PosterDataType;
+    if (posterData.id) {
+      dispatch(setId(posterData.id));
+      url = "RemoveImageFromGallery";
+      dataObj = {
+        id: posterData.id,
+      };
+    } else if (posterData.bannerId) {
+      dispatch(setId(posterData.bannerId));
+      url = "RemoveMedicalEquipmentBanner";
+      dataObj = {
+        bannerID: posterData.bannerId,
+      };
+    } else {
+      dispatch(setId(posterData.homeSideBannerId));
+      url = "RemoveHomeSideBanner";
+      dataObj = {
+        homeSideBannerID: posterData.homeSideBannerId,
+      };
+    }
+
+    if (token) {
+      const response = await deletePoster(dataObj, token, url);
+      // console.log(response);
+      if (response?.status === 200) {
+        toast.success(response.message);
+        refresh();
+      } else {
+        toast.error(response?.message);
+      }
+    }
+  };
   return (
     <div
       className={`w-full md:col-span-2 hover:border-primary hover:bg-primaryLight3 transition-all duration-200 sm:col-span-3 col-span-6 p-2 border-2 rounded-[8px] cursor-pointer ${
@@ -123,6 +165,7 @@ const PosterBox = ({
           {posterData.imageUrl ? (
             <>
               <IconBox
+                onClick={deleteBannerHandler}
                 icon={
                   <svg
                     width="18"
@@ -255,9 +298,12 @@ const PosterBox = ({
                   if (posterData.id) {
                     dispatch(setLinkRequired(true));
                     dispatch(setUpdateAction("gallery"));
+                    dispatch(setId(posterData.id));
                   } else if (posterData.bannerId) {
                     dispatch(setUpdateAction("medicalEquipment"));
+                    dispatch(setId(posterData.bannerId));
                   } else {
+                    dispatch(setId(posterData.homeSideBannerId));
                     dispatch(setUpdateAction("homeSideBanner"));
                   }
                 }}

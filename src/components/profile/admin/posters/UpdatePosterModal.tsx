@@ -5,12 +5,14 @@ import AuthInput from "@/components/main/input/AuthInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import usePanelValidation from "@/utills/validation/panel/validation";
 import { useFormik } from "formik";
-import { updateHomePagePosters } from "@/services/profile/admin/posters";
+import { updatePosters } from "@/services/profile/admin/posters";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { authToggler } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 const UpdatePosterModal = () => {
+  const { refresh } = useRouter();
   const dispatch = useAppDispatch();
   const { isLinkRequired, updateAction } = useAppSelector(
     (state) => state.auth
@@ -36,26 +38,42 @@ const UpdatePosterModal = () => {
     validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
+      let url = "";
+      // @ts-ignore
+      formData.append("Image", values.Image);
       if (updateAction === "homeSideBanner") {
-        // @ts-ignore
-        formData.append("Image", values.Image);
+        url = "UpdateHomeSideBanner";
         if (isLinkRequired) {
           // @ts-ignore
           formData.append("Link", values.Link);
         }
         // @ts-ignore
         formData.append("HomeSideBannerId", id);
-        if (token) {
-          const response = await updateHomePagePosters(formData, token);
-
-          if (response?.status === 200) {
-            toast.success(response.message);
-            setTimeout(() => {
-              dispatch(authToggler(""));
-            }, 2000);
-          }
+      } else if (updateAction === "medicalEquipment") {
+        url = "UpdateMedicalEquipmentBanner";
+        if (isLinkRequired) {
+          // @ts-ignore
+          formData.append("Link", values.Link);
         }
-        console.log(formData.get("Image"));
+        // @ts-ignore
+        formData.append("BannerId", id);
+      } else {
+        // @ts-ignore
+        formData.append("Id", id);
+        url = "UpdateImageOfGallery";
+      }
+      if (token) {
+        const response = await updatePosters(formData, token, url);
+
+        if (response?.status === 200) {
+          toast.success(response.message);
+          setTimeout(() => {
+            dispatch(authToggler(""));
+            refresh();
+          }, 2000);
+        } else {
+          toast.error(response?.message);
+        }
       }
       console.log(values);
     },
