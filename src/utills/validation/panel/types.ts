@@ -19,7 +19,7 @@ interface UpdateCounselorAnyObject {
 // Update Poster
 interface UpdatePoster {
   Link?: string;
-  Image: File | string;
+  Image: File | null;
 }
 interface UpdatePosterAnyObject {
   Link?: undefined;

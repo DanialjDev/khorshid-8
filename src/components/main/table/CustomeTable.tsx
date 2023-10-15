@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  setImageUrl,
-  setShowImgModal,
-} from "@/redux/features/image-modal/imageSlice";
-import { useAppDispatch } from "@/redux/hooks/hooks";
-import { HomeDevice } from "@/services/homePage/types";
-import { link } from "fs";
-import Link from "next/link";
 import React, { ReactNode } from "react";
 
 interface TableProps {
@@ -101,7 +93,6 @@ const EmptyTable = () => {
 };
 
 const CustomeTable = ({ headers, items }: TableProps) => {
-  console.log(items);
   return (
     <div className="w-full overflow-x-auto flex justify-center items-center mt-5">
       <div className="inline-block min-w-full">

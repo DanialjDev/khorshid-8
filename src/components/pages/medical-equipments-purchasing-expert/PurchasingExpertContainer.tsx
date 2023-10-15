@@ -64,17 +64,17 @@ const PurchasingExpertContainer = ({
       <div className="w-full flex flex-col">
         <div className="w-full">
           <Box>
-            <div className="w-full flex flex-col lg:flex-row p-3 h-full">
+            <div className="w-full grid grid-cols-12 p-3 h-full">
               {counselorData?.imageUrl && (
                 <Image
                   src={counselorData.imageUrl}
                   alt={counselorData.fullName}
                   width={200}
                   height={100}
-                  className="m-auto"
+                  className="m-auto cos-span-3"
                 />
               )}
-              <div className="flex flex-col text-[16px] justify-between text-dark h-full px-4">
+              <div className="flex col-span-9 flex-col text-[16px] justify-between text-dark h-full px-4">
                 <p className="text-[16px]">{counselorData?.fullName}</p>
                 <p className="my-4 text-[16px]">
                   جایگاه:{" "}

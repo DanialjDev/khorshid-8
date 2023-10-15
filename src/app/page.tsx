@@ -359,7 +359,7 @@ export default async function Home() {
                 homePageDate.homeSideBanners.map(
                   ({ imageUrl, link, homeSideBannerId }) => (
                     <Link
-                      href={link}
+                      href={link ? link : "/"}
                       key={homeSideBannerId}
                       className="w-full flex justify-center items-center"
                     >

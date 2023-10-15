@@ -4,7 +4,7 @@ import Link, { LinkProps } from "next/link";
 import React, { ReactNode } from "react";
 
 interface ButtonProps {
-  text: string;
+  text?: string;
   icon?: ReactNode;
   bg?: string;
   dir?: "rtl" | "ltr";
@@ -50,13 +50,15 @@ const Button = ({
           } rounded-xl`}
         >
           {icon}
-          <p
-            className={`${fontSize ? fontSize : "text-[14px]"} ${
-              dir === "rtl" ? "ml-3" : "mr-3"
-            }`}
-          >
-            {text}
-          </p>
+          {text && (
+            <p
+              className={`${fontSize ? fontSize : "text-[14px]"} ${
+                dir === "rtl" ? "ml-3" : "mr-3"
+              }`}
+            >
+              {text}
+            </p>
+          )}
         </Link>
       ) : (
         <button
@@ -72,13 +74,15 @@ const Button = ({
           } rounded-xl`}
         >
           {icon}
-          <p
-            className={`${fontSize ? fontSize : "text-[14px]"} ${
-              dir === "rtl" ? "ml-3" : "mr-3"
-            }`}
-          >
-            {text}
-          </p>
+          {text && (
+            <p
+              className={`${fontSize ? fontSize : "text-[14px]"} ${
+                dir === "rtl" ? "ml-3" : "mr-3"
+              }`}
+            >
+              {text}
+            </p>
+          )}
         </button>
       )}
     </>

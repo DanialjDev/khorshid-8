@@ -1,40 +1,40 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import UserInfo from "./user-info/UserInfo";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "@/redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { authToggler } from "@/redux/features/auth/authSlice";
 import { UserInfoType } from "@/services/auth/types";
 import { InitialValues } from "@/utills/validation/auth/types";
 import RegisteredDevices from "./registered-devices/RegisteredDevices";
 import Button from "@/components/main/button/Button";
-import { PostProfileDevice } from "@/services/profile/user/types";
+import { UserProfileDevice } from "@/services/profile/user/types";
 import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
 import { decrypt } from "@/utills/crypto";
+import { setDeviceId } from "@/redux/features/user/userSlice";
 
 const NormalProfile = ({
   userInfo,
   userDevices,
 }: {
   userInfo: InitialValues | undefined;
-  userDevices: PostProfileDevice[] | undefined;
+  userDevices: UserProfileDevice[] | undefined;
 }) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
+
+  const tableRowSelector = (id: number) => {
+    dispatch(setDeviceId(id));
+  };
   const user = Cookies.get("userInfo")
     ? JSON.parse(decrypt(Cookies.get("userInfo")))
     : null;
-  const TableBody = TableBodyData({
-    // @ts-ignore
-    data: userDevices,
-    operationName: "GetProfileDevices",
-  });
 
   useEffect(() => {
     if (!user) {
@@ -257,7 +257,7 @@ const NormalProfile = ({
         {selectedTab === "userInfo" ? (
           <UserInfo userInfo={userInfo} />
         ) : (
-          <RegisteredDevices tableItems={TableBody} />
+          <RegisteredDevices userDevices={userDevices} />
         )}
       </div>
     </div>

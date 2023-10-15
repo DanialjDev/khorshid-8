@@ -66,16 +66,12 @@ const usePanelValidation = (
       });
       return [initialValues, validationSchema];
     case "updatePoster":
-      initialValues = isLinkRequired
-        ? {
-            Link: "",
-            Image: "",
-          }
-        : {
-            Image: "",
-          };
+      initialValues = {
+        Link: "",
+        Image: null,
+      };
       // @ts-ignore
-      validationSchema = isLinkRequired
+      validationSchema = !isLinkRequired
         ? Yup.object().shape({
             Link,
             Image,

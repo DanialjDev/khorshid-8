@@ -3,6 +3,7 @@ import {
   setLinkRequired,
   setUpdateAction,
 } from "@/redux/features/auth/authSlice";
+import { setId } from "@/redux/features/user/userSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import {
   Gallery,
@@ -160,9 +161,12 @@ const PosterBox = ({
                   if (posterData.id) {
                     dispatch(setLinkRequired(true));
                     dispatch(setUpdateAction("gallery"));
+                    dispatch(setId(posterData.id));
                   } else if (posterData.bannerId) {
                     dispatch(setUpdateAction("medicalEquipment"));
+                    dispatch(setId(posterData.bannerId));
                   } else {
+                    dispatch(setId(posterData.homeSideBannerId));
                     dispatch(setUpdateAction("homeSideBanner"));
                   }
                 }}

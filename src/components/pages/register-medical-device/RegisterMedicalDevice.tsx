@@ -419,7 +419,6 @@ const RegisterMedicalDevice = ({
                         console.log(e.target.value);
                         handleChange(e);
                         imageValidation(e);
-                        // console.log(file);
                       }}
                       className="hidden"
                       name="Image"

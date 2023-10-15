@@ -30,3 +30,15 @@ export interface Posters {
   };
   list: null;
 }
+
+// HomePage Posters
+export interface HomePagePosters {
+  exMessage: null | string;
+  list: null;
+  message: string;
+  object: null;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+}

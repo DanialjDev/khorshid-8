@@ -16,7 +16,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
         height={0}
         sizes="100vw"
         style={{ width: "100%", height: "auto" }}
-        src={imageUrl}
+        src={imageUrl ? imageUrl : ""}
         alt=""
       />
       <p className="text-[14px] mr-3">{name}</p>

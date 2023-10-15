@@ -18,6 +18,7 @@ const config: Config = {
         primaryLight: "rgba(44, 156, 240, 0.2)",
         primaryLight2: "#2C9CF014",
         primaryLight3: "#E5F3FD",
+        primaryLight4: "#F0F0F0",
         primaryDark: "#175CD3",
         primaryDark2: "#00183B",
         primaryDark3: "#1F384C",

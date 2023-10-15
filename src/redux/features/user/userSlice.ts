@@ -3,23 +3,35 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
   currentDeviceNumber: number;
+  selectedDeviceId: number | null;
+  id: number;
 }
 
 const initialState: InitialState = {
   currentDeviceNumber: 0,
+  selectedDeviceId: null,
+  id: 0,
 };
 
 const AuthSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     setDeviceNumber: (state, action) => {
       state.currentDeviceNumber = action.payload;
       return state;
     },
+    setDeviceId: (state, action) => {
+      state.selectedDeviceId = action.payload;
+      return state;
+    },
+    setId: (state, action) => {
+      state.id = action.payload;
+      return state;
+    },
   },
 });
 
-export const { setDeviceNumber } = AuthSlice.actions;
+export const { setDeviceNumber, setDeviceId, setId } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

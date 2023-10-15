@@ -1,3 +1,5 @@
+import { setDeviceId } from "@/redux/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { OperationNames, TableData } from "@/services/medical-equipment/types";
 import { gregorianIsoToJalaali } from "@/utills/formatHelper";
 import Image from "next/image";
@@ -7,9 +9,13 @@ import React from "react";
 const TableBodyData = ({
   operationName,
   data,
+  onClick,
+  selectedDeviceId,
 }: {
   operationName: OperationNames;
   data: TableData | null;
+  onClick: any;
+  selectedDeviceId?: number;
 }) => {
   if (data) {
     switch (operationName) {
@@ -297,7 +303,13 @@ const TableBodyData = ({
         ));
       case "GetProfileDevices":
         return data.map((item, index) => (
-          <tr key={item.deviceId}>
+          <tr
+            key={item.deviceId}
+            className={`${
+              selectedDeviceId === item.deviceId ? "!bg-primaryLight" : ""
+            } cursor-pointer`}
+            onClick={() => onClick(item.deviceId)}
+          >
             <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">{item.name}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">{item.brand}</td>
