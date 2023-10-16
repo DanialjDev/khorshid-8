@@ -17,6 +17,7 @@ const MedicalEquipmentsMarket = async () => {
       <MedicalMarket
         devices={devices?.data ? devices.data : null}
         deviceCategories={deviceCategories?.data}
+        currentPageNumber={devices?.data?.currentPageNumber}
       />
     </>
   );

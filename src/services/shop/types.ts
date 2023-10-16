@@ -6,6 +6,14 @@ export interface Device {
   orderedByMobileNumber: string;
 }
 
+export interface TableData {
+  totalItemsCount: number | null;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: Device[];
+}
+
 export interface ShopDevices {
   success: boolean;
   operationName: string;

@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Device } from "@/services/shop/types";
+import React, { SetStateAction, useEffect } from "react";
+import { Device, TableData } from "@/services/shop/types";
 import ProductItem from "../home-page/ProductItem";
 import CustomRadio from "./CustomRadio";
 import { useState } from "react";
 import { DeviceName } from "@/services/common/types";
-import { filterDevices } from "@/services/shop";
+import { filterDevices, getDevices } from "@/services/shop";
 import { toast } from "react-toastify";
+import Button from "@/components/main/button/Button";
 
 const NoDeviceFound = () => (
   <div className="lg:col-span-6 sm:col-span-5 col-span-8 h-full flex justify-center items-start sm:pt-[200px] p-0">
@@ -20,11 +21,17 @@ const NoDeviceFound = () => (
 const MedicalMarket = ({
   deviceCategories,
   devices,
+  currentPageNumber,
 }: {
   deviceCategories: DeviceName[] | undefined;
-  devices: Device[] | null;
+  devices: TableData | null;
+  currentPageNumber: number;
 }) => {
-  const [clientDevices, setClientDevices] = useState<Device[] | null>();
+  const [clientDevices, setClientDevices] = useState<TableData | undefined>(
+    // @ts-ignore
+    devices
+  );
+  const [currentPage, setCurrentPage] = useState(currentPageNumber);
   const [search, setSearch] = useState("");
   const [deviceCategoriesID, setDeviceCategoriesID] = useState<string[]>([]);
   const [showFilterSection, setShowFilterSection] = useState(false);
@@ -55,9 +62,18 @@ const MedicalMarket = ({
     }
   };
 
-  useEffect(() => {
-    setClientDevices(devices);
-  }, []);
+  const devicePagingNext = async (action: string) => {
+    const devices = await getDevices(String(currentPage + 1));
+    if (devices?.status === 200) {
+      setClientDevices(devices.data);
+    }
+  };
+  const devicePagingPrev = async (action: string) => {
+    const devices = await getDevices(String(currentPage - 1));
+    if (devices?.status === 200) {
+      setClientDevices(devices.data);
+    }
+  };
 
   useEffect(() => {
     onChangeDeviceFilter();
@@ -111,6 +127,7 @@ const MedicalMarket = ({
               <button
                 className="text-primaryDark font-semibold text-[14px]"
                 onClick={() => {
+                  // @ts-ignore
                   setClientDevices(devices);
                   setDeviceCategoriesID([]);
                   setSearch("");
@@ -150,31 +167,63 @@ const MedicalMarket = ({
           </div>
         </div>
       </div>
-      {clientDevices && clientDevices.length !== 0 ? (
-        <div className="w-full grid lg:col-span-6 sm:col-span-5 col-span-8 items-start grid-cols-6 gap-8 content-baseline">
-          {clientDevices.map(
-            ({
-              companyName,
-              deviceId,
-              deviceName,
-              imageUrl,
-              orderedByMobileNumber,
-            }) => (
-              <div
-                key={deviceId}
-                className="xl:col-span-2 lg:col-span-3 col-span-6"
-              >
-                <ProductItem
-                  deviceId={String(deviceId)}
-                  companyName={companyName}
-                  name={deviceName}
-                  imageUrl={imageUrl ? imageUrl : ""}
-                  orderedByMobileNumber={orderedByMobileNumber}
+      {clientDevices && clientDevices.data.length !== 0 ? (
+        <>
+          <div className="w-full grid lg:col-span-6 sm:col-span-5 col-span-8 items-start grid-cols-6 gap-8 content-baseline">
+            {clientDevices.data.map(
+              ({
+                companyName,
+                deviceId,
+                deviceName,
+                imageUrl,
+                orderedByMobileNumber,
+              }) => (
+                <div
+                  key={deviceId}
+                  className="xl:col-span-2 lg:col-span-3 col-span-6"
+                >
+                  <ProductItem
+                    deviceId={String(deviceId)}
+                    companyName={companyName}
+                    name={deviceName}
+                    imageUrl={imageUrl ? imageUrl : ""}
+                    orderedByMobileNumber={orderedByMobileNumber}
+                  />
+                </div>
+              )
+            )}
+            {!(clientDevices.totalItemsCount === clientDevices.pageContain) && (
+              <div className="mt-6 col-span-5 h-full flex justify-center items-center">
+                <Button
+                  border="border border-primary"
+                  text="بعدی"
+                  bg="bg-transparent"
+                  color="text-primary"
+                  // hover="hover:bg-primary hover:text-white"
+                  onClick={() => {
+                    setCurrentPage((prevPageNumber) => prevPageNumber + 1);
+                    devicePagingNext("next");
+                  }}
+                />
+                <div className="bg-white shadow-lg rounded-md mx-3 py-3 px-4">
+                  {currentPage}
+                </div>
+                <Button
+                  border="border border-primary"
+                  text="قبلی"
+                  bg="bg-transparent"
+                  color="text-primary"
+                  // hover="hover:bg-primary hover:text-white"
+                  onClick={() => {
+                    setCurrentPage((prevPageNumber) => prevPageNumber - 1);
+                    devicePagingPrev("prev");
+                  }}
+                  disabled={currentPage === 1}
                 />
               </div>
-            )
-          )}
-        </div>
+            )}
+          </div>
+        </>
       ) : (
         <NoDeviceFound />
       )}

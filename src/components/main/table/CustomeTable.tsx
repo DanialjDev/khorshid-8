@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 
 interface TableProps {
   headers: string[];
-  items?: ReactNode;
+  children?: ReactNode;
   text?: string;
 }
 
@@ -109,7 +109,7 @@ const EmptyTable = ({
   );
 };
 
-const CustomeTable = ({ headers, items, text }: TableProps) => {
+const CustomeTable = ({ headers, children, text }: TableProps) => {
   return (
     <div className="w-full overflow-x-auto flex justify-center items-center mt-5">
       <div className="inline-block min-w-full">
@@ -126,7 +126,11 @@ const CustomeTable = ({ headers, items, text }: TableProps) => {
               </tr>
             </thead>
             <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-tableRowColor">
-              {items ? items : <EmptyTable text={text} headers={headers} />}
+              {children ? (
+                children
+              ) : (
+                <EmptyTable text={text} headers={headers} />
+              )}
             </tbody>
           </table>
         </div>

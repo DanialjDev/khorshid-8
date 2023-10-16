@@ -450,9 +450,47 @@ export default async function Home() {
                 "لینک سایت",
                 "تصویر",
               ]}
-              items={TableData}
               text="در حال حاضر دستگاهی برای نمایش وجود ندارد"
-            />
+            >
+              {homePageDevices?.map((item, index) => (
+                <tr>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {index + 1}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.name}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.brand}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.country}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.companyName}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.orderedByMobileNumber}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    <Link
+                      className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
+                      href={item.companyWebsite}
+                    >
+                      مشاهده
+                    </Link>
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    <Link
+                      className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
+                      href={item.imageUrl}
+                    >
+                      مشاهده
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </CustomeTable>
           </SectionBox>
         </div>
         {/* News */}

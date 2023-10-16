@@ -49,12 +49,12 @@ const Button = ({
             padding ? padding : "px-[30px] py-[10px]"
           } rounded-xl`}
         >
-          {icon}
+          {icon && icon}
           {text && (
             <p
               className={`${fontSize ? fontSize : "text-[14px]"} ${
                 dir === "rtl" ? "ml-3" : "mr-3"
-              }`}
+              } ${!icon && "!mx-0"}`}
             >
               {text}
             </p>
@@ -73,12 +73,12 @@ const Button = ({
             padding ? padding : "px-[30px] py-[10px]"
           } rounded-xl`}
         >
-          {icon}
+          {icon && icon}
           {text && (
             <p
               className={`${fontSize ? fontSize : "text-[14px]"} ${
                 dir === "rtl" ? "ml-3" : "mr-3"
-              }`}
+              } ${!icon && "!mx-0"}`}
             >
               {text}
             </p>

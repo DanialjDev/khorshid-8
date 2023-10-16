@@ -1,50 +1,34 @@
 import { isAxiosError } from "axios";
 import { get } from "../axios";
-import { Device, ShopDevices, SingleProduct, SingleProductData } from "./types";
+import {
+  Device,
+  ShopDevices,
+  SingleProduct,
+  SingleProductData,
+  TableData,
+} from "./types";
 
 type ReturnTyp = {
   status?: number;
   message?: string | undefined;
-  data?: Device[];
+  data?: TableData;
+  // pageInfo?: PageInfo;
 };
 
 export const getDevices = async (
-  product?: string,
-  categories?: string
+  pageNumber?: string
 ): Promise<ReturnTyp | undefined> => {
-  const baseUrl = "Shop/GetShopDevices";
-  let reqUrl = "";
-  let categoryBasedUrl = "";
+  let baseUrl = `Shop/GetShopDevices?PageContain=9`;
   try {
-    // if (product && !categories) {
-    //   reqUrl = `${baseUrl}?Search=${product}`;
-    // }
-    // if (categories && !product) {
-    //   console.log(categories);
-    //   const lastIndex = categories.slice(-1);
-    // if (lastIndex === "&") {
-    //   categories = categories.substring(0, categories.length - 1);
-    // }
-    //   reqUrl = `${baseUrl}${categories}`;
-    // }
-
-    // if (categories && product) {
-    //   const lastIndex = categories.slice(-1);
-    //   if (lastIndex === "&") {
-    //     categories = categories.substring(0, categories.length - 1);
-    //   }
-    //   categoryBasedUrl += "&" + categories;
-    //   reqUrl = `${baseUrl}?Search=${product}${categories}`;
-    //   console.log(reqUrl);
-    //   console.log("categoryBasedUrl", categoryBasedUrl);
-    // }
-
+    if (pageNumber) {
+      baseUrl = `${baseUrl}&PageNumber=${pageNumber}`;
+    }
     const { data, status } = await get<ShopDevices>(baseUrl);
     console.log(data);
 
     if (status === 200) {
       return {
-        data: data.object.data,
+        data: data.object,
         status,
       };
     }
@@ -63,9 +47,10 @@ export const getDevices = async (
 // Filter Device
 export const filterDevices = async (
   searchInput?: string,
-  categories?: string
+  categories?: string,
+  pageNumber?: string
 ): Promise<ReturnTyp | undefined> => {
-  const baseUrl = "Shop/GetShopDevices";
+  let baseUrl = `Shop/GetShopDevices?PageContain=9`;
   let reqUrl = "";
   try {
     if (searchInput && !categories) {
@@ -85,12 +70,15 @@ export const filterDevices = async (
     } else {
       reqUrl = baseUrl;
     }
+    if (pageNumber) {
+      reqUrl = `${reqUrl}&PageNumber=${pageNumber}`;
+    }
     const { data, status } = await get<ShopDevices>(reqUrl);
     if (status === 200) {
       console.log(data);
       return {
         status,
-        data: data.object.data,
+        data: data.object,
       };
     }
   } catch (error) {

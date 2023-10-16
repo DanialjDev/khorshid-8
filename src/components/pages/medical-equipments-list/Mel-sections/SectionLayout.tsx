@@ -130,10 +130,11 @@ const SectionLayout = ({
       </Box>
       <div className="w-full mt-5">
         <CustomeTable
-          items={tableData ? tableData : null}
           headers={tableHeaders}
           text="برای دریافت اطلاعات جدول لطفا از کادر بالا استفاده کنید."
-        />
+        >
+          {tableData}
+        </CustomeTable>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ type ReturnType = HomeDevice[];
 export const getHomePageDevies = async (): Promise<ReturnType | undefined> => {
   try {
     const { data, status } = await get<HomePageDiveces>(
-      `HomePage/GetPagedDevices?PageContain=4&PageNumber=1`
+      `HomePage/GetPagedDevices?PageContain=8&PageNumber=1`
     );
     if (status === 200) {
       return data.object.data;
