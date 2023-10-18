@@ -17,11 +17,16 @@ export const getHomePageDate = async () => {
 
 // Get Home‌ Page Devices
 type ReturnType = HomeDevice[];
-export const getHomePageDevies = async (): Promise<ReturnType | undefined> => {
+export const getHomePageDevies = async (
+  pageContain?: string
+): Promise<ReturnType | undefined> => {
+  let url = `HomePage/GetPagedDevices?PageContain=4&PageNumber=1`;
+
+  if (pageContain) {
+    url = `HomePage/GetPagedDevices?PageContain=${pageContain}&PageNumber=1`;
+  }
   try {
-    const { data, status } = await get<HomePageDiveces>(
-      `HomePage/GetPagedDevices?PageContain=8&PageNumber=1`
-    );
+    const { data, status } = await get<HomePageDiveces>(url);
     if (status === 200) {
       return data.object.data;
     }

@@ -18,11 +18,12 @@ const ImageInput = ({
   handleChange,
   inputRef,
   removeImg,
+  disabled,
 }: {
   title: string;
   desc: string;
-  img: File | null;
-  setImg: React.Dispatch<React.SetStateAction<File | null>>;
+  img: File | null | string;
+  setImg: React.Dispatch<React.SetStateAction<File | null | string>>;
   errors?: FormikErrors<PanelInitialValues | InitialValues>;
   touched?: FormikTouched<PanelInitialValues | InitialValues>;
   handleChange?: (e: ChangeEvent<any>) => void;
@@ -32,7 +33,15 @@ const ImageInput = ({
   name?: string;
   inputRef?: React.RefObject<HTMLInputElement>;
   removeImg?: () => void;
+  disabled?: boolean;
 }) => {
+  let errorStyles = "";
+  if (errors || touched) {
+    errorStyles =
+      // @ts-ignore
+      errors["Image"] && touched["Image"] ? "border border-redColor" : "";
+  }
+  console.log(img);
   return (
     // <div className="2xl:col-span-1 xl:col-span-2 col-span-3 h-full">
     //   <div
@@ -230,10 +239,7 @@ const ImageInput = ({
     // </div>
     <>
       <div
-        className={`w-full p-2 ${
-          // @ts-ignore
-          errors["Image"] && touched["Image"] ? "border border-redColor" : ""
-        } grid grid-cols-8 gap-2 shadow-md justify-between items-stretch rounded-lg`}
+        className={`w-full p-2 ${errorStyles} grid grid-cols-8 gap-2 shadow-md justify-between items-stretch rounded-lg`}
       >
         <input
           ref={inputRef}
@@ -243,6 +249,7 @@ const ImageInput = ({
           name={name}
           id={name}
           onBlur={handleBlur}
+          disabled={disabled}
         />
         <div className="flex col-span-6 flex-col justify-between items-start">
           <div className="w-full flex justify-between items-start">
@@ -355,24 +362,53 @@ const ImageInput = ({
           className=" flex col-span-2 justify-end items-stretch"
         >
           <div
-            className={`w-[80px] h-full cursor-pointer p-2 flex justify-center items-center border rounded-[4px] border-dashed bg-primaryLight4`}
+            className={`w-[80px] h-full cursor-pointer p-2 flex justify-center items-center border rounded-[4px] border-dashed bg-primaryLight4 ${
+              img ? "border-posterBoxActiveBorder" : "border-primary"
+            }`}
           >
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="scale-90"
-            >
-              <path
-                d="M15 10.5V19.5M19.5 15H10.5M28.5 15C28.5 16.7728 28.1508 18.5283 27.4724 20.1662C26.7939 21.8041 25.7995 23.2923 24.5459 24.5459C23.2923 25.7995 21.8041 26.7939 20.1662 27.4724C18.5283 28.1508 16.7728 28.5 15 28.5C13.2272 28.5 11.4717 28.1508 9.83377 27.4724C8.19588 26.7939 6.70765 25.7995 5.45406 24.5459C4.20047 23.2923 3.20606 21.8041 2.52763 20.1662C1.84919 18.5283 1.5 16.7728 1.5 15C1.5 11.4196 2.92232 7.9858 5.45406 5.45406C7.9858 2.92232 11.4196 1.5 15 1.5C18.5804 1.5 22.0142 2.92232 24.5459 5.45406C27.0777 7.9858 28.5 11.4196 28.5 15Z"
-                stroke="#0044FF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            {!img ? (
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="scale-90"
+              >
+                <path
+                  d="M15 10.5V19.5M19.5 15H10.5M28.5 15C28.5 16.7728 28.1508 18.5283 27.4724 20.1662C26.7939 21.8041 25.7995 23.2923 24.5459 24.5459C23.2923 25.7995 21.8041 26.7939 20.1662 27.4724C18.5283 28.1508 16.7728 28.5 15 28.5C13.2272 28.5 11.4717 28.1508 9.83377 27.4724C8.19588 26.7939 6.70765 25.7995 5.45406 24.5459C4.20047 23.2923 3.20606 21.8041 2.52763 20.1662C1.84919 18.5283 1.5 16.7728 1.5 15C1.5 11.4196 2.92232 7.9858 5.45406 5.45406C7.9858 2.92232 11.4196 1.5 15 1.5C18.5804 1.5 22.0142 2.92232 24.5459 5.45406C27.0777 7.9858 28.5 11.4196 28.5 15Z"
+                  stroke="#0044FF"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                  fill="#1DC9A0"
+                  fill-opacity="0.15"
+                  stroke="#1DC9A0"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7.75 11.9999L10.58 14.8299L16.25 9.16992"
+                  stroke="#1DC9A0"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
           </div>
         </label>
       </div>

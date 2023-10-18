@@ -36,15 +36,15 @@ const NormalProfile = ({
     ? JSON.parse(decrypt(Cookies.get("userInfo")))
     : null;
 
-  useEffect(() => {
-    if (!user) {
-      push("/");
-      toast.error("برای دسترسی به صفحه پروفایل ابتدا وارد سایت شوید", {
-        autoClose: 3000,
-      });
-      dispatch(authToggler("login"));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     push("/");
+  //     toast.error("برای دسترسی به صفحه پروفایل ابتدا وارد سایت شوید", {
+  //       autoClose: 3000,
+  //     });
+  //     dispatch(authToggler("login"));
+  //   }
+  // }, []);
 
   return (
     <div className="w-full flex flex-col">

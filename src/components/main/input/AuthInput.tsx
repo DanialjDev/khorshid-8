@@ -17,6 +17,8 @@ const AuthInput = ({
   touched,
   value,
   disabled,
+  mt,
+  helperText,
 }: {
   label?: string;
   placeholder?: string;
@@ -29,6 +31,8 @@ const AuthInput = ({
   touched?: FormikTouched<PanelInitialValues | InitialValues>;
   value?: string;
   disabled?: boolean;
+  mt?: string;
+  helperText?: string;
 }) => {
   let error: any;
   let touchedInput: any;
@@ -39,7 +43,7 @@ const AuthInput = ({
     touchedInput = touched[name];
   }
   return (
-    <div className="w-full flex flex-col mt-7 relative">
+    <div className={`w-full flex flex-col ${mt ? mt : "mt-7"} relative`}>
       <div className="w-fit relative">
         {label && (
           <label
@@ -56,24 +60,47 @@ const AuthInput = ({
           </div>
         )}
       </div>
-      <input
-        disabled={disabled}
-        type={type}
-        name={name}
-        id={name}
-        className={`border border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
-          !disabled
-            ? "hover:shadow-inputHover hover:border-inputHoverBorder"
-            : ""
-        } transition duration-200 placeholder:text-[13px] ${
-          error && touchedInput ? "border-borderError" : ""
-        }`}
-        placeholder={placeholder}
-        onChange={onChange}
-        onBlur={handleBlur}
-        value={value}
-      />
-      {error && touchedInput && <p className=" text-borderError">{error}</p>}
+      {!helperText ? (
+        <input
+          disabled={disabled}
+          type={type}
+          name={name}
+          id={name}
+          className={`border focus:border-primary autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+            !disabled
+              ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+              : ""
+          } transition duration-200 placeholder:text-[13px] ${
+            error && touchedInput ? "border-borderError" : ""
+          }`}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={handleBlur}
+          value={value}
+        />
+      ) : (
+        <input
+          disabled={disabled}
+          type={type}
+          name={name}
+          id={name}
+          className={`border focus:border-primary autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+            !disabled
+              ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+              : ""
+          } transition duration-200 placeholder:text-[13px] ${
+            helperText ? "border-borderError" : ""
+          }`}
+          placeholder={placeholder}
+          onChange={onChange}
+          value={value}
+        />
+      )}
+      {error && touchedInput ? (
+        <p className=" text-borderError">{error}</p>
+      ) : (
+        <p className=" text-borderError">{helperText}</p>
+      )}
     </div>
   );
 };

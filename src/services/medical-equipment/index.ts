@@ -23,7 +23,8 @@ export type Category =
   | "ProfileDevices"
   | "panel_consulation"
   | "charge_account"
-  | "GetUserAcceptedDevices";
+  | "GetUserAcceptedDevices"
+  | "GetRequestedDevices";
 
 // Get Device Banner
 export const getDeviceBanner = async (

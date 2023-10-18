@@ -71,6 +71,16 @@ export const generateHeaders = (category: Category): string[] | undefined => {
         "تلفن سفارش دهنده",
         "اطلاعات بیشتر",
       ];
+    case "GetRequestedDevices":
+      return [
+        "نام دستگاه",
+        "مارک دستگاه",
+        "کشور سازنده",
+        "شرکت نمایندگی",
+        "نام سفارش دهنده",
+        "اطلاعات بیشتر",
+        "عملیات تایید یا رد مرکز",
+      ];
     default:
       return undefined;
   }

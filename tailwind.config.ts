@@ -55,6 +55,12 @@ const config: Config = {
         adminBg: "#F5F5F7",
         tableRowColor: "#F7F7F7",
         emptyTableText: "#191919",
+        confirmBtnBg: "#AFE6E533",
+        denyBtnBg: "#E214141A",
+        adminFormBorder: "#D2D2D2",
+        adminFormBorder2: "#1A1A1A0D",
+        declineBoxBorder: "#E8E8E8",
+        declineBoxTitle: "#2F384F",
       },
       boxShadow: {
         xs: "0px 2px 8px 0px rgba(151, 151, 151, 0.15)",
@@ -62,6 +68,8 @@ const config: Config = {
         md: "0px 8px 20px 0px rgba(0, 0, 0, 0.05)",
         tableShadow: "0px 0px 20px 0px #0000001A",
         inputHover: "0px 0px 14px 0px #00000026",
+        adminFormBox: " 0px 2px 6px 0px #1A1A1A1A",
+        declineBox: "0px 8px 26px 1px #0000004D",
       },
     },
     screens: {

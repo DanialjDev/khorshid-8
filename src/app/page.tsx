@@ -27,7 +27,7 @@ import RegisterMedicalDevice from "@/components/pages/home-page/RegisterMedicalD
 
 export default async function Home() {
   const homePageDate = await getHomePageDate();
-  const homePageDevices = await getHomePageDevies();
+  const homePageDevices = await getHomePageDevies("7");
   const TableData = TableBodyData({
     // @ts-ignore
     data: homePageDevices ? homePageDevices : null,
@@ -398,24 +398,31 @@ export default async function Home() {
           <div className="w-full grid grid-cols-4 gap-4 mt-5">
             {homePageDevices &&
               homePageDevices.map(
-                ({
-                  companyName,
-                  name,
-                  orderedByMobileNumber,
-                  imageUrl,
-                  deviceId,
-                }) => (
-                  <div className="lg:col-span-1 md:col-span-2 col-span-4">
-                    <ProductItem
-                      deviceId={String(deviceId)}
-                      key={deviceId}
-                      imageUrl={imageUrl ? imageUrl : ""}
-                      name={name}
-                      orderedByMobileNumber={orderedByMobileNumber}
-                      companyName={companyName ? companyName : ""}
-                    />
-                  </div>
-                )
+                (
+                  {
+                    companyName,
+                    name,
+                    orderedByMobileNumber,
+                    imageUrl,
+                    deviceId,
+                  },
+                  index
+                ) => {
+                  if (index < 4) {
+                    return (
+                      <div className="lg:col-span-1 md:col-span-2 col-span-4">
+                        <ProductItem
+                          deviceId={String(deviceId)}
+                          key={deviceId}
+                          imageUrl={imageUrl ? imageUrl : ""}
+                          name={name}
+                          orderedByMobileNumber={orderedByMobileNumber}
+                          companyName={companyName ? companyName : ""}
+                        />
+                      </div>
+                    );
+                  }
+                }
               )}
           </div>
         </SectionBox>

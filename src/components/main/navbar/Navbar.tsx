@@ -72,7 +72,11 @@ const Navbar = () => {
 
   const authHandler = () => {
     if (userInfo) {
-      push("/profile");
+      if (userInfo.roleNameEn === "admin") {
+        push("/panel");
+      } else {
+        push("/profile");
+      }
     } else {
       dispatch(authToggler("login"));
     }

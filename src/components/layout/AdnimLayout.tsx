@@ -64,7 +64,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
         </div>
-        <div className="w-full justify-center flex m-auto h-full mt-6">
+        <div className="w-full justify-center relative flex m-auto h-full mt-6">
           {children}
         </div>
       </div>

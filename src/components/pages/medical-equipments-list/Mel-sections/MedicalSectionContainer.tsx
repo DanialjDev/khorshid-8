@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import SectionLayout from "./SectionLayout";
 import Select from "@/components/main/input/Select";
 import CustomInput from "@/components/main/input/CustomInput";
@@ -30,6 +30,8 @@ const MedicalSection = async ({
   tableHeaders: string[];
   operationName: OperationNames;
 }) => {
+  const [showCategories, setShowCategories] = useState(false);
+
   return (
     <>
       {banner && banner ? (
@@ -50,13 +52,54 @@ const MedicalSection = async ({
       >
         <div className="w-full grid gap-8 xl:grid-cols-3 lg:grid-cols-2">
           <div className="xl:col-span-1 lg:col-span-1">
-            <Select
+            {/* <Select
               label="لطفا کاربری دستگاه خود را در گروه های زیر انتخاب کنید."
               options={
                 deviceCategory &&
                 deviceCategory.map((item) => item.categoryName)
               }
-            />
+            /> */}
+            {/* <div
+              onClick={() => {
+                setShowCategories((prevState) => !prevState);
+                console.log("sdfsdf");
+              }}
+              className="w-full flex justify-between relative items-center h-full rounded-[5px] border-inputBorderColor text-dark bg-white border-2 cursor-pointer"
+            >
+              <div className="flex w-fit p-2">
+                <p className="text-[14px]">
+                  لطفا کاربری دستگاه خود را در گروه های زیر انتخاب کنید.
+                </p>
+              </div>
+              <div className="flex justify-center items-center p-2">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 6L9 12L15 6"
+                    stroke="#060607"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div
+                className={`w-full absolute overflow-y-auto ${
+                  showCategories ? "flex flex-col" : "hidden"
+                } border h-[250px] top-11 z-30`}
+              >
+                {deviceCategory.map((item, index) => (
+                  <div key={item.id} className="w-full flex">
+                    {item.categoryName}
+                  </div>
+                ))}
+              </div>
+            </div> */}
           </div>
           <div className="xl:col-span-1 lg:col-span-1">
             <Select label="ردیف" options={tableHeaders} />

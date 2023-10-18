@@ -18,6 +18,8 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined;
   fontSize?: string;
   onClick?: () => void;
+  rounded?: string;
+  fontWeight?: string;
 }
 
 const Button = ({
@@ -35,6 +37,8 @@ const Button = ({
   type,
   fontSize,
   onClick,
+  rounded,
+  fontWeight,
 }: ButtonProps) => {
   return (
     <>
@@ -47,14 +51,14 @@ const Button = ({
             dir === "rtl" ? "flex-row-reverse" : "flex-row"
           } ${bg ? `${bg}` : "bg-primary"} ${
             padding ? padding : "px-[30px] py-[10px]"
-          } rounded-xl`}
+          } ${rounded ? rounded : "rounded-xl"}`}
         >
           {icon && icon}
           {text && (
             <p
               className={`${fontSize ? fontSize : "text-[14px]"} ${
                 dir === "rtl" ? "ml-3" : "mr-3"
-              } ${!icon && "!mx-0"}`}
+              } ${fontWeight ? fontWeight : "font-normal"} ${!icon && "!mx-0"}`}
             >
               {text}
             </p>
@@ -71,14 +75,14 @@ const Button = ({
             dir === "rtl" ? "flex-row-reverse" : "flex-row"
           } ${bg ? `${bg}` : "bg-primary"} ${
             padding ? padding : "px-[30px] py-[10px]"
-          } rounded-xl`}
+          } ${rounded ? rounded : "rounded-xl"}`}
         >
           {icon && icon}
           {text && (
             <p
               className={`${fontSize ? fontSize : "text-[14px]"} ${
                 dir === "rtl" ? "ml-3" : "mr-3"
-              } ${!icon && "!mx-0"}`}
+              } ${fontWeight ? fontWeight : "font-normal"} ${!icon && "!mx-0"}`}
             >
               {text}
             </p>
