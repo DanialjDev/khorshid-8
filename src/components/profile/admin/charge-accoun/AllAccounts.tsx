@@ -8,6 +8,7 @@ import { generateHeaders } from "@/utills/generateTableHeaders";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const AllAccounts = ({ userAccounts }: { userAccounts: User[] }) => {
   const token = Cookies.get("token");
@@ -78,10 +79,39 @@ const AllAccounts = ({ userAccounts }: { userAccounts: User[] }) => {
         </div>
       </div>
       <div className="w-full mt-2">
-        <CustomeTable
-          headers={tableHeaders ? tableHeaders : []}
-          items={TableBody}
-        />
+        <CustomeTable headers={tableHeaders ? tableHeaders : []}>
+          {userAccounts &&
+            userAccounts.map((item, index) => (
+              <tr key={item.userId}>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {index + 1}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {item.fullName}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {item.companyName}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {item.managerFullName}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {item.maxDeviceNumber}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  {item.remainDeviceNumber}
+                </td>
+                <td className="whitespace-nowrap p-4 text-[14px]">
+                  <Link
+                    href={`/panel/charge-account/single-user?userId=${item.userId}`}
+                    className="py-1 px-3 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
+                  >
+                    مشاهده
+                  </Link>
+                </td>
+              </tr>
+            ))}
+        </CustomeTable>
       </div>
     </div>
   );

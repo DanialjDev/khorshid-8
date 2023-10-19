@@ -8,6 +8,7 @@ import {
   UpdateProfileData,
   UserProfileDevice,
   UserRegisteredDevices,
+  UserRegisteredDevicesObj,
 } from "./types";
 import { isAxiosError } from "axios";
 import { encrypt } from "@/utills/crypto";
@@ -187,7 +188,7 @@ export const postProfileDevice = async (
 
 // get user registered devices
 type UserRegisteredDevicesReturnType = {
-  data?: UserProfileDevice[];
+  data?: UserRegisteredDevicesObj;
   message?: string;
 };
 
@@ -205,8 +206,9 @@ export const getUserRegisteredDevices = async (
     );
 
     if (status === 200) {
+      console.log(data);
       return {
-        data: data.object.data,
+        data: data.object,
       };
     }
   } catch (error) {

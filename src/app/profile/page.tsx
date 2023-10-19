@@ -17,7 +17,7 @@ const ProfilePage = async () => {
   return (
     <>
       <NormalProfile
-        userDevices={userDevices?.data}
+        userDevices={userDevices?.data?.data}
         userInfo={response?.initialValues}
       />
     </>

@@ -30,7 +30,7 @@ const MedicalSection = async ({
   tableHeaders: string[];
   operationName: OperationNames;
 }) => {
-  const [showCategories, setShowCategories] = useState(false);
+  const [isRowSelected, setIsRowSelected] = useState(false);
 
   return (
     <>
@@ -42,7 +42,8 @@ const MedicalSection = async ({
           style={{ width: "100%", height: "auto" }}
           src={banner.imageUrl}
           alt={banner.description || ""}
-          className="my-5"
+          className="my-5 sm:!h-auto !h-[300px]"
+          objectFit="cover"
         />
       ) : null}
       <SectionLayout
@@ -50,16 +51,16 @@ const MedicalSection = async ({
         operationName={operationName}
         tableHeaders={tableHeaders}
       >
-        <div className="w-full grid gap-8 xl:grid-cols-3 lg:grid-cols-2">
-          <div className="xl:col-span-1 lg:col-span-1">
-            {/* <Select
+        <div className="w-full grid gap-8 grid-cols-2">
+          {/* <div className="xl:col-span-1 lg:col-span-1">
+            <Select
               label="لطفا کاربری دستگاه خود را در گروه های زیر انتخاب کنید."
               options={
                 deviceCategory &&
                 deviceCategory.map((item) => item.categoryName)
               }
-            /> */}
-            {/* <div
+            />
+            <div
               onClick={() => {
                 setShowCategories((prevState) => !prevState);
                 console.log("sdfsdf");
@@ -99,12 +100,12 @@ const MedicalSection = async ({
                   </div>
                 ))}
               </div>
-            </div> */}
-          </div>
-          <div className="xl:col-span-1 lg:col-span-1">
+            </div>
+          </div> */}
+          <div className="md:col-span-1 col-span-2">
             <Select label="ردیف" options={tableHeaders} />
           </div>
-          <div className="xl:col-span-1 lg:col-span-2">
+          <div className="md:col-span-1 col-span-2">
             <CustomInput
               isDisabled
               placeholder="کلمه مورد نظر خود را تایپ کنید."

@@ -23,6 +23,8 @@ const config: Config = {
         primaryDark2: "#00183B",
         primaryDark3: "#1F384C",
         primaryDark4: "#2C9CF00D",
+        primaryDark5: "#1B4E9B",
+        primaryDark6: "#0D6EFD",
         secondary: "#54E346",
         redColor: "#E21414",
         redColorLight: "#E214140D",
@@ -61,6 +63,8 @@ const config: Config = {
         adminFormBorder2: "#1A1A1A0D",
         declineBoxBorder: "#E8E8E8",
         declineBoxTitle: "#2F384F",
+        newsBoxBg: "#FEFEFE",
+        newsIconBg: "#F4F6FA",
       },
       boxShadow: {
         xs: "0px 2px 8px 0px rgba(151, 151, 151, 0.15)",
@@ -70,6 +74,7 @@ const config: Config = {
         inputHover: "0px 0px 14px 0px #00000026",
         adminFormBox: " 0px 2px 6px 0px #1A1A1A1A",
         declineBox: "0px 8px 26px 1px #0000004D",
+        statisticsBox: "0px 3.5px 5.499999523162842px 0px #0000000A",
       },
     },
     screens: {

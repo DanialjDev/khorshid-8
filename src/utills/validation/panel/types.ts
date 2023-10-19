@@ -33,14 +33,41 @@ interface UpdateDeviceNumberAnyObject {
   maxDeviceNumber: undefined;
 }
 
+// Update News (Panel)
+interface UpdatePanelNews {
+  newsTitle: string;
+  newsDesc: string;
+  Image: File | null;
+  newsLink: string;
+}
+
+interface UpdatePanelNewsAnyObject {
+  newsTitle: undefined;
+  newsDesc: undefined;
+  Image: undefined;
+  newsLink: undefined;
+}
+
+// Update PhoneNumber (Panel)
+interface UpdatePhoneNumber {
+  phoneNumber: string;
+}
+interface UpdatePhoneNumberAnyObject {
+  phoneNumber: undefined;
+}
+
 export type PanelInitialValues =
   | UpdateCounselorValues
   | UpdatePoster
-  | UpdateDeviceNumber;
+  | UpdateDeviceNumber
+  | UpdatePanelNews
+  | UpdatePhoneNumber;
 export type PanelValidationSchemaAnyObject =
   | UpdateCounselorAnyObject
   | UpdatePosterAnyObject
-  | UpdateDeviceNumberAnyObject;
+  | UpdateDeviceNumberAnyObject
+  | UpdatePanelNewsAnyObject
+  | UpdatePhoneNumberAnyObject;
 
 export type PanelValidationSchemaType = Yup.ObjectSchema<
   PanelInitialValues,

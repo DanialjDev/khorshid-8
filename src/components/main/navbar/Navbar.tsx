@@ -60,15 +60,15 @@ const Navbar = () => {
         };
   }
 
-  useEffect(() => {
-    getHeaderPhoneNumber()
-      .then((res) => {
-        if (res) {
-          setPhoneNumber(res);
-        }
-      })
-      .catch((err) => null);
-  }, []);
+  // useEffect(() => {
+  //   getHeaderPhoneNumber()
+  //     .then((res) => {
+  //       if (res) {
+  //         setPhoneNumber(res);
+  //       }
+  //     })
+  //     .catch((err) => null);
+  // }, []);
 
   const authHandler = () => {
     if (userInfo) {

@@ -38,9 +38,13 @@ const MedicalEquipmentsListSection = async () => {
       {/* Filter Section */}
       <MedicalSection
         deviceCategory={response?.data ? response.data : []}
-        data={medicalEquipmentData?.data || []}
+        data={medicalEquipmentData?.data ? medicalEquipmentData.data : []}
         banner={bannerData?.banner}
-        tableHeaders={medicalEquipmentData?.tableHeaders || []}
+        tableHeaders={
+          medicalEquipmentData?.tableHeaders
+            ? medicalEquipmentData.tableHeaders
+            : []
+        }
         operationName={
           medicalEquipmentData?.operationName
             ? medicalEquipmentData.operationName

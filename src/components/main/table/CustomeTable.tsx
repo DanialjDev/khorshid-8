@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 
 interface TableProps {
   headers: string[];
-  children?: ReactNode;
+  children?: ReactNode | [];
   text?: string;
 }
 
@@ -19,11 +19,6 @@ const EmptyTable = ({
     <tr className="w-full">
       <td className="w-full" colSpan={headers.length + 1}>
         <div className="w-full flex flex-col justify-center h-[24rem]">
-          {text && (
-            <div className="w-full flex justify-center my-7 mb-10">
-              <p className="text-emptyTableText">{text}</p>
-            </div>
-          )}
           <div className="flex justify-center items-center">
             <svg
               width="221"
@@ -103,6 +98,11 @@ const EmptyTable = ({
               </defs>
             </svg>
           </div>
+          {text && (
+            <div className="w-full flex justify-center my-7 mb-10">
+              <p className="text-emptyTableText">{text}</p>
+            </div>
+          )}
         </div>
       </td>
     </tr>

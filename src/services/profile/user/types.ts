@@ -64,15 +64,17 @@ export interface UserRegisteredDevices {
   operationName: string;
   status: number;
   success: boolean;
-  object: {
-    totalItemsCount: number;
-    totalPagesCount: null | number;
-    pageContain: null | number;
-    currentPageNumber: null | number;
-    data: UserProfileDevice[];
-  };
+  object: UserRegisteredDevicesObj
   list: null;
 }
+
+export interface UserRegisteredDevicesObj {
+  totalItemsCount: number;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: UserProfileDevice[];
+};
 
 export interface UserProfileDevice {
   deviceId: number;

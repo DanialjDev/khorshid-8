@@ -2,7 +2,12 @@ import { isMobile, isNumeric, isUrl } from "@/utills/formatHelper";
 import { PanelInitialValues, PanelValidationSchemaType } from "./types";
 import * as Yup from "yup";
 
-type Action = "updateCounselor" | "updatePoster" | "updateDeviceNumber";
+type Action =
+  | "updateCounselor"
+  | "updatePoster"
+  | "updateDeviceNumber"
+  | "UpdateNews"
+  | "updatePhoneNumber";
 
 type ReturnType = [
   initialValues: PanelInitialValues,
@@ -37,7 +42,6 @@ const usePanelValidation = (
       return true;
     }
   );
-  const HomeSideBannerId = defaultErrorValidation;
   const Image = Yup.mixed().required("انتخاب تصویر الزامی است");
 
   const maxDeviceNumber = defaultErrorValidation.test(
@@ -48,6 +52,25 @@ const usePanelValidation = (
     }
   );
 
+  const newsTitle = defaultErrorValidation.max(
+    8,
+    " تیتر خبر بیشتر از حد مجاز است"
+  );
+  const newsDesc = defaultErrorValidation.max(
+    16,
+    "زیر متن خبر بیشتر از حد مجاز است"
+  );
+  const newsLink = defaultErrorValidation.test(
+    "isUrl",
+    "آردس وارد شده نامعتبر است",
+
+    (value) => {
+      if (value && value.length !== 0) {
+        return Boolean(isUrl(value));
+      }
+    }
+  );
+  const newsImage = Yup.mixed().optional();
   switch (action) {
     case "updateCounselor":
       initialValues = {
@@ -87,6 +110,32 @@ const usePanelValidation = (
       validationSchema = Yup.object().shape({
         maxDeviceNumber,
       });
+      return [initialValues, validationSchema];
+    case "UpdateNews":
+      initialValues = {
+        newsTitle: "",
+        newsDesc: "",
+        newsLink: "",
+        Image: null,
+      };
+
+      // @ts-ignore
+      validationSchema = Yup.object().shape({
+        newsTitle,
+        newsDesc,
+        newsLink,
+        Image: newsImage,
+      });
+      return [initialValues, validationSchema];
+    case "updatePhoneNumber":
+      initialValues = {
+        phoneNumber: "",
+      };
+
+      validationSchema = Yup.object().shape({
+        phoneNumber: PhoneNumber,
+      });
+
       return [initialValues, validationSchema];
     default:
       return undefined;

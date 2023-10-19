@@ -66,7 +66,7 @@ const AuthInput = ({
           type={type}
           name={name}
           id={name}
-          className={`border focus:border-primary autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+          className={`border focus:border-primary bg-white autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
             !disabled
               ? "hover:shadow-inputHover hover:border-inputHoverBorder"
               : ""

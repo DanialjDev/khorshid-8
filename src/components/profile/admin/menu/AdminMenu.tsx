@@ -5,7 +5,8 @@ import Image from "next/image";
 
 import KhorshidLogo from "@/../public/assets/images/admin/AdminLogo.png";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 import "./adminMenu.css";
 
@@ -14,11 +15,13 @@ const AdminMenuItem = ({
   text,
   href,
   setNav,
+  onClick,
 }: {
   icon: ReactNode;
   text: string;
   href?: string;
   setNav: React.Dispatch<React.SetStateAction<boolean>>;
+  onClick?: () => void;
 }) => {
   const pathname = usePathname();
   return (
@@ -44,7 +47,7 @@ const AdminMenuItem = ({
           </div>
         </Link>
       ) : (
-        <div className="w-full flex cursor-pointer">
+        <div className="w-full flex cursor-pointer" onClick={onClick}>
           <div className="flex justify-center items-center">{icon}</div>
           <div className="flex justify-start items-center mr-2">
             <p className="text-white text-[16px]">{text}</p>
@@ -62,6 +65,7 @@ const AdminMenu = ({
   nav: boolean;
   setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { push } = useRouter();
   return (
     <div
       className={`w-[270px] h-screen fixed ${
@@ -402,6 +406,12 @@ const AdminMenu = ({
               </svg>
             }
             text="خروج از پنل مدیریت"
+            onClick={() => {
+              Cookies.remove("token");
+              Cookies.remove("userInfo");
+
+              push("/");
+            }}
           />
         </ul>
       </div>

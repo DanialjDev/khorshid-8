@@ -6,6 +6,7 @@ import TableBodyData from "../TableBodyData";
 import { OperationNames, TableData } from "@/services/medical-equipment/types";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks/hooks";
+import TableDataContainer from "./TableData";
 
 const SectionLayout = ({
   children,
@@ -40,7 +41,7 @@ const SectionLayout = ({
           </div>
           {children}
           <div className="w-full grid grid-cols-2 gap-3">
-            <div className="lg:col-span-1 col-span-2">
+            <div className="md:col-span-1 col-span-2">
               <Button
                 onClick={() => {
                   const Data = TableBodyData({
@@ -91,7 +92,7 @@ const SectionLayout = ({
                 }
               />
             </div>
-            <div className="lg:col-span-1 col-span-2">
+            <div className="md:col-span-1 col-span-2">
               <Button
                 text="جست جو"
                 bg="bg-primary"
@@ -129,12 +130,7 @@ const SectionLayout = ({
         </div>
       </Box>
       <div className="w-full mt-5">
-        <CustomeTable
-          headers={tableHeaders}
-          text="برای دریافت اطلاعات جدول لطفا از کادر بالا استفاده کنید."
-        >
-          {tableData}
-        </CustomeTable>
+        <TableDataContainer tableHeaders={tableHeaders} />
       </div>
     </div>
   );

@@ -24,27 +24,13 @@ const NormalProfile = ({
   userDevices: UserProfileDevice[] | undefined;
 }) => {
   const { push } = useRouter();
-  const dispatch = useAppDispatch();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
 
-  const tableRowSelector = (id: number) => {
-    dispatch(setDeviceId(id));
-  };
   const user = Cookies.get("userInfo")
     ? JSON.parse(decrypt(Cookies.get("userInfo")))
     : null;
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     push("/");
-  //     toast.error("برای دسترسی به صفحه پروفایل ابتدا وارد سایت شوید", {
-  //       autoClose: 3000,
-  //     });
-  //     dispatch(authToggler("login"));
-  //   }
-  // }, []);
 
   return (
     <div className="w-full flex flex-col">

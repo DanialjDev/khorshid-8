@@ -12,6 +12,7 @@ import {
   UserInfo,
 } from "@/services/profile/admin/charge-account/types";
 import { generateHeaders } from "@/utills/generateTableHeaders";
+import Link from "next/link";
 import React from "react";
 
 const SingleUserData = ({
@@ -23,11 +24,7 @@ const SingleUserData = ({
 }) => {
   const dispatch = useAppDispatch();
   const tableHeaders = generateHeaders("GetUserAcceptedDevices");
-  const TableBody = TableBodyData({
-    // @ts-ignore
-    data: userDevices,
-    operationName: "GetUserAcceptedDevices",
-  });
+  console.log(userDevices);
   return (
     <div>
       <div className="w-full flex justify-between items-center">
@@ -71,8 +68,43 @@ const SingleUserData = ({
         <div className="w-full mt-3">
           <CustomeTable
             headers={tableHeaders ? tableHeaders : []}
-            items={TableBody}
-          />
+            text="دستگاهی برای نمایش وجود ندارد"
+          >
+            {userDevices &&
+              userDevices.map((item, index) => (
+                <tr key={item.deviceId}>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {index + 1}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.name}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.brand}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.country}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.companyName}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.orderedByFullName}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    {item.orderedByMobileNumber}
+                  </td>
+                  <td className="whitespace-nowrap p-4 text-[14px]">
+                    <Link
+                      href={`/panel/charge-account/update-device?deviceId=${item.deviceId}`}
+                      className="py-1 px-3 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
+                    >
+                      مشاهده
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+          </CustomeTable>
         </div>
       </div>
     </div>

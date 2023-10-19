@@ -73,6 +73,7 @@ export const loginHandler = async (
         Cookies.set("token", data.object?.authData?.token, {
           expires: 1 / 6,
           path: "/",
+          secure: false,
         });
         const encryptedData = encrypt(
           JSON.stringify({
@@ -84,7 +85,11 @@ export const loginHandler = async (
             email: data.object.email,
           })
         );
-        Cookies.set("userInfo", encryptedData, { expires: 1 / 6, path: "/" });
+        Cookies.set("userInfo", encryptedData, {
+          expires: 1 / 6,
+          path: "/",
+          secure: false,
+        });
         // Cookies.set('userData', data.object);
         return {
           message: data.message,
