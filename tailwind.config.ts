@@ -65,6 +65,7 @@ const config: Config = {
         declineBoxTitle: "#2F384F",
         newsBoxBg: "#FEFEFE",
         newsIconBg: "#F4F6FA",
+        inputBorder: "#E2E8F0",
       },
       boxShadow: {
         xs: "0px 2px 8px 0px rgba(151, 151, 151, 0.15)",

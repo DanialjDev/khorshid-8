@@ -1,20 +1,28 @@
+import Button from "@/components/main/button/Button";
 import AuthInput from "@/components/main/input/AuthInput";
 import NewsBox from "@/components/profile/admin/statistics/NewsBox";
 import StatisticsBox from "@/components/profile/admin/statistics/StatisticsBox";
 import UpdatePhoneNumber from "@/components/profile/admin/statistics/UpdatePhoneNumber";
-import { getNews } from "@/services/profile/admin/statistics";
+import {
+  getMostVisitedPages,
+  getNews,
+} from "@/services/profile/admin/statistics";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import React from "react";
 
 const Statistics = async () => {
   const newsRes = await getNews(cookies().get("token")?.value!);
-  console.log(newsRes);
+  const mostVisitedPages = await getMostVisitedPages(
+    cookies().get("token")?.value!
+  );
+  console.log(mostVisitedPages);
   return (
-    <div className="w-full grid grid-cols-6 gap-6 h-[400px] items-stretch">
+    <div className="w-full grid grid-cols-6 gap-6 !h-[450px] items-stretch">
       <div className="w-full col-span-3 h-full">
         <StatisticsBox>1</StatisticsBox>
       </div>
-      <div className="w-full col-span-3 h-full">
+      <div className="w-full col-span-3 2xl:h-[378px] h-full">
         <StatisticsBox
           title="اخبار سایت"
           hasTitleIcon
@@ -37,22 +45,152 @@ const Statistics = async () => {
             </svg>
           }
         >
-          <div className="w-full grid grid-cols-2 gap-y-4 gap-x-8 mt-8">
+          <div className="w-full grid grid-cols-2 gap-y-4 gap-x-8 mt-14">
             {newsRes &&
               newsRes.newsData &&
               newsRes.newsData.map((news) => (
-                <NewsBox key={news.newsId} newsNumber={String(news.newsId)} />
+                <>
+                  {news.title && (
+                    <NewsBox
+                      key={news.newsId}
+                      newsNumber={String(news.newsId)}
+                    />
+                  )}
+                </>
               ))}
           </div>
         </StatisticsBox>
       </div>
-      <div className="w-full col-span-2">
-        <StatisticsBox>3</StatisticsBox>
+      <div className="w-full xl:col-span-2 sm:col-span-3 col-span-6 h-full">
+        <StatisticsBox
+          title="همایش ها"
+          hasTitleIcon
+          icon={
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20.8999 9.85L21.4899 19.74C21.5099 20.01 21.3799 20.19 21.3099 20.27C21.2299 20.36 21.0599 20.5 20.7799 20.5H18.0499L20.2099 9.85H20.8999ZM21.9999 6L21.9899 6.02C22.0099 6.26 21.9899 6.51 21.9299 6.76L14.5599 20.29C14.3199 21.3 13.4199 22 12.3799 22H20.7799C22.0699 22 23.0899 20.91 22.9899 19.62L21.9999 6Z"
+                fill="white"
+              />
+              <path
+                d="M11.4502 2.24039C11.5502 1.84039 11.3002 1.43039 10.9002 1.33039C10.5002 1.24039 10.0902 1.48039 9.99023 1.88039L9.49023 3.95039H11.0302L11.4502 2.24039Z"
+                fill="white"
+              />
+              <path
+                d="M18.0499 2.20957C18.1399 1.79957 17.8799 1.40957 17.4699 1.31957C17.0699 1.22957 16.6699 1.48957 16.5799 1.89957L16.1299 3.96957H17.6699L18.0499 2.20957Z"
+                fill="white"
+              />
+              <path
+                d="M21.8202 5.33043C21.4902 4.53043 20.7102 3.96043 19.7502 3.96043H17.6702L17.1102 6.55043C17.0302 6.90043 16.7202 7.14043 16.3802 7.14043C16.3302 7.14043 16.2702 7.14043 16.2202 7.12043C15.8202 7.03043 15.5602 6.63043 15.6402 6.23043L16.1302 3.95043H11.0302L10.4002 6.55043C10.3202 6.89043 10.0102 7.12043 9.67024 7.12043C9.61024 7.12043 9.55024 7.11043 9.49024 7.10043C9.09024 7.00043 8.84024 6.60043 8.94024 6.19043L9.48024 3.94043H7.45024C6.47024 3.94043 5.60024 4.58043 5.31024 5.52043L1.10024 19.0704C0.660243 20.5204 1.73024 22.0004 3.24024 22.0004H16.3802C17.4202 22.0004 18.3202 21.3004 18.5602 20.2904L21.9302 6.76043C21.9902 6.51043 22.0102 6.26043 21.9902 6.02043C21.9702 5.78043 21.9202 5.54043 21.8202 5.33043ZM14.7002 16.7504H6.70024C6.29024 16.7504 5.95024 16.4104 5.95024 16.0004C5.95024 15.5904 6.29024 15.2504 6.70024 15.2504H14.7002C15.1102 15.2504 15.4502 15.5904 15.4502 16.0004C15.4502 16.4104 15.1102 16.7504 14.7002 16.7504ZM15.7002 12.7504H7.70024C7.29024 12.7504 6.95024 12.4104 6.95024 12.0004C6.95024 11.5904 7.29024 11.2504 7.70024 11.2504H15.7002C16.1102 11.2504 16.4502 11.5904 16.4502 12.0004C16.4502 12.4104 16.1102 12.7504 15.7002 12.7504Z"
+                fill="white"
+              />
+            </svg>
+          }
+        >
+          <div className="w-full flex flex-col items-start">
+            <div className="w-full mt-2">
+              <p className="text-[14px] text-gray">
+                شما برای وارد کردن همایش ها و یا حذف آن ها باید از این قسمت
+                اقدام کنید.
+              </p>
+            </div>
+            <div className="w-full flex mt-7">
+              <Button
+                href="/panel/statistics/confrences"
+                bg="bg-transparent"
+                color="text-primary"
+                fontSize="text-[14px]"
+                fontWeight="font-[600]"
+                dir="rtl"
+                padding="p-0"
+                text="مشاهده بیشتر"
+                icon={
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.59167 7.14714L11.8125 7.14714"
+                      stroke="#2C9CF0"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M6.5918 4.22949L1.96188 7.14674L6.5918 10.064L6.5918 4.22949Z"
+                      stroke="#2C9CF0"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+          </div>
+        </StatisticsBox>
       </div>
-      <div className="w-full col-span-2">
-        <StatisticsBox>4</StatisticsBox>
+      <div className="w-full xl:col-span-2 sm:col-span-3 col-span-6 h-full">
+        <StatisticsBox
+          hasTitleIcon
+          title="صفحات پر بازدید"
+          icon={
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.4062 10.6055H19.5586C19.6021 10.6055 19.6438 10.6228 19.6746 10.6535C19.7054 10.6843 19.7227 10.726 19.7227 10.7695V19.0312C19.7227 19.7741 19.4276 20.4864 18.9023 21.0117C18.3771 21.5369 17.6647 21.832 16.9219 21.832H7.07812C6.33531 21.832 5.62292 21.5369 5.09767 21.0117C4.57243 20.4864 4.27734 19.7741 4.27734 19.0312V4.96875C4.27734 4.22594 4.57243 3.51355 5.09767 2.9883C5.62292 2.46305 6.33531 2.16797 7.07812 2.16797H11.1211C11.1646 2.16797 11.2063 2.18525 11.2371 2.21602C11.2679 2.24679 11.2852 2.28852 11.2852 2.33203V8.48437C11.2852 9.04692 11.5086 9.58643 11.9064 9.98421C12.3042 10.382 12.8437 10.6055 13.4062 10.6055ZM8.48437 17.6367H15.5156C15.7052 17.6367 15.887 17.5614 16.0211 17.4273C16.1552 17.2933 16.2305 17.1115 16.2305 16.9219C16.2305 16.7323 16.1552 16.5505 16.0211 16.4164C15.887 16.2823 15.7052 16.207 15.5156 16.207H8.48437C8.29479 16.207 8.11296 16.2823 7.9789 16.4164C7.84484 16.5505 7.76953 16.7323 7.76953 16.9219C7.76953 17.1115 7.84484 17.2933 7.9789 17.4273C8.11296 17.5614 8.29479 17.6367 8.48437 17.6367ZM8.48437 14.1211H15.5156C15.7052 14.1211 15.887 14.0458 16.0211 13.9117C16.1552 13.7777 16.2305 13.5958 16.2305 13.4062C16.2305 13.2167 16.1552 13.0348 16.0211 12.9008C15.887 12.7667 15.7052 12.6914 15.5156 12.6914H8.48437C8.29479 12.6914 8.11296 12.7667 7.9789 12.9008C7.84484 13.0348 7.76953 13.2167 7.76953 13.4062C7.76953 13.5958 7.84484 13.7777 7.9789 13.9117C8.11296 14.0458 8.29479 14.1211 8.48437 14.1211Z"
+                fill="white"
+                stroke="#4FD1C5"
+                stroke-width="0.0234375"
+              />
+              <path
+                d="M12.8447 2.72723L19.1644 9.04696L12.8447 2.72723ZM12.8447 2.72723C12.8447 2.72722 12.8447 2.72722 12.8447 2.72722M12.8447 2.72723L12.8447 2.72722M12.8447 2.72722C12.8341 2.71663 12.8205 2.70944 12.8058 2.70652C12.7911 2.70361 12.7758 2.70512 12.7619 2.71086C12.748 2.7166 12.7362 2.72631 12.7278 2.73878C12.7194 2.75124 12.7149 2.7659 12.7148 2.78091V8.48542C12.7148 8.6688 12.7877 8.84466 12.9174 8.97432C13.047 9.10398 13.2229 9.17683 13.4063 9.17683H19.1107C19.1258 9.17677 19.1404 9.17226 19.1529 9.16389C19.1654 9.15552 19.1751 9.14364 19.1808 9.12976C19.1866 9.11588 19.1881 9.10062 19.1851 9.08589C19.1822 9.07116 19.175 9.05763 19.1645 9.04698L12.8447 2.72722Z"
+                fill="white"
+                stroke="#4FD1C5"
+                stroke-width="0.0234375"
+              />
+            </svg>
+          }
+        >
+          <div className="w-full flex flex-col items-start">
+            <div className="w-full mt-2">
+              <p className="text-[14px] text-gray">
+                لیست پر بازدید ترین صفحات سایت را در این قسمت مشاهده کنید.
+              </p>
+            </div>
+            <div className="w-full flex flex-col items-start">
+              {mostVisitedPages &&
+                mostVisitedPages.visitedPages &&
+                mostVisitedPages.visitedPages.map((page, index) => (
+                  <Link
+                    href={page.path}
+                    className="w-full my-3 flex items-center"
+                    key={page.id}
+                  >
+                    <div className="text-primaryDark6">{index + 1}</div>
+                    <p className="text-[14px] mr-2">{page.title}</p>
+                  </Link>
+                ))}
+            </div>
+          </div>
+        </StatisticsBox>
       </div>
-      <div className="w-full col-span-2">
+      <div className="w-full xl:col-span-2 col-span-6 h-full">
         <StatisticsBox
           title="شماره تماس داخل Header"
           hasTitleIcon

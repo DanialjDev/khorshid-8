@@ -1,7 +1,29 @@
+"use client";
+
+import { deleteNews } from "@/services/profile/admin/statistics";
 import Link from "next/link";
 import React from "react";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const NewsBox = ({ newsNumber }: { newsNumber: string }) => {
+  const { refresh } = useRouter();
+  const deleteNewsHandler = async () => {
+    if (Cookies.get("token")) {
+      const deleteNewsRes = await deleteNews(
+        { newsID: newsNumber },
+        Cookies.get("token")!
+      );
+
+      if (deleteNewsRes?.status === 200) {
+        toast.success(deleteNewsRes.message);
+        refresh();
+      } else {
+        toast.error(deleteNewsRes?.message);
+      }
+    }
+  };
   return (
     <div className="w-full flex justify-between flex-row-reverse 2xl:col-span-1 col-span-2 border border-profileBorderColor rounded-[5px] bg-newsBoxBg p-[6px]">
       <div className="flex flex-row-reverse">
@@ -33,7 +55,10 @@ const NewsBox = ({ newsNumber }: { newsNumber: string }) => {
         </div>
       </div>
       <div className="flex items-center">
-        <div className="flex justify-center items-center">
+        <div
+          className="flex justify-center items-center cursor-pointer"
+          onClick={deleteNewsHandler}
+        >
           <svg
             width="24"
             height="24"
@@ -65,7 +90,10 @@ const NewsBox = ({ newsNumber }: { newsNumber: string }) => {
             />
           </svg>
         </div>
-        <div className="flex justify-center items-center mr-6">
+        <Link
+          href={`/panel/statistics/insert-news?newsId=${newsNumber}`}
+          className="flex justify-center items-center mr-6"
+        >
           <svg
             width="24"
             height="24"
@@ -98,7 +126,7 @@ const NewsBox = ({ newsNumber }: { newsNumber: string }) => {
               stroke-linejoin="round"
             />
           </svg>
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const StatisticsBox = ({
         <>
           <div className="w-full flex items-center">
             <div className="p-2 rounded-[12px] bg-primary">{icon}</div>
-            <p className="font-bold text-primary md:text-[18px] text-[16px] mr-3">
+            <p className="font-bold text-primary xl:text-[18px] text-[16px] mr-3">
               {title}
             </p>
           </div>

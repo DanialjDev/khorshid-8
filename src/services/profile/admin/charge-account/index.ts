@@ -178,11 +178,42 @@ export const updateUserDeviceNumber = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
         status: error.response?.status!,
+      };
+    }
+  }
+};
+
+// update user accepted device
+export const updateUserDevice = async (
+  userData: FormData,
+  token: string
+): Promise<{ message: string; status?: number } | undefined> => {
+  try {
+    const { data, status } = await put<UpdateUserDevice>(
+      "Panel_Accounting/UpdateUserAcceptedDevice",
+      userData,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        message: data.message,
+        status,
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
       };
     }
   }

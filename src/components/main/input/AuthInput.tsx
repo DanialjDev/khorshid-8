@@ -60,18 +60,18 @@ const AuthInput = ({
           </div>
         )}
       </div>
-      {!helperText ? (
+      {helperText === undefined ? (
         <input
           disabled={disabled}
           type={type}
           name={name}
           id={name}
-          className={`border focus:border-primary bg-white autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+          className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
             !disabled
               ? "hover:shadow-inputHover hover:border-inputHoverBorder"
               : ""
           } transition duration-200 placeholder:text-[13px] ${
-            error && touchedInput ? "border-borderError" : ""
+            error && touchedInput ? "!border-borderError" : ""
           }`}
           placeholder={placeholder}
           onChange={onChange}
@@ -84,12 +84,12 @@ const AuthInput = ({
           type={type}
           name={name}
           id={name}
-          className={`border focus:border-primary autofill:!bg-white border-[#E2E8F0] rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+          className={`border focus:border-primary autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
             !disabled
               ? "hover:shadow-inputHover hover:border-inputHoverBorder"
               : ""
-          } transition duration-200 placeholder:text-[13px] ${
-            helperText ? "border-borderError" : ""
+          } transition duration-200  placeholder:text-[13px] ${
+            helperText !== undefined ? "!border-green-400" : ""
           }`}
           placeholder={placeholder}
           onChange={onChange}

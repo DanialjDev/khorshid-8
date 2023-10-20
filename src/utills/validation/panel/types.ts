@@ -56,18 +56,58 @@ interface UpdatePhoneNumberAnyObject {
   phoneNumber: undefined;
 }
 
+// update Single Device (accounting)
+interface SingleDeviceValues {
+  deviceId: number;
+  companyId: number;
+  companyName: string;
+  managerFullName: string;
+  faxNumber: string;
+  website: string;
+  userMobileNumber: string;
+  userEmail: string;
+  address: string;
+  deviceName: string;
+  brand: string;
+  country: string;
+  orderedByName: string;
+  orderedByLastName: string;
+  orderedByMobileNumber: string;
+  imageUrl: string;
+}
+interface SingleDeviceValuesAnyObject {
+  deviceId: undefined;
+  companyId: undefined;
+  companyName: undefined;
+  managerFullName: undefined;
+  faxNumber: undefined;
+  website: undefined;
+  userMobileNumber: undefined;
+  userEmail: undefined;
+  address: undefined;
+  deviceName: undefined;
+  brand: undefined;
+  country: undefined;
+  orderedByName: undefined;
+  orderedByLastName: undefined;
+  orderedByMobileNumber: undefined;
+  imageUrl: undefined;
+}
+
 export type PanelInitialValues =
   | UpdateCounselorValues
   | UpdatePoster
   | UpdateDeviceNumber
   | UpdatePanelNews
-  | UpdatePhoneNumber;
+  | UpdatePhoneNumber
+  | SingleDeviceValues;
 export type PanelValidationSchemaAnyObject =
   | UpdateCounselorAnyObject
   | UpdatePosterAnyObject
   | UpdateDeviceNumberAnyObject
   | UpdatePanelNewsAnyObject
-  | UpdatePhoneNumberAnyObject;
+  | UpdatePhoneNumberAnyObject
+  | SingleDeviceValuesAnyObject;
 
 export type PanelValidationSchemaType = Yup.ObjectSchema<
   PanelInitialValues,

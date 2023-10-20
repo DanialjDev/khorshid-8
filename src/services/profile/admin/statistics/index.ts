@@ -1,6 +1,13 @@
-import { get, put } from "@/services/axios";
+import { deleteService, get, put } from "@/services/axios";
 import Cookies from "js-cookie";
-import { News, NewsItemsProps, UpdatePhoneNumber } from "./types";
+import {
+  DeleteNewsProps,
+  MostVisitedPages,
+  MostVisitedPagesProps,
+  News,
+  NewsItemsProps,
+  UpdatePhoneNumber,
+} from "./types";
 import { isAxiosError } from "axios";
 
 export const getNews = async (
@@ -91,6 +98,77 @@ export const updatePhoneNumber = async (
       return {
         status,
         message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get most visited pages
+export const getMostVisitedPages = async (
+  token: string
+): Promise<
+  | {
+      visitedPages?: MostVisitedPages[];
+      message?: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<MostVisitedPagesProps>(
+      "Panel_Dashboard/GetMostVisitedPages",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        visitedPages: data.list,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// delete News
+export const deleteNews = async (
+  newsData: {
+    newsID: string;
+  },
+  token: string
+): Promise<
+  | {
+      status?: number;
+      message: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await deleteService<DeleteNewsProps>(
+      "Panel_Dashboard/RemoveNews",
+      {
+        data: newsData,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        message: data.message,
+        status,
       };
     }
   } catch (error) {

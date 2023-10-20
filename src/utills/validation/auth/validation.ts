@@ -1,3 +1,4 @@
+import { isMobile } from "@/utills/formatHelper";
 import { InitialValues, ValidationSchemaType } from "./types";
 import * as Yup from "yup";
 
@@ -47,7 +48,15 @@ const useValidation = (action: Action): ReturnType | undefined => {
 
   const firstName = defaultErrorValidation;
   const lastName = defaultErrorValidation;
-  const phoneNumber = defaultErrorValidation;
+  const phoneNumber = defaultErrorValidation.test(
+    "isMobile",
+    "شماره وارد شده معتبر نمی باشد",
+    (value) => {
+      if (value && value.length > 0) {
+        return Boolean(isMobile(value));
+      }
+    }
+  );
   const comment = defaultErrorValidation;
 
   const companyName = defaultErrorValidation;
@@ -55,6 +64,7 @@ const useValidation = (action: Action): ReturnType | undefined => {
   const faxNumber = defaultErrorValidation;
   const website = defaultErrorValidation;
   const address = defaultErrorValidation;
+  const image = Yup.mixed().required("انتخاب عکس الزامی است");
 
   switch (action) {
     case "signup":
@@ -160,7 +170,7 @@ const useValidation = (action: Action): ReturnType | undefined => {
         Image: Yup.mixed().required("لطفا تصویر دستگاه را بارگذاری کنید."),
         OrderedByLastName: defaultErrorValidation,
         OrderedByName: defaultErrorValidation,
-        OrderedByMobileNumber: defaultErrorValidation,
+        OrderedByMobileNumber: phoneNumber,
         country: defaultErrorValidation,
         name: defaultErrorValidation,
       });

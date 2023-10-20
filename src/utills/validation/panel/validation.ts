@@ -7,7 +7,8 @@ type Action =
   | "updatePoster"
   | "updateDeviceNumber"
   | "UpdateNews"
-  | "updatePhoneNumber";
+  | "updatePhoneNumber"
+  | "updateSingleDevice";
 
 type ReturnType = [
   initialValues: PanelInitialValues,

@@ -27,3 +27,33 @@ export interface UpdatePhoneNumber {
   status: number;
   success: boolean;
 }
+
+// most visited pages
+export interface MostVisitedPages {
+  id: number;
+  path: string;
+  title: string;
+}
+
+export interface MostVisitedPagesProps {
+  exMessage: null | string;
+  message: string;
+  object: null;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+  list: MostVisitedPages[];
+}
+
+// delete news
+export interface DeleteNewsProps {
+  exMessage: null | string;
+  message: string;
+  object: null;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+  list: null;
+}

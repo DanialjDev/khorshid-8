@@ -47,6 +47,7 @@ const SetDeviceStatusForm = ({
       }
     }
   };
+  console.log(deviceInitialValues);
 
   const [declinedStateMessage, setDeclinedStateMessage] = useState<
     string | null
@@ -302,10 +303,9 @@ const SetDeviceStatusForm = ({
             <ImageInput
               title="تصویر دستگاه"
               desc="در ابعاد 214 × 214 پیکسل ، حجم کمتر از 1 مگابایت ."
-              img={img}
-              setImg={setImg}
               disabled
-              removeImg={() => setImg(null)}
+              // @ts-ignore
+              value={initialValues?.imageUrl}
             />
           </div>
           <div className="col-span-2 flex flex-col items-stretch md:col-span-1">

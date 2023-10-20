@@ -1,3 +1,4 @@
+import PageTitle from "@/components/main/pageTitle/PageTitle";
 import SingleUserDevice from "@/components/profile/admin/charge-accoun/SingleUserDevice";
 import { getUserAcceptedSingleDevice } from "@/services/profile/admin/charge-account";
 import { cookies } from "next/headers";
@@ -17,8 +18,16 @@ const UpdateUserDevice = async ({
   );
   console.log("device", userAcceptedDevice?.data);
   return (
-    <div className="w-full flex">
-      <SingleUserDevice />
+    <div className="w-full flex flex-col">
+      <PageTitle
+        title={`اطلاعات دستگاه ${userAcceptedDevice?.data?.deviceName}`}
+        text="شما می توانید به صورت دستی یک دستگاه را در اینجا اصلاح یا حذف  کنید."
+      />
+      <SingleUserDevice
+        deviceInitialValues={
+          userAcceptedDevice?.data ? userAcceptedDevice.data : undefined
+        }
+      />
     </div>
   );
 };

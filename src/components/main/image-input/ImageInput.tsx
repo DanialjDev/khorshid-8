@@ -17,13 +17,14 @@ const ImageInput = ({
   border,
   setFieldValue,
   value,
+  setIsImgChanged,
 }: {
   title: string;
   desc: string;
   errors?: string;
   touched?: boolean;
   handleBlur?: (e: React.FocusEvent<any, Element>) => void;
-  name?: string;
+  name: string;
   disabled?: boolean;
   bg?: string;
   border?: string;
@@ -33,20 +34,25 @@ const ImageInput = ({
     shouldValidate?: boolean | undefined
   ) => Promise<void> | Promise<FormikErrors<PanelInitialValues>>;
   value?: File;
+  setIsImgChanged?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <>
       <div
-        className={`w-full p-2 ${errors && touched ? "border-redColor" : ""} ${
+        className={`w-full p-2  ${errors && touched ? "border-redColor" : ""} ${
           bg ? bg : "bg-menuBg"
         } ${
-          border ? border : ""
+          border ? border : "border border-profileBorderColor"
         } grid grid-cols-8 gap-2 shadow-md justify-between items-stretch rounded-lg`}
       >
         <input
           onChange={(e) => {
             if (e.target.files !== null) {
-              setFieldValue("Image", e.target.files[0], true);
+              setFieldValue(name, e.target.files[0], true);
+              console.log(value);
+            }
+            if (setIsImgChanged) {
+              setIsImgChanged(true);
             }
           }}
           type="file"
@@ -103,7 +109,12 @@ const ImageInput = ({
             </div>
             <div className="flex justify-center items-center">
               <Button
-                onClick={() => setFieldValue("Image", "", true)}
+                onClick={() => {
+                  setFieldValue(name, "", true);
+                  if (setIsImgChanged) {
+                    setIsImgChanged(true);
+                  }
+                }}
                 bg="bg-redColorLight"
                 padding="p-2"
                 border="border border-redColor"
