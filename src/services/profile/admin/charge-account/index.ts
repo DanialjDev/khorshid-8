@@ -1,4 +1,4 @@
-import { get, put } from "@/services/axios";
+import { deleteService, get, put } from "@/services/axios";
 import {
   GetUserAcceptedSingleDevice,
   GetUsersAccounts,
@@ -211,6 +211,38 @@ export const updateUserDevice = async (
     }
   } catch (error) {
     console.log(error);
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// delete user device
+export const deleteUserDeviceHandler = async (
+  payload: {
+    deviceID: number;
+  },
+  token: string
+): Promise<{ status?: number; message: string } | undefined> => {
+  try {
+    const { data, status } = await deleteService<UpdateUserDevice>(
+      "Panel_Accounting/RemoveUserAcceptedDevice",
+      {
+        data: payload,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

@@ -3,7 +3,10 @@
 import Button from "@/components/main/button/Button";
 import ImageInput from "@/components/main/image-input/ImageInput";
 import AuthInput from "@/components/main/input/AuthInput";
-import { updateUserDevice } from "@/services/profile/admin/charge-account";
+import {
+  deleteUserDeviceHandler,
+  updateUserDevice,
+} from "@/services/profile/admin/charge-account";
 import { SingleUserAcceptedDevice } from "@/services/profile/admin/charge-account/types";
 import { isMobile, isNumeric, isUrl } from "@/utills/formatHelper";
 import { useFormik } from "formik";
@@ -11,12 +14,14 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const SingleUserDevice = ({
   deviceInitialValues,
 }: {
   deviceInitialValues: SingleUserAcceptedDevice | undefined;
 }) => {
+  const { back, refresh } = useRouter();
   const defaultError = Yup.string().required("پرکردن این فیلد الزامی است.");
   const [isImgChanged, setIsImgChanged] = useState(false);
   const {
@@ -102,6 +107,19 @@ const SingleUserDevice = ({
       }
     },
   });
+  const deleteUserDevice = async () => {
+    const deleteUserDeviceRes = await deleteUserDeviceHandler(
+      { deviceID: deviceInitialValues?.deviceId! },
+      Cookies.get("token")!
+    );
+    if (deleteUserDeviceRes?.status === 200) {
+      toast.success(deleteUserDeviceRes.message);
+      back();
+      refresh();
+    } else {
+      toast.error(deleteUserDeviceRes?.message);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -275,6 +293,7 @@ const SingleUserDevice = ({
               border="border border-redColor"
               rounded="rounded-[6px]"
               padding="px-4 py-2"
+              onClick={deleteUserDevice}
               icon={
                 <svg
                   width="29"
