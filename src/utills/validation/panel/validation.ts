@@ -95,14 +95,10 @@ const usePanelValidation = (
         Image: null,
       };
       // @ts-ignore
-      validationSchema = !isLinkRequired
-        ? Yup.object().shape({
-            Link,
-            Image,
-          })
-        : Yup.object().shape({
-            Image,
-          });
+      validationSchema = Yup.object().shape({
+        Link,
+        Image,
+      });
       return [initialValues, validationSchema];
     case "updateDeviceNumber":
       initialValues = {

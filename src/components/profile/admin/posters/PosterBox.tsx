@@ -16,8 +16,9 @@ import React, { ReactNode } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { Conference } from "@/services/homePage/types";
 
-type PosterData = HomeSideBanners & MedicalEquipmentBanners & Gallery;
+type Action = "gallery" | "medicalEquipment" | "homeSideBanner";
 
 const IconBox = ({
   icon,
@@ -38,60 +39,67 @@ const IconBox = ({
 
 const PosterBox = ({
   fontSize = "text-[14px]",
-  posterData,
+  title,
+  imageUrl,
+  id,
+  action,
 }: {
-  posterData: PosterData;
   fontSize?: string;
+  title: string | ReactNode;
+  imageUrl: string;
+  id?: number;
+  action?: Action;
 }) => {
   const { refresh } = useRouter();
   const token = Cookies.get("token");
   const dispatch = useAppDispatch();
 
   const deleteBannerHandler = async () => {
-    let url = "";
-    let dataObj: PosterDataType;
-    if (posterData.id) {
-      dispatch(setId(posterData.id));
-      url = "RemoveImageFromGallery";
-      dataObj = {
-        id: posterData.id,
-      };
-    } else if (posterData.bannerId) {
-      dispatch(setId(posterData.bannerId));
-      url = "RemoveMedicalEquipmentBanner";
-      dataObj = {
-        bannerID: posterData.bannerId,
-      };
-    } else {
-      dispatch(setId(posterData.homeSideBannerId));
-      url = "RemoveHomeSideBanner";
-      dataObj = {
-        homeSideBannerID: posterData.homeSideBannerId,
-      };
-    }
-
-    if (token) {
-      const response = await deletePoster(dataObj, token, url);
-      // console.log(response);
-      if (response?.status === 200) {
-        toast.success(response.message);
-        refresh();
+    if (id) {
+      let url = "";
+      let dataObj: PosterDataType;
+      if (action === "gallery") {
+        dispatch(setId(id));
+        url = "RemoveImageFromGallery";
+        dataObj = {
+          id,
+        };
+      } else if (action === "medicalEquipment") {
+        dispatch(setId(id));
+        url = "RemoveMedicalEquipmentBanner";
+        dataObj = {
+          bannerID: id,
+        };
       } else {
-        toast.error(response?.message);
+        dispatch(setId(id));
+        url = "RemoveHomeSideBanner";
+        dataObj = {
+          homeSideBannerID: id,
+        };
+      }
+
+      if (token) {
+        const response = await deletePoster(dataObj, token, url);
+        // console.log(response);
+        if (response?.status === 200) {
+          toast.success(response.message);
+          refresh();
+        } else {
+          toast.error(response?.message);
+        }
+        console.log(response);
       }
     }
   };
   return (
     <div
       className={`w-full md:col-span-2 hover:border-primary hover:bg-primaryLight3 transition-all duration-200 sm:col-span-3 col-span-6 p-2 border-2 rounded-[8px] cursor-pointer ${
-        !posterData.imageUrl
-          ? "border-posterBoxBorder"
-          : "border-posterBoxActiveBorder"
+        !imageUrl ? "border-posterBoxBorder" : "border-posterBoxActiveBorder"
       }`}
     >
       <div className="w-full flex flex-col justify-center items-center">
         <div className={`flex justify-center py-4 md:scale-100 scale-[0.8]`}>
-          {posterData.imageUrl ? (
+          {imageUrl ? (
             <svg
               width="40"
               height="40"
@@ -148,21 +156,11 @@ const PosterBox = ({
         </div>
         <div className="mb-2 text-center">
           <p className={`text-posterTitleColor font-normal ${fontSize}`}>
-            {posterData.name
-              ? posterData.name
-              : `بنر شماره ${
-                  posterData.homeSideBannerId
-                    ? posterData.homeSideBannerId
-                    : posterData.bannerId
-                    ? posterData.bannerId
-                    : posterData.id
-                    ? posterData.id
-                    : null
-                }`}
+            {title}
           </p>
         </div>
         <div className="w-full my-2 flex flex-row-reverse justify-around items-center">
-          {posterData.imageUrl ? (
+          {imageUrl ? (
             <>
               <IconBox
                 onClick={deleteBannerHandler}
@@ -201,16 +199,10 @@ const PosterBox = ({
               <IconBox
                 onClick={() => {
                   dispatch(authToggler("updatePoster"));
-                  if (posterData.id) {
-                    dispatch(setLinkRequired(true));
-                    dispatch(setUpdateAction("gallery"));
-                    dispatch(setId(posterData.id));
-                  } else if (posterData.bannerId) {
-                    dispatch(setUpdateAction("medicalEquipment"));
-                    dispatch(setId(posterData.bannerId));
-                  } else {
-                    dispatch(setId(posterData.homeSideBannerId));
-                    dispatch(setUpdateAction("homeSideBanner"));
+                  dispatch(setUpdateAction(action));
+                  dispatch(setId(id));
+                  if (action === "gallery") {
+                    dispatch(setLinkRequired(false));
                   }
                 }}
                 icon={
@@ -295,16 +287,10 @@ const PosterBox = ({
                 className="flex justify-center items-center"
                 onClick={() => {
                   dispatch(authToggler("updatePoster"));
-                  if (posterData.id) {
-                    dispatch(setLinkRequired(true));
-                    dispatch(setUpdateAction("gallery"));
-                    dispatch(setId(posterData.id));
-                  } else if (posterData.bannerId) {
-                    dispatch(setUpdateAction("medicalEquipment"));
-                    dispatch(setId(posterData.bannerId));
-                  } else {
-                    dispatch(setId(posterData.homeSideBannerId));
-                    dispatch(setUpdateAction("homeSideBanner"));
+                  dispatch(setUpdateAction(action));
+                  dispatch(setId(id));
+                  if (action === "gallery") {
+                    dispatch(setLinkRequired(false));
                   }
                 }}
               >

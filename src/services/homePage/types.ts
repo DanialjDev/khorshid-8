@@ -1,4 +1,4 @@
-interface Conference {
+export interface Conference {
   conferenceId: number;
   name: string;
   imageUrl: string;

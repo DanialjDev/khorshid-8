@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FormButton from "@/components/main/button/FormButton";
 import ImageInput from "@/components/main/image-input/ImageInput";
 import AuthInput from "@/components/main/input/AuthInput";
@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { updatePosters } from "@/services/profile/admin/posters";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { authToggler } from "@/redux/features/auth/authSlice";
+import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 
 const UpdatePosterModal = () => {
@@ -19,8 +19,6 @@ const UpdatePosterModal = () => {
   );
   const { id } = useAppSelector((state) => state.user);
   const token = Cookies.get("token");
-  const [img, setImg] = useState<File | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [initialValues, validationSchema] = usePanelValidation(
     "updatePoster",
     isLinkRequired
@@ -43,18 +41,14 @@ const UpdatePosterModal = () => {
       formData.append("Image", values.Image);
       if (updateAction === "homeSideBanner") {
         url = "UpdateHomeSideBanner";
-        if (isLinkRequired) {
-          // @ts-ignore
-          formData.append("Link", values.Link);
-        }
+        // @ts-ignore
+        formData.append("Link", values.Link);
         // @ts-ignore
         formData.append("HomeSideBannerId", id);
       } else if (updateAction === "medicalEquipment") {
         url = "UpdateMedicalEquipmentBanner";
-        if (isLinkRequired) {
-          // @ts-ignore
-          formData.append("Link", values.Link);
-        }
+        // @ts-ignore
+        formData.append("Link", values.Link);
         // @ts-ignore
         formData.append("BannerId", id);
       } else {
@@ -63,6 +57,7 @@ const UpdatePosterModal = () => {
         url = "UpdateImageOfGallery";
       }
       if (token) {
+        console.log(formData.get("Link"));
         const response = await updatePosters(formData, token, url);
 
         if (response?.status === 200) {
@@ -74,31 +69,35 @@ const UpdatePosterModal = () => {
         } else {
           toast.error(response?.message);
         }
+        console.log(response);
       }
       console.log(values);
     },
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(setLinkRequired(true));
+    };
+  }, []);
   return (
     <form onSubmit={handleSubmit} className="mb-10 grid grid-cols-1">
       <div className="w-full my-2 col-span-1 ">
         <ImageInput
-          inputRef={inputRef}
-          img={img}
-          setImg={setImg}
           title="بارگذاری تصویر"
           desc="در ابعاد 270 × 200 پیکسل ، حجم کمتر از 1 مگابایت ."
           name="Image"
-          touched={touched}
-          isRequired
-          handleChange={(e) => {
-            setFieldValue("Image", e.target.files[0], true);
-          }}
-          removeImg={() => setFieldValue("Image", "")}
+          // @ts-ignore
+          touched={touched["Image"]}
           handleBlur={handleBlur}
-          errors={errors}
+          // @ts-ignore
+          errors={errors["Image"]}
+          setFieldValue={setFieldValue}
+          // @ts-ignore
+          value={values.Image}
         />
       </div>
-      {!isLinkRequired ? (
+      {isLinkRequired ? (
         <div className="w-full col-span-1">
           <AuthInput
             label="لینک مربوط به عکس"

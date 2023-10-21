@@ -1,3 +1,5 @@
+import { Conference } from "@/services/homePage/types";
+
 export interface News {
   newsId: number;
   title: string;
@@ -56,4 +58,14 @@ export interface DeleteNewsProps {
   status: number;
   success: boolean;
   list: null;
+}
+
+export interface PanelConfrences {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null | string;
+  operationDate: string;
+  status: number;
+  list: Conference[];
 }

@@ -27,6 +27,7 @@ const AuthSlice = createSlice({
     },
     setId: (state, action) => {
       state.id = action.payload;
+      console.log(action);
       return state;
     },
   },

@@ -11,7 +11,7 @@ import React from "react";
 const Posters = async () => {
   const response = await getPanelPosters(cookies().get("token")?.value!);
   return (
-    <div className="max-w-[1500px] flex flex-col">
+    <div className="w-full flex flex-col">
       <PostersContainer
         homeSideBanners={response?.homeSideBanners}
         medicalEquipmentBanners={response?.medicalEquipmentBanners}

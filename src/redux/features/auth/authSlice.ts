@@ -19,7 +19,7 @@ const initialState: InitialState = {
   isLoggedIn: false,
   email: "",
   username: "",
-  isLinkRequired: false,
+  isLinkRequired: true,
   updateAction: "",
 };
 

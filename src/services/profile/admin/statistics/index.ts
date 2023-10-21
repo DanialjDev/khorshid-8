@@ -6,9 +6,11 @@ import {
   MostVisitedPagesProps,
   News,
   NewsItemsProps,
+  PanelConfrences,
   UpdatePhoneNumber,
 } from "./types";
 import { isAxiosError } from "axios";
+import { Conference } from "@/services/homePage/types";
 
 export const getNews = async (
   token: string
@@ -169,6 +171,39 @@ export const deleteNews = async (
       return {
         message: data.message,
         status,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get Confrences
+export const getConfrences = async (
+  token: string
+): Promise<
+  | {
+      confrences?: Conference[];
+      message?: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<PanelConfrences>(
+      "Panel_Dashboard/GetConferences",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        confrences: data.list,
       };
     }
   } catch (error) {
