@@ -8,16 +8,14 @@ type Action =
   | "updateDeviceNumber"
   | "UpdateNews"
   | "updatePhoneNumber"
-  | "updateSingleDevice";
+  | "updateSingleDevice"
+  | "UpdateConfrences";
 
 type ReturnType = [
   initialValues: PanelInitialValues,
   validationSchema: PanelValidationSchemaType
 ];
-const usePanelValidation = (
-  action: Action,
-  isLinkRequired?: boolean
-): ReturnType | undefined => {
+const usePanelValidation = (action: Action): ReturnType | undefined => {
   let initialValues: PanelInitialValues;
   let validationSchema: PanelValidationSchemaType;
 
@@ -71,6 +69,7 @@ const usePanelValidation = (
       }
     }
   );
+
   const newsImage = Yup.mixed().optional();
   switch (action) {
     case "updateCounselor":

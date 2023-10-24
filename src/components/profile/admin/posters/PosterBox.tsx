@@ -15,7 +15,7 @@ import {
 import React, { ReactNode } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Conference } from "@/services/homePage/types";
 
 type Action = "gallery" | "medicalEquipment" | "homeSideBanner";
@@ -43,16 +43,19 @@ const PosterBox = ({
   imageUrl,
   id,
   action,
+  isSelected,
 }: {
   fontSize?: string;
   title: string | ReactNode;
   imageUrl: string;
   id?: number;
   action?: Action;
+  isSelected?: string;
 }) => {
   const { refresh } = useRouter();
   const token = Cookies.get("token");
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
 
   const deleteBannerHandler = async () => {
     if (id) {
@@ -93,11 +96,15 @@ const PosterBox = ({
   };
   return (
     <div
-      className={`w-full md:col-span-2 hover:border-primary hover:bg-primaryLight3 transition-all duration-200 sm:col-span-3 col-span-6 p-2 border-2 rounded-[8px] cursor-pointer ${
+      className={`w-full  hover:border-primary hover:bg-primaryLight3 transition-all duration-200  p-2 border-2 rounded-[8px] cursor-pointer ${
         !imageUrl ? "border-posterBoxBorder" : "border-posterBoxActiveBorder"
       }`}
     >
-      <div className="w-full flex flex-col justify-center items-center">
+      <div
+        className={`first-letter:w-full flex flex-col justify-center ${
+          pathname.includes("panel/statistics/confrences") ? "py-5" : ""
+        } items-center`}
+      >
         <div className={`flex justify-center py-4 md:scale-100 scale-[0.8]`}>
           {imageUrl ? (
             <svg
@@ -159,53 +166,142 @@ const PosterBox = ({
             {title}
           </p>
         </div>
-        <div className="w-full my-2 flex flex-row-reverse justify-around items-center">
-          {imageUrl ? (
-            <>
-              <IconBox
-                onClick={deleteBannerHandler}
-                icon={
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2.25 4.5H15.75M3.75 4.5V15C3.75 15.8284 4.42157 16.5 5.25 16.5H12.75C13.5784 16.5 14.25 15.8284 14.25 15V4.5M6 4.5V3C6 2.17157 6.67157 1.5 7.5 1.5H10.5C11.3284 1.5 12 2.17157 12 3V4.5"
-                      stroke="#060607"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M10.5 8.25V12.75"
-                      stroke="#060607"
-                      stroke-width="1.125"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M7.5 8.25V12.75"
-                      stroke="#060607"
-                      stroke-width="1.125"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                }
-              />
-              <IconBox
-                onClick={() => {
-                  dispatch(authToggler("updatePoster"));
-                  dispatch(setUpdateAction(action));
-                  dispatch(setId(id));
-                  if (action === "gallery") {
-                    dispatch(setLinkRequired(false));
+        {!pathname.includes("panel/statistics/confrences") && (
+          <div className="w-full my-2 flex flex-row-reverse justify-around items-center">
+            {imageUrl ? (
+              <>
+                <IconBox
+                  onClick={deleteBannerHandler}
+                  icon={
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2.25 4.5H15.75M3.75 4.5V15C3.75 15.8284 4.42157 16.5 5.25 16.5H12.75C13.5784 16.5 14.25 15.8284 14.25 15V4.5M6 4.5V3C6 2.17157 6.67157 1.5 7.5 1.5H10.5C11.3284 1.5 12 2.17157 12 3V4.5"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10.5 8.25V12.75"
+                        stroke="#060607"
+                        stroke-width="1.125"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M7.5 8.25V12.75"
+                        stroke="#060607"
+                        stroke-width="1.125"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   }
-                }}
-                icon={
+                />
+                <IconBox
+                  onClick={() => {
+                    dispatch(authToggler("updatePoster"));
+                    dispatch(setUpdateAction(action));
+                    dispatch(setId(id));
+                    if (action === "gallery") {
+                      dispatch(setLinkRequired(false));
+                    }
+                  }}
+                  icon={
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.25 1.5H6.75C3 1.5 1.5 3 1.5 6.75V11.25C1.5 15 3 16.5 6.75 16.5H11.25C15 16.5 16.5 15 16.5 11.25V9.75"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.0304 2.26495L6.1204 8.17495C5.8954 8.39995 5.6704 8.84245 5.6254 9.16495L5.3029 11.4224C5.1829 12.2399 5.7604 12.8099 6.5779 12.6974L8.8354 12.3749C9.1504 12.3299 9.5929 12.1049 9.8254 11.8799L15.7354 5.96995C16.7554 4.94995 17.2354 3.76495 15.7354 2.26495C14.2354 0.764945 13.0504 1.24495 12.0304 2.26495Z"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M11.1816 3.1123C11.6841 4.9048 13.0866 6.3073 14.8866 6.8173"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  }
+                />
+
+                <IconBox
+                  icon={
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 1.5V6.75L10.5 5.25"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9 6.75L7.5 5.25"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M1.48438 9.75H4.79187C5.07687 9.75 5.33188 9.9075 5.45938 10.1625L6.33687 11.9175C6.59187 12.4275 7.10938 12.75 7.67938 12.75H10.3269C10.8969 12.75 11.4144 12.4275 11.6694 11.9175L12.5469 10.1625C12.6744 9.9075 12.9369 9.75 13.2144 9.75H16.4844"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5.25 3.09668C2.595 3.48668 1.5 5.04668 1.5 8.24918V11.2492C1.5 14.9992 3 16.4992 6.75 16.4992H11.25C15 16.4992 16.5 14.9992 16.5 11.2492V8.24918C16.5 5.04668 15.405 3.48668 12.75 3.09668"
+                        stroke="#060607"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  }
+                />
+              </>
+            ) : (
+              <div className="w-full flex justify-center items-center">
+                <div
+                  className="flex justify-center items-center"
+                  onClick={() => {
+                    dispatch(authToggler("updatePoster"));
+                    dispatch(setUpdateAction(action));
+                    dispatch(setId(id));
+                    if (action === "gallery") {
+                      dispatch(setLinkRequired(false));
+                    }
+                  }}
+                >
                   <svg
                     width="18"
                     height="18"
@@ -237,99 +333,14 @@ const PosterBox = ({
                       stroke-linejoin="round"
                     />
                   </svg>
-                }
-              />
-
-              <IconBox
-                icon={
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9 1.5V6.75L10.5 5.25"
-                      stroke="#060607"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M9 6.75L7.5 5.25"
-                      stroke="#060607"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M1.48438 9.75H4.79187C5.07687 9.75 5.33188 9.9075 5.45938 10.1625L6.33687 11.9175C6.59187 12.4275 7.10938 12.75 7.67938 12.75H10.3269C10.8969 12.75 11.4144 12.4275 11.6694 11.9175L12.5469 10.1625C12.6744 9.9075 12.9369 9.75 13.2144 9.75H16.4844"
-                      stroke="#060607"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5.25 3.09668C2.595 3.48668 1.5 5.04668 1.5 8.24918V11.2492C1.5 14.9992 3 16.4992 6.75 16.4992H11.25C15 16.4992 16.5 14.9992 16.5 11.2492V8.24918C16.5 5.04668 15.405 3.48668 12.75 3.09668"
-                      stroke="#060607"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                }
-              />
-            </>
-          ) : (
-            <div className="w-full flex justify-center items-center">
-              <div
-                className="flex justify-center items-center"
-                onClick={() => {
-                  dispatch(authToggler("updatePoster"));
-                  dispatch(setUpdateAction(action));
-                  dispatch(setId(id));
-                  if (action === "gallery") {
-                    dispatch(setLinkRequired(false));
-                  }
-                }}
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.25 1.5H6.75C3 1.5 1.5 3 1.5 6.75V11.25C1.5 15 3 16.5 6.75 16.5H11.25C15 16.5 16.5 15 16.5 11.25V9.75"
-                    stroke="#060607"
-                    stroke-width="1.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M12.0304 2.26495L6.1204 8.17495C5.8954 8.39995 5.6704 8.84245 5.6254 9.16495L5.3029 11.4224C5.1829 12.2399 5.7604 12.8099 6.5779 12.6974L8.8354 12.3749C9.1504 12.3299 9.5929 12.1049 9.8254 11.8799L15.7354 5.96995C16.7554 4.94995 17.2354 3.76495 15.7354 2.26495C14.2354 0.764945 13.0504 1.24495 12.0304 2.26495Z"
-                    stroke="#060607"
-                    stroke-width="1.2"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M11.1816 3.1123C11.6841 4.9048 13.0866 6.3073 14.8866 6.8173"
-                    stroke="#060607"
-                    stroke-width="1.2"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                </div>
+                <p className="text-[14px] text-posterNoImgText mr-1">
+                  فاقد بنر
+                </p>
               </div>
-              <p className="text-[14px] text-posterNoImgText mr-1">فاقد بنر</p>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

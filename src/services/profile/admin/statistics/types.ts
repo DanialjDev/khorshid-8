@@ -69,3 +69,14 @@ export interface PanelConfrences {
   status: number;
   list: Conference[];
 }
+
+export interface SingleConfrenceTypes {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null | string;
+  operationDate: string;
+  status: number;
+  object: Conference;
+  list: null;
+}

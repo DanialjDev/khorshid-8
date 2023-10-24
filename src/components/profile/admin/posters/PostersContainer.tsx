@@ -34,14 +34,16 @@ const PostersContainer = ({
           homeSideBanners.map((item, index) => {
             // @ts-ignore
             return (
-              <PosterBox
-                key={item.homeSideBannerId}
-                fontSize={"sm:text-[14px] text-[13px]"}
-                title={`بنز شماره ${String(item.homeSideBannerId)}`}
-                imageUrl={item.imageUrl!}
-                action="homeSideBanner"
-                id={item.homeSideBannerId}
-              />
+              <div className="sm:col-span-3 col-span-6 md:col-span-2">
+                <PosterBox
+                  key={item.homeSideBannerId}
+                  fontSize={"sm:text-[14px] text-[13px]"}
+                  title={`بنز شماره ${String(item.homeSideBannerId)}`}
+                  imageUrl={item.imageUrl!}
+                  action="homeSideBanner"
+                  id={item.homeSideBannerId}
+                />
+              </div>
             );
           })}
       </PosterSection>
@@ -52,14 +54,16 @@ const PostersContainer = ({
       >
         {medicalEquipmentBanners &&
           medicalEquipmentBanners.map((item) => (
-            <PosterBox
-              key={item.bannerId}
-              fontSize={"sm:text-[14px] text-[13px]"}
-              imageUrl={item.imageUrl!}
-              title={item.name}
-              action="medicalEquipment"
-              id={item.bannerId}
-            />
+            <div className="sm:col-span-3 col-span-6 md:col-span-2">
+              <PosterBox
+                key={item.bannerId}
+                fontSize={"sm:text-[14px] text-[13px]"}
+                imageUrl={item.imageUrl!}
+                title={item.name}
+                action="medicalEquipment"
+                id={item.bannerId}
+              />
+            </div>
           ))}
       </PosterSection>
       <PosterSection
@@ -69,14 +73,16 @@ const PostersContainer = ({
       >
         {gallery &&
           gallery.map((item) => (
-            <PosterBox
-              key={item.id}
-              fontSize={"sm:text-[14px] text-[13px]"}
-              title={`تصویر شماره ${String(item.id)}`}
-              imageUrl={item.imageUrl}
-              action="gallery"
-              id={item.id}
-            />
+            <div className="sm:col-span-3 col-span-6 md:col-span-2">
+              <PosterBox
+                key={item.id}
+                fontSize={"sm:text-[14px] text-[13px]"}
+                title={`تصویر شماره ${String(item.id)}`}
+                imageUrl={item.imageUrl}
+                action="gallery"
+                id={item.id}
+              />
+            </div>
           ))}
       </PosterSection>
     </>

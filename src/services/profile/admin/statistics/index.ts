@@ -7,6 +7,7 @@ import {
   News,
   NewsItemsProps,
   PanelConfrences,
+  SingleConfrenceTypes,
   UpdatePhoneNumber,
 } from "./types";
 import { isAxiosError } from "axios";
@@ -204,6 +205,77 @@ export const getConfrences = async (
     if (status === 200) {
       return {
         confrences: data.list,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get single confrence
+export const getSingleConfrenceHandler = async (
+  confrenceId: number | null,
+  token: string
+): Promise<
+  | {
+      confrence?: Conference;
+      message?: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<SingleConfrenceTypes>(
+      `Panel_Dashboard/GetSingleConference/${confrenceId}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        confrence: data.object,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// update single confrence
+export const updateSingleConfrence = async (
+  newsData: FormData,
+  token: string
+): Promise<
+  | {
+      status?: number;
+      message: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await put<DeleteNewsProps>(
+      "Panel_Dashboard/UpdateConference",
+      newsData,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
       };
     }
   } catch (error) {

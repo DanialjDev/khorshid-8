@@ -49,14 +49,7 @@ const Statistics = async () => {
             {newsRes &&
               newsRes.newsData &&
               newsRes.newsData.map((news) => (
-                <>
-                  {news.title && (
-                    <NewsBox
-                      key={news.newsId}
-                      newsNumber={String(news.newsId)}
-                    />
-                  )}
-                </>
+                <NewsBox key={news.newsId} newsNumber={String(news.newsId)} />
               ))}
           </div>
         </StatisticsBox>

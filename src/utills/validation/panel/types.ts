@@ -94,20 +94,34 @@ interface SingleDeviceValuesAnyObject {
   imageUrl: undefined;
 }
 
+// update confrences (panel)
+interface UpdateConfrences {
+  confrenceTitle: string;
+  image: File | null;
+  confrenceLink: string;
+}
+interface UpdateConfrencesAnyObject {
+  confrenceTitle: undefined;
+  image: undefined;
+  confrenceLink: undefined;
+}
+
 export type PanelInitialValues =
   | UpdateCounselorValues
   | UpdatePoster
   | UpdateDeviceNumber
   | UpdatePanelNews
   | UpdatePhoneNumber
-  | SingleDeviceValues;
+  | SingleDeviceValues
+  | UpdateConfrences;
 export type PanelValidationSchemaAnyObject =
   | UpdateCounselorAnyObject
   | UpdatePosterAnyObject
   | UpdateDeviceNumberAnyObject
   | UpdatePanelNewsAnyObject
   | UpdatePhoneNumberAnyObject
-  | SingleDeviceValuesAnyObject;
+  | SingleDeviceValuesAnyObject
+  | UpdateConfrencesAnyObject;
 
 export type PanelValidationSchemaType = Yup.ObjectSchema<
   PanelInitialValues,
