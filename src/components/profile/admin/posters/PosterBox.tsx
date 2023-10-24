@@ -96,7 +96,9 @@ const PosterBox = ({
   };
   return (
     <div
-      className={`w-full  hover:border-primary hover:bg-primaryLight3 transition-all duration-200  p-2 border-2 rounded-[8px] cursor-pointer ${
+      className={`w-full  hover:border-primary h-full ${
+        isSelected === id ? "!bg-primaryLight2 border-primary" : ""
+      } hover:bg-primaryLight3 transition-all duration-200  p-2 border-2 rounded-[8px] cursor-pointer ${
         !imageUrl ? "border-posterBoxBorder" : "border-posterBoxActiveBorder"
       }`}
     >

@@ -84,9 +84,11 @@ const config: Config = {
       sm2: "400px",
 
       md: "768px",
+      md2: "900px",
       // => @media (min-width: 768px) { ... }
 
       lg: "1024px",
+      lg2: "1100px",
       // => @media (min-width: 1024px) { ... }
 
       xl: "1280px",

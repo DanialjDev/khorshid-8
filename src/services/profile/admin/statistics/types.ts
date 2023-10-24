@@ -80,3 +80,25 @@ export interface SingleConfrenceTypes {
   object: Conference;
   list: null;
 }
+
+export interface SingleNewsType {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null | string;
+  operationDate: string;
+  status: number;
+  object: News;
+  list: null;
+}
+
+export interface UpdateSingleNewsType {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null | string;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: null;
+}

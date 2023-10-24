@@ -8,7 +8,9 @@ import {
   NewsItemsProps,
   PanelConfrences,
   SingleConfrenceTypes,
+  SingleNewsType,
   UpdatePhoneNumber,
+  UpdateSingleNewsType,
 } from "./types";
 import { isAxiosError } from "axios";
 import { Conference } from "@/services/homePage/types";
@@ -148,7 +150,7 @@ export const getMostVisitedPages = async (
 // delete News
 export const deleteNews = async (
   newsData: {
-    newsID: string;
+    newsID: number;
   },
   token: string
 ): Promise<
@@ -272,6 +274,117 @@ export const updateSingleConfrence = async (
         },
       }
     );
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get single news
+export const getSingleNews = async (
+  newsId: string,
+  token: string
+): Promise<
+  | {
+      singleNews?: News;
+      message?: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<SingleNewsType>(
+      `Panel_Dashboard/GetSingleNews/${newsId}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        singleNews: data.object,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// update single news
+export const updateSingleNews = async (
+  newsData: FormData,
+  token: string
+): Promise<
+  | {
+      status?: number;
+      message: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await put<UpdateSingleNewsType>(
+      "Panel_Dashboard/UpdateNews",
+      newsData,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// delete single confrence
+export const deleteSingleConfrence = async (
+  confrenceData: {
+    conferenceID: number;
+  },
+  token: string
+): Promise<
+  | {
+      status?: number;
+      message: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await deleteService<DeleteNewsProps>(
+      "Panel_Dashboard/RemoveConference",
+      {
+        data: confrenceData,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
     if (status === 200) {
       return {
         status,

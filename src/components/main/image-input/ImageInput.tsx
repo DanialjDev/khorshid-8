@@ -62,7 +62,7 @@ const ImageInput = ({
           onBlur={handleBlur}
           disabled={disabled}
         />
-        <div className="flex col-span-6 flex-col justify-between items-start">
+        <div className="flex sm2:col-span-6 col-span-5 flex-col justify-between items-start">
           <div className="w-full flex justify-between items-start">
             <div className="w-fit flex items-start">
               <div className="flex justify-center items-center">
@@ -105,7 +105,7 @@ const ImageInput = ({
                   />
                 </svg>
               </div>
-              <p className="mr-2 text-[14px]">{title}</p>
+              <p className="mr-2 sm:text-[14px] text-[13px]">{title}</p>
             </div>
             <div className="flex justify-center items-center">
               <Button
@@ -125,6 +125,7 @@ const ImageInput = ({
                     viewBox="0 0 28 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="scale-90"
                   >
                     <path
                       d="M24.5 6.97738C20.615 6.59238 16.7067 6.39404 12.81 6.39404C10.5 6.39404 8.19 6.51071 5.88 6.74404L3.5 6.97738"
@@ -172,7 +173,7 @@ const ImageInput = ({
         </div>
         <label
           htmlFor={name}
-          className=" flex col-span-2 justify-end items-stretch"
+          className=" flex sm2:col-span-2 col-span-3 justify-end items-stretch"
         >
           <div
             className={`w-[80px] h-full cursor-pointer p-2 flex justify-center items-center border rounded-[4px] border-dashed ${

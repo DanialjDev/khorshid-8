@@ -3,15 +3,24 @@
 import Button from "@/components/main/button/Button";
 import ImageInput from "@/components/main/image-input/ImageInput";
 import AuthInput from "@/components/main/input/AuthInput";
-import { updateNews } from "@/services/profile/admin/statistics";
+import {
+  deleteNews,
+  updateNews,
+  updateSingleNews,
+} from "@/services/profile/admin/statistics";
+import { News } from "@/services/profile/admin/statistics/types";
+import { isUrl } from "@/utills/formatHelper";
 import usePanelValidation from "@/utills/validation/panel/validation";
 import { useFormik } from "formik";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+import * as Yup from "yup";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-const NewsUpdateForm = () => {
-  const newsId = useSearchParams().get("newsId");
-  const [initialValues, validationSchema] = usePanelValidation("UpdateNews")!;
+const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
+  const { refresh, push } = useRouter();
+  const [isImageChanged, setIsImageChanged] = useState(false);
 
   const {
     errors,
@@ -22,79 +31,135 @@ const NewsUpdateForm = () => {
     touched,
     setFieldValue,
   } = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: {
+      title: singleNews.title,
+      description: singleNews.description,
+      image: singleNews.imageUrl,
+      link: singleNews.link,
+    },
+    validationSchema: Yup.object().shape({
+      title: Yup.string().required("پرکردن این فیلد الزامی است."),
+      description: Yup.string()
+        .required("پرکردن این فیلد الزامی است.")
+        .max(16, "زیر متن خبر نمیتواند بیشتر از ۱۶ کارکتر باشد"),
+      image: Yup.mixed().required("انتخاب تصویر الزامی است"),
+      link: Yup.string()
+        .required("پرکردن این فیلد الزامی است.")
+        .test(
+          "isUrl",
+          "آردس وارد شده نامعتبر است",
+
+          (value) => {
+            if (value && value.length !== 0) {
+              return Boolean(isUrl(value));
+            }
+          }
+        ),
+    }),
     onSubmit: async (values) => {
-      // const updatedNewsRes = await updateNews({
-      //     NewsId: newsId,
-      //     Title: values.newsTitle,
-      //     Description: values.newsDesc,
-      //     Image: values.Image,
-      //     IsImageChangedOrDeleted: values.Image ?
-      // })
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("NewsId", singleNews.newsId);
+      formData.append("Title", values.title);
+      formData.append("Description", values.description);
+      formData.append("Link", values.link);
+      // @ts-ignore
+      formData.append("IsImageChangedOrDeleted", isImageChanged);
+      formData.append("Image", values.image);
+
+      const updatedNewsRes = await updateSingleNews(
+        formData,
+        Cookies.get("token")!
+      );
+
+      if (updatedNewsRes?.status === 200) {
+        toast.success(updatedNewsRes.message);
+        refresh();
+        push("/panel/statistics");
+      } else {
+        toast.error(updatedNewsRes?.message);
+      }
     },
   });
+
+  const deleteSingleNewsHanlder = async () => {
+    const deleteNewsRes = await deleteNews(
+      {
+        newsID: singleNews.newsId,
+      },
+      Cookies.get("token")!
+    );
+
+    if (deleteNewsRes?.status === 200) {
+      toast.success(deleteNewsRes.message);
+      refresh();
+      push("/panel/statistics");
+    } else {
+      toast.error(deleteNewsRes?.message);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
       className="w-full mt-5 grid grid-cols-4 gap-x-7 gap-y-0"
     >
-      <div className="w-full col-span-2">
+      <div className="w-full sm:col-span-2 col-span-4">
         <AuthInput
           touched={touched}
           onChange={handleChange}
           handleBlur={handleBlur}
           errors={errors}
-          name="newsTitle"
+          name="title"
           label="تیتر خبر"
           placeholder="تا ۸ کلمه"
+          value={values.title}
         />
       </div>
-      <div className="w-full col-span-2">
+      <div className="w-full sm:col-span-2 col-span-4">
         <AuthInput
           touched={touched}
           onChange={handleChange}
           handleBlur={handleBlur}
           errors={errors}
-          name="newsLink"
+          name="link"
           label="لینک قسمت خبر در سایت خبر مورد نظر "
           placeholder="URL"
+          value={values.link}
         />
       </div>
-      <div className="w-full col-span-2">
+      <div className="w-full md:col-span-2 col-span-4">
         <AuthInput
           touched={touched}
           onChange={handleChange}
           handleBlur={handleBlur}
           errors={errors}
-          name="newsDesc"
+          name="description"
           label="زیر متن خبر"
           placeholder="تا ۱۶ کلمه"
+          value={values.description}
         />
       </div>
       <div className="col-span-4">
         <div className="grid grid-cols-2 mt-6 gap-x-7">
-          <div className="col-span-1">
+          <div className="md:col-span-1 col-span-2">
             <ImageInput
               title="بارگذاری تصویر خبر"
               desc="در ابعاد ۱۷۲ × 282 پیکسل ، حجم کمتر از 1 مگابایت ."
               bg="bg-white-gray"
               border="border border-adminFormBorder2"
-              name="newsImage"
-              //@ts-ignore
-              touched={touched["newsImage"]}
-              //@ts-ignore
+              name="image"
+              touched={touched["image"]}
               onChange={handleChange}
               handleBlur={handleBlur}
-              //@ts-ignore
-              errors={errors["newsImage"]}
-              //@ts-ignore
-              value={values.Image}
+              errors={errors["image"]}
+              // @ts-ignore
+              value={values.image}
               setFieldValue={setFieldValue}
+              setIsImgChanged={setIsImageChanged}
             />
           </div>
-          <div className="col-span-1 justify-end flex items-center">
-            <div className="flex">
+          <div className="lg:col-span-1 col-span-2 lg:justify-end mt-5 lg:mt-0 flex sm:flex-row flex-col items-center">
+            <div className="flex sm:w-fit w-full">
               <Button
                 type="submit"
                 text="ذخیره خبر"
@@ -102,9 +167,10 @@ const NewsUpdateForm = () => {
                 padding="px-20 py-[11px]"
                 rounded="rounded-[8px]"
                 color="text-white"
+                width="sm:w-fit w-full"
               />
             </div>
-            <div className="flex mr-8">
+            <div className="flex sm:mr-8 mt-5 sm:mt-0 sm:w-fit w-full">
               <Button
                 text="حذف خبر"
                 bg="bg-redColorLight"
@@ -112,6 +178,8 @@ const NewsUpdateForm = () => {
                 border="border border-redColor"
                 rounded="rounded-[8px]"
                 color="text-redColor"
+                onClick={deleteSingleNewsHanlder}
+                width="sm:w-fit w-full"
                 icon={
                   <svg
                     width="28"

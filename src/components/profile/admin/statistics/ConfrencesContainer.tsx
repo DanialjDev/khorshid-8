@@ -10,6 +10,7 @@ import usePanelValidation from "@/utills/validation/panel/validation";
 import ImageInput from "@/components/main/image-input/ImageInput";
 import StatisticsUpdateForm from "./StatisticsUpdateForm";
 import {
+  deleteSingleConfrence,
   getSingleConfrenceHandler,
   updateSingleConfrence,
 } from "@/services/profile/admin/statistics";
@@ -24,7 +25,7 @@ const ConfrencesContainer = ({
 }: {
   confrences: Conference[] | undefined;
 }) => {
-  const { refresh } = useRouter();
+  const { refresh, push } = useRouter();
   const [singleConfrence, setSingleConfrence] = useState<Conference | null>(
     null
   );
@@ -101,12 +102,29 @@ const ConfrencesContainer = ({
     },
     enableReinitialize: true,
   });
+
+  const deleteSingleConfrenceHandler = async () => {
+    const deleteConfrenceRes = await deleteSingleConfrence(
+      {
+        conferenceID: singleConfrence?.conferenceId!,
+      },
+      Cookies.get("token")!
+    );
+
+    if (deleteConfrenceRes?.status === 200) {
+      toast.success(deleteConfrenceRes.message);
+      refresh();
+      push("/panel/statistics");
+    } else {
+      toast.error(deleteConfrenceRes?.message);
+    }
+  };
   return (
     <div className="w-full flex flex-col mt-5">
       <div className="w-full grid grid-cols-3 gap-8">
         {confrences?.map((item) => (
           <div
-            className="sm:col-span-1 col-span-3 "
+            className="sm:col-span-1 col-span-3"
             onClick={() => {
               getSingleConfrece(item.conferenceId);
             }}
@@ -115,7 +133,8 @@ const ConfrencesContainer = ({
               imageUrl={item.imageUrl}
               id={item.conferenceId}
               title={`کارت همایش ${String(item.conferenceId)}`}
-              isSelected=""
+              // @ts-ignore
+              isSelected={selectedConfrence}
             />
           </div>
         ))}
@@ -125,7 +144,7 @@ const ConfrencesContainer = ({
           title={`کارت همایش ${selectedConfrence}`}
           handleSubmit={handleSubmit}
         >
-          <div className="w-full col-span-2">
+          <div className="w-full sm:col-span-2 col-span-4">
             <AuthInput
               touched={touched}
               onChange={handleChange}
@@ -136,7 +155,7 @@ const ConfrencesContainer = ({
               value={values.name}
             />
           </div>
-          <div className="w-full col-span-2">
+          <div className="w-full sm:col-span-2 col-span-4">
             <AuthInput
               touched={touched}
               onChange={handleChange}
@@ -149,8 +168,8 @@ const ConfrencesContainer = ({
             />
           </div>
           <div className="col-span-4">
-            <div className="grid grid-cols-2 mt-6 gap-x-7">
-              <div className="col-span-1">
+            <div className="grid grid-cols-4 mt-6 gap-x-7">
+              <div className="col-span-4 sm:col-span-3 md2:col-span-2">
                 <ImageInput
                   title="بارگذاری تصویر همایش"
                   desc="در ابعاد ۱۷۲ × 282 پیکسل ، حجم کمتر از 1 مگابایت ."
@@ -167,8 +186,8 @@ const ConfrencesContainer = ({
                   setFieldValue={setFieldValue}
                 />
               </div>
-              <div className="col-span-1 justify-end flex items-center">
-                <div className="flex">
+              <div className="col-span-4 xl:col-span-2 xl:justify-end mt-7 xl:m-0 flex sm:flex-row flex-col items-center">
+                <div className="flex sm:w-fit w-full">
                   <Button
                     type="submit"
                     text="ذخیره خبر"
@@ -176,9 +195,10 @@ const ConfrencesContainer = ({
                     padding="px-20 py-[11px]"
                     rounded="rounded-[8px]"
                     color="text-white"
+                    width="sm:w-fit w-full"
                   />
                 </div>
-                <div className="flex mr-8">
+                <div className="flex sm:mr-8 mt-5 sm:mt-0 sm:w-fit w-full">
                   <Button
                     text="حذف خبر"
                     bg="bg-redColorLight"
@@ -186,6 +206,8 @@ const ConfrencesContainer = ({
                     border="border border-redColor"
                     rounded="rounded-[8px]"
                     color="text-redColor"
+                    width="sm:w-fit w-full"
+                    onClick={deleteSingleConfrenceHandler}
                     icon={
                       <svg
                         width="28"

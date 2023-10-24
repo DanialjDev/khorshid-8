@@ -1,22 +1,10 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import AdminMenu from "../profile/admin/menu/AdminMenu";
-import { usePathname, useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   const [nav, setNav] = useState(false);
-  const { back } = useRouter();
-  const userToken = Cookies.get("token");
-
-  useEffect(() => {
-    if (!userToken) {
-      back();
-      toast.warning("تنها کاربر ادمین به این مسیر دسترسی دارد");
-    }
-  }, []);
   return (
     <div className="w-full h-full flex">
       <AdminMenu setNav={setNav} nav={nav} />
@@ -26,9 +14,9 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         } z-40`}
       ></div>
 
-      <div className="lg:w-[calc(100%-270px)] w-full !h-screen overflow-scroll relative flex flex-col py-5 sm:px-10 px-6 mr-auto">
-        <div className="w-full flex items-center py-2 pb-4 lg:justify-end justify-between border-b border-menuHeaderBorder">
-          <button className="lg:hidden flex" onClick={() => setNav(true)}>
+      <div className="lg2:w-[calc(100%-270px)] w-full !h-screen overflow-scroll relative flex flex-col py-5 sm:px-10 px-6 mr-auto">
+        <div className="w-full flex items-center py-2 pb-4 lg2:justify-end justify-between border-b border-menuHeaderBorder">
+          <button className="lg2:hidden flex" onClick={() => setNav(true)}>
             <svg
               width="20"
               height="14"

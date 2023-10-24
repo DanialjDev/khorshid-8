@@ -70,10 +70,10 @@ const AdminMenu = ({
     <div
       className={`w-[270px] h-screen fixed ${
         nav ? "right-0" : "-right-[100vw]"
-      } lg:!right-0 !transition-all duration-200 bg-primaryDark2 flex flex-col z-50`}
+      } lg2:!right-0 !transition-all duration-200 bg-primaryDark2 flex flex-col z-50`}
     >
       <div
-        className="lg:hidden flex bg-primary absolute -left-3 top-7 p-1 rounded-full"
+        className="lg2:hidden flex bg-primary absolute -left-3 top-7 p-1 rounded-full cursor-pointer"
         onClick={() => setNav(false)}
       >
         <svg
