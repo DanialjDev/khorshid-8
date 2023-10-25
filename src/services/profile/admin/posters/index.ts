@@ -1,4 +1,4 @@
-import { get, put, deleteService } from "@/services/axios";
+import { get, put, deleteService, post } from "@/services/axios";
 import {
   Gallery,
   HomePagePosters,
@@ -72,7 +72,6 @@ export const updatePosters = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
@@ -104,6 +103,37 @@ export const deletePoster = async (
       }
     );
 
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// add gallery picture
+export const postImageToGallery = async (
+  imageData: FormData,
+  token: string
+) => {
+  try {
+    const { data, status } = await post<HomePagePosters>(
+      "Panel_Posters/PostImageToGallery",
+      imageData,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     if (status === 200) {
       return {
         status,

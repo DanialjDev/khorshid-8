@@ -86,8 +86,8 @@ export default async function Home() {
               />
             </div>
 
-            {/* Gallery Section */}
-            <div className="w-full grid grid-cols-3 gap-y-2 mt-10">
+            {/* Contrences Section */}
+            <div className="w-full grid grid-cols-3 gap-y-2 mt-5">
               {homePageDate?.conferences.map(
                 ({ conferenceId, imageUrl, link, name }) => (
                   <Conferences
@@ -516,7 +516,7 @@ export default async function Home() {
           }
           btnBgColor="bg-secondary"
         >
-          <div className="w-full grid grid-cols-4 gap-4 mt-8">
+          <div className="w-full items-stretch grid grid-cols-4 gap-4 mt-8">
             {homePageDate?.news.map(
               ({ creationDate, imageUrl, link, description, title }) => (
                 <NewsItem

@@ -22,6 +22,7 @@ const SingleUserData = ({
   userData: UserInfo | undefined;
   userDevices: UserDevice[] | undefined;
 }) => {
+  console.log(userDevices);
   const dispatch = useAppDispatch();
   const tableHeaders = generateHeaders("GetUserAcceptedDevices");
   console.log(userDevices);

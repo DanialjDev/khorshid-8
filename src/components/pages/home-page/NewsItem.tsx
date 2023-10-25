@@ -17,15 +17,16 @@ const NewsItem = ({
   const now = new Date();
   const DaysRange = getDatesRange(now, new Date(creationDate));
   return (
-    <div className="w-full flex items-center flex-col xl:col-span-1 md:col-span-2 col-span-4 relative lg:mb-8 md:mb-16 mb-32">
+    <div className="w-full flex items-center  flex-col xl:col-span-1 md:col-span-2 col-span-4 relative lg:mb-8 md:mb-16 mb-32">
       <div className="w-full">
         <Image
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
+          width={300}
+          height={250}
+          // sizes="100vw"
+          // style={{ width: "100%", height: "auto" }}
           alt=""
           src={imageUrl}
+          className="m-auto"
         />
       </div>
       <div className="w-[90%] flex flex-col p-4 bg-white shadow-md absolute xl:top-[55%] md:top-[70%] top-[85%] rounded-lg">

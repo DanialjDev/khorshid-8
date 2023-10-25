@@ -1,4 +1,4 @@
-import moment from "moment-jalaali";
+import moment, { max } from "moment-jalaali";
 
 export const isNumeric = (string: string) => {
   return !string ? false : /^[0-9\b]+$/.test(string);
@@ -48,4 +48,35 @@ export const gregorianIsoToJalaali = (str: string) => {
   } catch (error) {
     return null;
   }
+};
+
+export const generateItemsDevicedBySix = (
+  maxAmount: number
+): number[] | null => {
+  if (maxAmount % 6 === 0) {
+    return [
+      maxAmount / 6,
+      (2 * maxAmount) / 6,
+      (3 * maxAmount) / 6,
+      (4 * maxAmount) / 6,
+      (5 * maxAmount) / 6,
+      maxAmount,
+    ];
+  } else {
+    let number: number = maxAmount;
+    let indicator = 0;
+
+    while (number % 6 !== 0) {
+      number++;
+    }
+    return [
+      number / 6,
+      (2 * number) / 6,
+      (3 * number) / 6,
+      (4 * number) / 6,
+      (5 * number) / 6,
+      number,
+    ];
+  }
+  return null;
 };

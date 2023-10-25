@@ -37,7 +37,7 @@ const Login = () => {
               refresh();
             }, 1500);
             if (response.role === "admin") {
-              push("panel/counsulation-request");
+              push("panel/");
             }
           } else if (response?.status === 400) {
             if (response.message) {

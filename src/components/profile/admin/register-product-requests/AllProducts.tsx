@@ -19,7 +19,7 @@ const AllProducts = ({
 }: {
   productsData: RequestedProductsObj | null;
 }) => {
-  const { refresh } = useRouter();
+  const { refresh, push } = useRouter();
   const confirmDevice = async (deviceID: number) => {
     if (Cookies.get("token")) {
       const confirmDeviceRes = await confirmDeviceHandler(
@@ -39,26 +39,26 @@ const AllProducts = ({
     }
   };
 
-  // const declineDevice = async (deviceID: number) => {
-  //   if (Cookies.get("token")) {
-  //     const declineDeviceRes = await declineDeviceHandler(
-  //       {
-  //         deviceID,
-  //         declinedStateMessage,
-  //       },
-  //       Cookies.get("token")!
-  //     );
+  const declineDevice = async (deviceID: number) => {
+    if (Cookies.get("token")) {
+      const declineDeviceRes = await declineDeviceHandler(
+        {
+          deviceID,
+          declinedStateMessage: "دستگاه شما به دلیل عدم صلاحیت رد شد",
+        },
+        Cookies.get("token")!
+      );
 
-  //     if (declineDeviceRes?.status === 200) {
-  //       toast.success(declineDeviceRes.message);
-  //       push("/panel/register-product-requests/");
-  //       refresh();
-  //     } else {
-  //       toast.error(declineDeviceRes?.message);
-  //     }
-  //     setOpenModal(false);
-  //   }
-  // };
+      if (declineDeviceRes?.status === 200) {
+        toast.success(declineDeviceRes.message);
+        // push("/panel/register-product-requests/");
+        refresh();
+      } else {
+        toast.error(declineDeviceRes?.message);
+      }
+      // setOpenModal(false);
+    }
+  };
 
   const tableHeaders = generateHeaders("GetRequestedDevices");
   return (
@@ -135,6 +135,7 @@ const AllProducts = ({
                       border="border-redColor border"
                       padding="pl-4 pr-3 py-1"
                       text="رد"
+                      onClick={() => declineDevice(item.deviceId)}
                       icon={
                         <svg
                           width="22"

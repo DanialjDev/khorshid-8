@@ -31,6 +31,7 @@ const config: Config = {
         white: "#FFFFFF",
         gray: "#707070",
         gray2: "#777777",
+        lightBlue: "#615E83",
         "white-gray": "#FCFCFC",
         dark: "#161616",
         inputBorderColor: "rgba(26, 26, 26, 0.1)",

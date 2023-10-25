@@ -1,10 +1,5 @@
 import PostersContainer from "@/components/profile/admin/posters/PostersContainer";
 import { getPanelPosters } from "@/services/profile/admin/posters";
-import {
-  Gallery,
-  HomeSideBanners,
-  MedicalEquipmentBanners,
-} from "@/services/profile/admin/posters/types";
 import { cookies } from "next/headers";
 import React from "react";
 

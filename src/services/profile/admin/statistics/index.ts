@@ -2,12 +2,14 @@ import { deleteService, get, put } from "@/services/axios";
 import Cookies from "js-cookie";
 import {
   DeleteNewsProps,
+  DeviceLogsType,
   MostVisitedPages,
   MostVisitedPagesProps,
   News,
   NewsItemsProps,
   PanelConfrences,
   SingleConfrenceTypes,
+  SingleDeviceLog,
   SingleNewsType,
   UpdatePhoneNumber,
   UpdateSingleNewsType,
@@ -395,6 +397,42 @@ export const deleteSingleConfrence = async (
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get device logs
+export const getDeviceLogs = async (
+  token: string
+): Promise<
+  | {
+      monthTitles: string[] | null;
+      acceptedCounts: number[] | null;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<DeviceLogsType>(
+      "Panel_Dashboard/GetDeviceLog",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return {
+        monthTitles: data.list.map((item) => item.monthTitle),
+        acceptedCounts: data.list.map((item) => item.acceptedCount),
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        monthTitles: null,
+        acceptedCounts: null,
       };
     }
   }

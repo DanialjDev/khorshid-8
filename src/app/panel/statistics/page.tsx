@@ -1,9 +1,11 @@
 import Button from "@/components/main/button/Button";
 import AuthInput from "@/components/main/input/AuthInput";
+import { DeviceLogsChart } from "@/components/profile/admin/statistics/DeviceLogsChart";
 import NewsBox from "@/components/profile/admin/statistics/NewsBox";
 import StatisticsBox from "@/components/profile/admin/statistics/StatisticsBox";
 import UpdatePhoneNumber from "@/components/profile/admin/statistics/UpdatePhoneNumber";
 import {
+  getDeviceLogs,
   getMostVisitedPages,
   getNews,
 } from "@/services/profile/admin/statistics";
@@ -16,13 +18,16 @@ const Statistics = async () => {
   const mostVisitedPages = await getMostVisitedPages(
     cookies().get("token")?.value!
   );
-  console.log(mostVisitedPages);
+  const deviceLogs = await getDeviceLogs(cookies().get("token")?.value!);
+
   return (
     <div className="w-full grid grid-cols-6 gap-6 !h-[450px] items-stretch">
-      <div className="w-full col-span-3 h-full">
-        <StatisticsBox>1</StatisticsBox>
+      <div className="w-full md:col-span-3 col-span-6 h-[470px]">
+        <StatisticsBox hasTitleIcon={false}>
+          <DeviceLogsChart devicesLogsData={deviceLogs ? deviceLogs : null} />
+        </StatisticsBox>
       </div>
-      <div className="w-full col-span-3 2xl:h-[378px] h-full">
+      <div className="w-full md:col-span-3 col-span-6 h-full">
         <StatisticsBox
           title="اخبار سایت"
           hasTitleIcon

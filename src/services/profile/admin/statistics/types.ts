@@ -102,3 +102,26 @@ export interface UpdateSingleNewsType {
   object: null;
   list: null;
 }
+
+// device logs
+
+export interface SingleDeviceLog {
+  id: number;
+  year: number;
+  month: number;
+  monthTitle: string;
+  acceptedCount: number;
+  pendingCount: number;
+  declinedCount: number;
+}
+
+export interface DeviceLogsType {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null | string;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: SingleDeviceLog[];
+}

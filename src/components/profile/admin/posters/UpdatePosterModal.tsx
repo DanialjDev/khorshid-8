@@ -5,11 +5,16 @@ import AuthInput from "@/components/main/input/AuthInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import usePanelValidation from "@/utills/validation/panel/validation";
 import { useFormik } from "formik";
-import { updatePosters } from "@/services/profile/admin/posters";
+import {
+  postImageToGallery,
+  updatePosters,
+} from "@/services/profile/admin/posters";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
+import { isUrl } from "@/utills/formatHelper";
 
 const UpdatePosterModal = () => {
   const { refresh } = useRouter();
@@ -19,10 +24,7 @@ const UpdatePosterModal = () => {
   );
   const { id } = useAppSelector((state) => state.user);
   const token = Cookies.get("token");
-  const [initialValues, validationSchema] = usePanelValidation(
-    "updatePoster",
-    isLinkRequired
-  )!;
+  // const [initialValues, validationSchema] = usePanelValidation("updatePoster")!;
   const {
     handleBlur,
     errors,
@@ -32,8 +34,19 @@ const UpdatePosterModal = () => {
     values,
     setFieldValue,
   } = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: {
+      Link: "",
+      Image: null,
+    },
+    validationSchema: Yup.object().shape({
+      Link: Yup.string().test("isUrl", "آردس وارد شده نامعتبر است", (value) => {
+        if (value && value.length !== 0) {
+          return Boolean(isUrl(value));
+        }
+        return true;
+      }),
+      Image: Yup.mixed().required("انتخاب تصویر الزامی است"),
+    }),
     onSubmit: async (values) => {
       const formData = new FormData();
       let url = "";
@@ -41,37 +54,58 @@ const UpdatePosterModal = () => {
       formData.append("Image", values.Image);
       if (updateAction === "homeSideBanner") {
         url = "UpdateHomeSideBanner";
-        // @ts-ignore
         formData.append("Link", values.Link);
         // @ts-ignore
         formData.append("HomeSideBannerId", id);
       } else if (updateAction === "medicalEquipment") {
         url = "UpdateMedicalEquipmentBanner";
-        // @ts-ignore
         formData.append("Link", values.Link);
         // @ts-ignore
         formData.append("BannerId", id);
-      } else {
+      } else if (updateAction === "gallery") {
         // @ts-ignore
         formData.append("Id", id);
         url = "UpdateImageOfGallery";
+      } else {
+        url = "PostImageToGallery";
+        // @ts-ignore
+        formData.append("Image", values.Image);
       }
       if (token) {
-        console.log(formData.get("Link"));
-        const response = await updatePosters(formData, token, url);
-
-        if (response?.status === 200) {
-          toast.success(response.message);
-          setTimeout(() => {
-            dispatch(authToggler(""));
-            refresh();
-          }, 2000);
+        if (url === "PostImageToGallery") {
+          const response = await postImageToGallery(formData, token);
+          if (response?.status === 200) {
+            toast.success(response.message);
+            setTimeout(() => {
+              dispatch(authToggler(""));
+              refresh();
+            }, 2000);
+          } else {
+            toast.error(response?.message);
+          }
         } else {
-          toast.error(response?.message);
+          const response = await updatePosters(formData, token, url);
+          if (response?.status === 200) {
+            toast.success(response.message);
+            setTimeout(() => {
+              dispatch(authToggler(""));
+              refresh();
+            }, 2000);
+          } else {
+            toast.error(response?.message);
+          }
         }
-        console.log(response);
+
+        // if (response?.status === 200) {
+        //   toast.success(response.message);
+        //   setTimeout(() => {
+        //     dispatch(authToggler(""));
+        //     refresh();
+        //   }, 2000);
+        // } else {
+        //   toast.error(response?.message);
+        // }
       }
-      console.log(values);
     },
   });
 

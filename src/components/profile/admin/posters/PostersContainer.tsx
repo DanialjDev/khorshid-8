@@ -72,12 +72,12 @@ const PostersContainer = ({
         data={gallery ? gallery : []}
       >
         {gallery &&
-          gallery.map((item) => (
+          gallery.map((item, index) => (
             <div className="sm:col-span-3 col-span-6 md:col-span-2">
               <PosterBox
                 key={item.id}
                 fontSize={"sm:text-[14px] text-[13px]"}
-                title={`تصویر شماره ${String(item.id)}`}
+                title={`تصویر شماره ${String(index + 1)}`}
                 imageUrl={item.imageUrl}
                 action="gallery"
                 id={item.id}
