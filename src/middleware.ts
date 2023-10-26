@@ -3,12 +3,15 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const cookie = request.cookies.get("token")?.value;
-  console.log(cookie);
   if (!cookie) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/panel/:path*"],
+  matcher: [
+    "/profile/:path*",
+    "/panel/:path*",
+    "/register-medical-equipments-device",
+  ],
 };

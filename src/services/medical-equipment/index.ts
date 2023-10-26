@@ -47,19 +47,24 @@ type MedicalEquipmentDevices = {
   tableHeaders?: string[] | undefined;
   message?: string | undefined;
   operationName?: OperationNames;
+  totalPageCount?: number;
 };
 
 // Medical Equipment => getDevices
 export const getSectionsData = async (
-  url: Category
+  url: Category,
+  pageNumber: number = 1
 ): Promise<MedicalEquipmentDevices | undefined> => {
   try {
-    const { data, status } = await get(`MedicalEquipment/${url}`);
+    const { data, status } = await get(
+      `MedicalEquipment/${url}/?PageContain=10&PageNumber=${pageNumber}`
+    );
     if (status === 200) {
       return {
         data: data.object.data,
         tableHeaders: generateHeaders(url),
         operationName: data.operationName,
+        totalPageCount: data.object.totalPagesCount,
       };
     }
   } catch (error) {

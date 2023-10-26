@@ -25,6 +25,7 @@ const config: Config = {
         primaryDark4: "#2C9CF00D",
         primaryDark5: "#1B4E9B",
         primaryDark6: "#0D6EFD",
+        primaryDark7: "#2C9CF01A",
         secondary: "#54E346",
         redColor: "#E21414",
         redColorLight: "#E214140D",

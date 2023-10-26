@@ -1,11 +1,14 @@
 "use client";
 
 import React, { ReactNode } from "react";
+import ReactPaginate from "react-paginate";
+import Pagination from "../pagination/Pagination";
 
 interface TableProps {
   headers: string[];
   children?: ReactNode | [];
   text?: string;
+  totalPagesCount?: number;
 }
 
 const EmptyTable = ({
@@ -109,9 +112,14 @@ const EmptyTable = ({
   );
 };
 
-const CustomeTable = ({ headers, children, text }: TableProps) => {
+const CustomeTable = ({
+  headers,
+  children,
+  text,
+  totalPagesCount,
+}: TableProps) => {
   return (
-    <div className="w-full overflow-x-auto flex justify-center items-center mt-5">
+    <div className="w-full flex-col overflow-x-auto flex justify-center items-center mt-5">
       <div className="inline-block min-w-full">
         <div className="overflow-x-auto">
           <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl relative">
@@ -136,6 +144,9 @@ const CustomeTable = ({ headers, children, text }: TableProps) => {
           </table>
         </div>
       </div>
+      {/* <div className="w-full my-12 flex justify-center">
+        {totalPagesCount && <Pagination totalPagesCount={totalPagesCount} />}
+      </div> */}
     </div>
   );
 };

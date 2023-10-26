@@ -16,6 +16,7 @@ import {
 } from "@/services/medical-equipment/types";
 import { DeviceName } from "@/services/common/types";
 import { Category } from "@/services/medical-equipment";
+import Pagination from "@/components/main/pagination/Pagination";
 
 const MedicalSection = async ({
   data,
@@ -23,12 +24,14 @@ const MedicalSection = async ({
   deviceCategory,
   tableHeaders,
   operationName,
+  totalPageCount,
 }: {
   data: TableData;
   banner: DeviceBannerObject | undefined;
   deviceCategory: DeviceName[];
   tableHeaders: string[];
   operationName: OperationNames;
+  totalPageCount?: number;
 }) => {
   const [isRowSelected, setIsRowSelected] = useState(false);
 
@@ -50,6 +53,7 @@ const MedicalSection = async ({
         data={data}
         operationName={operationName}
         tableHeaders={tableHeaders}
+        totalPageCount={totalPageCount}
       >
         <div className="w-full grid gap-8 grid-cols-2">
           {/* <div className="xl:col-span-1 lg:col-span-1">

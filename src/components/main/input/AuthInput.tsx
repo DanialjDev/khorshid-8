@@ -89,7 +89,7 @@ const AuthInput = ({
               ? "hover:shadow-inputHover hover:border-inputHoverBorder"
               : ""
           } transition duration-200  placeholder:text-[13px] ${
-            helperText !== undefined ? "!border-green-400" : ""
+            helperText !== undefined ? "!border-redColor" : ""
           }`}
           placeholder={placeholder}
           onChange={onChange}

@@ -7,27 +7,42 @@ import { OperationNames, TableData } from "@/services/medical-equipment/types";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import TableDataContainer from "./TableData";
+import { getSectionsData } from "@/services/medical-equipment";
+import Pagination from "@/components/main/pagination/Pagination";
 
 const SectionLayout = ({
   children,
   data,
   tableHeaders,
   operationName,
+  totalPageCount,
 }: {
   children: ReactNode;
   data?: TableData;
   tableHeaders: string[];
   operationName: OperationNames;
+  totalPageCount?: number;
 }) => {
   const { sectionName } = useAppSelector((state) => state.medicalSection);
 
   const { refresh } = useRouter();
   const [tableData, setTableData] = useState<ReactNode | null>(null);
 
+  const updateTableData = async (pageNumber: number) => {
+    const nextTableData = await getSectionsData(sectionName, pageNumber);
+    if (nextTableData?.data) {
+      const Data = TableBodyData({
+        // @ts-ignore
+        data: nextTableData.data,
+        operationName,
+      });
+      setTableData(Data);
+    }
+  };
+
   useEffect(() => {
     setTableData(null);
   }, [sectionName]);
-
   return (
     <div className="w-full flex flex-col">
       <Box>
@@ -130,8 +145,16 @@ const SectionLayout = ({
         </div>
       </Box>
       <div className="w-full mt-5">
-        <TableDataContainer tableHeaders={tableHeaders} />
+        <CustomeTable headers={tableHeaders}>{tableData}</CustomeTable>
       </div>
+      {tableData !== null && (
+        <div className="w-full mt-10 flex justify-center">
+          <Pagination
+            totalPagesCount={totalPageCount!}
+            onClick={updateTableData}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { get, post, put } from "@/services/axios";
+import { deleteService, get, post, put } from "@/services/axios";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Cookies from "js-cookie";
 import {
@@ -189,15 +189,17 @@ export const postProfileDevice = async (
 // get user registered devices
 type UserRegisteredDevicesReturnType = {
   data?: UserRegisteredDevicesObj;
+  totalPageContain?: number | null;
   message?: string;
 };
 
 export const getUserRegisteredDevices = async (
-  token: string
+  token: string,
+  pageNumber: number = 1
 ): Promise<UserRegisteredDevicesReturnType | undefined> => {
   try {
     const { data, status } = await get<UserRegisteredDevices>(
-      "Profile/GetProfileDevices",
+      `Profile/GetProfileDevices?PageContain=10&PageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -209,6 +211,39 @@ export const getUserRegisteredDevices = async (
       console.log(data);
       return {
         data: data.object,
+        totalPageContain: data.object.totalPagesCount,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// remove user devices
+export const removeUserDevice = async (
+  deviceData: {
+    deviceID: number;
+  },
+  token: string
+): Promise<{ status?: number; message: string } | undefined> => {
+  try {
+    const { data, status } = await deleteService<PostProfileDevice>(
+      "Profile/RemoveUserDevice",
+      {
+        data: deviceData,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
       };
     }
   } catch (error) {

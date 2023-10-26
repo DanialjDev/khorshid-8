@@ -1,6 +1,5 @@
 "use client";
 
-import { SingleDeviceLog } from "@/services/profile/admin/statistics/types";
 import { generateItemsDevicedBySix } from "@/utills/formatHelper";
 import React from "react";
 

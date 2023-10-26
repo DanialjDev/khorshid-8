@@ -15,15 +15,19 @@ import { UserProfileDevice } from "@/services/profile/user/types";
 import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
 import { decrypt } from "@/utills/crypto";
 import { setDeviceId } from "@/redux/features/user/userSlice";
+import { removeUserDevice } from "@/services/profile/user";
 
 const NormalProfile = ({
   userInfo,
   userDevices,
+  totalPageContain,
 }: {
   userInfo: InitialValues | undefined;
   userDevices: UserProfileDevice[] | undefined;
+  totalPageContain?: number | null;
 }) => {
-  const { push } = useRouter();
+  const { id } = useAppSelector((state) => state.user);
+  const { push, refresh } = useRouter();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
@@ -31,6 +35,22 @@ const NormalProfile = ({
   const user = Cookies.get("userInfo")
     ? JSON.parse(decrypt(Cookies.get("userInfo")))
     : null;
+
+  const removeUserDeviceHandler = async (deviceID: number) => {
+    const removeDeviceRes = await removeUserDevice(
+      {
+        deviceID,
+      },
+      Cookies.get("token")!
+    );
+
+    if (removeDeviceRes?.status === 200) {
+      toast.success(removeDeviceRes.message);
+      refresh();
+    } else {
+      toast.error(removeDeviceRes?.message);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -144,6 +164,7 @@ const NormalProfile = ({
                   color="text-redColor"
                   bg="bg-redColorLight"
                   border="border border-redColor"
+                  onClick={() => removeUserDeviceHandler(id)}
                   icon={
                     <svg
                       width="28"
@@ -243,7 +264,10 @@ const NormalProfile = ({
         {selectedTab === "userInfo" ? (
           <UserInfo userInfo={userInfo} />
         ) : (
-          <RegisteredDevices userDevices={userDevices} />
+          <RegisteredDevices
+            totalPageContain={totalPageContain}
+            userDevices={userDevices}
+          />
         )}
       </div>
     </div>

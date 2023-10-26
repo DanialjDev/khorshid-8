@@ -1,31 +1,54 @@
+"use client";
+
+import Pagination from "@/components/main/pagination/Pagination";
 import CustomeTable from "@/components/main/table/CustomeTable";
-import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
-import { setDeviceId } from "@/redux/features/user/userSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import {
+  getUserRegisteredDevices,
+  removeUserDevice,
+} from "@/services/profile/user";
 import { UserProfileDevice } from "@/services/profile/user/types";
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { setId } from "@/redux/features/user/userSlice";
 
 const RegisteredDevices = async ({
   userDevices,
+  totalPageContain,
 }: {
   userDevices: UserProfileDevice[] | undefined;
+  totalPageContain?: number | null;
 }) => {
-  const [selectedDevice, setSelectedDevice] = useState(0);
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
+  const [tableData, setTableData] = useState<UserProfileDevice[] | undefined>(
+    userDevices
+  );
+  const updateTableData = async (pageNumber: number) => {
+    const newTableData = await getUserRegisteredDevices(
+      Cookies.get("token")!,
+      pageNumber
+    );
+
+    if (newTableData?.data) {
+      setTableData(newTableData.data.data);
+    }
+  };
 
   const tableHeaders = generateHeaders("ProfileDevices");
   return (
-    <div className="w-full flex">
+    <div className="w-full flex flex-col">
       <CustomeTable headers={tableHeaders ? tableHeaders : []}>
-        {userDevices &&
-          userDevices.map((item, index) => (
+        {tableData &&
+          tableData.map((item, index) => (
             <tr
               key={item.deviceId}
               className={` ${
-                selectedDevice === item.deviceId ? "!bg-primaryLight" : ""
+                id === item.deviceId ? "!bg-primaryLight" : ""
               } cursor-pointer`}
-              onClick={() => setSelectedDevice(item.deviceId)}
+              onClick={() => dispatch(setId(item.deviceId))}
             >
               <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
               <td className="whitespace-nowrap p-4 text-[14px]">{item.name}</td>
@@ -110,6 +133,12 @@ const RegisteredDevices = async ({
             </tr>
           ))}
       </CustomeTable>
+      <div className="w-full flex justify-center my-6">
+        <Pagination
+          totalPagesCount={totalPageContain!}
+          onClick={updateTableData}
+        />
+      </div>
     </div>
   );
 };

@@ -220,7 +220,7 @@ const SetDeviceStatusForm = ({
               value={initialValues?.userEmail ? initialValues.userEmail : ""}
             />
           </div>
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2">
             <AuthInput
               name="userEmail"
               label="ادرس شرکت"
@@ -228,7 +228,7 @@ const SetDeviceStatusForm = ({
               value={initialValues?.address ? initialValues.address : ""}
             />
           </div>
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2">
             <AuthInput
               name="userEmail"
               label="گروه تخصصی کاربردی"

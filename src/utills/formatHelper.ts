@@ -64,7 +64,6 @@ export const generateItemsDevicedBySix = (
     ];
   } else {
     let number: number = maxAmount;
-    let indicator = 0;
 
     while (number % 6 !== 0) {
       number++;
@@ -78,5 +77,29 @@ export const generateItemsDevicedBySix = (
       number,
     ];
   }
-  return null;
+};
+
+export const getMedicalEquipmentsRoutes = (id: number): string | undefined => {
+  switch (id) {
+    case 1:
+      return "/devices";
+    case 2:
+      return "/companies";
+    case 3:
+      return "/deanes-of-universities";
+    case 4:
+      return "/events";
+    case 5:
+      return "/hospitals";
+    case 6:
+      return "/labs";
+    case 7:
+      return "/vice-president-of-treatments";
+    case 8:
+      return "/universities-sites";
+  }
+};
+
+export const nonBreakingSpace = (str: string) => {
+  return str.replace(/ /g, "\u00a0");
 };

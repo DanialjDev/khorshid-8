@@ -4,14 +4,17 @@ const Select = ({
   options,
   label,
   width = "w-full",
+  placeholder,
 }: {
   options: string[];
-  label: string;
+  label?: string;
   width?: string;
+  placeholder?: string;
 }) => {
   return (
     <div className="relative">
       <select
+        placeholder={placeholder}
         className={`${width} xl:!text-[14px] text-[12px] border-2 border-inputBorderColor p-3 bg-white rounded-[5px] text-dark outline-none appearance-none relative`}
       >
         <option className="text-inputLabelColor text-[16px]" value={""}>

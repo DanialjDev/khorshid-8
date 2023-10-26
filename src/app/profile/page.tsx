@@ -13,12 +13,12 @@ const ProfilePage = async () => {
   const userDevices = await getUserRegisteredDevices(
     cookies().get("token")?.value!
   );
-  console.log(userDevices);
   return (
     <>
       <NormalProfile
         userDevices={userDevices?.data?.data}
         userInfo={response?.initialValues}
+        totalPageContain={userDevices?.totalPageContain}
       />
     </>
   );
