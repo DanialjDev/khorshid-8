@@ -2,7 +2,7 @@
 
 import Button from "@/components/main/button/Button";
 import CustomInput from "@/components/main/input/CustomInput";
-import Select from "@/components/main/input/Select";
+import Select from "@/components/main/input/CustomSelect";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
 import CustomeTable from "@/components/main/table/CustomeTable";
 import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";

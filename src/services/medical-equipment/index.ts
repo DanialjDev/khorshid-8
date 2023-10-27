@@ -44,7 +44,7 @@ export const getDeviceBanner = async (
 
 type MedicalEquipmentDevices = {
   data?: TableData;
-  tableHeaders?: string[] | undefined;
+  tableHeaders?: { name: string; value: string }[] | undefined;
   message?: string | undefined;
   operationName?: OperationNames;
   totalPageCount?: number;
@@ -53,11 +53,18 @@ type MedicalEquipmentDevices = {
 // Medical Equipment => getDevices
 export const getSectionsData = async (
   url: Category,
-  pageNumber: number = 1
+  pageNumber: number = 1,
+  filterName?: string,
+  filterValue?: string
 ): Promise<MedicalEquipmentDevices | undefined> => {
+  let filterUrl =
+    filterName && filterValue ? `&${filterName}=${filterValue}` : "";
+  console.log(filterUrl);
   try {
     const { data, status } = await get(
-      `MedicalEquipment/${url}/?PageContain=10&PageNumber=${pageNumber}`
+      `MedicalEquipment/${url}?PageContain=10&PageNumber=${
+        pageNumber ? pageNumber : 1
+      }${filterUrl}`
     );
     if (status === 200) {
       return {
@@ -68,7 +75,13 @@ export const getSectionsData = async (
       };
     }
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
+      if (error.response?.data.errors.EventDate[0]) {
+        return {
+          message: "تاریخ وارد شده نادرست می باشد",
+        };
+      }
       return {
         message: error.response?.data.message,
       };

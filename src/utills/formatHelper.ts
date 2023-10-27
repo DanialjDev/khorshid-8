@@ -1,4 +1,4 @@
-import moment, { max } from "moment-jalaali";
+import moment from "moment-jalaali";
 
 export const isNumeric = (string: string) => {
   return !string ? false : /^[0-9\b]+$/.test(string);

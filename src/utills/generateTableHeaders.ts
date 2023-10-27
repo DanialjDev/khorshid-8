@@ -1,40 +1,76 @@
 import { Category } from "@/services/medical-equipment";
 
-export const generateHeaders = (category: Category): string[] | undefined => {
+export const generateHeaders = (
+  category: Category
+):
+  | {
+      name: string;
+      value: string;
+    }[]
+  | undefined => {
   switch (category) {
     case "GetDevices":
       return [
-        "نام دستگاه",
-        "مارک دستگاه",
-        "کشور سازنده",
-        "شرکت نمایندگی",
-        "شماره تماس",
-        "لینک سایت",
-        "تصاویر",
+        { name: "نام دستگاه", value: "Name" },
+        {
+          name: "مارک دستگاه",
+          value: "Brand",
+        },
+        { name: "کشور سازنده", value: "Country" },
+        { name: "شرکت نمایندگی", value: "CompanyName" },
+        { name: "شماره تماس", value: "OrderedByMobileNumber" },
+        { name: "لینک سایت", value: "Website" },
+        { name: "تصاویر", value: "" },
       ];
     case "GetCompanies":
-      return ["نام شرکت", "نام مدیر عامل", "شماره فکس", "آدرس", "تلفن"];
+      return [
+        { name: "نام شرکت", value: "Name" },
+        { name: "نام مدیر عامل", value: "ManagerFullName" },
+        { name: "شماره فکس", value: "FaxNumber" },
+        { name: "آدرس", value: "Address" },
+        { name: "تلفن", value: "" },
+      ];
     case "GetDeansOfUniversities":
-      return ["دانشگاه های علوم پزشکی", "ریاست", "آدرس", "شماره تماس"];
+      return [
+        { name: "دانشگاه های علوم پزشکی", value: "CityID" },
+        { name: "ریاست", value: "DeanOfUniFullName" },
+        { name: "آدرس", value: "Address" },
+        { name: "شماره تماس", value: "Telephone" },
+      ];
     case "GetEvents":
-      return ["نام روز", "تاریخ"];
+      return [
+        { name: "نام روز", value: "EventName" },
+        { name: "تاریخ", value: "EventDate" },
+      ];
     case "GetHospotals":
       return [
-        "نام شهرستان",
-        "نام بیمارستان",
-        "نام رشته فعالیت",
-        "نام تحت پوشش",
-        "تعداد تخت ثابت",
-        "نام دانشگاه ناظر",
-        "آدرس",
-        "شماره تماس",
+        { name: "نام شهرستان", value: "CityId" },
+        { name: "نام بیمارستان", value: "HospitalName" },
+        { name: "نام رشته فعالیت", value: "Category" },
+        { name: "نام تحت پوشش", value: "CoveredName" },
+        { name: "تعداد تخت ثابت", value: "" },
+        { name: "نام دانشگاه ناظر", value: "UniversityName" },
+        { name: "آدرس", value: "Address" },
+        { name: "شماره تماس", value: "Telephone" },
       ];
     case "GetLabs":
-      return ["نام دانشگاه", "مسئول امور آزمایشگاه ها", "آدرس", "شماره تماس"];
+      return [
+        { name: "نام دانشگاه", value: "UniversityName" },
+        { name: "مسئول امور آزمایشگاه ها", value: "HeadOfLaboratory" },
+        { name: "آدرس", value: "Address" },
+        { name: "شماره تماس", value: "Telephone" },
+      ];
     case "GetUniversities":
-      return ["نام دانشگاه / دانشکده", "آدرس سایت"];
+      return [
+        { name: "نام دانشگاه / دانشکده", value: "UniversityName" },
+        { name: "آدرس سایت", value: "Website" },
+      ];
     case "GetVicePresidentsOfTreatment":
-      return ["نام دانشگاه / دانشکده", "معونت درمان", "شماره تماس"];
+      return [
+        { name: "نام دانشگاه / دانشکده", value: "UniversityName" },
+        { name: "معونت درمان", value: "VicePresident" },
+        { name: "شماره تماس", value: "Telephone" },
+      ];
     case "ProfileDevices":
       return [
         "نام دستگاه",

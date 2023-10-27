@@ -3,7 +3,7 @@
 import { InitialValues } from "@/utills/validation/auth/types";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
 import { FormikErrors, FormikTouched } from "formik";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 
 const AuthInput = ({
   label,
@@ -19,6 +19,7 @@ const AuthInput = ({
   disabled,
   mt,
   helperText,
+  icon,
 }: {
   label?: string;
   placeholder?: string;
@@ -33,6 +34,7 @@ const AuthInput = ({
   disabled?: boolean;
   mt?: string;
   helperText?: string;
+  icon?: ReactNode;
 }) => {
   let error: any;
   let touchedInput: any;
@@ -43,7 +45,11 @@ const AuthInput = ({
     touchedInput = touched[name];
   }
   return (
-    <div className={`w-full flex flex-col ${mt ? mt : "mt-7"} relative`}>
+    <div
+      className={`w-full ${
+        disabled ? "cursor-not-allowed" : ""
+      } h-full flex flex-col ${mt ? mt : "mt-7"} relative`}
+    >
       <div className="w-fit relative">
         {label && (
           <label
@@ -61,41 +67,46 @@ const AuthInput = ({
         )}
       </div>
       {helperText === undefined ? (
-        <input
-          disabled={disabled}
-          type={type}
-          name={name}
-          id={name}
-          className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
-            !disabled
-              ? "hover:shadow-inputHover hover:border-inputHoverBorder"
-              : ""
-          } transition duration-200 placeholder:text-[13px] ${
-            error && touchedInput ? "!border-borderError" : ""
-          }`}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={handleBlur}
-          value={value}
-        />
+        <>
+          <input
+            disabled={disabled}
+            type={type}
+            name={name}
+            id={name}
+            className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+              !disabled
+                ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                : "cursor-not-allowed"
+            } transition duration-200 placeholder:text-[13px] ${
+              error && touchedInput ? "!border-borderError" : ""
+            }`}
+            placeholder={placeholder}
+            onChange={onChange}
+            onBlur={handleBlur}
+            value={value}
+          />
+        </>
       ) : (
-        <input
-          disabled={disabled}
-          type={type}
-          name={name}
-          id={name}
-          className={`border focus:border-primary autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
-            !disabled
-              ? "hover:shadow-inputHover hover:border-inputHoverBorder"
-              : ""
-          } transition duration-200  placeholder:text-[13px] ${
-            helperText !== undefined ? "!border-redColor" : ""
-          }`}
-          placeholder={placeholder}
-          onChange={onChange}
-          value={value}
-        />
+        <>
+          <input
+            disabled={disabled}
+            type={type}
+            name={name}
+            id={name}
+            className={`border focus:border-primary autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+              !disabled
+                ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                : ""
+            } transition duration-200  placeholder:text-[13px] ${
+              helperText !== undefined ? "!border-redColor" : ""
+            }`}
+            placeholder={placeholder}
+            onChange={onChange}
+            value={value}
+          />
+        </>
       )}
+      {icon && <div className="absolute left-3 top-5">{icon}</div>}
       {error && touchedInput ? (
         <p className=" text-borderError">{error}</p>
       ) : (

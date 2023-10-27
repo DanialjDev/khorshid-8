@@ -1,6 +1,6 @@
 import React from "react";
 import SectionLayout from "../SectionLayout";
-import Select from "@/components/main/input/Select";
+import Select from "@/components/main/input/CustomSelect";
 import CustomInput from "@/components/main/input/CustomInput";
 
 const MedicalSectionEquipmentList = () => {

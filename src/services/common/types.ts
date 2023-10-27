@@ -26,3 +26,19 @@ export interface HeaderPhoneNumber {
   };
   list: null;
 }
+
+export interface StateType {
+  id: number;
+  stateName: string;
+}
+
+export interface IranStateTypes {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: StateType[];
+}

@@ -1,6 +1,12 @@
 import { isAxiosError } from "axios";
 import { get } from "../axios";
-import { DeviceCategories, DeviceName, HeaderPhoneNumber } from "./types";
+import {
+  DeviceCategories,
+  DeviceName,
+  HeaderPhoneNumber,
+  IranStateTypes,
+  StateType,
+} from "./types";
 
 // Common => Get Device Categories
 type ReturnType = {
@@ -38,6 +44,24 @@ export const getHeaderPhoneNumber = async (): Promise<string | undefined> => {
 
     if (status === 200) {
       return data.object.phoneNumber;
+    }
+  } catch (error) {}
+};
+
+// get Iran States
+export const getStates = async (): Promise<
+  | {
+      data: StateType[];
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<IranStateTypes>("Common/GetIranStates");
+
+    if (status === 200) {
+      return {
+        data: data.list,
+      };
     }
   } catch (error) {}
 };

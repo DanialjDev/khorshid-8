@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import Pagination from "../pagination/Pagination";
 
 interface TableProps {
-  headers: string[];
+  headers: { name: string; value: string }[];
   children?: ReactNode | [];
   text?: string;
   totalPagesCount?: number;
@@ -15,7 +15,7 @@ const EmptyTable = ({
   headers,
   text,
 }: {
-  headers: string[];
+  headers: { name: string; value: string }[];
   text?: string;
 }) => {
   return (
@@ -128,7 +128,7 @@ const CustomeTable = ({
                 <td className="py-5 flex pr-2 rounded-tr-xl">ردیف</td>
                 {headers.map((headerItem, key) => (
                   <td className={`p-4 whitespace-nowrap`} key={key}>
-                    {headerItem}
+                    {headerItem.name}
                   </td>
                 ))}
               </tr>

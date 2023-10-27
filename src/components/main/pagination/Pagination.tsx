@@ -25,7 +25,6 @@ const Pagination = ({
       onClick={(e) => {
         // @ts-ignore
         onClick(e.nextSelectedPage + 1);
-        console.log(e);
       }}
     />
   );

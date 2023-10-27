@@ -251,7 +251,9 @@ export type OperationNames =
   | "GetCounsulations"
   | "GetUsers"
   | "GetUserAcceptedDevices"
-  | "GetProfileDevices";
+  | "GetProfileDevices"
+  | "GetDevices"
+  | "GetCompanies";
 export type TableData = (Company &
   MedicalDevice &
   DeansOfUniversitiesData &

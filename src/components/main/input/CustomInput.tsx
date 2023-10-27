@@ -1,4 +1,7 @@
-import React, { ReactNode } from "react";
+import { InitialValues } from "@/utills/validation/auth/types";
+import { PanelInitialValues } from "@/utills/validation/panel/types";
+import { FormikErrors, FormikTouched } from "formik";
+import React, { ChangeEvent, ReactNode } from "react";
 
 interface CustomInputProps {
   type?: string;
@@ -8,6 +11,10 @@ interface CustomInputProps {
   icon?: ReactNode;
   onClick?: any;
   isDisabled?: boolean;
+  onChange?: (e: ChangeEvent<any>) => void;
+  handleBlur?: (e: React.FocusEvent<any, Element>) => void;
+  errors?: FormikErrors<PanelInitialValues | InitialValues>;
+  touched?: FormikTouched<PanelInitialValues | InitialValues>;
 }
 
 const CustomInput = ({

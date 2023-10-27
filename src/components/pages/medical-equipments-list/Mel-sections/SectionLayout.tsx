@@ -109,6 +109,7 @@ const SectionLayout = ({
             </div>
             <div className="md:col-span-1 col-span-2">
               <Button
+                type="submit"
                 text="جست جو"
                 bg="bg-primary"
                 hover="hover:bg-btnPrimaryHover"

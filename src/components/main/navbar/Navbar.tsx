@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import Logo from "../../../../public/assets/images/navbar-logo.png";
 import { authToggler } from "@/redux/features/auth/authSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { useAppDispatch } from "@/redux/hooks/hooks";
 import Cookies from "js-cookie";
 import { decrypt } from "@/utills/crypto";
 import { getHeaderPhoneNumber } from "@/services/common";
@@ -25,7 +25,7 @@ const MenuItem = ({
 }) => {
   return (
     <li
-      className={`lg:w-auto h-full w-full flex peer items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
+      className={`lg:w-auto overflow-hidden peer h-full w-full flex peer items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
         pathname === href ? "text-primary" : "text-dark"
       }`}
       onClick={() => setNav(false)}
@@ -60,15 +60,15 @@ const Navbar = () => {
         };
   }
 
-  // useEffect(() => {
-  //   getHeaderPhoneNumber()
-  //     .then((res) => {
-  //       if (res) {
-  //         setPhoneNumber(res);
-  //       }
-  //     })
-  //     .catch((err) => null);
-  // }, []);
+  useEffect(() => {
+    getHeaderPhoneNumber()
+      .then((res) => {
+        if (res) {
+          setPhoneNumber(res);
+        }
+      })
+      .catch((err) => null);
+  }, []);
 
   const authHandler = () => {
     if (userInfo) {
@@ -240,7 +240,7 @@ const Navbar = () => {
           <MenuItem
             setNav={setNav}
             text="لیست تجهیزات‌ پزشکی"
-            href="/medical-equipments-list"
+            href="/medical-equipments-list?name=GetDevices"
             pathname={pathname}
           />
           <MenuItem
