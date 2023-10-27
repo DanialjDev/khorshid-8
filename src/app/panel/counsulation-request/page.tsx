@@ -32,10 +32,9 @@ const ConsulationRequest = async () => {
       </div>
       {response?.consulationData && response.consulationData.length !== 0 ? (
         <div className="w-full flex justify-center items-center mt-3">
-          <CustomeTable
-            headers={tableHeaders ? tableHeaders : []}
-            items={TableData}
-          />
+          <CustomeTable headers={tableHeaders ? tableHeaders : []}>
+            {TableData}
+          </CustomeTable>
         </div>
       ) : (
         <div>sfsfsdf</div>

@@ -28,13 +28,16 @@ const useValidation = (action: Action): ReturnType | undefined => {
     "پرکردن این فیلد الزامی است."
   );
   const email = defaultErrorValidation.email("ایمیل وارد شده معتبر نمی باشد.");
-  const mobileNumber = defaultErrorValidation;
-  //   .matches(
-  //     /09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/g,
-  //     {
-  //       message: "شماره وارد شده نامعتبر است",
-  //     }
-  // );
+  const managerFullName = defaultErrorValidation;
+  const mobileNumber = defaultErrorValidation.test(
+    "isMobile",
+    "شماره موبایل وارد شده نادرست است",
+    (value) => {
+      if (value && value.length > 0) {
+        return isMobile(value);
+      }
+    }
+  );
   const password = defaultErrorValidation.min(
     6,
     "رمز عبور نمیتواند کمتر از ۶ کارکتر باشد."
@@ -72,11 +75,13 @@ const useValidation = (action: Action): ReturnType | undefined => {
         email: "",
         mobileNumber: "",
         password: "",
+        managerFullName: "",
       };
       validationSchema = Yup.object().shape({
         email,
         mobileNumber,
         password,
+        managerFullName,
       });
 
       return [initialValues, validationSchema];

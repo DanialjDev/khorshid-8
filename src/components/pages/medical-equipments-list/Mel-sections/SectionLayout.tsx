@@ -6,7 +6,6 @@ import TableBodyData from "../TableBodyData";
 import { OperationNames, TableData } from "@/services/medical-equipment/types";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks/hooks";
-import TableDataContainer from "./TableData";
 import { getSectionsData } from "@/services/medical-equipment";
 import Pagination from "@/components/main/pagination/Pagination";
 
@@ -19,7 +18,7 @@ const SectionLayout = ({
 }: {
   children: ReactNode;
   data?: TableData;
-  tableHeaders: string[];
+  tableHeaders: { name: string; value: string }[];
   operationName: OperationNames;
   totalPageCount?: number;
 }) => {

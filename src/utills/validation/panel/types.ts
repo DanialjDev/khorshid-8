@@ -5,7 +5,7 @@ interface UpdateCounselorValues {
   Position: string;
   Comment: string;
   PhoneNumber: string;
-  // Image: string;
+  Image: File | null;
 }
 
 interface UpdateCounselorAnyObject {
@@ -13,7 +13,7 @@ interface UpdateCounselorAnyObject {
   Position: undefined;
   Comment: undefined;
   PhoneNumber: undefined;
-  // Image: undefined;
+  Image: undefined;
 }
 
 // Update Poster

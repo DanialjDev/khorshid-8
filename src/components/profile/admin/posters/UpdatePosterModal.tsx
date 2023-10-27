@@ -16,7 +16,11 @@ import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { isUrl } from "@/utills/formatHelper";
 
-const UpdatePosterModal = () => {
+const UpdatePosterModal = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { refresh } = useRouter();
   const dispatch = useAppDispatch();
   const { isLinkRequired, updateAction } = useAppSelector(
@@ -78,6 +82,7 @@ const UpdatePosterModal = () => {
             toast.success(response.message);
             setTimeout(() => {
               dispatch(authToggler(""));
+              setIsOpen(false);
               refresh();
             }, 2000);
           } else {
@@ -95,16 +100,6 @@ const UpdatePosterModal = () => {
             toast.error(response?.message);
           }
         }
-
-        // if (response?.status === 200) {
-        //   toast.success(response.message);
-        //   setTimeout(() => {
-        //     dispatch(authToggler(""));
-        //     refresh();
-        //   }, 2000);
-        // } else {
-        //   toast.error(response?.message);
-        // }
       }
     },
   });

@@ -78,14 +78,15 @@ const usePanelValidation = (action: Action): ReturnType | undefined => {
         FullName: "",
         PhoneNumber: "",
         Position: "",
-        // Image: "",
+        Image: null,
       };
+      // @ts-ignore
       validationSchema = Yup.object().shape({
         Comment,
         FullName,
         PhoneNumber,
         Position,
-        // Image,
+        Image: Yup.mixed().optional(),
       });
       return [initialValues, validationSchema];
     case "updatePoster":

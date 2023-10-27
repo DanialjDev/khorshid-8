@@ -108,9 +108,9 @@ const AuthInput = ({
       )}
       {icon && <div className="absolute left-3 top-5">{icon}</div>}
       {error && touchedInput ? (
-        <p className=" text-borderError">{error}</p>
+        <p className=" text-borderError text-right">{error}</p>
       ) : (
-        <p className=" text-borderError">{helperText}</p>
+        <p className=" text-borderError text-right">{helperText}</p>
       )}
     </div>
   );

@@ -85,7 +85,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
   const deleteSingleNewsHanlder = async () => {
     const deleteNewsRes = await deleteNews(
       {
-        newsID: singleNews.newsId,
+        newsID: singleNews.newsId.toString(),
       },
       Cookies.get("token")!
     );

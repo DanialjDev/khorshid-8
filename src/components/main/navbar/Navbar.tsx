@@ -11,6 +11,9 @@ import { useAppDispatch } from "@/redux/hooks/hooks";
 import Cookies from "js-cookie";
 import { decrypt } from "@/utills/crypto";
 import { getHeaderPhoneNumber } from "@/services/common";
+import Modal from "../modal/Modal";
+import Login from "@/components/auth/login/Login";
+import FormLayout from "@/components/auth/layout/FormLayout";
 
 const MenuItem = ({
   href,
@@ -78,11 +81,13 @@ const Navbar = () => {
         push("/profile");
       }
     } else {
+      setIsOpen(true);
       dispatch(authToggler("login"));
     }
   };
 
   const [nav, setNav] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav id="nav" className="w-full flex items-center flex-col fixed z-50">
@@ -172,7 +177,9 @@ const Navbar = () => {
             </div>
             <div className="flex mr-2">
               <div
-                onClick={authHandler}
+                onClick={() => {
+                  authHandler();
+                }}
                 className="flex justify-center text-[12px] cursor-pointer items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
@@ -193,6 +200,9 @@ const Navbar = () => {
                   />
                 </svg>
               </div>
+              <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+                <FormLayout setIsOpen={setIsOpen} />
+              </Modal>
             </div>
           </div>
         </div>

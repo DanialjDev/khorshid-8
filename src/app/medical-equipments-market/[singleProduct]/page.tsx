@@ -1,7 +1,10 @@
 import SingleProductPage from "@/components/pages/medical-equipments-market/SingleProduct";
+import { postPageView } from "@/services/common";
+import { headers } from "next/headers";
 import React from "react";
 
-const SingleProduct = () => {
+const SingleProduct = async () => {
+  await postPageView(headers().get("x-invoke-path")!);
   return (
     <div>
       <SingleProductPage />

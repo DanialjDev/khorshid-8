@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import { get } from "../axios";
+import { get, post } from "../axios";
 import {
   DeviceCategories,
   DeviceName,
@@ -64,4 +64,19 @@ export const getStates = async (): Promise<
       };
     }
   } catch (error) {}
+};
+
+// post page view
+export const postPageView = async (path: string) => {
+  try {
+    const { data, status } = await post(
+      "Common/PostPageView",
+      JSON.stringify({
+        path,
+      })
+    );
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
 };

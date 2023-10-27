@@ -12,8 +12,11 @@ import { getCounselorData } from "@/services/counselor";
 import { toast } from "react-hot-toast";
 import Button from "@/components/main/button/Button";
 import PurchasingExpertContainer from "@/components/pages/medical-equipments-purchasing-expert/PurchasingExpertContainer";
+import { postPageView } from "@/services/common";
+import { headers } from "next/headers";
 
 const MedicalEquipmentsPurchasingExpert = async () => {
+  await postPageView(headers().get("x-invoke-path")!);
   const counselorData = await getCounselorData();
   if (counselorData?.message) {
     return (

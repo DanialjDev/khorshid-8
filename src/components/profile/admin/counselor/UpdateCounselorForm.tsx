@@ -18,37 +18,44 @@ const UpdateCounselorForm = () => {
   const [initialValues, validationSchema] =
     usePanelValidation("updateCounselor")!;
 
-  const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit: async (values) => {
-        const formData = new FormData();
-        console.log(values);
+  const {
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    values,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      console.log(values);
 
-        // @ts-ignore
-        formData.append("Comment", values.Comment);
-        // @ts-ignore
-        formData.append("FullName", values.FullName);
-        // @ts-ignore
-        formData.append("Position", values.Position);
-        // @ts-ignore
-        if (img) {
-          formData.append("Image", img);
-        }
-        // @ts-ignore
-        formData.append("PhoneNumber", values.PhoneNumber);
-        // @ts-ignore
-        formData.append("IsImageChangedOrDeleted", img ? true : false);
+      // @ts-ignore
+      formData.append("Comment", values.Comment);
+      // @ts-ignore
+      formData.append("FullName", values.FullName);
+      // @ts-ignore
+      formData.append("Position", values.Position);
+      // @ts-ignore
+      if (img) {
+        formData.append("Image", img);
+      }
+      // @ts-ignore
+      formData.append("PhoneNumber", values.PhoneNumber);
+      // @ts-ignore
+      formData.append("IsImageChangedOrDeleted", values.Image ? true : false);
 
-        const response = await updateCounselor(formData);
-        if (response?.status === 200) {
-          toast.success(response.message);
-        } else {
-          toast.error(response?.message);
-        }
-      },
-    });
+      const response = await updateCounselor(formData);
+      if (response?.status === 200) {
+        toast.success(response.message);
+      } else {
+        toast.error(response?.message);
+      }
+    },
+  });
   return (
     <Box>
       <form
@@ -109,14 +116,12 @@ const UpdateCounselorForm = () => {
         </div>
         <div className="xl:col-span-2 md:col-span-3 col-span-4">
           <ImageInput
-            img={img}
-            setImg={setImg}
             title="بارگذاری تصویر تصویر مشاوره دهنده"
             desc="در ابعاد 270 × 200 پیکسل ، حجم کمتر از 1 مگابایت ."
-            // onChange={handleChange}
-            // handleBlur={handleBlur}
-            // errors={errors as FormikErrors<PanelInitialValues>}
-            // touched={touched as FormikTouched<PanelInitialValues>}
+            name="Image"
+            setFieldValue={setFieldValue}
+            // @ts-ignore
+            value={values.Image}
           />
         </div>
         <div className="col-span-4">

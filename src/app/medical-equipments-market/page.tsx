@@ -1,14 +1,15 @@
 import ProductItem from "@/components/pages/home-page/ProductItem";
 import FilterSection from "@/components/pages/medical-equipments-market/FilterSection";
 import MedicalMarket from "@/components/pages/medical-equipments-market/MedicalMarket";
-import { getDeviceCategories } from "@/services/common";
+import { getDeviceCategories, postPageView } from "@/services/common";
 import { getDevices } from "@/services/shop";
 import { Device } from "@/services/shop/types";
 import { getTitle } from "@/utills/getTitle";
+import { headers } from "next/headers";
 import React from "react";
 
 const MedicalEquipmentsMarket = async () => {
-  // let devices: Device[];
+  await postPageView(headers().get("x-invoke-path")!);
   const deviceCategories = await getDeviceCategories();
   const devices = await getDevices();
   console.log(devices);

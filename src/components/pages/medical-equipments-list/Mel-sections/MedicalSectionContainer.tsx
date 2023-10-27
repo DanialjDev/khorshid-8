@@ -160,7 +160,8 @@ const MedicalSection = ({
                       const Data = TableBodyData({
                         // @ts-ignore
                         data: medicalEquipmentData?.data,
-                        operationName,
+                        // @ts-ignore
+                        operationName: sectionName,
                       });
                       setTableData(Data);
                       console.log(medicalEquipmentData?.data);

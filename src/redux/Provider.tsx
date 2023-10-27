@@ -6,7 +6,6 @@ import { store } from "./store";
 import Navbar from "@/components/main/navbar/Navbar";
 import { usePathname } from "next/navigation";
 import Breadcrumb from "@/components/main/breadcrumb/Breadcrumb";
-import AuthLayout from "@/components/auth/layout/AuthLayout";
 import MainLayout from "@/components/layout/Layout";
 import ImageModal from "@/components/pages/home-page/ImageModal";
 import { ToastContainer } from "react-toastify";
@@ -24,7 +23,6 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
             {children}
           </MainLayout>
           <ImageModal />
-          <AuthLayout />
         </div>
       </div>
       <ToastContainer

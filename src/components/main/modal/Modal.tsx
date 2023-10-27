@@ -1,29 +1,25 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import Image from "next/image";
+
+import Logo from "../../../../public/assets/images/navbar-logo.png";
 
 const Modal = ({
   isOpen,
   setIsOpen,
+  children,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactNode;
 }) => {
-  //   let [isOpen, setIsOpen] = useState(true);
-
-  //   function closeModal() {
-  //     setIsOpen(false);
-  //   }
-
-  //   function openModal() {
-  //     setIsOpen(true);
-  //   }
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-50"
         onClose={() => setIsOpen(false)}
       >
         <Transition.Child
@@ -50,28 +46,39 @@ const Modal = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                {/* <Dialog.Title
+                <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Payment successful
-                </Dialog.Title> */}
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  <div
                     onClick={() => setIsOpen(false)}
+                    className="absolute z-50 top-2 right-2 p-2 cursor-pointer"
                   >
-                    Got it, thanks!
-                  </button>
-                </div>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.75732 16.2426L16.2426 7.75733"
+                        stroke="#292D32"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M16.2426 16.2427L7.75732 7.75739"
+                        stroke="#292D32"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </Dialog.Title>
+                {children}
               </Dialog.Panel>
             </Transition.Child>
           </div>

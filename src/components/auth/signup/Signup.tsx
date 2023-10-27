@@ -35,6 +35,8 @@ const Signup = () => {
           toast.success(response.message);
           dispatch(authToggler(""));
           dispatch(setIsLoggedIn(true));
+        } else {
+          toast.error(response?.message);
         }
       },
     });

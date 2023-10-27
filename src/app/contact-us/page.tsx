@@ -8,7 +8,7 @@ import MapLogo from "../../../public/assets/images/contact-us/map.png";
 import { getTitle } from "@/utills/getTitle";
 import ContactForm from "@/components/pages/contact-us/ContactForm";
 
-const ContactUs = () => {
+const ContactUs = async () => {
   return (
     <div className="w-full flex h-full flex-col">
       <div className="flex justify-start my-3">

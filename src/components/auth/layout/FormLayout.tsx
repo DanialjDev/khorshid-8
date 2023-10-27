@@ -8,14 +8,24 @@ import ForgotPassword from "../login/ForgotPassword";
 import ChangePassword from "../login/ChangePassword";
 import UpdatePosterModal from "@/components/profile/admin/posters/UpdatePosterModal";
 import UpdateDeviceNumberModal from "@/components/profile/admin/charge-accoun/UpdateDeviceNumberModal";
+import Image from "next/image";
 
-const FormLayout = () => {
+import Logo from "../../../../public/assets/images/navbar-logo.png";
+
+const FormLayout = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { authAction, showForm } = useAppSelector((state) => state.auth);
 
   return (
     <>
+      <div className="w-full flex justify-center items-center mt-3">
+        <Image width={120} height={120} src={Logo} alt="" />
+      </div>
       {authAction === "login" && showForm ? (
-        <Login />
+        <Login setIsOpen={setIsOpen} />
       ) : authAction === "signup" && showForm ? (
         <Signup />
       ) : authAction === "forgotPassword" && showForm ? (
@@ -23,7 +33,7 @@ const FormLayout = () => {
       ) : authAction === "changePassword" && showForm ? (
         <ChangePassword />
       ) : authAction === "updatePoster" && showForm ? (
-        <UpdatePosterModal />
+        <UpdatePosterModal setIsOpen={setIsOpen} />
       ) : authAction === "updateDeviceNumber" && showForm ? (
         <UpdateDeviceNumberModal />
       ) : null}

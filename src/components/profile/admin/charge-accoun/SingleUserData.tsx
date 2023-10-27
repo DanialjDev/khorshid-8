@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/main/button/Button";
+import Modal from "@/components/main/modal/Modal";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
 import CustomeTable from "@/components/main/table/CustomeTable";
 import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
@@ -13,7 +14,8 @@ import {
 } from "@/services/profile/admin/charge-account/types";
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import UpdateDeviceNumberModal from "./UpdateDeviceNumberModal";
 
 const SingleUserData = ({
   userData,
@@ -25,7 +27,7 @@ const SingleUserData = ({
   console.log(userDevices);
   const dispatch = useAppDispatch();
   const tableHeaders = generateHeaders("GetUserAcceptedDevices");
-  console.log(userDevices);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
       <div className="w-full flex justify-between items-center">
@@ -41,7 +43,7 @@ const SingleUserData = ({
         <div className="w-full flex justify-end">
           <Button
             onClick={() => {
-              dispatch(authToggler("updateDeviceNumber"));
+              setIsOpen(true);
               dispatch(setDeviceNumber(userData?.remainDeviceNumber));
             }}
             text="افزودن ظرفیت"
@@ -108,6 +110,9 @@ const SingleUserData = ({
           </CustomeTable>
         </div>
       </div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <UpdateDeviceNumberModal />
+      </Modal>
     </div>
   );
 };

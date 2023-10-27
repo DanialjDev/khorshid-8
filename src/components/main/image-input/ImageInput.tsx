@@ -229,7 +229,7 @@ const ImageInput = ({
       {/* @ts-ignore */}
       {errors && touched && (
         // @ts-ignore
-        <p className="text-redColor">{errors}</p>
+        <p className="text-redColor text-right">{errors}</p>
       )}
     </>
   );

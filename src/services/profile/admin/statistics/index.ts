@@ -152,7 +152,7 @@ export const getMostVisitedPages = async (
 // delete News
 export const deleteNews = async (
   newsData: {
-    newsID: number;
+    newsID: string;
   },
   token: string
 ): Promise<

@@ -9,7 +9,7 @@ import BlueLogo from "../../../public/assets/images/home-page/blue-square.svg";
 import SectionBox from "@/components/pages/home-page/SectionBox";
 import Card from "@/components/pages/about-us/Card";
 
-const AboutUs = () => {
+const AboutUs = async () => {
   return (
     <div className="w-full flex flex-col">
       <div className="w-full flex flex-col lg:flex-row justify-between md:px-6 px-3">

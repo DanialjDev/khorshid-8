@@ -2,6 +2,7 @@ import Button from "@/components/main/button/Button";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
 import CustomeTable from "@/components/main/table/CustomeTable";
 import { getRegisteredDevices } from "@/services/profile/admin/registered-devices";
+import { generateHeaders } from "@/utills/generateTableHeaders";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
@@ -11,6 +12,7 @@ const RegisteredDevices = async () => {
     cookies().get("token")?.value!
   );
   console.log(regesteredDevices?.data);
+  const tableHeaders = generateHeaders("GetUserAcceptedDevices");
   return (
     <div className="w-full flex flex-col">
       <div className="w-full flex justify-between items-center">
@@ -44,15 +46,7 @@ const RegisteredDevices = async () => {
       </div>
       <div className="w-full mt-6">
         <CustomeTable
-          headers={[
-            "نام دستگاه",
-            "مارک دستگاه",
-            "کشور سازنده",
-            "شرکت نمایندگی",
-            "نام سفارش دهنده",
-            "تلفن سفارش دهنده",
-            "اطلاعات بیشتر",
-          ]}
+          headers={tableHeaders!}
           text="دستگاهی برای نمایش وجود ندارد"
         >
           {regesteredDevices &&

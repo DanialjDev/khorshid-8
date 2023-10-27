@@ -13,6 +13,7 @@ const ProfilePage = async () => {
   const userDevices = await getUserRegisteredDevices(
     cookies().get("token")?.value!
   );
+  console.log(response?.initialValues);
   return (
     <>
       <NormalProfile
