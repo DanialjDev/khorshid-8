@@ -49,8 +49,13 @@ export const DeviceLogsChart = ({
                     style={{
                       height: `${String((item / chartSideTexts[5]) * 100)}%`,
                     }}
-                    className="w-[15px] z-30 bg-primary rounded-tr-[4px] rounded-tl-[4px] col-span-1"
-                  ></div>
+                    className="w-[15px] z-30 relative flex items-end cursor-pointer bg-primary rounded-tr-[4px] rounded-tl-[4px] col-span-1"
+                  >
+                    <div className="w-full h-full peer cursor-pointer"></div>
+                    <div className="w-[70px] h-[50px] flex justify-center items-center transition-all duration-300  opacity-0 peer-hover:opacity-100 bg-primary rounded-md absolute -top-14 right-[50%] translate-x-[50%]">
+                      <p className="text-white">{item}</p>
+                    </div>
+                  </div>
                 );
               })}
           </div>

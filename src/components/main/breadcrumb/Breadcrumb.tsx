@@ -12,7 +12,7 @@ const Breadcrumb = () => {
   return (
     <div className="bg-[#FCFCFC] flex items-center py-14 text-[#979797]">
       <div className="flex items-center text-[12px]">
-        <Link href={"/"} className="flex items-center">
+        <Link href={"/"} className="flex items-center hover:text-primary">
           <svg
             width="16"
             height="18"

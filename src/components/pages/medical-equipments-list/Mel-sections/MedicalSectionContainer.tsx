@@ -107,8 +107,8 @@ const MedicalSection = ({
                   </p>
                 </div>
               </div>
-              <div className="w-full grid gap-8 items-stretch grid-cols-2">
-                <div className="md:col-span-1 col-span-2 pt-1 h-full relative">
+              <div className="w-full grid md:gap-8 gap-4 items-stretch grid-cols-2">
+                <div className="md:col-span-1 col-span-2 pt-1 md:h-full h-[60px] relative">
                   <CustomSelect
                     selected={selected}
                     setSelected={setSelected}

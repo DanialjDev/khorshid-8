@@ -31,19 +31,18 @@ const Ticket = ({
 }) => {
   return (
     <div className="w-full grid grid-cols-5 items-stretch mt-5 gap-5 justify-center">
-      <div className="lg:col-span-2 col-span-5 rounded-xl overflow-hidden lg:w-full md:w-[70%] w-full">
+      <div className="lg:col-span-2 col-span-5 rounded-xl overflow-hidden w-fit">
         {img}
       </div>
       <div className="lg:col-span-3 col-span-5 flex flex-col h-[90%]">
         {title}
         <p className="text-gray md:w-[80%] w-full text-[15px] my-10">{text}</p>
-        <div className="mt-4">
+        <div className="">
           <Button
             bg={btnBgColor}
             disabled={isDisabled}
             href={href ? href : undefined}
             dir={dir}
-            // opacity={btnBgColor}
             text={btnText}
             icon={icon}
             color={color}

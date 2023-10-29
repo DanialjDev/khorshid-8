@@ -11,32 +11,27 @@ import { toast } from "react-toastify";
 const ContactForm = () => {
   const [initialValues, validationSchema] = useValidation("contact-us")!;
 
-  const { handleSubmit, handleChange, handleBlur, errors, touched } = useFormik(
-    {
-      initialValues,
-      validationSchema,
-      onSubmit: async (values) => {
-        const response = await contactUsPost(values);
-        console.log(response);
-
-        if (response?.status === 200 && response.message) {
-          toast.success(response.message, {
-            autoClose: 2500,
-            style: {
-              width: "max-content",
-            },
-          });
-        } else {
-          toast.error(response?.message, {
-            autoClose: 2500,
-            style: {
-              width: "max-content",
-            },
-          });
-        }
-      },
-    }
-  );
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    values,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const response = await contactUsPost(values);
+      if (response?.status === 200 && response.message) {
+        toast.success(response.message);
+        resetForm();
+      } else {
+        toast.error(response?.message);
+      }
+    },
+  });
   return (
     <form
       onSubmit={handleSubmit}
@@ -44,6 +39,8 @@ const ContactForm = () => {
     >
       <div className="sm:col-span-1 col-span-2">
         <AuthInput
+          // @ts-ignore
+          value={values.firstName}
           errors={errors}
           handleBlur={handleBlur}
           onChange={handleChange}
@@ -54,6 +51,8 @@ const ContactForm = () => {
       </div>
       <div className="sm:col-span-1 col-span-2">
         <AuthInput
+          // @ts-ignore
+          value={values.lastName}
           label="نام خانوادگی"
           name="lastName"
           errors={errors}
@@ -64,6 +63,8 @@ const ContactForm = () => {
       </div>
       <div className="col-span-2">
         <AuthInput
+          // @ts-ignore
+          value={values.phoneNumber}
           errors={errors}
           handleBlur={handleBlur}
           onChange={handleChange}
@@ -73,13 +74,16 @@ const ContactForm = () => {
         />
       </div>
       <div className="col-span-2">
-        <Textarea
+        <AuthInput
+          // @ts-ignore
+          value={values.comment}
           errors={errors}
           handleBlur={handleBlur}
           onChange={handleChange}
           touched={touched}
           label="متن پیام"
           name="comment"
+          multiline
         />
       </div>
       <div className="col-span-2 mt-8">

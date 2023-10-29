@@ -5,7 +5,6 @@ import UserInfo from "./user-info/UserInfo";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Button from "@/components/main/button/Button";
 import { UserProfileDevice } from "@/services/profile/user/types";
@@ -55,8 +54,10 @@ const NormalProfile = ({
 
     if (removeDeviceRes?.status === 200) {
       toast.success(removeDeviceRes.message);
-      refresh();
-      setTableData(userDevices);
+      const userDevices = await getUserRegisteredDevices(Cookies.get("token")!);
+      if (userDevices?.data) {
+        setTableData(userDevices.data.data);
+      }
     } else {
       toast.error(removeDeviceRes?.message);
     }
@@ -121,8 +122,8 @@ const NormalProfile = ({
       )}
       <div className="w-full flex flex-col shadow-xs border border-profileBorderColor rounded-[12px]">
         {/* Tabs */}
-        <div className="w-full bg-tableHeadColor border-b p-3 rounded-tr-[12px] rounded-tl-[12px] border-profileBorderBottom flex justify-between items-center">
-          <div className="flex items-center">
+        <div className="w-full flex-col md:flex-row bg-tableHeadColor border-b p-3 rounded-tr-[12px] rounded-tl-[12px] border-profileBorderBottom flex justify-between items-center">
+          <div className="flex sm2:flex-row flex-col sm:justify-center justify-between sm:w-fit w-full items-center">
             <button
               onClick={() => setSelectedTab("userInfo")}
               className={`p-2 relative text-lg ${
@@ -138,7 +139,7 @@ const NormalProfile = ({
             </button>
             <button
               onClick={() => setSelectedTab("devices")}
-              className={`p-2 relative text-lg mr-12 ${
+              className={`p-2 relative text-lg sm:mr-7 ${
                 selectedTab === "devices" ? "text-primary" : ""
               }`}
             >
@@ -151,7 +152,7 @@ const NormalProfile = ({
             </button>
           </div>
           {selectedTab === "devices" ? (
-            <div className="flex items-center">
+            <div className="flex sm:flex-row flex-col items-center sm:m-0 mt-3">
               <div className="">
                 <Button
                   href="/register-medical-equipments-device"
@@ -179,7 +180,7 @@ const NormalProfile = ({
                   }
                 />
               </div>
-              <div className="mr-5">
+              <div className="sm:mr-5 sm:mt-0 mt-3">
                 <Button
                   text="حذف درخواست"
                   color="text-redColor"
@@ -241,7 +242,7 @@ const NormalProfile = ({
               </div>
             </div>
           ) : (
-            <div className="">
+            <div className="sm:m-0 mt-3">
               <Button
                 text="خروج از حساب کاربری"
                 bg="bg-redColorLight"

@@ -42,3 +42,20 @@ export interface IranStateTypes {
   object: null;
   list: StateType[];
 }
+
+// companies
+export interface SingleCompany {
+  companyId: number;
+  name: string;
+}
+
+export interface CompaniesType {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: SingleCompany[];
+}

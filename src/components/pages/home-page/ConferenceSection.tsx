@@ -12,18 +12,20 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
   return (
     <Link
       href={link}
-      className="w-full h-[262px] md:col-span-1 col-span-3 flex flex-col"
+      className="w-full md:h-[240px] h-[200px] md:m-0 mt-5 md:col-span-1 col-span-3 flex flex-col"
     >
       <Image
         width={0}
         height={0}
-        objectFit="contain"
+        // objectFit="cover"
         sizes="100vw"
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
         src={imageUrl ? imageUrl : ""}
         alt={name}
       />
-      <p className="text-[14px] mr-3">{name}</p>
+      <p className="text-[14px] md:text-right text-center mr-3">
+        {name.length > 20 ? `${name.slice(0, 35)}...` : name}
+      </p>
     </Link>
   );
 };

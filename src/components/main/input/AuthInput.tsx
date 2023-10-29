@@ -20,6 +20,8 @@ const AuthInput = ({
   mt,
   helperText,
   icon,
+  dir,
+  multiline,
 }: {
   label?: string;
   placeholder?: string;
@@ -35,6 +37,8 @@ const AuthInput = ({
   mt?: string;
   helperText?: string;
   icon?: ReactNode;
+  dir?: "rtl" | "ltr";
+  multiline?: boolean;
 }) => {
   let error: any;
   let touchedInput: any;
@@ -68,23 +72,84 @@ const AuthInput = ({
       </div>
       {helperText === undefined ? (
         <>
-          <input
-            disabled={disabled}
-            type={type}
-            name={name}
-            id={name}
-            className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
-              !disabled
-                ? "hover:shadow-inputHover hover:border-inputHoverBorder"
-                : "cursor-not-allowed"
-            } transition duration-200 placeholder:text-[13px] ${
-              error && touchedInput ? "!border-borderError" : ""
-            }`}
-            placeholder={placeholder}
-            onChange={onChange}
-            onBlur={handleBlur}
-            value={value}
-          />
+          {dir === "rtl" && icon ? (
+            <>
+              <div className="absolute top-5 right-2">{icon}</div>
+              {multiline ? (
+                <textarea
+                  value={value}
+                  onChange={onChange}
+                  onBlur={handleBlur}
+                  rows={4}
+                  className={`border resize-none pr-10 text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                    !disabled
+                      ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                      : "cursor-not-allowed"
+                  } transition duration-200 placeholder:text-[13px] ${
+                    error && touchedInput ? "!border-borderError" : ""
+                  }`}
+                  name={name}
+                  placeholder={placeholder}
+                ></textarea>
+              ) : (
+                <input
+                  disabled={disabled}
+                  type={type}
+                  name={name}
+                  id={name}
+                  className={`border pr-10 text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                    !disabled
+                      ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                      : "cursor-not-allowed"
+                  } transition duration-200 placeholder:text-[13px] ${
+                    error && touchedInput ? "!border-borderError" : ""
+                  }`}
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  onBlur={handleBlur}
+                  value={value}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {multiline ? (
+                <textarea
+                  value={value}
+                  onChange={onChange}
+                  onBlur={handleBlur}
+                  rows={4}
+                  className={`border resize-none text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                    !disabled
+                      ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                      : "cursor-not-allowed"
+                  } transition duration-200 placeholder:text-[13px] ${
+                    error && touchedInput ? "!border-borderError" : ""
+                  }`}
+                  name={name}
+                  placeholder={placeholder}
+                ></textarea>
+              ) : (
+                <input
+                  disabled={disabled}
+                  type={type}
+                  name={name}
+                  id={name}
+                  className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                    !disabled
+                      ? "hover:shadow-inputHover hover:border-inputHoverBorder"
+                      : "cursor-not-allowed"
+                  } transition duration-200 placeholder:text-[13px] ${
+                    error && touchedInput ? "!border-borderError" : ""
+                  }`}
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  onBlur={handleBlur}
+                  value={value}
+                />
+              )}
+            </>
+          )}
         </>
       ) : (
         <>
@@ -106,7 +171,9 @@ const AuthInput = ({
           />
         </>
       )}
-      {icon && <div className="absolute left-3 top-5">{icon}</div>}
+      {icon && dir === "ltr" && (
+        <div className="absolute left-3 top-5">{icon}</div>
+      )}
       {error && touchedInput ? (
         <p className=" text-borderError text-right">{error}</p>
       ) : (

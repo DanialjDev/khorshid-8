@@ -18,6 +18,7 @@ export default function CustomSelect({
 }) {
   return (
     <div className="w-full h-full">
+      <div className="w-full">sfsdf</div>
       <Listbox
         value={selected}
         onChange={(e) => {
@@ -56,7 +57,7 @@ export default function CustomSelect({
           >
             <Listbox.Options
               onChange={(e) => console.log("sfsfsdf")}
-              className="absolute border border-inputBorder rounded-lg h-[200px] top-14 z-40 overflow-scroll mt-1 max-h-60 w-full bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              className="absolute border border-inputBorder rounded-lg h-[200px] top-14 z-40 overflow-scroll mt-1 max-h-60 w-full bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
             >
               {items.map((title, index) => (
                 <>
@@ -82,11 +83,6 @@ export default function CustomSelect({
                             >
                               {title.name}
                             </span>
-                            {/* {selected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null} */}
                           </>
                         );
                       }}

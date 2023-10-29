@@ -106,7 +106,7 @@ const TableBodyData = ({
             <td className="whitespace-nowrap p-4 text-[14px]">
               {item.phones.map((phone, index) => (
                 <span
-                  className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full"
+                  className="w-fit ml-[5px] bg-primaryLight text-primaryDark px-2 py-1 rounded-full"
                   key={index}
                 >
                   {phone}

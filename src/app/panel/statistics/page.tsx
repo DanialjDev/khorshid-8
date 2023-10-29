@@ -4,6 +4,7 @@ import { DeviceLogsChart } from "@/components/profile/admin/statistics/DeviceLog
 import NewsBox from "@/components/profile/admin/statistics/NewsBox";
 import StatisticsBox from "@/components/profile/admin/statistics/StatisticsBox";
 import UpdatePhoneNumber from "@/components/profile/admin/statistics/UpdatePhoneNumber";
+import { getHeaderPhoneNumber } from "@/services/common";
 import {
   getDeviceLogs,
   getMostVisitedPages,
@@ -19,6 +20,7 @@ const Statistics = async () => {
     cookies().get("token")?.value!
   );
   const deviceLogs = await getDeviceLogs(cookies().get("token")?.value!);
+  const headerPhoneNumber = await getHeaderPhoneNumber();
 
   return (
     <div className="w-full grid grid-cols-6 gap-6 !h-[450px] items-stretch">
@@ -223,7 +225,7 @@ const Statistics = async () => {
             </svg>
           }
         >
-          <UpdatePhoneNumber />
+          <UpdatePhoneNumber phoneNumber={headerPhoneNumber} />
         </StatisticsBox>
       </div>
     </div>

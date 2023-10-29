@@ -119,11 +119,11 @@ const CustomeTable = ({
   totalPagesCount,
 }: TableProps) => {
   return (
-    <div className="w-full flex-col overflow-x-auto flex justify-center items-center mt-5">
+    <div className="w-full flex-col overflow-x-auto flex mt-5 shadow-tableShadow">
       <div className="inline-block min-w-full">
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto overflow-scroll min-w-full shadow-tableShadow rounded-3xl relative">
-            <thead className="bg-tableHeadColor shadow-md w-full h-12">
+        <div className="overflow-x-auto rounded-lg ">
+          <table className="w-full table-auto overflow-scroll min-w-full rounded-3xl relative">
+            <thead className="bg-tableHeadColor table-fixed sticky shadow-md w-full h-12">
               <tr className="rounded-xl text-[13px]">
                 <td className="py-5 flex pr-2 rounded-tr-xl">ردیف</td>
                 {headers.map((headerItem, key) => (

@@ -8,14 +8,26 @@ import { useFormik } from "formik";
 import React from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { isMobile } from "@/utills/formatHelper";
 
-const UpdatePhoneNumber = () => {
-  const [initialValues, validationSchema] =
-    usePanelValidation("updatePhoneNumber")!;
+const UpdatePhoneNumber = ({
+  phoneNumber,
+}: {
+  phoneNumber: string | undefined;
+}) => {
   const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
     useFormik({
-      initialValues,
-      validationSchema,
+      initialValues: {
+        phoneNumber: phoneNumber ? phoneNumber : "",
+      },
+      validationSchema: Yup.object().shape({
+        phoneNumber: Yup.string()
+          .required("پرکردن این فیلد الزامی است.")
+          .test("isMobile", "شماره موبایل وارد شده نا معتبر است", (value) =>
+            isMobile(value)
+          ),
+      }),
       onSubmit: async (values) => {
         const updatePhoneNumberRes = await updatePhoneNumber(
           {

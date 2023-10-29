@@ -12,7 +12,11 @@ import { useFormik } from "formik";
 import { signupHandler } from "@/services/auth";
 import { toast } from "react-toastify";
 
-const Signup = () => {
+const Signup = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useAppDispatch();
 
   const [initialValues, validationSchema] = useValidation("signup")! as [
@@ -35,6 +39,7 @@ const Signup = () => {
           toast.success(response.message);
           dispatch(authToggler(""));
           dispatch(setIsLoggedIn(true));
+          setIsOpen(false);
         } else {
           toast.error(response?.message);
         }

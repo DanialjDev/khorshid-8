@@ -12,7 +12,7 @@ type ReturnTyp = {
   status?: number;
   message?: string | undefined;
   data?: TableData;
-  // pageInfo?: PageInfo;
+  // totalPageCount?: number | null;
 };
 
 export const getDevices = async (
@@ -30,6 +30,7 @@ export const getDevices = async (
       return {
         data: data.object,
         status,
+        // totalPageCount: data.object.totalItemsCount,
       };
     }
   } catch (error) {
@@ -54,13 +55,13 @@ export const filterDevices = async (
   let reqUrl = "";
   try {
     if (searchInput && !categories) {
-      reqUrl = `${baseUrl}?Search=${searchInput}`;
+      reqUrl = `${baseUrl}&Search=${searchInput}`;
     } else if (!searchInput && categories) {
       const lastIndex = categories.slice(-1);
       if (lastIndex === "&") {
         categories = categories.substring(0, categories.length - 1);
       }
-      reqUrl = `${baseUrl}?${categories}`;
+      reqUrl = `${baseUrl}&${categories}`;
     } else if (searchInput && categories) {
       const lastIndex = categories.slice(-1);
       if (lastIndex === "&") {
@@ -74,14 +75,15 @@ export const filterDevices = async (
       reqUrl = `${reqUrl}&PageNumber=${pageNumber}`;
     }
     const { data, status } = await get<ShopDevices>(reqUrl);
+    console.log(data);
     if (status === 200) {
-      console.log(data);
       return {
         status,
         data: data.object,
       };
     }
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

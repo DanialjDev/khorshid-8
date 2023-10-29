@@ -20,14 +20,14 @@ const FormLayout = ({
   const { authAction, showForm } = useAppSelector((state) => state.auth);
 
   return (
-    <>
+    <div className="w-full">
       <div className="w-full flex justify-center items-center mt-3">
         <Image width={120} height={120} src={Logo} alt="" />
       </div>
       {authAction === "login" && showForm ? (
         <Login setIsOpen={setIsOpen} />
       ) : authAction === "signup" && showForm ? (
-        <Signup />
+        <Signup setIsOpen={setIsOpen} />
       ) : authAction === "forgotPassword" && showForm ? (
         <ForgotPassword />
       ) : authAction === "changePassword" && showForm ? (
@@ -37,7 +37,7 @@ const FormLayout = ({
       ) : authAction === "updateDeviceNumber" && showForm ? (
         <UpdateDeviceNumberModal />
       ) : null}
-    </>
+    </div>
   );
 };
 

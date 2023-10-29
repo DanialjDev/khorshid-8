@@ -17,28 +17,40 @@ import FormLayout from "@/components/auth/layout/FormLayout";
 
 const MenuItem = ({
   href,
-  pathname,
   text,
   setNav,
 }: {
   href: string;
-  pathname: string;
   text: string;
   setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const pathname = usePathname();
   return (
     <li
-      className={`lg:w-auto overflow-hidden peer h-full w-full flex peer items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
-        pathname === href ? "text-primary" : "text-dark"
+      className={`lg:w-auto overflow-hidden peer h-full w-full flex items-center relative pb-2 xl:text-[14px] text-[12px] lg:border-none border-t border-menuBorderColor ${
+        href.includes(pathname) && pathname !== "/"
+          ? "text-primary"
+          : pathname === href
+          ? "text-primary"
+          : "text-dark"
       }`}
       onClick={() => setNav(false)}
     >
-      <Link href={href}>{text}</Link>
+      <Link className="peer hover:text-primary" href={href}>
+        {text}
+      </Link>
       <div
         className={`absolute w-full h-[1.6px] rounded-full bottom-0 bg-primary ${
-          pathname === href ? "lg:flex hidden" : "hidden"
+          href.includes(pathname) && pathname !== "/"
+            ? "lg:flex hidden"
+            : pathname === href
+            ? "lg:flex hidden"
+            : "hidden"
         } transition ease-in-out duration-200`}
       />
+      <div
+        className={`absolute w-full right-[-100%] hover:right-0 h-[2px] peer-hover:right-0 transition-all duration-200 bottom-0 bg-primary`}
+      ></div>
     </li>
   );
 };
@@ -46,7 +58,6 @@ const MenuItem = ({
 const Navbar = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const pathname = usePathname();
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   let userInfo: any;
@@ -76,7 +87,7 @@ const Navbar = () => {
   const authHandler = () => {
     if (userInfo) {
       if (userInfo.roleNameEn === "admin") {
-        push("/panel");
+        push("/panel/statistics");
       } else {
         push("/profile");
       }
@@ -241,60 +252,27 @@ const Navbar = () => {
           </div>
         </div>
         <ul className="lg:w-[85%] w-[95%] lg:flex-row flex-col h-[70%] flex justify-between items-center mt-5 lg:m-0 pb-4">
-          <MenuItem
-            setNav={setNav}
-            text="صفحه اصلی"
-            href="/"
-            pathname={pathname}
-          />
+          <MenuItem setNav={setNav} text="صفحه اصلی" href="/" />
           <MenuItem
             setNav={setNav}
             text="لیست تجهیزات‌ پزشکی"
             href="/medical-equipments-list?name=GetDevices"
-            pathname={pathname}
           />
           <MenuItem
             setNav={setNav}
             text="بازار تجهیزات‌ پزشکی"
             href="/medical-equipments-market"
-            pathname={pathname}
           />
           <MenuItem
             setNav={setNav}
             text="کارشناس خرید تجهیزات‌ پزشکی"
             href="/medical-equipments-purchasing-expert"
-            pathname={pathname}
           />
-          <MenuItem
-            setNav={setNav}
-            text="همایش ها"
-            href="/conferences"
-            pathname={pathname}
-          />
-          <MenuItem
-            setNav={setNav}
-            text="اخبار"
-            href="/news"
-            pathname={pathname}
-          />
-          <MenuItem
-            setNav={setNav}
-            text="گالری تصاویر"
-            href="/gallery"
-            pathname={pathname}
-          />
-          <MenuItem
-            setNav={setNav}
-            text="درباره ما"
-            href="/about-us"
-            pathname={pathname}
-          />
-          <MenuItem
-            setNav={setNav}
-            text="ارتباط با ما"
-            href="/contact-us"
-            pathname={pathname}
-          />
+          <MenuItem setNav={setNav} text="همایش ها" href="/conferences" />
+          <MenuItem setNav={setNav} text="اخبار" href="/news" />
+          <MenuItem setNav={setNav} text="گالری تصاویر" href="/gallery" />
+          <MenuItem setNav={setNav} text="درباره ما" href="/about-us" />
+          <MenuItem setNav={setNav} text="ارتباط با ما" href="/contact-us" />
         </ul>
         <div className="sm2:w-[400px] w-[250px] h-[40px] lg:hidden flex justify-between border-2 border-slate-200 rounded-md p-1">
           <input

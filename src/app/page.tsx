@@ -133,9 +133,12 @@ export default async function Home() {
                   }
                   img={
                     <Image
-                      className="h-full"
+                      // className="h-full"
                       objectFit="contain"
+                      width={500}
+                      height={300}
                       src={PartnerShip}
+                      className="rounded-lg"
                       alt=""
                     />
                   }
@@ -190,6 +193,8 @@ export default async function Home() {
                       className="h-full"
                       objectFit="contain"
                       alt=""
+                      width={500}
+                      height={300}
                     />
                   }
                   title={
@@ -205,9 +210,9 @@ export default async function Home() {
             </div>
           </div>
           {/* Sidebar */}
-          <div className="xl:col-span-2 lg:col-span-3 md:col-span-5 col-span-9 flex flex-col lg:items-start">
-            <div className="lg:w-full md:w-[70%] w-full">
-              <div className="w-full flex flex-col px-5 py-7 bg-white shadow-md rounded-xl">
+          <div className="xl:col-span-2 col-span-9 grid grid-cols-4 items-start xl:m-0 m-auto">
+            <div className="xl:w-full md:w-[400px] w-full grid grid-cols-4 col-span-4 lg:m-0 m-auto items-start">
+              <div className="w-full col-span-4 flex flex-col px-5 py-7 bg-white shadow-md rounded-xl">
                 <div className="flex">
                   <div>
                     <svg
@@ -354,27 +359,36 @@ export default async function Home() {
                   />
                 </div>
               </div>
-              {homePageDate &&
-                homePageDate.homeSideBanners &&
-                homePageDate.homeSideBanners.map(
-                  ({ imageUrl, link, homeSideBannerId }) => (
-                    <Link
-                      href={link ? `https://${link}` : "/"}
-                      key={homeSideBannerId}
-                      target="_blank"
-                      className="w-full flex justify-center items-center"
-                    >
-                      <Image
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{ width: "100%", height: "auto" }}
-                        alt=""
-                        src={imageUrl ? imageUrl : ""}
-                      />
-                    </Link>
-                  )
-                )}
+              <div className="flex col-span-4 gap-y-3 flex-col mt-4 m-auto">
+                {homePageDate &&
+                  homePageDate.homeSideBanners &&
+                  homePageDate.homeSideBanners.map(
+                    ({ imageUrl, link, homeSideBannerId }) => (
+                      <Link
+                        href={
+                          link && link.startsWith("https")
+                            ? link
+                            : `https://${link}`
+                        }
+                        key={homeSideBannerId}
+                        target="_blank"
+                        className="w-full flex justify-center items-center"
+                      >
+                        <div className="w-full overflow-hidden rounded-lg">
+                          <Image
+                            width={400}
+                            height={400}
+                            sizes="100vw"
+                            // style={{ width: "100%", height: "auto" }}
+                            alt=""
+                            src={imageUrl ? imageUrl : ""}
+                            className="border"
+                          />
+                        </div>
+                      </Link>
+                    )
+                  )}
+              </div>
             </div>
           </div>
         </div>
@@ -483,7 +497,11 @@ export default async function Home() {
                   <td className="whitespace-nowrap p-4 text-[14px]">
                     <Link
                       className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
-                      href={item.companyWebsite}
+                      href={
+                        item.companyWebsite.startsWith("https")
+                          ? item.companyWebsite
+                          : `https://${item.companyWebsite}`
+                      }
                     >
                       مشاهده
                     </Link>

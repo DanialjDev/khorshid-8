@@ -1,7 +1,6 @@
 import NormalProfile from "@/components/profile/normal/NormalProfile";
 import React from "react";
 import { cookies } from "next/headers";
-import { useProfileValidation } from "@/utills/validation/profile/validation";
 import {
   getProfileCompanyData,
   getUserRegisteredDevices,
@@ -13,7 +12,6 @@ const ProfilePage = async () => {
   const userDevices = await getUserRegisteredDevices(
     cookies().get("token")?.value!
   );
-  console.log(response?.initialValues);
   return (
     <>
       <NormalProfile

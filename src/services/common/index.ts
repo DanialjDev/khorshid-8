@@ -1,10 +1,12 @@
 import { isAxiosError } from "axios";
 import { get, post } from "../axios";
 import {
+  CompaniesType,
   DeviceCategories,
   DeviceName,
   HeaderPhoneNumber,
   IranStateTypes,
+  SingleCompany,
   StateType,
 } from "./types";
 
@@ -78,5 +80,28 @@ export const postPageView = async (path: string) => {
     console.log(data);
   } catch (error) {
     console.log(error);
+  }
+};
+
+// get Companies
+export const getCompanies = async (): Promise<
+  { companyList?: SingleCompany[]; message?: string } | undefined
+> => {
+  try {
+    const { data, status } = await get<CompaniesType>(
+      "Common/GetSimpleCompanies"
+    );
+
+    if (status === 200) {
+      return {
+        companyList: data.list,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
   }
 };

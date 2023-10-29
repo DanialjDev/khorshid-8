@@ -29,12 +29,12 @@ const Login = ({
             toast.success(response.message);
             dispatch(setIsLoggedIn(true));
             setTimeout(() => {
-              dispatch(authToggler(""));
+              // dispatch(authToggler(""));
               setIsOpen(false);
               refresh();
             }, 1500);
             if (response.role === "admin") {
-              push("panel/");
+              push("panel/statistics");
             }
           } else if (response?.status === 400) {
             if (response.message) {

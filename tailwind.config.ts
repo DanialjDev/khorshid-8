@@ -68,6 +68,7 @@ const config: Config = {
         newsBoxBg: "#FEFEFE",
         newsIconBg: "#F4F6FA",
         inputBorder: "#E2E8F0",
+        notFoundItemBorder: "#C1BABA",
       },
       boxShadow: {
         xs: "0px 2px 8px 0px rgba(151, 151, 151, 0.15)",

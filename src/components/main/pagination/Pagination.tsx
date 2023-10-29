@@ -4,12 +4,16 @@ import ReactPaginate from "react-paginate";
 const Pagination = ({
   totalPagesCount,
   onClick,
+  currentPageNumber,
 }: {
   totalPagesCount: number;
   onClick: (nextPage: number) => void;
+  currentPageNumber?: number;
 }) => {
   return (
     <ReactPaginate
+      forcePage={currentPageNumber}
+      selectedPageRel={null}
       pageCount={totalPagesCount}
       breakLabel="..."
       pageRangeDisplayed={10}

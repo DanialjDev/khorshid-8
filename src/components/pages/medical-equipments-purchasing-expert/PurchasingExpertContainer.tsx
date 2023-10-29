@@ -20,6 +20,7 @@ import {
   InitialValues,
   ValidationSchemaType,
 } from "@/utills/validation/auth/types";
+import AuthInput from "@/components/main/input/AuthInput";
 
 const PurchasingExpertContainer = ({
   counselorData,
@@ -31,34 +32,43 @@ const PurchasingExpertContainer = ({
     ValidationSchemaType
   ];
 
-  const { handleSubmit, handleChange, handleBlur, errors, touched } = useFormik(
-    {
-      initialValues,
-      validationSchema,
-      onSubmit: async (values) => {
-        console.log(values);
-        const response = await contactUsPost(values);
-        console.log(response);
-        if (response?.message) {
-          if (response.status === 200 && response.message) {
-            toast.success(response.message, {
-              autoClose: 2500,
-              style: {
-                width: "max-content",
-              },
-            });
-          } else {
-            toast.error(response.message, {
-              autoClose: 2500,
-              style: {
-                width: "max-content",
-              },
-            });
-          }
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    resetForm,
+    values,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const response = await contactUsPost(values);
+      resetForm();
+      if (response?.message) {
+        if (response.status === 200 && response.message) {
+          toast.success(response.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
+          resetForm();
+        } else {
+          toast.error(response.message, {
+            autoClose: 2500,
+            style: {
+              width: "max-content",
+            },
+          });
         }
-      },
-    }
-  );
+      }
+    },
+    // onReset: (e) => {
+    //   handleReset(e);
+    // },
+  });
   return (
     <div className="w-full flex flex-col">
       <div className="w-full flex flex-col">
@@ -156,7 +166,11 @@ const PurchasingExpertContainer = ({
                 className="w-full grid grid-cols-3 gap-5 items-start mt-5"
               >
                 <div className="md:col-span-1 col-span-3">
-                  <ContactInput
+                  <AuthInput
+                    // @ts-ignore
+                    value={values.firstName}
+                    mt="mt-0"
+                    dir="rtl"
                     errors={errors}
                     handleBlur={handleBlur}
                     onChange={handleChange}
@@ -190,7 +204,11 @@ const PurchasingExpertContainer = ({
                   />
                 </div>
                 <div className="md:col-span-1 col-span-3">
-                  <ContactInput
+                  <AuthInput
+                    // @ts-ignore
+                    value={values.lastName}
+                    mt="mt-0"
+                    dir="rtl"
                     errors={errors}
                     handleBlur={handleBlur}
                     onChange={handleChange}
@@ -214,7 +232,11 @@ const PurchasingExpertContainer = ({
                   />
                 </div>
                 <div className="md:col-span-1 col-span-3">
-                  <ContactInput
+                  <AuthInput
+                    // @ts-ignore
+                    value={values.phoneNumber}
+                    mt="mt-0"
+                    dir="rtl"
                     errors={errors}
                     handleBlur={handleBlur}
                     onChange={handleChange}
@@ -276,15 +298,18 @@ const PurchasingExpertContainer = ({
                   />
                 </div>
                 <div className="col-span-3">
-                  <ContactInput
+                  <AuthInput
+                    // @ts-ignore
+                    value={values.comment}
+                    mt="mt-0"
+                    dir="rtl"
                     errors={errors}
                     handleBlur={handleBlur}
                     onChange={handleChange}
                     touched={touched}
                     name="comment"
                     placeholder="متن پیام"
-                    rows={5}
-                    isTextarea
+                    multiline
                     icon={
                       <svg
                         width="18"
