@@ -1,138 +1,280 @@
 "use client";
 
 import Button from "@/components/main/button/Button";
-import CustomInput from "@/components/main/input/CustomInput";
-import Select from "@/components/main/input/CustomSelect";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
-import CustomeTable from "@/components/main/table/CustomeTable";
-import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";
 import {
-  MedicalEquipmentDevicesData,
-  MedicalEquipmentDevicesObj,
+  deleteItems,
+  getMedicalEquipments,
+} from "@/services/profile/admin/medical-equipments-list";
+import {
+  EndPoints,
+  TableDateType,
 } from "@/services/profile/admin/medical-equipments-list/types";
-import { nonBreakingSpace } from "@/utills/formatHelper";
+import { jalaaliToGregorianISO, nonBreakingSpace } from "@/utills/formatHelper";
 import { generateHeaders } from "@/utills/generateTableHeaders";
-import Link from "next/link";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import Pagination from "@/components/main/pagination/Pagination";
+import AuthInput from "@/components/main/input/AuthInput";
+import { Category } from "@/services/medical-equipment";
+import GetDevicesTable from "./tables/GetDevicesTable";
+import CustomSelect from "@/components/main/input/CustomSelect";
+import GetCompanies from "./tables/GetCompanies";
+import { toast } from "react-toastify";
+import GetLabs from "./tables/GetLabs";
 import { useRouter } from "next/navigation";
+import DeansOfUni from "./tables/DeansOfUni";
+import Hospitals from "./tables/Hospitals";
+import GetEvents from "./tables/GetEvents";
+import Universities from "./tables/Universities";
+import VicePresidentOfTreatments from "./tables/VicePresidentOfTreatments";
 
 const AllEquipmentsInfo = ({
   deviceInfo,
+  headerType,
+  url,
+  postUrl,
+  removeUrl,
+  desc,
+  title,
 }: {
-  deviceInfo: MedicalEquipmentDevicesObj | null;
+  deviceInfo: TableDateType | null;
+  headerType: Category;
+  url: EndPoints;
+  postUrl: string;
+  removeUrl: string;
+  title: string;
+  desc: string;
 }) => {
-  const { push } = useRouter();
-  const tableHeaders = generateHeaders("GetDevices");
-  const [tableData, setTableData] = useState<
-    MedicalEquipmentDevicesData[] | null
-  >(deviceInfo?.data ? deviceInfo.data : null);
+  const { refresh } = useRouter();
+  const tableHeaders = generateHeaders(headerType);
+  const [payload, setPayload] = useState<TableDateType | null>(
+    deviceInfo ? deviceInfo : null
+  );
+  const [selected, setSelected] = useState(
+    tableHeaders ? tableHeaders[0] : null
+  );
+  const [rows, setRows] = useState<number[]>([]);
+  const [isDelete, setIsDelete] = useState(false);
+  const [searchValue, setSearchValue] = useState<string | null>("");
 
-  const updateTableData = async (pageNumber: number) => {
-    // debugger;
-    console.log(pageNumber);
-    const updatedDeviceData = await getMedicalEquipments(
-      "GetDevices",
-      pageNumber,
-      Cookies.get("token")!
-    );
-    console.log(updatedDeviceData?.payload);
-    if (updatedDeviceData?.payload) {
-      setTableData(updatedDeviceData.payload.data);
-      console.log("data set");
+  const filterDataHandler = async () => {
+    let filterData = searchValue;
+    if (searchValue) {
+      if (url === "GetEvents") {
+        filterData = jalaaliToGregorianISO(searchValue);
+      }
+      const filteredValues = await getMedicalEquipments(
+        url,
+        null,
+        Cookies.get("token"),
+        `&${selected?.value}=${filterData}`
+      );
+
+      if (filteredValues?.payload) {
+        setPayload(filteredValues.payload);
+      } else {
+        toast.warning(filteredValues?.message);
+      }
+    } else {
+      toast.warning("لطفا کلمه مورد نظر را وارد کنید");
     }
   };
+
+  const paginationHandler = async (pageNumer: number) => {
+    const paginatedValues = await getMedicalEquipments(
+      url,
+      pageNumer,
+      Cookies.get("token"),
+      searchValue ? `&${selected?.value}=${searchValue}` : undefined
+    );
+
+    if (paginatedValues?.payload) {
+      setPayload(paginatedValues.payload);
+    }
+  };
+
+  const deleteItemsHanlder = async () => {
+    const deleteItemsRes = await deleteItems(
+      rows,
+      Cookies.get("token")!,
+      removeUrl
+    );
+
+    if (deleteItemsRes?.status === 200) {
+      toast.success(deleteItemsRes.message);
+      const updatedData = await getMedicalEquipments(
+        url,
+        null,
+        Cookies.get("token"),
+        undefined
+      );
+
+      if (updatedData?.payload) {
+        setPayload(updatedData.payload);
+        setIsDelete(false);
+      }
+    } else {
+      toast.error(deleteItemsRes?.message);
+    }
+  };
+
   return (
     <div className="w-full flex-col">
       <div className="w-full flex justify-between items-center">
-        <PageTitle
-          title="لیست گروه ها و شرکت های تجهیزات پزشکی"
-          text="شما می توانید لیست تجهیزات پزشکی ( کتاب ) را در اینجا مشاهده کنید."
-        />
-        <Button
-          border="border border-redColor"
-          bg="bg-redColorLight"
-          padding="px-6 py-2"
-          rounded="rounded-[6px]"
-          icon={
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M24.5 6.97689C20.615 6.59189 16.7067 6.39355 12.81 6.39355C10.5 6.39355 8.19 6.51022 5.88 6.74355L3.5 6.97689"
-                stroke="#C92626"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+        <PageTitle title={title} text={desc} />
+        <div className="flex flex-row-reverse items-center">
+          <Button
+            onClick={() => {
+              setIsDelete(true);
+              if (isDelete) {
+                deleteItemsHanlder();
+              }
+            }}
+            border="border border-redColor"
+            bg="bg-redColorLight"
+            padding="px-6 py-2"
+            rounded="rounded-[6px]"
+            icon={
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M24.5 6.97689C20.615 6.59189 16.7067 6.39355 12.81 6.39355C10.5 6.39355 8.19 6.51022 5.88 6.74355L3.5 6.97689"
+                  stroke="#C92626"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.91667 5.79801L10.1733 4.26967C10.36 3.16134 10.5 2.33301 12.4717 2.33301H15.5283C17.5 2.33301 17.6517 3.20801 17.8267 4.28134L18.0833 5.79801"
+                  stroke="#C92626"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M21.9921 10.6631L21.2338 22.4114C21.1055 24.2431 21.0005 25.6664 17.7455 25.6664H10.2555C7.00046 25.6664 6.89546 24.2431 6.76712 22.4114L6.00879 10.6631"
+                  stroke="#C92626"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12.0517 19.25H15.9367"
+                  stroke="#C92626"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.0833 14.583H16.9167"
+                  stroke="#C92626"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          />
+          {isDelete && (
+            <div className="ml-5">
+              <Button
+                onClick={() => {
+                  setIsDelete((prevState) => !prevState);
+                  setRows([]);
+                }}
+                border="border border-redColor"
+                bg="bg-redColorLight"
+                padding="px-6 py-2"
+                rounded="rounded-[6px]"
+                text="بازگشت به حالت اولیه"
+                color="text-redColor"
+                icon={
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 7L11 11L15 7ZM11 11L7 15L11 11ZM11 11L7 7L11 11ZM11 11L15 15L11 11Z"
+                      fill="#E21414"
+                      fill-opacity="0.15"
+                    />
+                    <path
+                      d="M15 7L11 11M11 11L7 15M11 11L7 7M11 11L15 15"
+                      stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1C5.47715 1 1 5.47715 1 11C1 16.5228 5.47715 21 11 21Z"
+                      fill="#E21414"
+                      fill-opacity="0.15"
+                      stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                }
               />
-              <path
-                d="M9.91667 5.79801L10.1733 4.26967C10.36 3.16134 10.5 2.33301 12.4717 2.33301H15.5283C17.5 2.33301 17.6517 3.20801 17.8267 4.28134L18.0833 5.79801"
-                stroke="#C92626"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M21.9921 10.6631L21.2338 22.4114C21.1055 24.2431 21.0005 25.6664 17.7455 25.6664H10.2555C7.00046 25.6664 6.89546 24.2431 6.76712 22.4114L6.00879 10.6631"
-                stroke="#C92626"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12.0517 19.25H15.9367"
-                stroke="#C92626"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11.0833 14.583H16.9167"
-                stroke="#C92626"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          }
-        />
+            </div>
+          )}
+        </div>
       </div>
-      <div className="w-full grid grid-cols-4 gap-x-3 items-stretch mt-5">
+      <div className="w-full grid grid-cols-4 gap-x-3 items-center mt-5">
         <div className="w-full col-span-2 items-center grid grid-cols-7 gap-x-5">
-          {/* <Select /> */}
-          <div className="col-span-3 border"></div>
-          <div className="col-span-4">
-            <CustomInput
-              isDisabled
+          <div className="col-span-3 relative h-[49px]">
+            <CustomSelect
+              selected={selected!}
+              // @ts-ignore
+              setSelected={setSelected}
+              items={tableHeaders ? tableHeaders : []}
+            />
+          </div>
+          <div className="col-span-4 h-full">
+            <AuthInput
+              name="searchValue"
+              value={searchValue ? searchValue : ""}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+              }}
+              mt="mt-0"
               placeholder="کلمه مورد نظر خود را تایپ کنید."
+              dir="ltr"
               icon={
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
-                    stroke="#060607"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M16.5 16.5L15 15"
-                    stroke="#060607"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <div onClick={filterDataHandler}>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
+                      stroke="#060607"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M16.5 16.5L15 15"
+                      stroke="#060607"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
               }
             />
           </div>
@@ -185,6 +327,7 @@ const AllEquipmentsInfo = ({
               border="border-[1.5px] border-primary"
               rounded="rounded-[6px]"
               width="w-full"
+              href={`/panel/medical-equipments-list/${postUrl}/add`}
               icon={
                 <svg
                   width="14"
@@ -244,65 +387,81 @@ const AllEquipmentsInfo = ({
       </div>
 
       <div className="w-full flex flex-col">
-        <CustomeTable headers={tableHeaders ? tableHeaders : []}>
-          {tableData &&
-            tableData.map((item, index) => (
-              <tr
-                className="cursor-pointer"
-                key={item.deviceId}
-                onClick={() =>
-                  push(
-                    `/panel/medical-equipments-list/devices/update-form?deviceId=${item.deviceId}`
-                  )
-                }
-              >
-                <td className="p-4 whitespace-nowrap text-[13px]">
-                  {index + 1}
-                </td>
-                <td className="p-4 whitespace-nowrap text-[13px]">
-                  {item.name}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.brand}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.country}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.companyName}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  <p className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full">
-                    {item.orderedByMobileNumber}
-                  </p>
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  <Link
-                    className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
-                    // target="_blank"
-                    href={`https://${item.website}` || "/"}
-                  >
-                    مشاهده
-                  </Link>
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  <Link
-                    className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
-                    // target="_blank"
-                    href={item.imageUrl || "/"}
-                  >
-                    مشاهده تصویر
-                  </Link>
-                </td>
-              </tr>
-            ))}
-        </CustomeTable>
-        <div className="w-full my-12 flex justify-center items-center">
-          <Pagination
-            onClick={updateTableData}
-            totalPagesCount={deviceInfo?.totalPagesCount!}
-          />
-        </div>
+        {payload && (
+          <>
+            {url === "GetDevices" ? (
+              <GetDevicesTable
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetCompanies" ? (
+              <GetCompanies
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetLabs" ? (
+              <GetLabs
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetDeansOfUniversities" ? (
+              <DeansOfUni
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetHospitals" ? (
+              <Hospitals
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetEvents" ? (
+              <GetEvents
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetUniversities" ? (
+              <Universities
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : url === "GetVicePresidentsOfTreatment" ? (
+              <VicePresidentOfTreatments
+                headers={tableHeaders ? tableHeaders : []}
+                data={payload}
+                rows={rows}
+                setRows={setRows}
+                isDelete={isDelete}
+              />
+            ) : null}
+            <div className="w-full mt-6 flex justify-center items-center">
+              <Pagination
+                onClick={paginationHandler}
+                totalPagesCount={payload.totalPagesCount!}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

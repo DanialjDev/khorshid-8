@@ -1,36 +1,78 @@
-import { get } from "@/services/axios";
+import { deleteService, get } from "@/services/axios";
 import {
   EndPoints,
-  MedicalEquipmentDevicesObj,
-  MedicalEquipmentDevicesTypes,
-  SingleDeviceData,
-  SingleDeviceType,
+  ReturnType,
+  SingleReturnType,
+  TableDateType,
 } from "./types";
 import { isAxiosError } from "axios";
-
-type GetMedicalEquipmentsReturnTypeFromServer = MedicalEquipmentDevicesTypes;
-
+import { UpdateSingleLab } from "./labs/types";
 export const getMedicalEquipments = async (
   url: EndPoints,
-  pageNumber: number = 1,
-  token?: string
+  pageNumber: number | null = 1,
+  token?: string,
+  searchValue?: string
 ): Promise<
   | {
-      payload?: MedicalEquipmentDevicesObj;
+      payload?: TableDateType;
+      message?: string;
+    }
+  | undefined
+> => {
+  let reqUrl = `Panel_MedicalEquipment/${url}?PageContain=10&PageNumber=${
+    pageNumber ? pageNumber : 1
+  }`;
+  if (searchValue) {
+    reqUrl += `${searchValue}`;
+    console.log(reqUrl);
+  }
+  try {
+    const { data, status } = await get<ReturnType>(reqUrl, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    });
+    if (status === 200) {
+      return {
+        payload: data.object,
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error)) {
+      if (error.response?.data.errors.EventDate[0]) {
+        return {
+          message: "تاریخ وارد شده نادرست می باشد",
+        };
+      }
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// get single medical equipment device
+export const getSingleDevice = async (
+  id: string,
+  token: string,
+  url: string
+): Promise<
+  | {
+      payload?: any;
       message?: string;
     }
   | undefined
 > => {
   try {
-    const { data, status } =
-      await get<GetMedicalEquipmentsReturnTypeFromServer>(
-        `Panel_MedicalEquipment/${url}?PageContain=10&PageNumber=${pageNumber}`,
-        {
-          headers: {
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
+    const { data, status } = await get<SingleReturnType>(
+      `Panel_MedicalEquipment/${url}/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
     if (status === 200) {
       return {
         payload: data.object,
@@ -45,21 +87,17 @@ export const getMedicalEquipments = async (
   }
 };
 
-// get single medical equipment device
-export const getSingleDevice = async (
-  deviceId: string,
-  token: string
-): Promise<
-  | {
-      payload?: SingleDeviceData;
-      message?: string;
-    }
-  | undefined
-> => {
+// delete items
+export const deleteItems = async (
+  payload: number[],
+  token: string,
+  url: string
+): Promise<{ status?: number; message: string } | undefined> => {
   try {
-    const { data, status } = await get<SingleDeviceType>(
-      `Panel_MedicalEquipment/GetSingleDevice/${deviceId}`,
+    const { data, status } = await deleteService<UpdateSingleLab>(
+      `Panel_MedicalEquipment/${url}`,
       {
+        data: payload,
         headers: {
           Authorization: `bearer ${token}`,
         },
@@ -67,7 +105,8 @@ export const getSingleDevice = async (
     );
     if (status === 200) {
       return {
-        payload: data.object,
+        status,
+        message: data.message,
       };
     }
   } catch (error) {

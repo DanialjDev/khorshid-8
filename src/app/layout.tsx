@@ -8,7 +8,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await postPageView(headers().get("x-invoke-path")!);
+  // await postPageView(headers().get("x-invoke-path")!);
 
   return (
     <html lang="en" dir="rtl">

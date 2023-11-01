@@ -112,12 +112,7 @@ const EmptyTable = ({
   );
 };
 
-const CustomeTable = ({
-  headers,
-  children,
-  text,
-  totalPagesCount,
-}: TableProps) => {
+const CustomeTable = ({ headers, children, text }: TableProps) => {
   return (
     <div className="w-full flex-col overflow-x-auto flex mt-5 shadow-tableShadow">
       <div className="inline-block min-w-full">
@@ -135,7 +130,7 @@ const CustomeTable = ({
             </thead>
             <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-tableRowColor">
               {/* @ts-ignore */}
-              {children && children.length > 0 ? (
+              {children ? (
                 children
               ) : (
                 <EmptyTable text={text} headers={headers} />
@@ -144,9 +139,6 @@ const CustomeTable = ({
           </table>
         </div>
       </div>
-      {/* <div className="w-full my-12 flex justify-center">
-        {totalPagesCount && <Pagination totalPagesCount={totalPagesCount} />}
-      </div> */}
     </div>
   );
 };

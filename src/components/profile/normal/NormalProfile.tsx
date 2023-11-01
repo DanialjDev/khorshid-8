@@ -22,10 +22,12 @@ const NormalProfile = ({
   userInfo,
   userDevices,
   totalPageContain,
+  remainingDevices,
 }: {
   userInfo: InitialValues | undefined;
   userDevices: UserProfileDevice[] | undefined;
   totalPageContain?: number | null;
+  remainingDevices: number | null;
 }) => {
   const { push, refresh } = useRouter();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
@@ -112,9 +114,7 @@ const NormalProfile = ({
           <div className="flex mr-4">
             <p className="text-[15px]">
               شما مجاز به ثبت{" "}
-              <span className="text-primary underline">
-                {user.maxDeviceNumber}
-              </span>{" "}
+              <span className="text-primary underline">{remainingDevices}</span>{" "}
               عدد دستگاه به صورت رایگان هستید .!
             </p>
           </div>

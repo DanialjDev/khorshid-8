@@ -9,6 +9,7 @@ import {
   UserProfileDevice,
   UserRegisteredDevices,
   UserRegisteredDevicesObj,
+  UserRemainingDevices,
 } from "./types";
 import { isAxiosError } from "axios";
 import { encrypt } from "@/utills/crypto";
@@ -253,4 +254,31 @@ export const removeUserDevice = async (
       };
     }
   }
+};
+
+// get user remaining devices
+export const getUserRemainingDevices = async (
+  token: string
+): Promise<
+  | {
+      remainingDevices?: number;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<UserRemainingDevices>(
+      "Profile/GetMaxAndRemainDevice",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return {
+        remainingDevices: data.object.remainDeviceNumber,
+      };
+    }
+  } catch (error) {}
 };

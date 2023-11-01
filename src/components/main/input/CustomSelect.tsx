@@ -18,7 +18,6 @@ export default function CustomSelect({
 }) {
   return (
     <div className="w-full h-full">
-      <div className="w-full">sfsdf</div>
       <Listbox
         value={selected}
         onChange={(e) => {

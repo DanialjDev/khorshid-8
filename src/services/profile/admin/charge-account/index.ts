@@ -9,23 +9,28 @@ import {
   UserDevice,
   UserInfo,
   UserMaxAndRemainDevice,
+  UsersObj,
 } from "./types";
 import { isAxiosError } from "axios";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
 
 type UserAccountsRturnType = {
-  data?: User[];
+  data?: UsersObj;
   message?: string;
+  status?: number;
 };
 
 export const getUsersAccounts = async (
   token: string,
-  searchValue?: string
+  searchValue?: string | null,
+  pageNumber: number | null = 1
 ): Promise<UserAccountsRturnType | undefined> => {
-  let reqUrl = "Panel_Accounting/GetUsers";
+  let reqUrl = `Panel_Accounting/GetUsers?PageContain=10&PageNumber=${
+    pageNumber ? pageNumber : 1
+  }`;
 
   if (searchValue) {
-    reqUrl = `${reqUrl}?Search=${searchValue}`;
+    reqUrl = `${reqUrl}&Search=${searchValue}`;
   }
   try {
     const { data, status } = await get<GetUsersAccounts>(reqUrl, {
@@ -36,7 +41,7 @@ export const getUsersAccounts = async (
     if (status === 200) {
       console.log(data);
       return {
-        data: data.object.data,
+        data: data.object,
       };
     }
   } catch (error) {
@@ -44,6 +49,7 @@ export const getUsersAccounts = async (
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
+        status: error.response?.status,
       };
     }
   }

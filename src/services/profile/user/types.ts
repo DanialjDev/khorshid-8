@@ -64,7 +64,7 @@ export interface UserRegisteredDevices {
   operationName: string;
   status: number;
   success: boolean;
-  object: UserRegisteredDevicesObj
+  object: UserRegisteredDevicesObj;
   list: null;
 }
 
@@ -74,7 +74,7 @@ export interface UserRegisteredDevicesObj {
   pageContain: null | number;
   currentPageNumber: null | number;
   data: UserProfileDevice[];
-};
+}
 
 export interface UserProfileDevice {
   deviceId: number;
@@ -88,4 +88,19 @@ export interface UserProfileDevice {
   stateCode: number;
   stateTitle: string;
   declinedStateMessage: null | string;
+}
+
+// user remaining devices
+export interface UserRemainingDevices {
+  exMessage: string | null;
+  message: string;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+  object: {
+    maxDeviceNumber: number;
+    remainDeviceNumber: number;
+  };
+  list: null;
 }

@@ -1,22 +1,18 @@
 import MedicalEquipmentsDevices from "@/components/profile/admin/medical-equipments-list/forms/MedicalEquipmentsDevices";
+import SignleCompany from "@/components/profile/admin/medical-equipments-list/forms/SignleCompany";
 import { getSingleDevice } from "@/services/profile/admin/medical-equipments-list";
 import { cookies } from "next/headers";
 import React from "react";
 
-const UpdateOrSetForm = async ({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams?: { deviceId: string | undefined };
-}) => {
+const UpdateOrSetForm = async ({ params }: { params: { id: string } }) => {
   const getSingleDeviceRes = await getSingleDevice(
-    searchParams?.deviceId!,
-    cookies().get("token")?.value!
+    params.id!,
+    cookies().get("token")?.value!,
+    "GetSingleCompany"
   );
   return (
-    <MedicalEquipmentsDevices
-      singleDeviceData={
+    <SignleCompany
+      singleCompany={
         getSingleDeviceRes?.payload ? getSingleDeviceRes.payload : null
       }
     />

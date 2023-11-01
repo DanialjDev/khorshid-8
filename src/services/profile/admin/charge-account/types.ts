@@ -8,6 +8,14 @@ export interface User {
   remainDeviceNumber: number;
 }
 
+export interface UsersObj {
+  totalItemsCount: number;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: User[];
+}
+
 export interface GetUsersAccounts {
   success: boolean;
   operationName: string;
@@ -15,13 +23,7 @@ export interface GetUsersAccounts {
   exMessage: null | string;
   operationDate: string;
   status: number;
-  object: {
-    totalItemsCount: number;
-    totalPagesCount: null | number;
-    pageContain: null | number;
-    currentPageNumber: null | number;
-    data: User[];
-  };
+  object: UsersObj;
   list: null;
 }
 

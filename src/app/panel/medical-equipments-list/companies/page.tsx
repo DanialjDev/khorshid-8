@@ -1,14 +1,12 @@
-import PageTitle from "@/components/main/pageTitle/PageTitle";
 import AllEquipmentsInfo from "@/components/profile/admin/medical-equipments-list/AllEquipmentsInfo";
-import GetDevicesTable from "@/components/profile/admin/medical-equipments-list/tables/GetDevicesTable";
 import { getDeviceCategories } from "@/services/common";
 import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";
 import { cookies } from "next/headers";
 import React from "react";
 
-const Devices = async () => {
+const Companies = async () => {
   const devices = await getMedicalEquipments(
-    "GetDevices",
+    "GetCompanies",
     1,
     cookies().get("token")?.value
   );
@@ -17,15 +15,15 @@ const Devices = async () => {
     <div className="w-full flex flex-col">
       <AllEquipmentsInfo
         deviceInfo={devices?.payload ? devices.payload : null}
-        headerType="GetDevices"
-        url="GetDevices"
-        postUrl="devices"
-        removeUrl="RemoveDevices"
-        desc="شما می توانید لیست تجهیزات پزشکی ( کتاب ) را در اینجا مشاهده کنید."
-        title="لیست گروه ها و شرکت های تجهیزات پزشکی"
+        headerType="GetCompanies"
+        url="GetCompanies"
+        postUrl="PostCompanies"
+        removeUrl="RemoveCompanies"
+        title="نام و تلفن شرکت های تجهیزات پزشکی ایران"
+        desc="شما می توانید نام و تلفن شرکت های تجهیزات پزشکی ایران ( کتاب ) را در اینجا مشاهده کنید."
       />
     </div>
   );
 };
 
-export default Devices;
+export default Companies;

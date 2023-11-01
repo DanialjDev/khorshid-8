@@ -14,7 +14,7 @@ const ChargeAccount = async () => {
         title="شارژ حساب کاربری"
         text="شما می توانید در این بخش حساب کاربری ها را  برای ثبت محصول شارژ کنید."
       />
-      <AllAccounts userAccounts={response?.data ? response.data : []} />
+      <AllAccounts userAccounts={response?.data ? response.data : null} />
     </div>
   );
 };

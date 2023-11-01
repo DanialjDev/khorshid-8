@@ -3,40 +3,54 @@
 import CustomeTable from "@/components/main/table/CustomeTable";
 import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
 import { getUsersAccounts } from "@/services/profile/admin/charge-account";
-import { User } from "@/services/profile/admin/charge-account/types";
+import { User, UsersObj } from "@/services/profile/admin/charge-account/types";
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import Pagination from "@/components/main/pagination/Pagination";
 
-const AllAccounts = ({ userAccounts }: { userAccounts: User[] }) => {
+const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
   const token = Cookies.get("token");
-  const [userData, setUserData] = useState<User[]>([]);
+  const [userData, setUserData] = useState<UsersObj | null>(userAccounts);
   const [searchInput, setSeachInput] = useState("");
 
   const tableHeaders = generateHeaders("charge_account");
-  const TableBody = TableBodyData({
-    // @ts-ignore
-    data: userData,
-    operationName: "GetUsers",
-  });
+  // const TableBody = TableBodyData({
+  //   // @ts-ignore
+  //   data: userData,
+  //   operationName: "GetUsers",
+  // });
 
   const filterHandler = async () => {
     if (token) {
       const filteredData = await getUsersAccounts(token, searchInput);
       if (filteredData?.data) {
+        console.log(filteredData);
         setUserData(filteredData.data);
         return;
       } else {
-        toast.error(filteredData?.message);
+        if (filteredData?.status === 500) {
+          setUserData(null);
+          toast.error(filteredData?.message);
+        }
       }
     }
   };
 
-  useEffect(() => {
-    setUserData(userAccounts);
-  }, []);
+  const paginationHandler = async (pageNumber: number) => {
+    const updatedData = await getUsersAccounts(
+      Cookies.get("token")!,
+      searchInput ? searchInput : null,
+      pageNumber
+    );
+    console.log(updatedData);
+  };
+
+  // useEffect(() => {
+  //   setUserData(userAccounts);
+  // }, []);
 
   return (
     <div className="w-full flex flex-col justify-start mt-10">
@@ -79,9 +93,13 @@ const AllAccounts = ({ userAccounts }: { userAccounts: User[] }) => {
         </div>
       </div>
       <div className="w-full mt-2">
-        <CustomeTable headers={tableHeaders ? tableHeaders : []}>
-          {userAccounts &&
-            userAccounts.map((item, index) => (
+        <CustomeTable
+          text="اطلاعاتی برای نمایش وجود ندارد"
+          headers={tableHeaders ? tableHeaders : []}
+        >
+          {userData &&
+            userData.data &&
+            userData.data.map((item, index) => (
               <tr key={item.userId}>
                 <td className="whitespace-nowrap p-4 text-[14px]">
                   {index + 1}
@@ -112,6 +130,12 @@ const AllAccounts = ({ userAccounts }: { userAccounts: User[] }) => {
               </tr>
             ))}
         </CustomeTable>
+      </div>
+      <div className="w-full flex justify-center mt-10">
+        <Pagination
+          onClick={paginationHandler}
+          totalPagesCount={userData?.totalPagesCount!}
+        />
       </div>
     </div>
   );

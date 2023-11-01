@@ -172,7 +172,7 @@ const AuthInput = ({
         </>
       )}
       {icon && dir === "ltr" && (
-        <div className="absolute left-3 top-5">{icon}</div>
+        <div className="absolute left-3 z-40 cursor-pointer top-5">{icon}</div>
       )}
       {error && touchedInput ? (
         <p className=" text-borderError text-right">{error}</p>
