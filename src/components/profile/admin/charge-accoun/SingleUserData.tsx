@@ -9,6 +9,7 @@ import { authToggler } from "@/redux/features/auth/authSlice";
 import { setDeviceNumber } from "@/redux/features/user/userSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import {
+  SingleUserDeviceObj,
   UserDevice,
   UserInfo,
 } from "@/services/profile/admin/charge-account/types";
@@ -16,18 +17,35 @@ import { generateHeaders } from "@/utills/generateTableHeaders";
 import Link from "next/link";
 import React, { useState } from "react";
 import UpdateDeviceNumberModal from "./UpdateDeviceNumberModal";
+import Pagination from "@/components/main/pagination/Pagination";
+import { userInfo } from "os";
+import { useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
+import { getSingleUserDevices } from "@/services/profile/admin/charge-account";
 
 const SingleUserData = ({
   userData,
   userDevices,
 }: {
   userData: UserInfo | undefined;
-  userDevices: UserDevice[] | undefined;
+  userDevices: SingleUserDeviceObj | undefined;
 }) => {
-  console.log(userDevices);
+  const searchParams = useSearchParams();
+  const [items, setItems] = useState(userDevices);
   const dispatch = useAppDispatch();
   const tableHeaders = generateHeaders("GetUserAcceptedDevices");
   const [isOpen, setIsOpen] = useState(false);
+  const paginateHandler = async (pageNumber: number) => {
+    const newUserDevices = await getSingleUserDevices(
+      searchParams.get("userId")!,
+      Cookies.get("token")!,
+      pageNumber
+    );
+
+    if (newUserDevices?.data) {
+      setItems(newUserDevices.data);
+    }
+  };
   return (
     <div>
       <div className="w-full flex justify-between items-center">
@@ -73,8 +91,8 @@ const SingleUserData = ({
             headers={tableHeaders ? tableHeaders : []}
             text="دستگاهی برای نمایش وجود ندارد"
           >
-            {userDevices &&
-              userDevices.map((item, index) => (
+            {items &&
+              items.data.map((item, index) => (
                 <tr key={item.deviceId}>
                   <td className="whitespace-nowrap p-4 text-[14px]">
                     {index + 1}
@@ -108,6 +126,12 @@ const SingleUserData = ({
                 </tr>
               ))}
           </CustomeTable>
+        </div>
+        <div className="w-full flex justify-center my-7">
+          <Pagination
+            totalPagesCount={items?.totalPagesCount!}
+            onClick={paginateHandler}
+          />
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>

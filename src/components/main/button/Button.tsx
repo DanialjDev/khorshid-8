@@ -20,6 +20,8 @@ interface ButtonProps {
   onClick?: () => void;
   rounded?: string;
   fontWeight?: string;
+  isLable?: boolean;
+  name?: string;
 }
 
 const Button = ({
@@ -39,6 +41,8 @@ const Button = ({
   onClick,
   rounded,
   fontWeight,
+  isLable,
+  name,
 }: ButtonProps) => {
   return (
     <>
@@ -64,6 +68,29 @@ const Button = ({
             </p>
           )}
         </Link>
+      ) : isLable ? (
+        <label
+          htmlFor={name}
+          onClick={onClick}
+          className={`${width} cursor-pointer transition duration-200 ease-in-out flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed ${
+            hover ? hover : ""
+          } ${border ? border : ""} ${color} ${
+            dir === "rtl" ? "flex-row-reverse" : "flex-row"
+          } ${bg ? `${bg}` : "bg-primary"} ${
+            padding ? padding : "px-[30px] py-[10px]"
+          } ${rounded ? rounded : "rounded-xl"}`}
+        >
+          {icon && icon}
+          {text && (
+            <p
+              className={`${fontSize ? fontSize : "text-[14px]"} ${
+                dir === "rtl" ? "ml-3" : "mr-3"
+              } ${fontWeight ? fontWeight : "font-normal"} ${!icon && "!mx-0"}`}
+            >
+              {text}
+            </p>
+          )}
+        </label>
       ) : (
         <button
           onClick={onClick}

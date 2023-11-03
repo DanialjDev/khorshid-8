@@ -16,7 +16,11 @@ const SingleVicePresidentOfTreatments = async ({
   return (
     <SingelVicePresidnetForm
       title="تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی"
-      desc="شما می توانید تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی ( کتاب ) را در اینجا به صورت دستی اصلاح یا حذف کنید."
+      desc={
+        getSingleVicePresident?.payload
+          ? "شما می توانید تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی ( کتاب ) را در اینجا به صورت دستی اصلاح یا حذف کنید."
+          : "شما می توانید تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی ( کتاب ) را در اینجا به صورت دستی وارد کنید."
+      }
       data={
         getSingleVicePresident?.payload ? getSingleVicePresident.payload : null
       }

@@ -5,14 +5,15 @@ import PageTitle from "@/components/main/pageTitle/PageTitle";
 import {
   deleteItems,
   getMedicalEquipments,
+  postListData,
 } from "@/services/profile/admin/medical-equipments-list";
 import {
   EndPoints,
   TableDateType,
 } from "@/services/profile/admin/medical-equipments-list/types";
-import { jalaaliToGregorianISO, nonBreakingSpace } from "@/utills/formatHelper";
+import { generateData, nonBreakingSpace } from "@/utills/formatHelper";
 import { generateHeaders } from "@/utills/generateTableHeaders";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Pagination from "@/components/main/pagination/Pagination";
 import AuthInput from "@/components/main/input/AuthInput";
@@ -22,12 +23,15 @@ import CustomSelect from "@/components/main/input/CustomSelect";
 import GetCompanies from "./tables/GetCompanies";
 import { toast } from "react-toastify";
 import GetLabs from "./tables/GetLabs";
-import { useRouter } from "next/navigation";
 import DeansOfUni from "./tables/DeansOfUni";
 import Hospitals from "./tables/Hospitals";
 import GetEvents from "./tables/GetEvents";
 import Universities from "./tables/Universities";
 import VicePresidentOfTreatments from "./tables/VicePresidentOfTreatments";
+import { CityType, StateType } from "@/services/common/types";
+import { statesFormat } from "@/utills/filterHelper";
+import { getCitiesById } from "@/services/common";
+import * as XLSX from "xlsx";
 
 const AllEquipmentsInfo = ({
   deviceInfo,
@@ -37,6 +41,8 @@ const AllEquipmentsInfo = ({
   removeUrl,
   desc,
   title,
+  states,
+  postListUrl,
 }: {
   deviceInfo: TableDateType | null;
   headerType: Category;
@@ -45,8 +51,10 @@ const AllEquipmentsInfo = ({
   removeUrl: string;
   title: string;
   desc: string;
+  states?: StateType[] | null;
+  postListUrl: string;
 }) => {
-  const { refresh } = useRouter();
+  const stateItems = states && statesFormat(states);
   const tableHeaders = generateHeaders(headerType);
   const [payload, setPayload] = useState<TableDateType | null>(
     deviceInfo ? deviceInfo : null
@@ -54,30 +62,39 @@ const AllEquipmentsInfo = ({
   const [selected, setSelected] = useState(
     tableHeaders ? tableHeaders[0] : null
   );
+  const [selectedState, setSelectedState] = useState<{
+    name: string;
+    value: string;
+  }>({ name: "استان مربوطه را نتخاب کنید", value: "" });
+  const [selectedCities, setSelectedCities] = useState<{
+    name: string;
+    value: string;
+  }>({ name: "شهر مربوطه را نتخاب کنید", value: "" });
+  const [cityItems, setCityItems] = useState<CityType[]>([]);
   const [rows, setRows] = useState<number[]>([]);
   const [isDelete, setIsDelete] = useState(false);
   const [searchValue, setSearchValue] = useState<string | null>("");
 
   const filterDataHandler = async () => {
     let filterData = searchValue;
-    if (searchValue) {
-      if (url === "GetEvents") {
-        filterData = jalaaliToGregorianISO(searchValue);
+    if (selected?.value === "CityID" || selected?.value === "CityId") {
+      if (selectedCities.value === "") {
+        toast.error("شهرستان مورد نظر شما در استان انتخاب شده وجود ندارد");
+        return;
       }
-      const filteredValues = await getMedicalEquipments(
-        url,
-        null,
-        Cookies.get("token"),
-        `&${selected?.value}=${filterData}`
-      );
+      filterData = selectedCities.value;
+    }
+    const filteredValues = await getMedicalEquipments(
+      url,
+      null,
+      Cookies.get("token"),
+      `&${selected?.value}=${filterData}`
+    );
 
-      if (filteredValues?.payload) {
-        setPayload(filteredValues.payload);
-      } else {
-        toast.warning(filteredValues?.message);
-      }
+    if (filteredValues?.payload) {
+      setPayload(filteredValues.payload);
     } else {
-      toast.warning("لطفا کلمه مورد نظر را وارد کنید");
+      toast.warning(filteredValues?.message);
     }
   };
 
@@ -98,7 +115,8 @@ const AllEquipmentsInfo = ({
     const deleteItemsRes = await deleteItems(
       rows,
       Cookies.get("token")!,
-      removeUrl
+      removeUrl,
+      true
     );
 
     if (deleteItemsRes?.status === 200) {
@@ -118,6 +136,49 @@ const AllEquipmentsInfo = ({
       toast.error(deleteItemsRes?.message);
     }
   };
+
+  const convertor = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(e.target.files![0]);
+    reader.onload = async (event) => {
+      const data = event.target?.result;
+      const workbook = XLSX.read(data, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const parsedData = XLSX.utils.sheet_to_json(sheet);
+
+      const convertedData = generateData(parsedData, url);
+      console.log(convertedData);
+      const res = await postListData(
+        convertedData,
+        Cookies.get("token")!,
+        postListUrl
+      );
+
+      if (res?.status === 200) {
+        toast.success(res.message);
+        const devices = await getMedicalEquipments(
+          url,
+          1,
+          Cookies.get("token")!
+        );
+
+        if (devices?.payload) {
+          setPayload(devices.payload);
+        }
+      } else {
+        toast.error(res?.message);
+      }
+    };
+  };
+
+  useEffect(() => {
+    const getCitiesByName = async () => {
+      const cities = await getCitiesById(selectedState.name);
+      setCityItems(cities?.data!);
+    };
+    getCitiesByName();
+  }, [selectedState.value]);
 
   return (
     <div className="w-full flex-col">
@@ -230,9 +291,9 @@ const AllEquipmentsInfo = ({
           )}
         </div>
       </div>
-      <div className="w-full grid grid-cols-4 gap-x-3 items-center mt-5">
-        <div className="w-full col-span-2 items-center grid grid-cols-7 gap-x-5">
-          <div className="col-span-3 relative h-[49px]">
+      <div className="w-full grid grid-cols-4 gap-3 items-center mt-5">
+        <div className="w-full col-span-4 items-center grid grid-cols-8 gap-x-5">
+          <div className="col-span-2 relative h-[49px]">
             <CustomSelect
               selected={selected!}
               // @ts-ignore
@@ -240,42 +301,76 @@ const AllEquipmentsInfo = ({
               items={tableHeaders ? tableHeaders : []}
             />
           </div>
-          <div className="col-span-4 h-full">
-            <AuthInput
-              name="searchValue"
-              value={searchValue ? searchValue : ""}
-              onChange={(e) => {
-                setSearchValue(e.target.value);
-              }}
-              mt="mt-0"
-              placeholder="کلمه مورد نظر خود را تایپ کنید."
-              dir="ltr"
-              icon={
-                <div onClick={filterDataHandler}>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
-                      stroke="#060607"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M16.5 16.5L15 15"
-                      stroke="#060607"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              }
+          {selected?.value === "CityID" ||
+            (selected?.value === "CityId" && (
+              <div className={` col-span-2 h-full`}>
+                <CustomSelect
+                  items={stateItems!}
+                  selected={selectedState}
+                  setSelected={setSelectedState}
+                />
+              </div>
+            ))}
+          <div className="col-span-2 h-full">
+            {selected?.value === "CityID" || selected?.value === "CityId" ? (
+              <CustomSelect
+                items={
+                  cityItems
+                    ? cityItems.map((item) => ({
+                        name: item.cityName,
+                        value: item.id.toString(),
+                      }))
+                    : []
+                }
+                selected={selectedCities}
+                setSelected={setSelectedCities}
+                disabled={selectedState.value === ""}
+              />
+            ) : (
+              <AuthInput
+                name="searchValue"
+                value={searchValue ? searchValue : ""}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
+                mt="mt-0"
+                placeholder="کلمه مورد نظر خود را تایپ کنید."
+                dir="ltr"
+                icon={
+                  <div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
+                        stroke="#060607"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M16.5 16.5L15 15"
+                        stroke="#060607"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                }
+              />
+            )}
+          </div>
+          <div className="col-span-2 flex items-center h-full">
+            <Button
+              bg="bg-primary"
+              text="جستجو"
+              color="text-white"
+              onClick={filterDataHandler}
             />
           </div>
         </div>
@@ -351,6 +446,8 @@ const AllEquipmentsInfo = ({
           <div className="col-span-2">
             <Button
               width="w-full"
+              isLable
+              name="enter_file"
               text={nonBreakingSpace("وارد کردن از اکسل")}
               color="text-primary"
               bg="bg-primaryDark7"
@@ -381,6 +478,14 @@ const AllEquipmentsInfo = ({
                   </defs>
                 </svg>
               }
+            />
+
+            <input
+              id="enter_file"
+              name="enter_file"
+              type="file"
+              className="hidden"
+              onChange={convertor}
             />
           </div>
         </div>
@@ -454,7 +559,7 @@ const AllEquipmentsInfo = ({
                 isDelete={isDelete}
               />
             ) : null}
-            <div className="w-full mt-6 flex justify-center items-center">
+            <div className="w-full my-7 flex justify-center items-center">
               <Pagination
                 onClick={paginationHandler}
                 totalPagesCount={payload.totalPagesCount!}

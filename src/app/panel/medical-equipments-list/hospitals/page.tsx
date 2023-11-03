@@ -1,4 +1,5 @@
 import AllEquipmentsInfo from "@/components/profile/admin/medical-equipments-list/AllEquipmentsInfo";
+import { getStates } from "@/services/common";
 import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";
 import { cookies } from "next/headers";
 import React from "react";
@@ -10,6 +11,8 @@ const Hospitals = async () => {
     cookies().get("token")?.value
   );
 
+  const iranStates = await getStates();
+
   return (
     <div className="w-full flex flex-col">
       <AllEquipmentsInfo
@@ -20,6 +23,8 @@ const Hospitals = async () => {
         removeUrl="RemoveHospitals"
         title=" مشخصات بیمارستان های سراسر کشور"
         desc="شما می توانید مشخصات بیمارستان های سراسر کشور  ( کتاب ) را در اینجا مشاهده کنید."
+        states={iranStates?.data ? iranStates.data : null}
+        postListUrl="PostListHospitals"
       />
     </div>
   );

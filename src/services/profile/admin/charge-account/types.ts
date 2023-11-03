@@ -37,6 +37,14 @@ export interface UserDevice {
   orderedByMobileNumber: string;
 }
 
+export interface SingleUserDeviceObj {
+  totalItemsCount: number;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: UserDevice[];
+}
+
 export interface SingleUserDevices {
   success: boolean;
   operationName: string;
@@ -44,13 +52,7 @@ export interface SingleUserDevices {
   exMessage: null | string;
   operationDate: string;
   status: number;
-  object: {
-    totalItemsCount: number;
-    totalPagesCount: null | number;
-    pageContain: null | number;
-    currentPageNumber: null | number;
-    data: UserDevice[];
-  };
+  object: SingleUserDeviceObj;
   list: null;
 }
 

@@ -5,6 +5,10 @@ export default function CustomSelect({
   items,
   selected,
   setSelected,
+  disabled,
+  height,
+  onChange,
+  label,
 }: {
   items: { name: string; value: string }[];
   // selected: string;
@@ -15,18 +19,28 @@ export default function CustomSelect({
       value: string;
     }>
   >;
+  disabled?: boolean;
+  height?: string;
+  onChange?: any;
+  label?: string;
 }) {
   return (
-    <div className="w-full h-full">
+    <div className={`w-full ${height ? height : "h-full"} cursor-pointer`}>
       <Listbox
+        disabled={disabled}
         value={selected}
         onChange={(e) => {
           setSelected(e);
-          console.log(e);
+          if (onChange) {
+            onChange(e.value);
+          }
         }}
       >
-        <div className="relative h-full flex items-center">
-          <Listbox.Button className="relative w-full flex hover:shadow-inputHover hover:border-inputHoverBorder border border-inputBorder rounded-lg h-full  cursor-default focus:border-primary bg-white pr-3 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+        <div className="relative h-full flex items-start flex-col justify-start">
+          <div className="text-inputLabelColor text-[14px] mr-[2px]">
+            {label}
+          </div>
+          <Listbox.Button className="relative w-full flex hover:shadow-inputHover disabled:opacity-40 cursor-pointer hover:border-inputHoverBorder border border-inputBorder rounded-lg h-full focus:border-primary bg-white pr-3 text-left transition-all focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="h-full flex justify-center items-center text-[14px]">
               {selected.name}
             </span>
@@ -62,9 +76,9 @@ export default function CustomSelect({
                 <>
                   {title.value !== "" ? (
                     <Listbox.Option
-                      key={index}
+                      key={Number(title.value)}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        `relative select-none py-2 pl-10 cursor-pointer pr-4 ${
                           active
                             ? "bg-primaryLight text-primary"
                             : "text-gray-900"

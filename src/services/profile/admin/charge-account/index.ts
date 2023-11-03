@@ -3,6 +3,7 @@ import {
   GetUserAcceptedSingleDevice,
   GetUsersAccounts,
   SingleUserAcceptedDevice,
+  SingleUserDeviceObj,
   SingleUserDevices,
   UpdateUserDevice,
   User,
@@ -58,16 +59,17 @@ export const getUsersAccounts = async (
 // get Single User Devices
 
 type SingleUserDeviceReturnType = {
-  data?: UserDevice[];
+  data?: SingleUserDeviceObj;
   message?: string;
 };
 export const getSingleUserDevices = async (
   userId: string,
-  token: string
+  token: string,
+  pageNumber: number = 1
 ): Promise<SingleUserDeviceReturnType | undefined> => {
   try {
     const { data, status } = await get<SingleUserDevices>(
-      `Panel_Accounting/GetUserAcceptedDevices/${userId}`,
+      `Panel_Accounting/GetUserAcceptedDevices/${userId}?PageContain=10&PageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -77,7 +79,7 @@ export const getSingleUserDevices = async (
 
     if (status === 200) {
       return {
-        data: data.object.data,
+        data: data.object,
       };
     }
   } catch (error) {

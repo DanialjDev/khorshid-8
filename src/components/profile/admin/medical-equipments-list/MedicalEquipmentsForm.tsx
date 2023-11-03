@@ -16,7 +16,10 @@ const MedicalEquipmentsForm = ({
     <div className="w-full flex flex-col">
       <PageTitle text={desc} title={title} />
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => {
+          handleSubmit(e);
+          e.preventDefault();
+        }}
         className="w-full my-10 bg-menuBg border border-adminFormBorder2 shadow-adminFormBox p-5 grid gap-x-5 grid-cols-4 rounded-[12px]"
       >
         {children}

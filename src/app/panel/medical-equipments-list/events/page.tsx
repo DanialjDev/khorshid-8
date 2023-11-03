@@ -19,6 +19,7 @@ const MedicalEvents = async () => {
         removeUrl="RemoveEvents"
         title=" مناسبت های پزشکی"
         desc="شما می توانید مشخصات بیمارستان های سراسر کشور  ( کتاب ) را در اینجا مشاهده کنید."
+        postListUrl='PostEvents'
       />
     </div>
   );

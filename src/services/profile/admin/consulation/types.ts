@@ -6,6 +6,14 @@ export interface ConsulationData {
   creationDate: string;
 }
 
+export interface CounsulationObj {
+  totalItemsCount: number;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: ConsulationData[];
+}
+
 export interface Consulations {
   success: boolean;
   operationName: string;
@@ -13,13 +21,7 @@ export interface Consulations {
   exMessage: null | string;
   operationDate: string;
   status: number;
-  object: {
-    totalItemsCount: number;
-    totalPagesCount: null | number;
-    pageContain: null | number;
-    currentPageNumber: null | number;
-    data: ConsulationData[];
-  };
+  object: CounsulationObj;
   list: null;
 }
 

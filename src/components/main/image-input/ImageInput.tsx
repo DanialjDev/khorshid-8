@@ -55,6 +55,7 @@ const ImageInput = ({
               setIsImgChanged(true);
             }
           }}
+          accept="image/png, image/jpeg, image/jpg, image/gif"
           type="file"
           className="hidden"
           name={name}
@@ -111,6 +112,7 @@ const ImageInput = ({
               <Button
                 onClick={() => {
                   setFieldValue(name, "", true);
+                  console.log(value);
                   if (setIsImgChanged) {
                     setIsImgChanged(true);
                   }

@@ -59,20 +59,10 @@ const GetCompanies = ({
               {item.managerFullName}
             </td>
             <td className="whitespace-nowrap p-4 text-[14px]">
+              {`${item.address.slice(0, 200)}...`}
+            </td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               {item.faxNumber}
-            </td>
-            <td className="whitespace-nowrap p-4 text-[14px]">
-              {item.address}
-            </td>
-            <td className="whitespace-nowrap p-4 text-[14px]">
-              {item.phones.map((phone, index) => (
-                <span
-                  className="w-fit ml-[5px] bg-primaryLight text-primaryDark px-2 py-1 rounded-full"
-                  key={index}
-                >
-                  {phone}
-                </span>
-              ))}
             </td>
           </tr>
         ))}

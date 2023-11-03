@@ -14,6 +14,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Modal from "@/components/main/modal/Modal";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SetDeviceStatusForm = ({
   deviceInitialValues,
@@ -24,6 +26,18 @@ const SetDeviceStatusForm = ({
   const [initialValues, setInitialValues] = useState<SingleDeviceObj | null>(
     deviceInitialValues
   );
+
+  const {} = useFormik({
+    initialValues: {
+      imageUrl: initialValues?.imageUrl ? initialValues.imageUrl : null,
+    },
+    validationSchema: Yup.object().shape({
+      imageUrl: Yup.mixed(),
+    }),
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
   const [img, setImg] = useState<File | null | string>(
     initialValues?.imageUrl ? initialValues.imageUrl : null
   );
@@ -77,38 +91,8 @@ const SetDeviceStatusForm = ({
   return (
     <>
       <Modal isOpen={openModal} setIsOpen={setOpenModal}>
-        {/* <div
-          className={`w-full overflow-hidden ${
-            openModal ? "flex" : "hidden"
-          } justify-center items-center fixed right-[40%] translate-x-[40%] bg-[#d7d7d785] backdrop-blur-[2px] z-20 inset-0`}
-        > */}
         <div className="w-full p-2 bg-white rounded-[4px]">
           <div className="w-full flex justify-between items-center">
-            {/* <div
-                className="flex justify-center items-center cursor-pointer p-2 hover:bg-[#d7d7d785] rounded-full"
-                onClick={() => setOpenModal(false)}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 4L4 12"
-                    stroke="#2F384F"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M4 4L12 12"
-                    stroke="#2F384F"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div> */}
             <div className="text-declineBoxTitle font-bold mr-5">
               عدم تایید دستگاه؟
             </div>

@@ -1,4 +1,5 @@
 import AllEquipmentsInfo from "@/components/profile/admin/medical-equipments-list/AllEquipmentsInfo";
+import { getStates } from "@/services/common";
 import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";
 import { cookies } from "next/headers";
 import React from "react";
@@ -10,6 +11,8 @@ const DeansOfUniversities = async () => {
     cookies().get("token")?.value!,
     undefined
   );
+  const states = await getStates();
+  console.log(getDeansOfUni);
   return (
     <AllEquipmentsInfo
       deviceInfo={getDeansOfUni?.payload ? getDeansOfUni.payload : null}
@@ -19,6 +22,8 @@ const DeansOfUniversities = async () => {
       removeUrl="RemoveDeanOfUniversities"
       title=" نام و تلفن ریاست دانشگاه های علوم پزشکی "
       desc="شما می توانید نام و تلفن ریاست دانشگاه های علوم پزشکی  ( کتاب ) را در اینجا مشاهده کنید."
+      states={states ? states.data : null}
+      postListUrl="PostListDeanOfUniversities"
     />
   );
 };

@@ -60,7 +60,7 @@ const GetEvents = ({
                       }
                       return;
                     }
-                    push(`/panel/medical-equipments-list/labs/${item.id}`);
+                    push(`/panel/medical-equipments-list/events/${item.id}`);
                   }}
                 />
               </td>

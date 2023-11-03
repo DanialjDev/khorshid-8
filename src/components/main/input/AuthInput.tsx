@@ -97,7 +97,7 @@ const AuthInput = ({
                   type={type}
                   name={name}
                   id={name}
-                  className={`border pr-10 text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                  className={`border text-[14px] pr-10 text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
                     !disabled
                       ? "hover:shadow-inputHover hover:border-inputHoverBorder"
                       : "cursor-not-allowed"
@@ -135,7 +135,7 @@ const AuthInput = ({
                   type={type}
                   name={name}
                   id={name}
-                  className={`border text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
+                  className={`border text-dark text-[14px] focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
                     !disabled
                       ? "hover:shadow-inputHover hover:border-inputHoverBorder"
                       : "cursor-not-allowed"
@@ -172,7 +172,7 @@ const AuthInput = ({
         </>
       )}
       {icon && dir === "ltr" && (
-        <div className="absolute left-3 z-40 cursor-pointer top-5">{icon}</div>
+        <div className="absolute left-3 z-40 top-5">{icon}</div>
       )}
       {error && touchedInput ? (
         <p className=" text-borderError text-right">{error}</p>

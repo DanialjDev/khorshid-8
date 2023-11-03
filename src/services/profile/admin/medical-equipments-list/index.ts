@@ -1,4 +1,4 @@
-import { deleteService, get } from "@/services/axios";
+import { deleteService, get, post } from "@/services/axios";
 import {
   EndPoints,
   ReturnType,
@@ -7,6 +7,7 @@ import {
 } from "./types";
 import { isAxiosError } from "axios";
 import { UpdateSingleLab } from "./labs/types";
+import { EditUniversityType } from "./universities/types";
 export const getMedicalEquipments = async (
   url: EndPoints,
   pageNumber: number | null = 1,
@@ -91,13 +92,45 @@ export const getSingleDevice = async (
 export const deleteItems = async (
   payload: number[],
   token: string,
-  url: string
+  url: string,
+  isMedical?: boolean
 ): Promise<{ status?: number; message: string } | undefined> => {
   try {
     const { data, status } = await deleteService<UpdateSingleLab>(
-      `Panel_MedicalEquipment/${url}`,
+      isMedical ? `Panel_MedicalEquipment/${url}` : url,
       {
         data: payload,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        status,
+        message: data.message,
+      };
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};
+
+// post list data
+export const postListData = async (
+  payloadObj: any,
+  token: string,
+  url: string
+): Promise<{ status?: number; message: string } | undefined> => {
+  try {
+    const { data, status } = await post<EditUniversityType>(
+      `Panel_MedicalEquipment/${url}`,
+      JSON.stringify(payloadObj),
+      {
         headers: {
           Authorization: `bearer ${token}`,
         },

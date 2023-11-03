@@ -72,7 +72,7 @@ const GetLabs = ({
               {item.headOfLaboratory}
             </td>
             <td className="whitespace-nowrap p-4 text-[14px]">
-              {item.address}
+              {`${item.address.slice(0, 150)}...`}
             </td>
             <td className="whitespace-nowrap p-4 text-[14px]">
               {item.telephone}

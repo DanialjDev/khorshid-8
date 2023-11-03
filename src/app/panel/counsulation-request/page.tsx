@@ -1,21 +1,11 @@
-import CustomeTable from "@/components/main/table/CustomeTable";
-import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
+import CounsulationTable from "@/components/profile/admin/counselor/CounsulationTable";
 import { getConsulations } from "@/services/profile/admin/consulation";
-import { generateHeaders } from "@/utills/generateTableHeaders";
 import { cookies } from "next/headers";
 import React from "react";
-import { toast } from "react-toastify";
 
 const ConsulationRequest = async () => {
   const cookie = cookies().get("token")?.value;
   const response = await getConsulations(cookie!);
-  const tableHeaders = generateHeaders("panel_consulation");
-  const TableData = TableBodyData({
-    // @ts-ignore
-    data: response?.consulationData ? response.consulationData : null,
-    operationName: "GetCounsulations",
-  });
-  console.log("response", response);
 
   return (
     <div className="w-full flex flex-col">
@@ -30,15 +20,7 @@ const ConsulationRequest = async () => {
           را مشاهده کرده و با آن ها تماس بگیرید.
         </p>
       </div>
-      {response?.consulationData && response.consulationData.length !== 0 ? (
-        <div className="w-full flex justify-center items-center mt-3">
-          <CustomeTable headers={tableHeaders ? tableHeaders : []}>
-            {TableData}
-          </CustomeTable>
-        </div>
-      ) : (
-        <div>sfsfsdf</div>
-      )}
+      <CounsulationTable data={response?.consulationData!} />
     </div>
   );
 };

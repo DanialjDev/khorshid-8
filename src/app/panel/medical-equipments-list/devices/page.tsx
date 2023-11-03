@@ -23,6 +23,7 @@ const Devices = async () => {
         removeUrl="RemoveDevices"
         desc="شما می توانید لیست تجهیزات پزشکی ( کتاب ) را در اینجا مشاهده کنید."
         title="لیست گروه ها و شرکت های تجهیزات پزشکی"
+        postListUrl="PostListDevices"
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import MedicalEquipmentsDevices from "@/components/profile/admin/medical-equipments-list/forms/MedicalEquipmentsDevices";
+import MedicalEquipmentsDevices from "@/components/profile/admin/medical-equipments-list/forms/SingleDevice";
 import { getSingleLab } from "@/services/profile/admin/medical-equipments-list/labs";
 import { cookies } from "next/headers";
 import React from "react";

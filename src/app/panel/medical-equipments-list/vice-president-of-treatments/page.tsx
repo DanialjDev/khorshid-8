@@ -18,8 +18,9 @@ const VicePresidentOfTreatments = async () => {
         url="GetVicePresidentsOfTreatment"
         postUrl="/vice-president-of-treatments"
         removeUrl="RemoveVicePresidentsOfTreatments"
-        title=" سایت دانشگاه های علوم پزشکی"
-        desc="شما می توانید مشخصات سایت دانشگاه های علوم پزشکی  ( کتاب ) را در اینجا مشاهده کنید."
+        title=" تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی"
+        desc="شما می توانید مشخصات تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی  ( کتاب ) را در اینجا مشاهده کنید."
+        postListUrl='PostVicePresidentsOfTreatments'
       />
     </div>
   );

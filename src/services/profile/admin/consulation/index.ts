@@ -1,6 +1,11 @@
 import { get, put } from "@/services/axios";
 import { cookies } from "next/headers";
-import { ConsulationData, Consulations, UpdateCounselorProps } from "./types";
+import {
+  ConsulationData,
+  Consulations,
+  CounsulationObj,
+  UpdateCounselorProps,
+} from "./types";
 import { isAxiosError } from "axios";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
 import Cookies from "js-cookie";
@@ -8,15 +13,16 @@ import Cookies from "js-cookie";
 // Get Consulations
 
 type ConsulationReturnType = {
-  consulationData?: ConsulationData[];
+  consulationData?: CounsulationObj;
   message?: any;
 };
 export const getConsulations = async (
-  token: string
+  token: string,
+  pageNumber: number = 1
 ): Promise<ConsulationReturnType | undefined> => {
   try {
     const { data, status } = await get<Consulations>(
-      "Panel_Counsulation/GetCounsulations",
+      `Panel_Counsulation/GetCounsulations?PageContain=10&PageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: ` bearer ${token}`,
@@ -26,7 +32,7 @@ export const getConsulations = async (
 
     if (status === 200) {
       return {
-        consulationData: data.object.data,
+        consulationData: data.object,
       };
     }
   } catch (error) {

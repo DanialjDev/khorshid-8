@@ -1,3 +1,4 @@
+import { EndPoints } from "@/services/profile/admin/medical-equipments-list/types";
 import moment from "moment-jalaali";
 
 export const isNumeric = (string: string) => {
@@ -102,4 +103,77 @@ export const getMedicalEquipmentsRoutes = (id: number): string | undefined => {
 
 export const nonBreakingSpace = (str: string) => {
   return str.replace(/ /g, "\u00a0");
+};
+
+// generate Excel Post Data
+export const generateData = (data: any, action: EndPoints) => {
+  // @ts-ignore
+  return data.map((item) => {
+    switch (action) {
+      case "GetDevices":
+        return {
+          companyName: Object.values(item)[0],
+          name: Object.values(item)[1],
+          brand: Object.values(item)[2],
+          country: Object.values(item)[3],
+          orderedByName: Object.values(item)[4],
+          orderedByLastName: Object.values(item)[5],
+          orderedByMobileNumber: Object.values(item)[6],
+          // @ts-ignore
+          categories: Object.values(item)[7].split("/"),
+        };
+      case "GetCompanies":
+        return {
+          name: Object.values(item)[0],
+          managerFullName: Object.values(item)[1],
+          faxNumber: Object.values(item)[2],
+          address: Object.values(item)[3],
+          website: Object.values(item)[4],
+        };
+      case "GetLabs":
+        return {
+          universityName: Object.values(item)[0],
+          headOfLaboratory: Object.values(item)[1],
+          address: Object.values(item)[2],
+          telephone: Object.values(item)[3],
+        };
+      case "GetDeansOfUniversities":
+        return {
+          state: Object.values(item)[0],
+          city: Object.values(item)[1],
+          deanOfUniFullName: Object.values(item)[2],
+          address: Object.values(item)[3],
+          telephone: Object.values(item)[4],
+        };
+      case "GetHospitals":
+        return {
+          state: Object.values(item)[0],
+          city: Object.values(item)[1],
+          hospitalName: Object.values(item)[2],
+          category: Object.values(item)[3],
+          coveredName: Object.values(item)[4],
+          numberOfBeds: Object.values(item)[5],
+          universityName: Object.values(item)[6],
+          address: Object.values(item)[7],
+          telephone: Object.values(item)[8],
+        };
+      case "GetEvents":
+        return {
+          eventName: Object.values(item)[0],
+          // @ts-ignore
+          eventDate: jalaaliToGregorianISO(Object.values(item)[1]),
+        };
+      case "GetUniversities":
+        return {
+          universityName: Object.values(item)[0],
+          website: Object.values(item)[1],
+        };
+      case "GetVicePresidentsOfTreatment":
+        return {
+          universityName: Object.values(item)[0],
+          vicePresident: Object.values(item)[1],
+          telephone: Object.values(item)[2],
+        };
+    }
+  });
 };

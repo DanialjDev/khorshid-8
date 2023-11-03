@@ -17,12 +17,6 @@ const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
   const [searchInput, setSeachInput] = useState("");
 
   const tableHeaders = generateHeaders("charge_account");
-  // const TableBody = TableBodyData({
-  //   // @ts-ignore
-  //   data: userData,
-  //   operationName: "GetUsers",
-  // });
-
   const filterHandler = async () => {
     if (token) {
       const filteredData = await getUsersAccounts(token, searchInput);
@@ -45,12 +39,11 @@ const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
       searchInput ? searchInput : null,
       pageNumber
     );
-    console.log(updatedData);
-  };
 
-  // useEffect(() => {
-  //   setUserData(userAccounts);
-  // }, []);
+    if (updatedData?.status === 200) {
+      setUserData(updatedData.data!);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col justify-start mt-10">

@@ -1,6 +1,8 @@
 import Button from "@/components/main/button/Button";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
+import Pagination from "@/components/main/pagination/Pagination";
 import CustomeTable from "@/components/main/table/CustomeTable";
+import RegisteredDataTable from "@/components/profile/admin/registered-devices/RegisteredDataTable";
 import { getRegisteredDevices } from "@/services/profile/admin/registered-devices";
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import { cookies } from "next/headers";
@@ -12,7 +14,7 @@ const RegisteredDevices = async () => {
     cookies().get("token")?.value!
   );
   console.log(regesteredDevices?.data);
-  const tableHeaders = generateHeaders("GetUserAcceptedDevices");
+
   return (
     <div className="w-full flex flex-col">
       <div className="w-full flex justify-between items-center">
@@ -24,6 +26,7 @@ const RegisteredDevices = async () => {
           text="افزودن دستی"
           rounded="rounded-[6px]"
           color="text-white"
+          href="/panel/registered-devices/add"
           icon={
             <svg
               width="14"
@@ -44,48 +47,7 @@ const RegisteredDevices = async () => {
           }
         />
       </div>
-      <div className="w-full mt-6">
-        <CustomeTable
-          headers={tableHeaders!}
-          text="دستگاهی برای نمایش وجود ندارد"
-        >
-          {regesteredDevices &&
-            regesteredDevices.data &&
-            regesteredDevices.data.map((item, index) => (
-              <tr key={item.deviceId}>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {index + 1}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.name}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.brand}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.country}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.companyName}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.orderedByFullName}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  {item.orderedByMobileNumber}
-                </td>
-                <td className="whitespace-nowrap p-4 text-[14px]">
-                  <Link
-                    href={`/panel/registered-devices/update-device?deviceId=${item.deviceId}`}
-                    className="py-1 px-3 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
-                  >
-                    مشاهده
-                  </Link>
-                </td>
-              </tr>
-            ))}
-        </CustomeTable>
-      </div>
+      <RegisteredDataTable data={regesteredDevices?.data!} />
     </div>
   );
 };

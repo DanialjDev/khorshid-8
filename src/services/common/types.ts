@@ -32,6 +32,23 @@ export interface StateType {
   stateName: string;
 }
 
+export interface CityType {
+  id: number;
+  cityName: string;
+  stateName: string;
+}
+
+export interface IranCities {
+  success: boolean;
+  operationName: string;
+  message: string;
+  exMessage: null;
+  operationDate: string;
+  status: number;
+  object: null;
+  list: CityType[];
+}
+
 export interface IranStateTypes {
   success: boolean;
   operationName: string;
@@ -59,3 +76,9 @@ export interface CompaniesType {
   object: null;
   list: SingleCompany[];
 }
+
+export interface SelectBoxItemsType {
+  name: string;
+  value: string;
+}
+[];

@@ -12,9 +12,11 @@ export const DeviceLogsChart = ({
   } | null;
 }) => {
   console.log(devicesLogsData?.acceptedCounts);
-  const maxAmount = Math.max(...devicesLogsData?.acceptedCounts!);
+  const maxAmount =
+    devicesLogsData?.acceptedCounts &&
+    Math.max(...devicesLogsData?.acceptedCounts!);
   const chartSideTexts = devicesLogsData?.acceptedCounts
-    ? generateItemsDevicedBySix(maxAmount)
+    ? generateItemsDevicedBySix(maxAmount ? maxAmount : 0)
     : null;
   return (
     <div className="w-full flex flex-col h-full justify-between items-center">

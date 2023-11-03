@@ -17,10 +17,11 @@ const Companies = async () => {
         deviceInfo={devices?.payload ? devices.payload : null}
         headerType="GetCompanies"
         url="GetCompanies"
-        postUrl="PostCompanies"
+        postUrl="companies"
         removeUrl="RemoveCompanies"
         title="نام و تلفن شرکت های تجهیزات پزشکی ایران"
         desc="شما می توانید نام و تلفن شرکت های تجهیزات پزشکی ایران ( کتاب ) را در اینجا مشاهده کنید."
+        postListUrl="PostCompanies"
       />
     </div>
   );

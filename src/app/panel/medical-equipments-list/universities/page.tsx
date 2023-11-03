@@ -19,6 +19,7 @@ const Universities = async () => {
         removeUrl="RemoveUniversities"
         title=" سایت دانشگاه های علوم پزشکی"
         desc="شما می توانید مشخصات سایت دانشگاه های علوم پزشکی  ( کتاب ) را در اینجا مشاهده کنید."
+        postListUrl="PostUniversities"
       />
     </div>
   );

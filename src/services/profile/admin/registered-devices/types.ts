@@ -8,6 +8,14 @@ export interface RegisteredDevice {
   orderedByMobileNumber: string;
 }
 
+export interface RegisteredDeviceObj {
+  totalItemsCount: number;
+  totalPagesCount: null | number;
+  pageContain: null | number;
+  currentPageNumber: null | number;
+  data: RegisteredDevice[];
+}
+
 export interface RegisteredDevicesType {
   success: boolean;
   operationName: string;
@@ -15,13 +23,7 @@ export interface RegisteredDevicesType {
   exMessage: null | string;
   operationDate: string;
   status: number;
-  object: {
-    totalItemsCount: number;
-    totalPagesCount: null | number;
-    pageContain: null | number;
-    currentPageNumber: null | number;
-    data: RegisteredDevice[];
-  };
+  object: RegisteredDeviceObj;
   list: null;
 }
 

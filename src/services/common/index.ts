@@ -1,10 +1,12 @@
 import { isAxiosError } from "axios";
 import { get, post } from "../axios";
 import {
+  CityType,
   CompaniesType,
   DeviceCategories,
   DeviceName,
   HeaderPhoneNumber,
+  IranCities,
   IranStateTypes,
   SingleCompany,
   StateType,
@@ -53,7 +55,7 @@ export const getHeaderPhoneNumber = async (): Promise<string | undefined> => {
 // get Iran States
 export const getStates = async (): Promise<
   | {
-      data: StateType[];
+      data: StateType[] | null;
     }
   | undefined
 > => {
@@ -65,7 +67,11 @@ export const getStates = async (): Promise<
         data: data.list,
       };
     }
-  } catch (error) {}
+  } catch (error) {
+    return {
+      data: null,
+    };
+  }
 };
 
 // post page view
@@ -83,9 +89,35 @@ export const postPageView = async (path: string) => {
   }
 };
 
+// get cities by ID
+export const getCitiesById = async (
+  stateName: string
+): Promise<
+  | {
+      data: CityType[] | null;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<IranCities>(
+      `Common/GetIranCitiesByStateName/${stateName}`
+    );
+
+    if (status === 200) {
+      return {
+        data: data.list,
+      };
+    }
+  } catch (error) {
+    return {
+      data: null,
+    };
+  }
+};
+
 // get Companies
 export const getCompanies = async (): Promise<
-  { companyList?: SingleCompany[]; message?: string } | undefined
+  { companyList: SingleCompany[] | null; message?: string } | undefined
 > => {
   try {
     const { data, status } = await get<CompaniesType>(
@@ -101,6 +133,7 @@ export const getCompanies = async (): Promise<
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
+        companyList: null,
       };
     }
   }

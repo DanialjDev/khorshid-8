@@ -25,8 +25,8 @@ const ProductItem = ({
       href={`/medical-equipments-market/singleProduct?name=${name}&id=${deviceId}`}
       className="w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
     >
-      <div className="w-full flex justify-center items-center">
-        <Image width={200} height={100} src={imageUrl} alt={name} />
+      <div className="w-full h-[200px] flex justify-center items-center">
+        <Image width={200} height={200} src={imageUrl} alt={name} />
       </div>
       <div className="flex flex-col justify-start w-full p-2 bg-[#F9F9F9] rounded-md my-5">
         <p className="text-[14px]">{name}</p>

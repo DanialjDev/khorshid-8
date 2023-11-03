@@ -67,6 +67,7 @@ const MedicalSection = ({
         // @ts-ignore
         filterValue = stateId;
       }
+      console.log(stateId);
     }
     const filteredData = await getSectionsData(
       // @ts-ignore
@@ -117,6 +118,7 @@ const MedicalSection = ({
                 </div>
                 <div className="md:col-span-1 col-span-2 h-full">
                   <AuthInput
+                    dir="ltr"
                     placeholder="کلمه مورد نظر خود را تایپ کنید."
                     value={searchValue!}
                     onChange={(e) => setSearchValue(e.target.value)}

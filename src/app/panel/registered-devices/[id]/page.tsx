@@ -1,6 +1,6 @@
 import PageTitle from "@/components/main/pageTitle/PageTitle";
 import UpdateAcceptedDeviceForm from "@/components/profile/admin/registered-devices/UpdateAcceptedDeviceForm";
-import { getCompanies } from "@/services/common";
+import { getCompanies, getDeviceCategories } from "@/services/common";
 import { getSingleAcceptedDevice } from "@/services/profile/admin/registered-devices";
 import { cookies } from "next/headers";
 import React from "react";
@@ -9,14 +9,17 @@ const UpdateRegisteredDevice = async ({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { id: string };
   searchParams?: { deviceId: string | undefined };
 }) => {
   const singleDeviceRes = await getSingleAcceptedDevice(
-    Number(searchParams?.deviceId),
+    Number(params?.id),
     cookies().get("token")?.value!
   );
+  console.log(singleDeviceRes);
   const simpleCompanies = await getCompanies();
+  const devicCategories = await getDeviceCategories();
+
   return (
     <div className="w-full flex flex-col">
       <PageTitle
@@ -25,9 +28,11 @@ const UpdateRegisteredDevice = async ({
       />
       <div className="w-full mt-8">
         <UpdateAcceptedDeviceForm
-          companyList={
+          companies={
             simpleCompanies?.companyList ? simpleCompanies.companyList : null
           }
+          deviceCategories={devicCategories?.data ? devicCategories.data : null}
+          singleDeviceData={singleDeviceRes?.data ? singleDeviceRes.data : null}
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ const MedicalEquipmentsList = async () => {
         {response &&
           response.medicalEquipmentBanners &&
           response.medicalEquipmentBanners.map((item) => (
-            <div className="w-full col-span-2">
+            <div className="w-full col-span-2" key={item.bannerId}>
               <PosterBox
                 href={getMedicalEquipmentsRoutes(item.bannerId)}
                 id={item.bannerId}

@@ -1,6 +1,7 @@
 import { get } from "@/services/axios";
 import {
   RegisteredDevice,
+  RegisteredDeviceObj,
   RegisteredDevicesType,
   SingleAcceptedDevice,
   SingleAcceptedDeviceType,
@@ -9,11 +10,12 @@ import { isAxiosError } from "axios";
 
 // get registered devices
 export const getRegisteredDevices = async (
-  token: string
-): Promise<{ message?: string; data?: RegisteredDevice[] } | undefined> => {
+  token: string,
+  pageNumber: number = 1
+): Promise<{ message?: string; data?: RegisteredDeviceObj } | undefined> => {
   try {
     const { data, status } = await get<RegisteredDevicesType>(
-      "Panel_AcceptedDevice/GetAcceptedDevices",
+      `Panel_AcceptedDevice/GetAcceptedDevices?PageContain=10&PageNumber=${pageNumber}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -23,10 +25,11 @@ export const getRegisteredDevices = async (
 
     if (status === 200) {
       return {
-        data: data.object.data,
+        data: data.object,
       };
     }
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

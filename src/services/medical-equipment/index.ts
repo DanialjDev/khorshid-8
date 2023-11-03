@@ -66,6 +66,7 @@ export const getSectionsData = async (
         pageNumber ? pageNumber : 1
       }${filterUrl}`
     );
+    console.log(data);
     if (status === 200) {
       return {
         data: data.object.data,

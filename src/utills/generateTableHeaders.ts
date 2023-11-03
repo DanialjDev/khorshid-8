@@ -26,9 +26,9 @@ export const generateHeaders = (
       return [
         { name: "نام شرکت", value: "Name" },
         { name: "نام مدیر عامل", value: "ManagerFullName" },
-        { name: "شماره فکس", value: "FaxNumber" },
         { name: "آدرس", value: "Address" },
-        { name: "تلفن", value: "" },
+        // { name: "وب سایت", value: "Address" },
+        { name: "تلفن", value: "FaxNumber" },
       ];
     case "GetDeansOfUniversities":
       return [

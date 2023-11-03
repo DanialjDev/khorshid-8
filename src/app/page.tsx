@@ -475,7 +475,7 @@ export default async function Home() {
               text="در حال حاضر دستگاهی برای نمایش وجود ندارد"
             >
               {homePageDevices?.map((item, index) => (
-                <tr>
+                <tr key={item.deviceId}>
                   <td className="whitespace-nowrap p-4 text-[14px]">
                     {index + 1}
                   </td>
@@ -507,12 +507,19 @@ export default async function Home() {
                     </Link>
                   </td>
                   <td className="whitespace-nowrap p-4 text-[14px]">
-                    <Link
-                      className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
-                      href={item.imageUrl}
-                    >
-                      مشاهده
-                    </Link>
+                    {item.imageUrl ? (
+                      <Link
+                        className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
+                        // target="_blank"
+                        href={item.imageUrl || "/"}
+                      >
+                        مشاهده تصویر
+                      </Link>
+                    ) : (
+                      <p className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full">
+                        تصویری برای دستگاه ثبت نشده است
+                      </p>
+                    )}
                   </td>
                 </tr>
               ))}
