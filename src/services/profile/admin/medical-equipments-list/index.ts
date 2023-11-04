@@ -150,3 +150,43 @@ export const postListData = async (
     }
   }
 };
+
+// get all medical equipments data
+export const getAllMedicalEquipments = async (
+  url: EndPoints,
+  token?: string
+): Promise<
+  | {
+      payload?: TableDateType;
+      message?: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<ReturnType>(
+      `Panel_MedicalEquipment/${url}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+    if (status === 200) {
+      return {
+        payload: data.object,
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    if (isAxiosError(error)) {
+      if (error.response?.data.errors.EventDate[0]) {
+        return {
+          message: "تاریخ وارد شده نادرست می باشد",
+        };
+      }
+      return {
+        message: error.response?.data.message,
+      };
+    }
+  }
+};

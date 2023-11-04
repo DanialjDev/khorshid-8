@@ -177,3 +177,131 @@ export const generateData = (data: any, action: EndPoints) => {
     }
   });
 };
+
+// generate Json to Excel
+export const getExcelTitles = (action: EndPoints) => {
+  switch (action) {
+    case "GetDevices":
+      return [
+        "نام دستگاه",
+        "مارک دستگاه",
+        "کشور سازنده",
+        "شرکت نمایندگی",
+        "شماره تماس سفارش دهنده",
+        "لینک سایت",
+        "تصاویر",
+      ];
+    case "GetCompanies":
+      return ["نام شرکت", "نام مدیر عامل", "آدرس", "تلفن"];
+    case "GetDeansOfUniversities":
+      return ["دانشگاه های علوم پزشکی", "ریاست", "آدرس", "شماره تماس"];
+    case "GetEvents":
+      return ["نام روز", "تاریخ"];
+    case "GetHospitals":
+      return [
+        "نام شهرستان",
+        "نام بیمارستان",
+        "نام رشته فعالیت",
+        "نام تحت پوشش",
+        "تعداد تخت ثابت",
+        "نام دانشگاه ناظر",
+        "آدرس",
+        "شماره تماس",
+      ];
+    case "GetLabs":
+      return ["نام داتشگاه", "مسئول امور آزمایشگاه ها", "آدرس", "شماره تماس"];
+    case "GetVicePresidentsOfTreatment":
+      return ["نام دانشگاه / دانشکده", "معونت درمان", "شماره تماس"];
+    case "GetUniversities":
+      return ["نام دانشگاه / دانشکده", "آدرس سایت"];
+  }
+};
+
+export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
+  switch (action) {
+    case "GetDevices":
+      console.log(data);
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.name,
+          item.brand,
+          item.country,
+          item.companyName,
+          item.orderedByMobileNumber,
+          item.website,
+          item.imageUrl ? item.imageUrl : "",
+        ]);
+      });
+    case "GetCompanies":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.name,
+          item.managerFullName,
+          item.address,
+          // @ts-ignore
+          item.faxNumber,
+        ]);
+      });
+    case "GetDeansOfUniversities":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.cityName,
+          item.deanOfUniFullName,
+          item.address,
+          item.telephone,
+        ]);
+      });
+
+    case "GetEvents":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.eventName,
+          gregorianIsoToJalaali(item.eventDate),
+        ]);
+      });
+    case "GetHospitals":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.cityName,
+          item.hospitalName,
+          item.category,
+          item.coveredName,
+          item.numberOfBeds,
+          item.universityName,
+          item.address,
+          item.telephone,
+        ]);
+      });
+    case "GetLabs":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.universityName,
+          item.headOfLaboratory,
+          item.address,
+          item.telephone,
+        ]);
+      });
+    case "GetVicePresidentsOfTreatment":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([
+          item.universityName,
+          item.vicePresident,
+          item.telephone,
+        ]);
+      });
+    case "GetUniversities":
+      // @ts-ignore
+      data.forEach((item) => {
+        targetArray.push([item.universityName, item.website]);
+      });
+
+      return targetArray;
+  }
+};

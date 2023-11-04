@@ -4,6 +4,7 @@ import Button from "@/components/main/button/Button";
 import PageTitle from "@/components/main/pageTitle/PageTitle";
 import {
   deleteItems,
+  getAllMedicalEquipments,
   getMedicalEquipments,
   postListData,
 } from "@/services/profile/admin/medical-equipments-list";
@@ -11,7 +12,12 @@ import {
   EndPoints,
   TableDateType,
 } from "@/services/profile/admin/medical-equipments-list/types";
-import { generateData, nonBreakingSpace } from "@/utills/formatHelper";
+import {
+  generateData,
+  getExcelTitles,
+  jsonToExcel,
+  nonBreakingSpace,
+} from "@/utills/formatHelper";
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -170,6 +176,21 @@ const AllEquipmentsInfo = ({
         toast.error(res?.message);
       }
     };
+  };
+
+  const exportExcel = async () => {
+    const getAllInof = await getAllMedicalEquipments(url, Cookies.get("token"));
+    const tableData = getExcelTitles(url);
+    const dataArray = [tableData];
+    const excelData = jsonToExcel(getAllInof?.payload?.data, dataArray, url);
+    // console.log(excelData);
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(excelData);
+
+    XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+
+    XLSX.writeFile(wb, `${url}.xlsx`);
   };
 
   useEffect(() => {
@@ -378,6 +399,7 @@ const AllEquipmentsInfo = ({
           <div className="col-span-2">
             <Button
               text="خروجی اکسل"
+              onClick={exportExcel}
               bg="bg-primaryDark7"
               width="w-full"
               border="border-[1.5px] border-primary"
@@ -486,6 +508,7 @@ const AllEquipmentsInfo = ({
               type="file"
               className="hidden"
               onChange={convertor}
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             />
           </div>
         </div>
