@@ -27,7 +27,7 @@ const SetDeviceStatusForm = ({
     deviceInitialValues
   );
 
-  const {} = useFormik({
+  const { values, errors, touched, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
       imageUrl: initialValues?.imageUrl ? initialValues.imageUrl : null,
     },
@@ -35,40 +35,55 @@ const SetDeviceStatusForm = ({
       imageUrl: Yup.mixed(),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      if (Cookies.get("token")) {
+        const confirmDeviceRes = await confirmDeviceHandler(
+          {
+            deviceID: initialValues?.deviceId!,
+            removeImage: values.imageUrl ? false : true,
+          },
+          Cookies.get("token")!
+        );
+
+        if (confirmDeviceRes?.status === 200) {
+          toast.success(confirmDeviceRes.message);
+          push("/panel/register-product-requests/");
+          refresh();
+        } else {
+          toast.error(confirmDeviceRes?.message);
+        }
+      }
     },
   });
-  const [img, setImg] = useState<File | null | string>(
-    initialValues?.imageUrl ? initialValues.imageUrl : null
-  );
+  // const [img, setImg] = useState<File | null | string>(
+  //   initialValues?.imageUrl ? initialValues.imageUrl : null
+  // );
   const [openModal, setOpenModal] = useState(false);
 
-  const confirmDevice = async (deviceID: number) => {
-    if (Cookies.get("token")) {
-      const confirmDeviceRes = await confirmDeviceHandler(
-        {
-          deviceID,
-          removeImage: img ? false : true,
-        },
-        Cookies.get("token")!
-      );
+  // const confirmDevice = async (deviceID: number) => {
+  //   if (Cookies.get("token")) {
+  //     const confirmDeviceRes = await confirmDeviceHandler(
+  //       {
+  //         deviceID,
+  //         removeImage: img ? false : true,
+  //       },
+  //       Cookies.get("token")!
+  //     );
 
-      if (confirmDeviceRes?.status === 200) {
-        toast.success(confirmDeviceRes.message);
-        push("/panel/register-product-requests/");
-        refresh();
-      } else {
-        toast.error(confirmDeviceRes?.message);
-      }
-    }
-  };
+  //     if (confirmDeviceRes?.status === 200) {
+  //       toast.success(confirmDeviceRes.message);
+  //       push("/panel/register-product-requests/");
+  //       refresh();
+  //     } else {
+  //       toast.error(confirmDeviceRes?.message);
+  //     }
+  //   }
+  // };
   console.log(deviceInitialValues);
 
   const [declinedStateMessage, setDeclinedStateMessage] = useState<
     string | null
   >("");
   const declineDevice = async (deviceID: number) => {
-    console.log(deviceID);
     if (Cookies.get("token")) {
       const declineDeviceRes = await declineDeviceHandler(
         {
@@ -115,7 +130,7 @@ const SetDeviceStatusForm = ({
                   fontWeight="font-bold"
                   rounded="rounded-[3px]"
                   padding="py-[5px] px-10"
-                  onClick={() => declineDevice(deviceInitialValues?.deviceId!)}
+                  // onClick={() => declineDevice(deviceInitialValues?.deviceId!)}
                 />
               </div>
               <div className="mr-4">
@@ -212,7 +227,7 @@ const SetDeviceStatusForm = ({
           />
         </div>
       </div>
-      <div className="w-full grid grid-cols-2 gap-7">
+      <form onSubmit={handleSubmit} className="w-full grid grid-cols-2 gap-7">
         <div className="col-span-2 md:col-span-1">
           <AuthInput
             name="name"
@@ -275,15 +290,19 @@ const SetDeviceStatusForm = ({
           <ImageInput
             title="تصویر دستگاه"
             desc="در ابعاد 214 × 214 پیکسل ، حجم کمتر از 1 مگابایت ."
-            disabled
             // @ts-ignore
-            value={initialValues?.imageUrl}
+            value={values.imageUrl!}
+            setFieldValue={setFieldValue}
+            touched={touched.imageUrl}
+            errors={errors.imageUrl}
+            name="imageUrl"
           />
         </div>
         <div className="col-span-2 flex flex-col items-stretch md:col-span-1">
           <div className="whitespace-nowrap flex gap-x-4 text-[14px]">
             <Button
-              onClick={() => confirmDevice(initialValues?.deviceId!)}
+              // onClick={() => confirmDevice(initialValues?.deviceId!)}
+              type="submit"
               rounded="rounded-[5px]"
               bg="bg-confirmBtnBg"
               border="border-posterBoxActiveBorder border"
@@ -381,7 +400,7 @@ const SetDeviceStatusForm = ({
             />
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };
