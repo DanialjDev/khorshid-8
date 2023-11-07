@@ -84,9 +84,15 @@ const usePanelValidation = (action: Action): ReturnType | undefined => {
       validationSchema = Yup.object().shape({
         Comment,
         FullName,
-        PhoneNumber,
+        PhoneNumber: Yup.string()
+          .required("انتخاب تصویر الزامی است")
+          .test("isNumeric", "شماره موبایل وارد شده نادرست است", (value) => {
+            if (value && value.length > 0) {
+              return isNumeric(value);
+            }
+          }),
         Position,
-        Image: Yup.mixed().optional(),
+        Image: Yup.mixed(),
       });
       return [initialValues, validationSchema];
     case "updatePoster":

@@ -35,7 +35,7 @@ const FormLayout = ({
       ) : authAction === "updatePoster" && showForm ? (
         <UpdatePosterModal setIsOpen={setIsOpen} />
       ) : authAction === "updateDeviceNumber" && showForm ? (
-        <UpdateDeviceNumberModal />
+        <UpdateDeviceNumberModal setIsOpen={setIsOpen} />
       ) : null}
     </div>
   );

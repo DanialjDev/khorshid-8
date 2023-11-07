@@ -10,8 +10,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { updateUserDeviceNumber } from "@/services/profile/admin/charge-account";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
-const UpdateDeviceNumberModal = () => {
+import Logo from "../../../../../public/assets/images/navbar-logo.png";
+
+const UpdateDeviceNumberModal = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { refresh } = useRouter();
   const token = Cookies.get("token");
   const userID = useSearchParams().get("userId");
@@ -33,6 +40,7 @@ const UpdateDeviceNumberModal = () => {
         if (response?.status === 200) {
           toast.success(response.message);
           refresh();
+          setIsOpen(false);
         } else {
           toast.error(response?.message);
         }
@@ -40,6 +48,15 @@ const UpdateDeviceNumberModal = () => {
     });
   return (
     <form onSubmit={handleSubmit} className="w-full flex flex-col">
+      <div className="w-full mx-auto">
+        <Image
+          className="mx-auto"
+          src={Logo}
+          alt="خورشید هشت"
+          width={120}
+          height={120}
+        />
+      </div>
       <div className="w-full flex">
         <AuthInput
           name="currentCapacity"

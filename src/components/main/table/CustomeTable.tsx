@@ -130,7 +130,7 @@ const CustomeTable = ({ headers, children, text }: TableProps) => {
             </thead>
             <tbody className="[&>*:nth-child(odd)]:bg-white [&>*:nth-child(even)]:bg-tableRowColor">
               {/* @ts-ignore */}
-              {children ? (
+              {children && children.length > 0 ? (
                 children
               ) : (
                 <EmptyTable text={text} headers={headers} />

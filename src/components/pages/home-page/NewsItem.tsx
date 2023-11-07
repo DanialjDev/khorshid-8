@@ -22,8 +22,6 @@ const NewsItem = ({
         <Image
           width={300}
           height={250}
-          // sizes="100vw"
-          // style={{ width: "100%", height: "auto" }}
           alt=""
           src={imageUrl}
           className="m-auto"
@@ -55,7 +53,7 @@ const NewsItem = ({
           </div>
           <div className="">
             <Button
-              href={link}
+              href={`${link.startsWith("https://") ? link : `https://${link}`}`}
               fontSize="xl:text-[12px] text-[10px]"
               padding="p-0"
               icon={

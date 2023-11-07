@@ -665,8 +665,18 @@ const AdminMenu = ({
             }
             text="خروج از پنل مدیریت"
             onClick={() => {
-              Cookies.remove("token");
-              Cookies.remove("userInfo");
+              Cookies.remove("token", {
+                expires: 1 / 6,
+                path: "/",
+                secure: false,
+                sameSite: "Lax",
+              });
+              Cookies.remove("userInfo", {
+                expires: 1 / 6,
+                path: "/",
+                secure: false,
+                sameSite: "Lax",
+              });
 
               push("/");
             }}

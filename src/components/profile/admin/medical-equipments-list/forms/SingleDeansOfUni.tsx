@@ -5,20 +5,14 @@ import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthInput from "@/components/main/input/AuthInput";
-import { isUrl } from "@/utills/formatHelper";
 import Button from "@/components/main/button/Button";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { SingleUniversityData } from "@/services/profile/admin/medical-equipments-list/universities/types";
-import {
-  psotUniversity,
-  updateUniversity,
-} from "@/services/profile/admin/medical-equipments-list/universities";
 import { deleteItems } from "@/services/profile/admin/medical-equipments-list";
 import { SingleDeansOfUniData } from "@/services/profile/admin/medical-equipments-list/deans-of-uni/types";
 import AuthSelect from "@/components/main/input/AuthSelect";
-import { SelectBoxItemsType, StateType } from "@/services/common/types";
+import { StateType } from "@/services/common/types";
 import { getCitiesById } from "@/services/common";
 import { citiesFormat } from "@/utills/filterHelper";
 import {
@@ -58,85 +52,80 @@ const SingleDeansOfUniForm = ({
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState(data?.cityName);
   const [cityId, setCityId] = useState(0);
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setFieldValue,
-  } = useFormik({
-    initialValues: {
-      deanOfUniFullName:
-        data && data.deanOfUniFullName ? data.deanOfUniFullName : "",
-      address: data && data.address ? data.address : "",
-      telephone: data && data.telephone ? data.telephone : "",
-      stateName: selectedState,
-      cityName: data ? selectedCity : "",
-    },
-    validationSchema: Yup.object().shape({
-      deanOfUniFullName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      address: Yup.string().required("پر کردن این فیلد الزامی است"),
-      telephone: Yup.string().required("پر کردن این فیلد الزامی است"),
-      stateName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      cityName: Yup.string().required("پر کردن این فیلد الزامی است"),
-    }),
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      const cityId = cityItems.filter(
-        (item) => item.name === values.cityName
-      )[0].value;
-      console.log();
-      if (data) {
-        const payloadObj = {
-          id: data.id,
-          stateId: states?.filter((item) => item.stateName === selectedState)[0]
-            .id!,
-          cityId: Number(cityId),
-          address: values.address,
-          deanOfUniFullName: values.deanOfUniFullName,
-          telephone: values.telephone,
-        };
-        if (!cityId) {
-          toast.warning("لطفا نام شهرستان را نتخاب کنید");
-          return;
-        }
-        console.log(payloadObj);
-        const res = await updateSingleDeanOfUni(
-          payloadObj!,
-          Cookies.get("token")!
-        );
-        if (res?.status === 200) {
-          toast.success(res.message);
-          push("/panel/medical-equipments-list/deans-of-universities");
-          refresh();
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        deanOfUniFullName:
+          data && data.deanOfUniFullName ? data.deanOfUniFullName : "",
+        address: data && data.address ? data.address : "",
+        telephone: data && data.telephone ? data.telephone : "",
+        stateName: selectedState,
+        cityName: data ? selectedCity : "",
+      },
+      validationSchema: Yup.object().shape({
+        deanOfUniFullName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        address: Yup.string().required("پر کردن این فیلد الزامی است"),
+        telephone: Yup.string().required("پر کردن این فیلد الزامی است"),
+        stateName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        cityName: Yup.string().required("پر کردن این فیلد الزامی است"),
+      }),
+      enableReinitialize: true,
+      onSubmit: async (values) => {
+        const cityId = cityItems.filter(
+          (item) => item.name === values.cityName
+        )[0].value;
+        console.log();
+        if (data) {
+          const payloadObj = {
+            id: data.id,
+            stateId: states?.filter(
+              (item) => item.stateName === selectedState
+            )[0].id!,
+            cityId: Number(cityId),
+            address: values.address,
+            deanOfUniFullName: values.deanOfUniFullName,
+            telephone: values.telephone,
+          };
+          if (!cityId) {
+            toast.warning("لطفا نام شهرستان را نتخاب کنید");
+            return;
+          }
+          console.log(payloadObj);
+          const res = await updateSingleDeanOfUni(
+            payloadObj!,
+            Cookies.get("token")!
+          );
+          if (res?.status === 200) {
+            toast.success(res.message);
+            push("/panel/medical-equipments-list/deans-of-universities");
+            refresh();
+          } else {
+            toast.error(res?.message);
+          }
         } else {
-          toast.error(res?.message);
+          const payloadObj = {
+            stateId: states?.filter(
+              (item) => item.stateName === selectedState
+            )[0].id!,
+            cityId: Number(cityId),
+            address: values.address,
+            deanOfUniFullName: values.deanOfUniFullName,
+            telephone: values.telephone,
+          };
+          const res = await postSingleDeanOfUni(
+            payloadObj,
+            Cookies.get("token")!
+          );
+          if (res?.status === 200) {
+            toast.success(res.message);
+            push("/panel/medical-equipments-list/deans-of-universities");
+            refresh();
+          } else {
+            toast.error(res?.message);
+          }
         }
-      } else {
-        const payloadObj = {
-          stateId: states?.filter((item) => item.stateName === selectedState)[0]
-            .id!,
-          cityId: Number(cityId),
-          address: values.address,
-          deanOfUniFullName: values.deanOfUniFullName,
-          telephone: values.telephone,
-        };
-        const res = await postSingleDeanOfUni(
-          payloadObj,
-          Cookies.get("token")!
-        );
-        if (res?.status === 200) {
-          toast.success(res.message);
-          push("/panel/medical-equipments-list/deans-of-universities");
-          refresh();
-        } else {
-          toast.error(res?.message);
-        }
-      }
-    },
-  });
+      },
+    });
   useEffect(() => {
     const getCities = async () => {
       if (selectedState !== "") {
@@ -216,12 +205,10 @@ const SingleDeansOfUniForm = ({
           disabled={selectedState === ""}
           onChange={(e) => {
             handleChange(e);
-            // setCityId(e.target.id);
             console.log(
               cityItems.filter((item) => item.name === e.target.value)[0]
             );
           }}
-          //   handleBlur={handleBlur}
           error={errors.cityName && cityId === undefined ? errors.cityName : ""}
           value={values.cityName}
           touched={touched.cityName}

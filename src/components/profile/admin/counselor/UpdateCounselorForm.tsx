@@ -29,7 +29,7 @@ const UpdateCounselorForm = () => {
   } = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
       console.log(values);
 
@@ -38,11 +38,9 @@ const UpdateCounselorForm = () => {
       // @ts-ignore
       formData.append("FullName", values.FullName);
       // @ts-ignore
-      formData.append("Position", values.Position);
+      formData.append("Position", values.Position); 
       // @ts-ignore
-      if (img) {
-        formData.append("Image", img);
-      }
+      formData.append("Image", values.Image);
       // @ts-ignore
       formData.append("PhoneNumber", values.PhoneNumber);
       // @ts-ignore
@@ -51,6 +49,7 @@ const UpdateCounselorForm = () => {
       const response = await updateCounselor(formData);
       if (response?.status === 200) {
         toast.success(response.message);
+        resetForm();
       } else {
         toast.error(response?.message);
       }

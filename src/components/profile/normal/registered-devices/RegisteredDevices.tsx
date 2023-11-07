@@ -73,7 +73,7 @@ const RegisteredDevices = async ({
                 </Link>
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
-                {item.stateCode ? (
+                {item.stateCode === 1 ? (
                   <svg
                     width="24"
                     height="24"
@@ -98,7 +98,7 @@ const RegisteredDevices = async ({
                       stroke-linejoin="round"
                     />
                   </svg>
-                ) : (
+                ) : item.stateCode === -1 ? (
                   <svg
                     width="22"
                     height="22"
@@ -123,6 +123,24 @@ const RegisteredDevices = async ({
                       fill="#E21414"
                       fill-opacity="0.15"
                       stroke="#E21414"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                      fill="#2C9CF0"
+                      fill-opacity="0.15"
+                      stroke="#2C9CF0"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"

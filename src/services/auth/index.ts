@@ -23,7 +23,12 @@ export const signupHandler = async (
     if (status === 200) {
       console.log(data);
       if (data.object?.authData?.token) {
-        Cookies.set("token", data.object?.authData?.token, { expires: 1 / 6 });
+        Cookies.set("token", data.object?.authData?.token, {
+          expires: 1 / 6,
+          path: "/",
+          secure: false,
+          sameSite: "None",
+        });
         const encryptedData = encrypt(
           JSON.stringify({
             name: data.object.managerFullName,
@@ -34,7 +39,12 @@ export const signupHandler = async (
             email: data.object.email,
           })
         );
-        Cookies.set("userInfo", encryptedData, { expires: 1 / 6 });
+        Cookies.set("userInfo", encryptedData, {
+          expires: 1 / 6,
+          path: "/",
+          secure: false,
+          sameSite: "None",
+        });
         return {
           message: data.message,
           status: data.status,
@@ -74,6 +84,7 @@ export const loginHandler = async (
           expires: 1 / 6,
           path: "/",
           secure: false,
+          sameSite: "Lax",
         });
         const encryptedData = encrypt(
           JSON.stringify({
@@ -89,6 +100,7 @@ export const loginHandler = async (
           expires: 1 / 6,
           path: "/",
           secure: false,
+          sameSite: "Lax",
         });
         // Cookies.set('userData', data.object);
         return {

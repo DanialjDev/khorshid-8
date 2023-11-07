@@ -81,7 +81,6 @@ const UpdatePosterModal = ({
           if (response?.status === 200) {
             toast.success(response.message);
             setTimeout(() => {
-              dispatch(authToggler(""));
               setIsOpen(false);
               refresh();
             }, 2000);
@@ -93,7 +92,7 @@ const UpdatePosterModal = ({
           if (response?.status === 200) {
             toast.success(response.message);
             setTimeout(() => {
-              dispatch(authToggler(""));
+              setIsOpen(false);
               refresh();
             }, 2000);
           } else {

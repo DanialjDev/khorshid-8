@@ -27,7 +27,7 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
       </div>
       <ToastContainer
         position="bottom-right"
-        autoClose={2500}
+        autoClose={5000}
         closeOnClick
         theme="colored"
         style={{

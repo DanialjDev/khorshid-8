@@ -28,11 +28,7 @@ import RegisterMedicalDevice from "@/components/pages/home-page/RegisterMedicalD
 export default async function Home() {
   const homePageDate = await getHomePageDate();
   const homePageDevices = await getHomePageDevies("7");
-  const TableData = TableBodyData({
-    // @ts-ignore
-    data: homePageDevices ? homePageDevices : null,
-    operationName: "HomePageDevices",
-  });
+  console.log(homePageDate?.conferences);
   return (
     <div className={`w-full`}>
       <div className="w-full">
@@ -47,9 +43,10 @@ export default async function Home() {
                     <span className="text-primary">خورشید هشت</span>
                   </p>
                   <p className="text-gray text-[13px] w-[90%] my-10">
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-                    با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه
-                    و مجله در ستون و سطرآنچنانکه لازم است،{" "}
+                    شرکتهای تولید کننده و یا دارای نمایندگی مجاز محصولات
+                    بیمارستانی، پزشکی و آزمایشگاهی که دارای مجوز رسمی می باشند،
+                    میتوانند با ثبت نام و عضویت در این سایت و بارگزاری لیست
+                    محصولات خود و...
                   </p>
                   <div className="mt-10">
                     <Button
@@ -78,11 +75,12 @@ export default async function Home() {
                 </div>
               </div>
               <Image
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: "contain", height: "100%" }}
                 sizes="100%"
                 src={MedicalLogo}
                 className="lg:w-[60%] w-full"
                 alt="تجهزیت پزشکی"
+                objectFit="cover"
               />
             </div>
 
@@ -149,8 +147,7 @@ export default async function Home() {
                       دستگاه های تجهیزات پزشکی
                     </p>
                   }
-                  text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله"
+                  text="کانون خورشید هشت یکی از بزرگترین ترین سایت های برگزار کننده مناقصه و مزایده ی دستگاه های تجهیزات پزشکی می باشد."
                 />
                 <Ticket
                   href="/about-us"
@@ -203,8 +200,7 @@ export default async function Home() {
                       <span className="text-secondary">خورشید هشت</span>
                     </p>
                   }
-                  text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله"
+                  text="کانون تبلیغاتی خورشید هشت با مجوز رسمی از وزارت فرهنگ و ارشاد اسلامی، از جمله کانون های فعال در حوزه سلامت می باشد که با سابقه ای بالغ بر 3 دهه توانسته است"
                 />
               </div>
             </div>
@@ -330,8 +326,8 @@ export default async function Home() {
                   </p>
                 </div>
                 <p className="my-7 text-gray text-[12px]">
-                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-                  با استفاده از طراحان گرافیک است، چاپگرها و م
+                  شما می توانید با استفاده از تجربه کارشناسان ما در خرید لوازم و
+                  تجهیزات پزشکی خود به بهترین گزینه ها برسید.
                 </p>
                 <div className="mt-6">
                   <Button
@@ -372,7 +368,7 @@ export default async function Home() {
                         }
                         key={homeSideBannerId}
                         target="_blank"
-                        className="w-full flex justify-center items-center"
+                        className="w-full flex justify-center items-center border border-profileBorderColor shadow-md rounded-[6px]"
                       >
                         <div className="w-full overflow-hidden rounded-lg">
                           <Image
@@ -445,7 +441,7 @@ export default async function Home() {
         {/* medical equipments groups */}
         <div className="w-full my-[8em]">
           <SectionBox
-            href="/medical-equipments-list"
+            href="/medical-equipments-list?name=GetDevices"
             btnHover="hover:bg-btnPrimaryHover"
             hasBtn
             SquareLogo={
@@ -540,6 +536,7 @@ export default async function Home() {
             </p>
           }
           btnBgColor="bg-secondary"
+          href="https://www.imed.ir"
         >
           <div className="w-full items-stretch grid grid-cols-4 gap-4 mt-8">
             {homePageDate?.news.map(

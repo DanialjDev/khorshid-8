@@ -91,7 +91,9 @@ const SingelVicePresidnetForm = ({
           onChange={handleChange}
           handleBlur={handleBlur}
           value={values.universityName}
+          // @ts-ignore
           errors={errors}
+          // @ts-ignore
           touched={touched}
         />
       </div>
@@ -102,8 +104,10 @@ const SingelVicePresidnetForm = ({
           placeholder="نام معاونت درمان را وارد کنید"
           onChange={handleChange}
           handleBlur={handleBlur}
+          // @ts-ignore
           errors={errors}
           value={values.vicePresident}
+          // @ts-ignore
           touched={touched}
         />
       </div>
@@ -114,8 +118,10 @@ const SingelVicePresidnetForm = ({
           placeholder="شماره تماس را وارد کنید"
           onChange={handleChange}
           handleBlur={handleBlur}
+          // @ts-ignore
           errors={errors}
           value={values.telephone}
+          // @ts-ignore
           touched={touched}
         />
       </div>

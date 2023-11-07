@@ -28,15 +28,37 @@ const ContactUs = async () => {
               <div className="w-full flex flex-col">
                 <p className="text-xl text-dark">آدرس:</p>
                 <p className="md:w-[80%] w-full text-[#4E4E4E] text-[16px] mt-5">
-                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                  استفاده از طراحان گرافیک است. چاپگرها ...
+                  خیابان شریعتی؛بالاتر از طالقانی؛پلاک 183 واحد 9
                 </p>
               </div>
               <div className="flex flex-col mt-5">
                 <p className="text-xl text-dark">شماره تماس:</p>
-                <p className="w-full mt-5 text-left text-[#4E4E4E] text-lg">
-                  +1202-555-0487
-                </p>
+                <div className="w-full flex justify-between items-center mt-5 text-left text-[#4E4E4E] text-lg">
+                  <p
+                    style={{
+                      direction: "ltr",
+                    }}
+                    className=""
+                  >
+                    021 - 77653700
+                  </p>
+                  <p
+                    style={{
+                      direction: "ltr",
+                    }}
+                    className=""
+                  >
+                    021 - 77653701
+                  </p>
+                  <p
+                    style={{
+                      direction: "ltr",
+                    }}
+                    className=""
+                  >
+                    021 - 77653702
+                  </p>
+                </div>
               </div>
               <div className="w-full shadow-xs rounded-lg mt-5 overflow-hidden border border-[#CBCBCB]">
                 <Image src={MapLogo} alt="آدرس" />

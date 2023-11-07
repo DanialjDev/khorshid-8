@@ -6,12 +6,13 @@ import { forgotPasswordHandler } from "@/services/auth";
 import { InitialValues } from "@/utills/validation/auth/types";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("forgotPassword")!;
+  const [isOpen, setIsOpen] = useState(false);
 
   const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
     {
@@ -22,6 +23,8 @@ const ForgotPassword = () => {
 
         if (response) {
           if (response.status === 500 && response.message) {
+            toast.error(response.message);
+          } else if (response.status === 404) {
             toast.error(response.message);
           }
           if (response.status === 200 && response.message) {

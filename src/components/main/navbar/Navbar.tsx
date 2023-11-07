@@ -122,7 +122,7 @@ const Navbar = () => {
             </svg>
           </button>
           <div className="flex lg:w-[30rem] w-auto justify-between items-center">
-            <div className="hidden sm2:flex justify-center items-center">
+            <div className="hidden sm2:flex justify-center items-center ml-4">
               <Image src={Logo} alt="خورشید هشت" width={100} height={100} />
             </div>
             <div className="w-[400px] h-[40px] lg:flex hidden justify-between border-2 border-slate-200 rounded-md p-1">
@@ -195,7 +195,7 @@ const Navbar = () => {
               >
                 <div>
                   <p className="ml-1 flex">
-                    {!Cookies.get("token") ? "حساب کاربری" : userInfo.name}
+                    {!Cookies.get("token") ? <>حساب کاربری</> : userInfo.name}
                   </p>
                 </div>
                 <svg
@@ -268,8 +268,12 @@ const Navbar = () => {
             text="کارشناس خرید تجهیزات‌ پزشکی"
             href="/medical-equipments-purchasing-expert"
           />
-          <MenuItem setNav={setNav} text="همایش ها" href="/conferences" />
-          <MenuItem setNav={setNav} text="اخبار" href="/news" />
+          <MenuItem
+            setNav={setNav}
+            text="همایش ها"
+            href="https://www.sterileonline.com"
+          />
+          <MenuItem setNav={setNav} text="اخبار" href="https://www.imed.ir" />
           <MenuItem setNav={setNav} text="گالری تصاویر" href="/gallery" />
           <MenuItem setNav={setNav} text="درباره ما" href="/about-us" />
           <MenuItem setNav={setNav} text="ارتباط با ما" href="/contact-us" />

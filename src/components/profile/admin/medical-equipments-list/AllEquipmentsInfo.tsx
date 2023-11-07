@@ -175,6 +175,7 @@ const AllEquipmentsInfo = ({
       } else {
         toast.error(res?.message);
       }
+      e.target.value = "";
     };
   };
 

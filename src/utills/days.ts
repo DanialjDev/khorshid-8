@@ -5,7 +5,9 @@ export const getDatesRange = (date_1: Date, date_2: Date) => {
   //   console.log("Now", date_1.getTime());
   //   console.log("Creation", date_2.getTime());
   //   console.log(days);
-  if (days >= 1 && days <= 6) {
+  if (days === 0) {
+    amoutString = "امروز";
+  } else if (days >= 1 && days <= 6) {
     amoutString = `${days} روز پیش`;
   } else if (days >= 7 && days <= 13) {
     amoutString = `۱ هفته پیش`;

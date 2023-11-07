@@ -54,6 +54,7 @@ const SingleProductPage = async () => {
                     <Button
                       padding="lg:px-3 py-2 px-2"
                       fontSize="lg:text-[14px] text-[12px]"
+                      href={`callto:${response.data.orderedByMobileNumber}`}
                       icon={
                         <svg
                           width="20"

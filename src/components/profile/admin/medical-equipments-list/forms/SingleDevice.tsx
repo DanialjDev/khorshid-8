@@ -145,6 +145,7 @@ const SingleDevice = ({
         } else {
           toast.error(res?.message);
         }
+        setFieldValue("imageUrl", "", false);
       } else {
         console.log(formData.get("Categories"));
         const res = await postSingleDevice(formData, Cookies.get("token")!);
@@ -156,6 +157,7 @@ const SingleDevice = ({
         } else {
           toast.error(res?.message);
         }
+        setFieldValue("imageUrl", "", false);
       }
     },
   });
@@ -249,7 +251,7 @@ const SingleDevice = ({
           </div>
         </div>
         {showCategories && (
-          <div className="w-[400px] h-[300px] z-30 transition-all bg-white flex flex-col rounded-[10px] absolute top-[110px] overflow-scroll">
+          <div className="w-[400px] shadow-lg border border-adminFormBorder h-[300px] z-30 transition-all bg-white flex flex-col rounded-[10px] absolute top-[110px] overflow-scroll">
             {deviceCategories?.map((item, index) => (
               <label
                 htmlFor={item.id.toString()}

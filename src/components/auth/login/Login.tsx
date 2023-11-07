@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { loginHandler } from "@/services/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/main/modal/Modal";
 
 const Login = ({
   setIsOpen,
@@ -72,7 +73,10 @@ const Login = ({
         </div>
         <div className="w-full mt-3">
           <FormButton
-            onClick={() => dispatch(authToggler("forgotPassword"))}
+            onClick={() => {
+              dispatch(authToggler("forgotPassword"));
+              setIsOpen(true);
+            }}
             text="فراموشی رمزعبور"
             bg="bg-primaryLight"
             textColor="text-primary"

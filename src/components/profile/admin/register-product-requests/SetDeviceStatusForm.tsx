@@ -54,31 +54,7 @@ const SetDeviceStatusForm = ({
       }
     },
   });
-  // const [img, setImg] = useState<File | null | string>(
-  //   initialValues?.imageUrl ? initialValues.imageUrl : null
-  // );
   const [openModal, setOpenModal] = useState(false);
-
-  // const confirmDevice = async (deviceID: number) => {
-  //   if (Cookies.get("token")) {
-  //     const confirmDeviceRes = await confirmDeviceHandler(
-  //       {
-  //         deviceID,
-  //         removeImage: img ? false : true,
-  //       },
-  //       Cookies.get("token")!
-  //     );
-
-  //     if (confirmDeviceRes?.status === 200) {
-  //       toast.success(confirmDeviceRes.message);
-  //       push("/panel/register-product-requests/");
-  //       refresh();
-  //     } else {
-  //       toast.error(confirmDeviceRes?.message);
-  //     }
-  //   }
-  // };
-  console.log(deviceInitialValues);
 
   const [declinedStateMessage, setDeclinedStateMessage] = useState<
     string | null
@@ -227,7 +203,10 @@ const SetDeviceStatusForm = ({
           />
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="w-full grid grid-cols-2 gap-7">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full grid grid-cols-2 gap-7 pb-7"
+      >
         <div className="col-span-2 md:col-span-1">
           <AuthInput
             name="name"
@@ -298,7 +277,7 @@ const SetDeviceStatusForm = ({
             name="imageUrl"
           />
         </div>
-        <div className="col-span-2 flex flex-col items-stretch md:col-span-1">
+        <div className="col-span-2 flex flex-col justify-between items-stretch md:col-span-1">
           <div className="whitespace-nowrap flex gap-x-4 text-[14px]">
             <Button
               // onClick={() => confirmDevice(initialValues?.deviceId!)}

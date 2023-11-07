@@ -2,12 +2,13 @@
 
 import { getTitle } from "@/utills/getTitle";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
 
 const Breadcrumb = () => {
   const pathname = usePathname();
   const splitedPathname = pathname.split("/");
+  const searchParams = useSearchParams();
   console.log(pathname.split("/"));
   return (
     <div className="bg-[#FCFCFC] flex items-center py-14 text-[#979797]">
@@ -70,8 +71,9 @@ const Breadcrumb = () => {
                 </svg>
               </div>
               <div className="flex justify-center items-center mr-3">
-                {/* @ts-ignore */}
-                <p className="text-dark">{getTitle(splitedPathname[2])}</p>
+                <p className="text-dark">
+                  {searchParams.get("name") && searchParams.get("name")}
+                </p>
               </div>
             </>
           ) : null}

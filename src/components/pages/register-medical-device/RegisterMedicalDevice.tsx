@@ -25,6 +25,7 @@ const RegisterMedicalDevice = ({
   devices: DeviceName[] | undefined;
   userInfo: InitialValues;
 }) => {
+  console.log(userInfo);
   const [initialValues, validationSchema] = useValidation(
     "register-medical-device"
   ) as [InitialValues, ValidationSchemaType];
@@ -82,7 +83,15 @@ const RegisterMedicalDevice = ({
 
   return (
     <div className="w-full flex flex-col bg-[#FCFCFC]">
-      <RegisterForm title="لطفا برای ثبت شرکت خود فرم زیر را تکمیل کنید.">
+      {!userInfo && (
+        <div className="w-full p-3 bg-tableHeadColor rounded-[5px]">
+          <p className="text-black">
+            کاربر گرامی لطفا برای ثبت دستگاه خود ابتدا وارد پروفایل کاربری شوید
+            و سپس اطلاعات کاربری خود را کامل نمایید
+          </p>
+        </div>
+      )}
+      <RegisterForm>
         <div className="w-full grid grid-cols-4 gap-5">
           <div className="xl:col-span-1 md:col-span-2 col-span-4">
             <AuthInput

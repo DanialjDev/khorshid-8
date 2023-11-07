@@ -1,4 +1,4 @@
-import { isMobile } from "@/utills/formatHelper";
+import { isMobile, isNumeric } from "@/utills/formatHelper";
 import { InitialValues, ValidationSchemaType } from "./types";
 import * as Yup from "yup";
 
@@ -67,7 +67,6 @@ const useValidation = (action: Action): ReturnType | undefined => {
   const faxNumber = defaultErrorValidation;
   const website = defaultErrorValidation;
   const address = defaultErrorValidation;
-  const image = Yup.mixed().required("انتخاب عکس الزامی است");
 
   switch (action) {
     case "signup":
@@ -131,7 +130,13 @@ const useValidation = (action: Action): ReturnType | undefined => {
       validationSchema = Yup.object().shape({
         firstName,
         lastName,
-        phoneNumber,
+        phoneNumber: Yup.string()
+          .required("پرکردن این فیلد الزامی است.")
+          .test("isNumeric", "شماره موبایل وارد شده نامعتبر است", (value) => {
+            if (value && value.length > 0) {
+              return isNumeric(value);
+            }
+          }),
         comment,
       });
 

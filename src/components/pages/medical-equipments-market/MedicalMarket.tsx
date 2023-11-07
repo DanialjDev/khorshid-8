@@ -1,14 +1,11 @@
 "use client";
 
-import React, { SetStateAction, useEffect } from "react";
-import { Device, TableData } from "@/services/shop/types";
+import React, { useState } from "react";
+import { TableData } from "@/services/shop/types";
 import ProductItem from "../home-page/ProductItem";
 import CustomRadio from "./CustomRadio";
-import { useState } from "react";
 import { DeviceName } from "@/services/common/types";
 import { filterDevices, getDevices } from "@/services/shop";
-import { toast } from "react-toastify";
-import Button from "@/components/main/button/Button";
 import Pagination from "@/components/main/pagination/Pagination";
 
 const NoDeviceFound = () => (
@@ -51,19 +48,6 @@ const MedicalMarket = ({
     setShowFilterSection(false);
     setSearch("");
   };
-
-  // const onChangeDeviceFilter = async () => {
-  //   deviceCategoriesID?.forEach((item) => {
-  //     categoryBasedUrl += `CategoryIDs=${item}&`;
-  //   });
-  //   console.log(categoryBasedUrl);
-  //   const filteredDevices = await filterDevices(undefined, categoryBasedUrl);
-  //   if (filteredDevices && filteredDevices?.status === 200) {
-  //     setClientDevices(filteredDevices.data);
-  //   } else {
-  //     toast.error(filteredDevices?.message);
-  //   }
-  // };
 
   const updateDevice = async (pageNumber: number) => {
     const updatedDeviceList = await getDevices(pageNumber.toString());
@@ -116,6 +100,7 @@ const MedicalMarket = ({
                   setDeviceCategoriesID([]);
                   setSearch("");
                   setShowFilterSection(false);
+                  setTotalPagesCount(devices?.totalPagesCount);
                 }}
               >
                 حذف فیلترها

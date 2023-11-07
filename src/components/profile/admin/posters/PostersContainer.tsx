@@ -31,7 +31,7 @@ const PostersContainer = ({
         data={homeSideBanners ? homeSideBanners : []}
       >
         {homeSideBanners &&
-          homeSideBanners.map((item, index) => {
+          homeSideBanners.map((item) => {
             // @ts-ignore
             return (
               <div className="sm:col-span-3 col-span-6 md:col-span-2">

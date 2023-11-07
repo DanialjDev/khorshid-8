@@ -7,18 +7,12 @@ import * as Yup from "yup";
 import AuthInput from "@/components/main/input/AuthInput";
 import {
   gregorianIsoToJalaali,
-  isUrl,
   jalaaliToGregorianISO,
 } from "@/utills/formatHelper";
 import Button from "@/components/main/button/Button";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { SingleUniversityData } from "@/services/profile/admin/medical-equipments-list/universities/types";
-import {
-  psotUniversity,
-  updateUniversity,
-} from "@/services/profile/admin/medical-equipments-list/universities";
 import { deleteItems } from "@/services/profile/admin/medical-equipments-list";
 import { SingleEventData } from "@/services/profile/admin/medical-equipments-list/events/types";
 import {
@@ -57,7 +51,7 @@ const SingleEvents = ({
         if (data) {
           const payloadObj = {
             id: data.id,
-            eventDate: jalaaliToGregorianISO(values.eventDate!),
+            eventDate: jalaaliToGregorianISO(values.eventDate!)!,
             eventName: values.eventName,
           };
           console.log(payloadObj);
@@ -74,7 +68,14 @@ const SingleEvents = ({
             toast.error(res?.message);
           }
         } else {
-          const res = await postSingleEvent([values], Cookies.get("token")!);
+          const payloadObj = {
+            eventDate: jalaaliToGregorianISO(values.eventDate!)!,
+            eventName: values.eventName,
+          };
+          const res = await postSingleEvent(
+            [payloadObj],
+            Cookies.get("token")!
+          );
 
           if (res?.status === 200) {
             toast.success(res.message);
@@ -116,7 +117,9 @@ const SingleEvents = ({
           onChange={handleChange}
           handleBlur={handleBlur}
           value={values.eventName}
+          // @ts-ignore
           errors={errors}
+          // @ts-ignore
           touched={touched}
         />
       </div>
@@ -127,8 +130,10 @@ const SingleEvents = ({
           placeholder="آدرس سایت را وارد کنید"
           onChange={handleChange}
           handleBlur={handleBlur}
+          // @ts-ignore
           errors={errors}
           value={values.eventDate!}
+          // @ts-ignore
           touched={touched}
         />
       </div>

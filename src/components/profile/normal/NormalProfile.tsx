@@ -75,6 +75,7 @@ const NormalProfile = ({
       setTableData(newTableData.data.data);
     }
   };
+  console.log(tableData);
 
   return (
     <div className="w-full flex flex-col">
@@ -249,8 +250,18 @@ const NormalProfile = ({
                 color="text-redColor"
                 border="border border-redColor"
                 onClick={() => {
-                  Cookies.remove("token");
-                  Cookies.remove("userInfo");
+                  Cookies.remove("token", {
+                    expires: 1 / 6,
+                    path: "/",
+                    secure: false,
+                    sameSite: "Lax",
+                  });
+                  Cookies.remove("userInfo", {
+                    expires: 1 / 6,
+                    path: "/",
+                    secure: false,
+                    sameSite: "Lax",
+                  });
 
                   push("/");
                 }}
@@ -321,16 +332,22 @@ const NormalProfile = ({
                       </span>
                     </td>
                     <td className="whitespace-nowrap p-4 text-[14px]">
-                      <Link
-                        className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
-                        target="_blank"
-                        href={item.imageUrl || ""}
-                      >
-                        مشاهده تصویر
-                      </Link>
+                      {item.imageUrl ? (
+                        <Link
+                          className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full underline"
+                          target="_blank"
+                          href={item.imageUrl}
+                        >
+                          مشاهده تصویر
+                        </Link>
+                      ) : (
+                        <span className="w-fit bg-primaryLight text-primaryDark px-2 py-1 rounded-full">
+                          تصویری برای این دستگاه ثبت نشده است
+                        </span>
+                      )}
                     </td>
                     <td className="whitespace-nowrap p-4 text-[14px]">
-                      {item.stateCode ? (
+                      {item.stateCode === 1 ? (
                         <svg
                           width="24"
                           height="24"
@@ -355,7 +372,7 @@ const NormalProfile = ({
                             stroke-linejoin="round"
                           />
                         </svg>
-                      ) : (
+                      ) : item.stateCode === -1 ? (
                         <svg
                           width="22"
                           height="22"
@@ -383,6 +400,28 @@ const NormalProfile = ({
                             stroke-width="1.5"
                             stroke-linecap="round"
                             stroke-linejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="24"
+                          height="28"
+                          viewBox="0 0 24 28"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 23C17.5 23 22 18.5 22 13C22 7.5 17.5 3 12 3C6.5 3 2 7.5 2 13C2 18.5 6.5 23 12 23Z"
+                            fill="#2C9CF0"
+                            fill-opacity="0.15"
+                            stroke="#2C9CF0"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M11.52 14.588V14.384C11.52 14.152 11.496 13.956 11.448 13.796C11.4 13.628 11.308 13.46 11.172 13.292C11.036 13.124 10.832 12.928 10.56 12.704C10.272 12.464 10.02 12.24 9.804 12.032C9.596 11.816 9.432 11.584 9.312 11.336C9.2 11.08 9.144 10.772 9.144 10.412C9.144 9.764 9.352 9.252 9.768 8.876C10.184 8.5 10.772 8.312 11.532 8.312C12.012 8.312 12.444 8.368 12.828 8.48C13.22 8.592 13.576 8.732 13.896 8.9L13.524 9.74C13.252 9.604 12.964 9.488 12.66 9.392C12.356 9.288 12.004 9.236 11.604 9.236C11.14 9.236 10.78 9.34 10.524 9.548C10.276 9.756 10.152 10.052 10.152 10.436C10.152 10.676 10.188 10.88 10.26 11.048C10.332 11.216 10.456 11.388 10.632 11.564C10.808 11.74 11.048 11.96 11.352 12.224C11.616 12.44 11.82 12.648 11.964 12.848C12.108 13.048 12.208 13.26 12.264 13.484C12.328 13.7 12.36 13.96 12.36 14.264V14.588H11.52ZM11.892 17.168C11.692 17.168 11.52 17.104 11.376 16.976C11.232 16.848 11.16 16.64 11.16 16.352C11.16 16.056 11.232 15.848 11.376 15.728C11.52 15.608 11.692 15.548 11.892 15.548C12.108 15.548 12.284 15.608 12.42 15.728C12.564 15.848 12.636 16.056 12.636 16.352C12.636 16.64 12.564 16.848 12.42 16.976C12.284 17.104 12.108 17.168 11.892 17.168Z"
+                            fill="#2C9CF0"
                           />
                         </svg>
                       )}

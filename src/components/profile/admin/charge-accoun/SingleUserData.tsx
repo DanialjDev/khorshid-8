@@ -135,7 +135,7 @@ const SingleUserData = ({
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <UpdateDeviceNumberModal />
+        <UpdateDeviceNumberModal setIsOpen={setIsOpen} />
       </Modal>
     </div>
   );

@@ -60,9 +60,10 @@ const MedicalSection = ({
 
     if (sectionName === "GetHospotals") {
       const states = await getStates();
-      const stateId = states?.data.filter(
-        (item) => item.stateName === filterValue
-      )[0].id;
+      const stateId =
+        states &&
+        states?.data &&
+        states?.data.filter((item) => item.stateName === filterValue)[0].id;
       if (stateId) {
         // @ts-ignore
         filterValue = stateId;
@@ -113,7 +114,10 @@ const MedicalSection = ({
                   <CustomSelect
                     selected={selected}
                     setSelected={setSelected}
-                    items={headers}
+                    items={headers.filter(
+                      (item) =>
+                        item.value !== "CityID" && item.value !== "CityId"
+                    )}
                   />
                 </div>
                 <div className="md:col-span-1 col-span-2 h-full">
