@@ -94,7 +94,6 @@ const SingleUserDevice = ({
       formData.append("Image", values.imageUrl);
       // @ts-ignore
       formData.append("IsImageChangedOrDeleted", isImgChanged);
-      console.log(formData.get("IsImageChangedOrDeleted"));
       const updateUserDeviceRes = await updateUserDevice(
         formData,
         Cookies.get("token")!

@@ -66,7 +66,6 @@ export const getSectionsData = async (
         pageNumber ? pageNumber : 1
       }${filterUrl}`
     );
-    console.log(data);
     if (status === 200) {
       return {
         data: data.object.data,
@@ -76,7 +75,6 @@ export const getSectionsData = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.data.errors.EventDate[0]) {
         return {

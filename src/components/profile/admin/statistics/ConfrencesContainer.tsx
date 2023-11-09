@@ -42,10 +42,8 @@ const ConfrencesContainer = ({
       conferenceId,
       Cookies.get("token")!
     );
-    // console.log(singleConfrenceRes);
     if (singleConfrenceRes?.confrence) {
       setSingleConfrence(singleConfrenceRes.confrence);
-      console.log(singleConfrence);
     }
   };
   const {

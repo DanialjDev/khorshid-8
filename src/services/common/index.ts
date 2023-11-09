@@ -83,10 +83,7 @@ export const postPageView = async (path: string) => {
         path,
       })
     );
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // get cities by ID

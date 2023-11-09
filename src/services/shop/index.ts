@@ -24,7 +24,6 @@ export const getDevices = async (
       baseUrl = `${baseUrl}&PageNumber=${pageNumber}`;
     }
     const { data, status } = await get<ShopDevices>(baseUrl);
-    console.log(data);
 
     if (status === 200) {
       return {
@@ -75,7 +74,6 @@ export const filterDevices = async (
       reqUrl = `${reqUrl}&PageNumber=${pageNumber}`;
     }
     const { data, status } = await get<ShopDevices>(reqUrl);
-    console.log(data);
     if (status === 200) {
       return {
         status,
@@ -83,7 +81,6 @@ export const filterDevices = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

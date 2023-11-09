@@ -25,7 +25,6 @@ export const getMedicalEquipments = async (
   }`;
   if (searchValue) {
     reqUrl += `${searchValue}`;
-    console.log(reqUrl);
   }
   try {
     const { data, status } = await get<ReturnType>(reqUrl, {
@@ -39,7 +38,6 @@ export const getMedicalEquipments = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.data.errors.EventDate[0]) {
         return {
@@ -177,7 +175,6 @@ export const getAllMedicalEquipments = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.data.errors.EventDate[0]) {
         return {

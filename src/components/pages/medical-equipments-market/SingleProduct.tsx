@@ -15,11 +15,9 @@ import ProductItem from "../home-page/ProductItem";
 
 const SingleProductPage = async () => {
   const deviceId = useSearchParams().get("id")!;
-  console.log(deviceId);
   const response = await getSingleDevice(deviceId);
   const relatedProducts = await getHomePageDevies();
 
-  console.log();
   return (
     <>
       {!response?.data ? (

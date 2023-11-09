@@ -27,7 +27,6 @@ export const getProfileCompanyData = async (
   action?: string
 ): Promise<ReturnType | undefined> => {
   try {
-    console.log("Cookie", token);
     const { data, status } = await get<CompanyData>(
       "Profile/GetProfileCompanyData",
       {
@@ -77,7 +76,6 @@ export const getProfileCompanyData = async (
       }
     }
   } catch (error) {
-    // console.log(error);
     if (isAxiosError(error)) {
       return {
         status: error.response?.status,
@@ -121,7 +119,6 @@ export const updateProfileCompanyData = async (
         })
       );
       Cookies.set("userInfo", encryptedData, { expires: 1 / 6 });
-      console.log(data);
       return {
         status,
         message: data.message,
@@ -157,7 +154,6 @@ export const postProfileDevice = async (
         },
       }
     );
-    console.log(data);
 
     if (status === 200) {
       return {
@@ -167,18 +163,14 @@ export const postProfileDevice = async (
     }
   } catch (error) {
     if (isAxiosError(error)) {
-      console.log(error);
       if (error.response?.status === 409) {
-        // console.log("sfsdf");
         // if (error.response?.status === 409) {
-        console.log("sfsdf");
         return {
           message: error.response.data.message,
         };
         // }
       }
       if (error.response?.data.errors.CategoryIDs) {
-        console.log("sdfsdf");
         return {
           message: "لطفا نوع دستگاه خود را انتخاب کنید",
         };
@@ -209,7 +201,6 @@ export const getUserRegisteredDevices = async (
     );
 
     if (status === 200) {
-      console.log(data);
       return {
         data: data.object,
         totalPageContain: data.object.totalPagesCount,

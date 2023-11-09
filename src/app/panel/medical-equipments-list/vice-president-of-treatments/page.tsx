@@ -9,7 +9,6 @@ const VicePresidentOfTreatments = async () => {
     1,
     cookies().get("token")?.value
   );
-  console.log(devices?.payload);
   return (
     <div className="w-full flex flex-col">
       <AllEquipmentsInfo
@@ -20,7 +19,7 @@ const VicePresidentOfTreatments = async () => {
         removeUrl="RemoveVicePresidentsOfTreatments"
         title=" تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی"
         desc="شما می توانید مشخصات تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی  ( کتاب ) را در اینجا مشاهده کنید."
-        postListUrl='PostVicePresidentsOfTreatments'
+        postListUrl="PostVicePresidentsOfTreatments"
       />
     </div>
   );

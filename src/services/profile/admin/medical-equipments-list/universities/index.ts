@@ -27,7 +27,6 @@ export const getSingleUniversity = async (
       };
     }
   } catch (error) {
-    console.log(error);
     return {
       payload: null,
     };

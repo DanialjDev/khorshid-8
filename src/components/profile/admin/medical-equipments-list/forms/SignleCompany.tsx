@@ -10,11 +10,6 @@ import Button from "@/components/main/button/Button";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { SingleUniversityData } from "@/services/profile/admin/medical-equipments-list/universities/types";
-import {
-  psotUniversity,
-  updateUniversity,
-} from "@/services/profile/admin/medical-equipments-list/universities";
 import { deleteItems } from "@/services/profile/admin/medical-equipments-list";
 import { SingleCompanyData } from "@/services/profile/admin/medical-equipments-list/company/types";
 import AuthSelect from "@/components/main/input/AuthSelect";
@@ -67,7 +62,6 @@ const SingleCompany = ({
           }),
       }),
       onSubmit: async (values) => {
-        console.log(values);
         if (data) {
           const payloadObj = {
             companyId: data.companyId,

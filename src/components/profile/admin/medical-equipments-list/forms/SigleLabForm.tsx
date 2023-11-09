@@ -66,7 +66,6 @@ const SigleLabForm = ({
             [{ ...values }],
             Cookies.get("token")!
           );
-          console.log(postLab);
           if (postLab) {
             if (postLab.status === 200) {
               toast.success(postLab.message);

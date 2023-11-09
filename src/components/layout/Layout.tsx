@@ -7,7 +7,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { usePathname } from "next/navigation";
 
-const MainLayout = ({ children }: { children: ReactNode }) => {
+const MainLayout = ({
+  children,
+  galleryItems,
+}: {
+  children: ReactNode;
+  galleryItems: GalleryItem[] | null;
+}) => {
+  console.log(galleryItems);
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const { authAction } = useAppSelector((state) => state.auth);
@@ -37,7 +44,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       >
         {children}
       </div>
-      {!pathname.includes("panel") && <Footer />}
+      {!pathname.includes("panel") && <Footer galleryItems={galleryItems} />}
     </div>
   );
 };

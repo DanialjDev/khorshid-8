@@ -11,7 +11,6 @@ const SingleHospitalPage = async ({ params }: { params: { id: string } }) => {
   );
   const iranStates = await getStates();
 
-  console.log(singleHospitalData);
   return (
     <SingleHospital
       data={singleHospitalData?.payload ? singleHospitalData.payload : null}

@@ -18,7 +18,6 @@ const SingleUserAccount = async ({
   const token = cookies().get("token")?.value;
   const userInfo = await getSingleUserInfo(searchParams?.userId!, token!);
   const userDevices = await getSingleUserDevices(searchParams?.userId!, token!);
-  console.log(userInfo);
   return (
     <div className="w-full flex flex-col">
       <SingleUserData

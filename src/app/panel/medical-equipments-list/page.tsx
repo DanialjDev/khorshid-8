@@ -7,7 +7,6 @@ import React from "react";
 
 const MedicalEquipmentsList = async () => {
   const response = await getPanelPosters(cookies().get("token")?.value!);
-  console.log(response);
   return (
     <div className="w-full flex flex-col">
       <PageTitle

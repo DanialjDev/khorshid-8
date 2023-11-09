@@ -19,6 +19,7 @@ export const getGalleryPhotos = async (): Promise<ReturnType | undefined> => {
       };
     }
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

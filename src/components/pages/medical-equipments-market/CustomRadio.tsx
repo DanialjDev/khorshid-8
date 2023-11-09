@@ -9,26 +9,15 @@ const CustomRadio = ({
   id,
   title,
   deviceCategoriesID,
-  // setDeviceCategoriesID,
-  // setClientDevices,
   onChange,
-}: // onClick,
-{
+}: {
   id: string;
   title: string;
   deviceCategoriesID: string[];
-  // setDeviceCategoriesID: React.Dispatch<React.SetStateAction<string[]>>;
-  // setClientDevices: React.Dispatch<
-  //   React.SetStateAction<Device[] | null | undefined>
-  // >;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
-  // onClick: () => void;
 }) => {
   return (
-    <div
-      className="flex items-center my-3"
-      // onClick={() => console.log(deviceCategoriesID)}
-    >
+    <div className="flex items-center my-3">
       <input
         id={id}
         name={id}

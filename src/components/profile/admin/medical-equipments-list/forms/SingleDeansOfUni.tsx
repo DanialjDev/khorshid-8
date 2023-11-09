@@ -74,7 +74,6 @@ const SingleDeansOfUniForm = ({
         const cityId = cityItems.filter(
           (item) => item.name === values.cityName
         )[0].value;
-        console.log();
         if (data) {
           const payloadObj = {
             id: data.id,
@@ -90,7 +89,6 @@ const SingleDeansOfUniForm = ({
             toast.warning("لطفا نام شهرستان را نتخاب کنید");
             return;
           }
-          console.log(payloadObj);
           const res = await updateSingleDeanOfUni(
             payloadObj!,
             Cookies.get("token")!
@@ -205,9 +203,6 @@ const SingleDeansOfUniForm = ({
           disabled={selectedState === ""}
           onChange={(e) => {
             handleChange(e);
-            console.log(
-              cityItems.filter((item) => item.name === e.target.value)[0]
-            );
           }}
           error={errors.cityName && cityId === undefined ? errors.cityName : ""}
           value={values.cityName}

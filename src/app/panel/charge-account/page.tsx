@@ -7,7 +7,6 @@ import React from "react";
 const ChargeAccount = async () => {
   const token = cookies().get("token")?.value;
   const response = await getUsersAccounts(token!);
-  console.log(response);
   return (
     <div className="w-full flex flex-col">
       <PageTitle

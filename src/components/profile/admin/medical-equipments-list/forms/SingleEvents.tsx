@@ -54,7 +54,6 @@ const SingleEvents = ({
             eventDate: jalaaliToGregorianISO(values.eventDate!)!,
             eventName: values.eventName,
           };
-          console.log(payloadObj);
           const res = await updateSingleEvent(
             payloadObj,
             Cookies.get("token")!

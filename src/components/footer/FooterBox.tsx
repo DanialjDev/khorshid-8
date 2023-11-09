@@ -3,15 +3,17 @@ import React, { ReactNode } from "react";
 const FooterBox = ({
   title,
   children,
-  width,
+  margin,
 }: {
   title: string;
   children: ReactNode;
-  width?: string;
+  margin?: string;
 }) => {
   return (
     <div
-      className={`w-full xl:col-span-1 md:col-span-2 col-span-4 flex flex-col items-center md:border-none border-b border-gray md:pb-0 pb-5`}
+      className={`w-full ${
+        margin ? margin : ""
+      } xl:col-span-1 md:col-span-2 col-span-4 flex flex-col items-center md:border-none border-b border-gray md:pb-0 pb-5`}
     >
       <div className="w-full">
         <p className="text-white text-[19px]">{title}</p>

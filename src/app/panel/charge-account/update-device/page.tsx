@@ -16,7 +16,6 @@ const UpdateUserDevice = async ({
     searchParams?.deviceId!,
     token!
   );
-  console.log("device", userAcceptedDevice?.data);
   return (
     <div className="w-full flex flex-col">
       <PageTitle

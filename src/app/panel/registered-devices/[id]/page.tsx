@@ -16,7 +16,6 @@ const UpdateRegisteredDevice = async ({
     Number(params?.id),
     cookies().get("token")?.value!
   );
-  console.log(singleDeviceRes);
   const simpleCompanies = await getCompanies();
   const devicCategories = await getDeviceCategories();
 

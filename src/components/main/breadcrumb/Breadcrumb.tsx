@@ -9,7 +9,6 @@ const Breadcrumb = () => {
   const pathname = usePathname();
   const splitedPathname = pathname.split("/");
   const searchParams = useSearchParams();
-  console.log(pathname.split("/"));
   return (
     <div className="bg-[#FCFCFC] flex items-center py-14 text-[#979797]">
       <div className="flex items-center text-[12px]">

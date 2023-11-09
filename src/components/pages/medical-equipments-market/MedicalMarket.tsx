@@ -44,7 +44,6 @@ const MedicalMarket = ({
       setClientDevices(filteredDevices.data);
       setTotalPagesCount(filteredDevices.data?.totalPagesCount);
     }
-    console.log(filteredDevices);
     setShowFilterSection(false);
     setSearch("");
   };

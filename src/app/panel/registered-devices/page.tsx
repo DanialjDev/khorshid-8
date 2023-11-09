@@ -13,7 +13,6 @@ const RegisteredDevices = async () => {
   const regesteredDevices = await getRegisteredDevices(
     cookies().get("token")?.value!
   );
-  console.log(regesteredDevices?.data);
 
   return (
     <div className="w-full flex flex-col">

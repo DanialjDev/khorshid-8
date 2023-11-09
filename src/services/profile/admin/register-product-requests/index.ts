@@ -142,7 +142,6 @@ export const declineDeviceHandler = async (
         message: data.message,
       };
     }
-    console.log(data);
   } catch (error) {
     if (isAxiosError(error)) {
       return {

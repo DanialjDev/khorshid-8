@@ -68,10 +68,7 @@ export default function CustomSelect({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options
-              onChange={(e) => console.log("sfsfsdf")}
-              className="absolute border border-inputBorder rounded-lg h-[200px] top-14 z-40 overflow-scroll mt-1 max-h-60 w-full bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
-            >
+            <Listbox.Options className="absolute border border-inputBorder rounded-lg h-[200px] top-14 z-40 overflow-scroll mt-1 max-h-60 w-full bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
               {items.map((title, index) => (
                 <>
                   {title.value !== "" ? (

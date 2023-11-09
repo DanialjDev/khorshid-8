@@ -49,7 +49,6 @@ const ImageInput = ({
           onChange={(e) => {
             if (e.target.files !== null) {
               setFieldValue(name, e.target.files[0], true);
-              console.log(value);
             }
             if (setIsImgChanged) {
               setIsImgChanged(true);
@@ -112,7 +111,6 @@ const ImageInput = ({
               <Button
                 onClick={() => {
                   setFieldValue(name, "", true);
-                  console.log(value);
                   if (setIsImgChanged) {
                     setIsImgChanged(true);
                   }

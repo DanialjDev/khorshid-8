@@ -29,7 +29,6 @@ export const getRegisteredDevices = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

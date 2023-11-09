@@ -25,7 +25,6 @@ export const getSingleLab = async (
         },
       }
     );
-    console.log(data);
 
     if (status === 200) {
       return {

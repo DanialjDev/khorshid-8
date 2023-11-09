@@ -13,7 +13,6 @@ import {
   UsersObj,
 } from "./types";
 import { isAxiosError } from "axios";
-import { PanelInitialValues } from "@/utills/validation/panel/types";
 
 type UserAccountsRturnType = {
   data?: UsersObj;
@@ -40,13 +39,11 @@ export const getUsersAccounts = async (
       },
     });
     if (status === 200) {
-      console.log(data);
       return {
         data: data.object,
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
@@ -218,7 +215,6 @@ export const updateUserDevice = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,

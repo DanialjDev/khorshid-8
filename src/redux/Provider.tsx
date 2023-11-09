@@ -10,7 +10,13 @@ import MainLayout from "@/components/layout/Layout";
 import ImageModal from "@/components/pages/home-page/ImageModal";
 import { ToastContainer } from "react-toastify";
 
-const ReduxProvider = ({ children }: { children: ReactNode }) => {
+const ReduxProvider = ({
+  children,
+  galleryItems,
+}: {
+  children: ReactNode;
+  galleryItems: GalleryItem[] | null;
+}) => {
   const pathname = usePathname();
 
   return (
@@ -18,7 +24,7 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
       <div className="w-full relative no-scrollbar">
         {!pathname.includes("panel") && <Navbar />}
         <div className="w-full h-full">
-          <MainLayout>
+          <MainLayout galleryItems={galleryItems}>
             {pathname !== "/" && !pathname.includes("panel") && <Breadcrumb />}
             {children}
           </MainLayout>

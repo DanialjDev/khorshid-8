@@ -220,7 +220,6 @@ export const getExcelTitles = (action: EndPoints) => {
 export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
   switch (action) {
     case "GetDevices":
-      console.log(data);
       // @ts-ignore
       data.forEach((item) => {
         targetArray.push([

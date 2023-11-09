@@ -11,7 +11,6 @@ type ReturnType = {
 export const contactUsPost = async (
   userData: InitialValues
 ): Promise<ReturnType | undefined> => {
-  console.log(userData);
   try {
     const { status, data } = await post<ContactUsResponse>(
       "Common/PostConsulation",
@@ -24,7 +23,6 @@ export const contactUsPost = async (
       };
     }
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.data) {
         return {

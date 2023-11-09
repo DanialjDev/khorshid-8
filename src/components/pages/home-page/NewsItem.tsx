@@ -30,7 +30,7 @@ const NewsItem = ({
       <div className="w-[90%] flex flex-col p-4 bg-white shadow-md absolute xl:top-[55%] md:top-[70%] top-[85%] rounded-lg">
         <p className="text-[14px]">{title}</p>
         <p className="text-[#898989] my-4 text-[12px]">{description}</p>
-        <div className="w-full flex justify-between items-center rounded-br-3xl rounded-bl-3xl bg-[#F9F9F9] p-2">
+        <div className="w-full flex justify-between items-center rounded-br-[4px] rounded-bl-[4px] bg-[#F9F9F9] p-2">
           <div className="flex items-center mr-2">
             <svg
               width="16"

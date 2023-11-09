@@ -17,7 +17,6 @@ export const getSingleHospital = async (
         },
       }
     );
-    console.log(res);
 
     if (res.status === 200) {
       return {
@@ -25,7 +24,6 @@ export const getSingleHospital = async (
       };
     }
   } catch (error) {
-    console.log(error);
     return {
       payload: null,
     };

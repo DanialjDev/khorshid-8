@@ -5,11 +5,9 @@ import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import AuthInput from "@/components/main/input/AuthInput";
 import { SingleDeviceData } from "@/services/profile/admin/medical-equipments-list/types";
 import { useFormik } from "formik";
-import AuthSelect from "@/components/main/input/AuthSelect";
 import { DeviceName, SingleCompany } from "@/services/common/types";
 import * as Yup from "yup";
 import Button from "@/components/main/button/Button";
-import { isMobile, isNumeric, isUrl } from "@/utills/formatHelper";
 import { companyFormat } from "@/utills/filterHelper";
 import CustomSelect from "@/components/main/input/CustomSelect";
 import { getSingleCompany } from "@/services/profile/admin/medical-equipments-list/company";
@@ -61,7 +59,6 @@ const SingleDevice = ({
     address: singleDeviceData?.address ? singleDeviceData.address : "",
     website: singleDeviceData?.website ? singleDeviceData.address : "",
   });
-  console.log(companyData);
   const changeCompanyInfo = async (companyId: number) => {
     const singleCompany = await getSingleCompany(
       companyId.toString(),
@@ -147,7 +144,6 @@ const SingleDevice = ({
         }
         setFieldValue("imageUrl", "", false);
       } else {
-        console.log(formData.get("Categories"));
         const res = await postSingleDevice(formData, Cookies.get("token")!);
 
         if (res?.status === 200) {

@@ -9,7 +9,6 @@ const SingleUniversityPage = async ({ params }: { params: { id: string } }) => {
     cookies().get("token")?.value!
   );
 
-  console.log(singleUniversity);
   return (
     <SingleUniversity
       title="سایت دانشگاه های علوم پزشکی"

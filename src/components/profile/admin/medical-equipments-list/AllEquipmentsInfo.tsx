@@ -154,7 +154,6 @@ const AllEquipmentsInfo = ({
       const parsedData = XLSX.utils.sheet_to_json(sheet);
 
       const convertedData = generateData(parsedData, url);
-      console.log(convertedData);
       const res = await postListData(
         convertedData,
         Cookies.get("token")!,
@@ -184,7 +183,6 @@ const AllEquipmentsInfo = ({
     const tableData = getExcelTitles(url);
     const dataArray = [tableData];
     const excelData = jsonToExcel(getAllInof?.payload?.data, dataArray, url);
-    // console.log(excelData);
 
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet(excelData);

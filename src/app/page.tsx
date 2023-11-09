@@ -19,16 +19,11 @@ import BlueSquare from "../../public/assets/images/home-page/blue-square.svg";
 import { getHomePageDate, getHomePageDevies } from "@/services/homePage";
 import Conferences from "@/components/pages/home-page/ConferenceSection";
 import Link from "next/link";
-import TableBodyData from "@/components/pages/medical-equipments-list/TableBodyData";
-import { HomeDevice } from "@/services/homePage/types";
-import { cookies } from "next/headers";
-import { toast } from "react-toastify";
 import RegisterMedicalDevice from "@/components/pages/home-page/RegisterMedicalDevice";
 
 export default async function Home() {
   const homePageDate = await getHomePageDate();
   const homePageDevices = await getHomePageDevies("7");
-  console.log(homePageDate?.conferences);
   return (
     <div className={`w-full`}>
       <div className="w-full">

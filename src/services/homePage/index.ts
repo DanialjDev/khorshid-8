@@ -10,9 +10,7 @@ export const getHomePageDate = async () => {
     if (status === 200) {
       return data.object;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Get Home‌ Page Devices
@@ -30,7 +28,5 @@ export const getHomePageDevies = async (
     if (status === 200) {
       return data.object.data;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

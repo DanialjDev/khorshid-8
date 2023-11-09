@@ -9,7 +9,6 @@ const SingleLab = async ({ params }: { params: { id: string } }) => {
     params.id,
     cookies().get("token")?.value!
   );
-  //   console.log(singleLabData);
   return (
     <SigleLabForm
       title="اداره امور آزمایشگاه ها"

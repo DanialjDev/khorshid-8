@@ -1,25 +1,11 @@
 import { DeviceName } from "@/services/common/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const SelectBox = ({
   categories,
-  //   selectedCategories,
-  //   setSelectedCategories,
   onChange,
 }: {
   categories: DeviceName[];
-  //   selectedCategories: {
-  //     categoryName: string;
-  //     id: number;
-  //   }[];
-  //   setSelectedCategories: React.Dispatch<
-  //     React.SetStateAction<
-  //       {
-  //         categoryName: string;
-  //         id: number;
-  //       }[]
-  //     >
-  //   >;
   onChange?: () => Promise<void>;
 }) => {
   const [showCategories, setShowCategories] = useState(false);
@@ -35,10 +21,8 @@ const SelectBox = ({
         selectedCategories.filter((state) => state.id !== item.id)
       );
     }
-    console.log(selectedCategories);
   };
 
-  useEffect(() => {}, []);
   return (
     <>
       <div

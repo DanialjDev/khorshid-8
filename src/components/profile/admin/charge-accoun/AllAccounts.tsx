@@ -21,7 +21,6 @@ const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
     if (token) {
       const filteredData = await getUsersAccounts(token, searchInput);
       if (filteredData?.data) {
-        console.log(filteredData);
         setUserData(filteredData.data);
         return;
       } else {

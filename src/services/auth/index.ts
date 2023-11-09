@@ -21,7 +21,6 @@ export const signupHandler = async (
       JSON.stringify(userData)
     );
     if (status === 200) {
-      console.log(data);
       if (data.object?.authData?.token) {
         Cookies.set("token", data.object?.authData?.token, {
           expires: 1 / 6,
@@ -78,7 +77,6 @@ export const loginHandler = async (
       }
     );
     if (status === 200) {
-      console.log(data);
       if (data.object?.authData?.token) {
         Cookies.set("token", data.object?.authData?.token, {
           expires: 1 / 6,

@@ -12,7 +12,6 @@ const DeansOfUniversities = async () => {
     undefined
   );
   const states = await getStates();
-  console.log(getDeansOfUni);
   return (
     <AllEquipmentsInfo
       deviceInfo={getDeansOfUni?.payload ? getDeansOfUni.payload : null}

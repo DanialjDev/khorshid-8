@@ -8,7 +8,6 @@ import {
 } from "@/services/profile/user";
 
 const ProfilePage = async () => {
-  console.log("user cookie", cookies().get("token")?.value);
   const response = await getProfileCompanyData(cookies().get("token")?.value!);
   const userDevices = await getUserRegisteredDevices(
     cookies().get("token")?.value!

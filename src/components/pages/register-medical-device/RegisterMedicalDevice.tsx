@@ -25,7 +25,6 @@ const RegisterMedicalDevice = ({
   devices: DeviceName[] | undefined;
   userInfo: InitialValues;
 }) => {
-  console.log(userInfo);
   const [initialValues, validationSchema] = useValidation(
     "register-medical-device"
   ) as [InitialValues, ValidationSchemaType];

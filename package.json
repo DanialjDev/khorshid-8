@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": " node server.js",
+    "lint": "next lint",
+    "tree-install": "npm i --legacy-peer-deps"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

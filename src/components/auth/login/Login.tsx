@@ -30,7 +30,6 @@ const Login = ({
             toast.success(response.message);
             dispatch(setIsLoggedIn(true));
             setTimeout(() => {
-              // dispatch(authToggler(""));
               setIsOpen(false);
               refresh();
             }, 1500);

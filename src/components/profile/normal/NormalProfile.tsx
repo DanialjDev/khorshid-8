@@ -75,7 +75,6 @@ const NormalProfile = ({
       setTableData(newTableData.data.data);
     }
   };
-  console.log(tableData);
 
   return (
     <div className="w-full flex flex-col">

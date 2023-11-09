@@ -16,7 +16,6 @@ const RegisterMedicalDevicePage = async () => {
     cookies().get("token")?.value!,
     "registerDevice"
   );
-  console.log("managerInfo", managerInfo);
   return (
     <RegisterMedicalDevice
       // @ts-ignore

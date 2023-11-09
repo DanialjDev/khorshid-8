@@ -49,7 +49,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
           // @ts-ignore
           address: values.address,
         };
-        console.log(data);
         const response = await updateProfileCompanyData(data);
         if (response?.message) {
           if (response?.status === 200) {

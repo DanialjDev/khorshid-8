@@ -9,7 +9,7 @@ import FooterIcons from "./FooterIcons";
 import Link from "next/link";
 import { getGalleryPhotos } from "@/services/gallery";
 
-const Footer = () => {
+const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
   const [gallery, setGallery] = useState<GalleryItem[] | null>(null);
   const scrollTopHandler = () => {
     window.scrollTo({
@@ -17,16 +17,6 @@ const Footer = () => {
       behavior: "smooth",
     });
   };
-
-  useEffect(() => {
-    getGalleryPhotos()
-      .then((res) => {
-        if (res?.status === 200) {
-          setGallery(res.data!);
-        }
-      })
-      .catch((err) => setGallery(null));
-  }, []);
 
   return (
     <div className="w-full flex flex-col">
@@ -154,7 +144,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Fotter Section */}
-        <div className="w-full grid grid-cols-4 gap-4 lg:gap-12 !justify-between mt-8">
+        <div className="w-full grid grid-cols-3 gap-4 lg:gap-12 !justify-between mt-8">
           <FooterBox title="همه روزه ۲۴ ساعته همراه شما هستیم">
             <div className="w-full flex flex-col text-[18px]">
               <div className="w-full flex items-center mb-5">
@@ -179,7 +169,10 @@ const Footer = () => {
                     </svg>
                   }
                 />
-                <p className="mr-5 text-white-gray">0900 - 555 - 888</p>
+                <div className="mr-5 flex items-center text-white-gray">
+                  <p>021-77653700</p>
+                  <p className="mr-4">021-77653701-3</p>
+                </div>
               </div>
               <div className="w-full flex items-center mb-5">
                 <FooterIcons
@@ -249,7 +242,7 @@ const Footer = () => {
               </div>
             </div>
           </FooterBox>
-          <FooterBox title="مقالات">
+          {/* <FooterBox title="مقالات">
             <div className="w-full flex flex-col">
               <div className="w-full flex flex-col ">
                 <p className="text-white text-[17px]">
@@ -284,35 +277,53 @@ const Footer = () => {
                 </p>
               </div>
             </div>
-          </FooterBox>
+          </FooterBox> */}
           <FooterBox title="گالری تصاویر">
             <div className="w-[80%] grid grid-cols-2 gap-3">
-              {gallery &&
-                gallery.map((item) => (
-                  <div className="w-full col-span-1 bg-white rounded-xl h-[120px] ">
-                    <Image
-                      width={100}
-                      height={100}
-                      src={item.imageUrl}
-                      alt="گاری تصویر"
-                    />
-                  </div>
-                ))}
+              {galleryItems &&
+                galleryItems.map((item, index) => {
+                  if (index > 3) {
+                    return;
+                  }
+                  return (
+                    <div
+                      className="w-full col-span-1 rounded-xl h-[120px]"
+                      key={item.id}
+                    >
+                      <Image
+                        width={200}
+                        height={200}
+                        src={item.imageUrl}
+                        alt="گاری تصویر"
+                        objectFit="cover"
+                      />
+                    </div>
+                  );
+                })}
             </div>
           </FooterBox>
-          <FooterBox title="لینک های مفید">
+          <FooterBox title="لینک های مفید" margin="mr-[100px]">
             <div className="w-full flex flex-col justify-between h-[200px]">
               <Link className="text-white-gray text-[17px]" href={"/about-us"}>
                 درباره ما
               </Link>
-              <Link className="text-white-gray text-[17px]" href={"/about-us"}>
+              <Link
+                className="text-white-gray text-[17px]"
+                href={"/contact-us"}
+              >
                 تماس با ما
               </Link>
-              <Link className="text-white-gray text-[17px]" href={"/about-us"}>
+              <Link
+                className="text-white-gray text-[17px]"
+                href={"https://www.imed.ir"}
+              >
                 اخبار
               </Link>
-              <Link className="text-white-gray text-[17px]" href={"/about-us"}>
-                مقالات
+              <Link
+                className="text-white-gray text-[17px]"
+                href={"/medical-equipments-list?name=GetDevices"}
+              >
+                لیست تجهیزات پزشکی
               </Link>
             </div>
           </FooterBox>

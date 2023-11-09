@@ -1,7 +1,5 @@
-import Image from "next/image";
 import React from "react";
 
-import Button from "@/components/main/button/Button";
 import NotFoundContainer from "@/components/pages/not-found/NotFoundContainer";
 
 const NotFound = () => {

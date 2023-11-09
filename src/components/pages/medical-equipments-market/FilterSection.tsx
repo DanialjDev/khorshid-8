@@ -8,7 +8,6 @@ const FilterSection = () => {
   const onSearch = async (searchString: string) => {
     setTimeout(async () => {
       const res = await getDevices(searchString);
-      console.log("device by search", res);
     }, 1000);
   };
   return (

@@ -12,7 +12,6 @@ const SingleDeansOfUniPage = async ({ params }: { params: { id: string } }) => {
 
   const iranStates = await getStates();
 
-  console.log(singleDeanOfUni);
   return (
     <SingleDeansOfUniForm
       data={singleDeanOfUni?.payload ? singleDeanOfUni.payload : null}

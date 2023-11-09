@@ -31,14 +31,13 @@ const UpdateCounselorForm = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
-      console.log(values);
 
       // @ts-ignore
       formData.append("Comment", values.Comment);
       // @ts-ignore
       formData.append("FullName", values.FullName);
       // @ts-ignore
-      formData.append("Position", values.Position); 
+      formData.append("Position", values.Position);
       // @ts-ignore
       formData.append("Image", values.Image);
       // @ts-ignore

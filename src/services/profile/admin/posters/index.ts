@@ -25,7 +25,6 @@ export const getPanelPosters = async (
         Authorization: `bearer ${token}`,
       },
     });
-    console.log(data);
     if (status === 200) {
       return {
         homeSideBanners: data.object.homeSideBanners,
@@ -92,7 +91,6 @@ export const deletePoster = async (
   url: string
 ): Promise<DeletePostersReturnType | undefined> => {
   try {
-    console.log(posterData);
     const { data, status } = await axios.delete<HomePagePosters>(
       `Panel_Posters/${url}`,
       {

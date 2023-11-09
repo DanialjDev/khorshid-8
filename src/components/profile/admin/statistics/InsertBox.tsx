@@ -11,7 +11,6 @@ const InsertBox = ({
   children: ReactNode;
 }) => {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <div className="rounded-[12px] bg-menuBg border shadow-adminFormBox border-adminFormBorder2 p-5">
       <div className="text-[22px]">

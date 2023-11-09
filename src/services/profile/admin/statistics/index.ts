@@ -72,10 +72,7 @@ export const updateNews = async (
         },
       }
     );
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // Update PhoneNumber

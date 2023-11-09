@@ -109,12 +109,10 @@ const SingleHospital = ({
           universityName: values.universityName,
           coveredName: values.coveredName,
         };
-        console.log(payloadObj);
         if (!cityId) {
           toast.warning("لطفا نام شهرستان را نتخاب کنید");
           return;
         }
-        console.log(payloadObj);
         const res = await updateSingleHospital(
           payloadObj!,
           Cookies.get("token")!
@@ -205,12 +203,7 @@ const SingleHospital = ({
           disabled={selectedState === ""}
           onChange={(e) => {
             handleChange(e);
-            // setCityId(e.target.id);
-            console.log(
-              cityItems.filter((item) => item.name === e.target.value)[0]
-            );
           }}
-          //   handleBlur={handleBlur}
           error={errors.cityName}
           value={values.cityName}
           touched={touched.cityName}

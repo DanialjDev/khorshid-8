@@ -8,7 +8,6 @@ const RegisterProductPage = async () => {
   const requestedProducts = await getAllRequestedProducts(
     cookies().get("token")?.value!
   );
-  console.log(requestedProducts);
   return (
     <div className="w-full flex flex-col">
       <PageTitle
