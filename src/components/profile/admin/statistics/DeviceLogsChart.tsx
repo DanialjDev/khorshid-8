@@ -45,12 +45,13 @@ export const DeviceLogsChart = ({
           <div className="w-full h-full grid items-end grid-cols-7 gap-x-7">
             {devicesLogsData?.acceptedCounts &&
               chartSideTexts &&
-              devicesLogsData.acceptedCounts.map((item) => {
+              devicesLogsData.acceptedCounts.map((item, index) => {
                 return (
                   <div
                     style={{
                       height: `${String((item / chartSideTexts[5]) * 100)}%`,
                     }}
+                    key={index}
                     className="w-[15px] z-30 relative flex items-end cursor-pointer bg-primary rounded-tr-[4px] rounded-tl-[4px] col-span-1"
                   >
                     <div className="w-full h-full peer cursor-pointer"></div>

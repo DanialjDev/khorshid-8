@@ -174,7 +174,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
                   <p className="mr-4">021-77653701-3</p>
                 </div>
               </div>
-              <div className="w-full flex items-center mb-5">
+              {/* <div className="w-full flex items-center mb-5">
                 <FooterIcons
                   border="border border-white-gray"
                   icon={
@@ -205,7 +205,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
                 <p className="mr-5 text-white-gray">
                   روزهای زوج از ساعت 16 الی 19
                 </p>
-              </div>
+              </div> */}
               <div className="w-full flex items-center mb-5">
                 <FooterIcons
                   border="border border-white-gray"
@@ -302,7 +302,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
                 })}
             </div>
           </FooterBox>
-          <FooterBox title="لینک های مفید" margin="mr-[100px]">
+          <FooterBox title="لینک های مفید" margin="md:mr-[100px] mr-0">
             <div className="w-full flex flex-col justify-between h-[200px]">
               <Link className="text-white-gray text-[17px]" href={"/about-us"}>
                 درباره ما

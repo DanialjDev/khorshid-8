@@ -14,7 +14,6 @@ const MainLayout = ({
   children: ReactNode;
   galleryItems: GalleryItem[] | null;
 }) => {
-  console.log(galleryItems);
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const { authAction } = useAppSelector((state) => state.auth);
@@ -25,7 +24,7 @@ const MainLayout = ({
     if (user) {
       dispatch(setIsLoggedIn(true));
     }
-  }, []);
+  }, [user, dispatch]);
   return (
     <div
       className={`w-full bg-white-gray h-full ${

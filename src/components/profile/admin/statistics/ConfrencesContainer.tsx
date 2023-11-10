@@ -126,6 +126,7 @@ const ConfrencesContainer = ({
             onClick={() => {
               getSingleConfrece(item.conferenceId);
             }}
+            key={item.conferenceId}
           >
             <PosterBox
               imageUrl={item.imageUrl}

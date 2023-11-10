@@ -24,8 +24,8 @@ const AccordionContainer = () => {
   ];
   return (
     <div className="w-full grid gap-3 grid-cols-1">
-      {accordionItems.map((item) => (
-        <Accordion title={item.title} desc={item.desc} />
+      {accordionItems.map((item, index) => (
+        <Accordion title={item.title} desc={item.desc} key={index} />
       ))}
     </div>
   );

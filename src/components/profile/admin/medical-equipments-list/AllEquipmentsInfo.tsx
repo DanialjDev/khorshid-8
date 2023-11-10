@@ -198,7 +198,7 @@ const AllEquipmentsInfo = ({
       setCityItems(cities?.data!);
     };
     getCitiesByName();
-  }, [selectedState.value]);
+  }, [selectedState.value, selectedState?.name]);
 
   return (
     <div className="w-full flex-col">

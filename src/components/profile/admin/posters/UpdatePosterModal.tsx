@@ -11,7 +11,7 @@ import {
 } from "@/services/profile/admin/posters";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
+import { setLinkRequired } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { isUrl } from "@/utills/formatHelper";

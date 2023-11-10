@@ -96,3 +96,9 @@ const NewsItem = ({
 };
 
 export default NewsItem;
+
+// RewriteEngine On
+// RewriteRule ^$ http://127.0.0.1:3000/ [P,L]
+// RewriteCond %{REQUEST_URI} !-f
+// RewriteCond %{REQUEST_URI} !-d
+// RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]

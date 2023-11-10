@@ -194,7 +194,7 @@ const TableBodyData = ({
         ));
       case "GetVicePresidentsOfTreatment":
         return data.map((item, index) => (
-          <tr>
+          <tr key={index}>
             <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">
               {item.universityName}
@@ -209,7 +209,7 @@ const TableBodyData = ({
         ));
       case "GetUniversities":
         return data.map((item, index) => (
-          <tr>
+          <tr key={index}>
             <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">
               {item.universityName}
@@ -221,7 +221,7 @@ const TableBodyData = ({
         ));
       case "HomePageDevices":
         return data.map((item, index) => (
-          <tr>
+          <tr key={index}>
             <td className="whitespace-nowrap p-4 text-[14px]">{index + 1}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">{item.name}</td>
             <td className="whitespace-nowrap p-4 text-[14px]">{item.brand}</td>

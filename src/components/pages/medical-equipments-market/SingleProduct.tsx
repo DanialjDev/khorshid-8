@@ -12,18 +12,24 @@ import SectionBox from "../home-page/SectionBox";
 
 import GreenSquare from "../../../../public/assets/images/home-page/green-square.svg";
 import ProductItem from "../home-page/ProductItem";
+import { HomeDevice } from "@/services/homePage/types";
+import { SingleProductData } from "@/services/shop/types";
 
-const SingleProductPage = async () => {
-  const deviceId = useSearchParams().get("id")!;
-  const response = await getSingleDevice(deviceId);
-  const relatedProducts = await getHomePageDevies();
-
+const SingleProductPage = ({
+  relatedProducts,
+  singleDevice,
+}: {
+  relatedProducts: HomeDevice[];
+  singleDevice: SingleProductData | null;
+}) => {
   return (
     <>
-      {!response?.data ? (
-        response?.message && (
+      {!singleDevice ? (
+        singleDevice && (
           <div className="w-full flex justify-center items-center">
-            <p className="text-[24px] text-gray">{response?.message}</p>
+            <p className="text-[24px] text-gray">
+              محصولی برای نمایش وجود ندارد
+            </p>
           </div>
         )
       ) : (
@@ -34,13 +40,13 @@ const SingleProductPage = async () => {
                 <div className="lg:col-span-2 col-span-9 h-fit">
                   <Box>
                     <Image
-                      src={response.data.imageUrl}
+                      src={singleDevice.imageUrl}
                       width={300}
                       height={500}
                       // sizes="100vw"
                       objectFit="contain"
                       className="m-auto"
-                      alt={response.data.deviceName}
+                      alt={singleDevice.deviceName}
                     />
                   </Box>
                 </div>
@@ -52,7 +58,7 @@ const SingleProductPage = async () => {
                     <Button
                       padding="lg:px-3 py-2 px-2"
                       fontSize="lg:text-[14px] text-[12px]"
-                      href={`callto:${response.data.orderedByMobileNumber}`}
+                      href={`callto:${singleDevice.orderedByMobileNumber}`}
                       icon={
                         <svg
                           width="20"
@@ -80,57 +86,57 @@ const SingleProductPage = async () => {
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="نام دستگاه:"
-                        text={response.data.deviceName}
+                        text={singleDevice.deviceName}
                       />
                       <ProductInfoBox
                         label="نام شرکت فروشنده:"
-                        text={response.data.companyName}
+                        text={singleDevice.companyName}
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="مارک دستگاه:"
-                        text={response.data.brand}
+                        text={singleDevice.brand}
                       />
                       <ProductInfoBox
                         label="شماره شرکت:"
-                        text={response.data.orderedByMobileNumber}
+                        text={singleDevice.orderedByMobileNumber}
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="کشور سازنده:"
-                        text={response.data.country}
+                        text={singleDevice.country}
                       />
                       <ProductInfoBox
                         label="نام مسئول فروش:"
-                        text={response.data.orderedByFullName}
+                        text={singleDevice.orderedByFullName}
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="گروه کاربردی:"
-                        text={response.data.categoryNames}
+                        text={singleDevice.categoryNames}
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="فکس شرکت:"
-                        text={response.data.faxNumber}
+                        text={singleDevice.faxNumber}
                       />
                       <ProductInfoBox
                         label="وب سایت:"
-                        text={response.data.website}
+                        text={singleDevice.website}
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">
                       <ProductInfoBox
                         label="ایمیل:"
-                        text={response.data.email}
+                        text={singleDevice.email}
                       />
                       <ProductInfoBox
                         label="آدرس:"
-                        text={response.data.address}
+                        text={singleDevice.address}
                       />
                     </div>
                   </div>
@@ -166,10 +172,12 @@ const SingleProductPage = async () => {
                   imageUrl,
                   deviceId,
                 }) => (
-                  <div className="lg:col-span-1 md:col-span-2 col-span-4">
+                  <div
+                    className="lg:col-span-1 md:col-span-2 col-span-4"
+                    key={deviceId}
+                  >
                     <ProductItem
                       deviceId={String(deviceId)}
-                      key={deviceId}
                       imageUrl={imageUrl ? imageUrl : ""}
                       name={name}
                       orderedByMobileNumber={orderedByMobileNumber}

@@ -34,9 +34,11 @@ const PostersContainer = ({
           homeSideBanners.map((item) => {
             // @ts-ignore
             return (
-              <div className="sm:col-span-3 col-span-6 md:col-span-2">
+              <div
+                className="sm:col-span-3 col-span-6 md:col-span-2"
+                key={item.homeSideBannerId}
+              >
                 <PosterBox
-                  key={item.homeSideBannerId}
                   fontSize={"sm:text-[14px] text-[13px]"}
                   title={`بنز شماره ${String(item.homeSideBannerId)}`}
                   imageUrl={item.imageUrl!}
@@ -54,9 +56,11 @@ const PostersContainer = ({
       >
         {medicalEquipmentBanners &&
           medicalEquipmentBanners.map((item) => (
-            <div className="sm:col-span-3 col-span-6 md:col-span-2">
+            <div
+              className="sm:col-span-3 col-span-6 md:col-span-2"
+              key={item.bannerId}
+            >
               <PosterBox
-                key={item.bannerId}
                 fontSize={"sm:text-[14px] text-[13px]"}
                 imageUrl={item.imageUrl!}
                 title={item.name}
@@ -73,9 +77,11 @@ const PostersContainer = ({
       >
         {gallery &&
           gallery.map((item, index) => (
-            <div className="sm:col-span-3 col-span-6 md:col-span-2">
+            <div
+              className="sm:col-span-3 col-span-6 md:col-span-2"
+              key={item.id}
+            >
               <PosterBox
-                key={item.id}
                 fontSize={"sm:text-[14px] text-[13px]"}
                 title={`تصویر شماره ${String(index + 1)}`}
                 imageUrl={item.imageUrl}

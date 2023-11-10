@@ -416,10 +416,12 @@ export default async function Home() {
                 ) => {
                   if (index < 4) {
                     return (
-                      <div className="lg:col-span-1 md:col-span-2 col-span-4">
+                      <div
+                        className="lg:col-span-1 md:col-span-2 col-span-4"
+                        key={deviceId}
+                      >
                         <ProductItem
                           deviceId={String(deviceId)}
-                          key={deviceId}
                           imageUrl={imageUrl ? imageUrl : ""}
                           name={name}
                           orderedByMobileNumber={orderedByMobileNumber}
@@ -535,13 +537,14 @@ export default async function Home() {
         >
           <div className="w-full items-stretch grid grid-cols-4 gap-4 mt-8">
             {homePageDate?.news.map(
-              ({ creationDate, imageUrl, link, description, title }) => (
+              ({ creationDate, imageUrl, link, description, title }, index) => (
                 <NewsItem
                   title={title}
                   description={description}
                   link={link}
                   creationDate={creationDate}
                   imageUrl={imageUrl}
+                  key={index}
                 />
               )
             )}

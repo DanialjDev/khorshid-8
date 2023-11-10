@@ -12,7 +12,7 @@ const Gallery = async () => {
   return (
     <div className="w-full grid items-stretch grid-cols-6">
       {galleryItems?.data?.map(({ id, imageUrl }) => (
-        <div className="lg:col-span-2 md:col-span-3 col-span-6">
+        <div className="lg:col-span-2 md:col-span-3 col-span-6" key={id}>
           <Image
             width={0}
             height={0}

@@ -9,7 +9,6 @@ import AuthInput from "@/components/main/input/AuthInput";
 import Box from "@/components/main/Box/Box";
 import Button from "@/components/main/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAppSelector } from "@/redux/hooks/hooks";
 import { getSectionsData } from "@/services/medical-equipment";
 import TableBodyData from "../TableBodyData";
 import CustomeTable from "@/components/main/table/CustomeTable";
@@ -95,7 +94,7 @@ const MedicalSection = ({
     setHeaders(tableHeaders);
     setSearchValue("");
     refresh();
-  }, [sectionName]);
+  }, [sectionName, tableHeaders, refresh]);
   return (
     <>
       <>
