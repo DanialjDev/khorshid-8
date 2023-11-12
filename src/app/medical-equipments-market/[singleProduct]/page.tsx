@@ -5,20 +5,12 @@ import { getSingleDevice } from "@/services/shop";
 import { headers } from "next/headers";
 import React from "react";
 
-const SingleProduct = async ({
-  searchParams,
-}: {
-  searchParams?: { id: string | string[] | undefined };
-}) => {
+const SingleProduct = async () => {
   await postPageView(headers().get("x-invoke-path")!);
-  const response = await getSingleDevice(searchParams?.id!.toString()!);
   const relatedProducts = await getHomePageDevies();
   return (
     <div>
-      <SingleProductPage
-        relatedProducts={relatedProducts!}
-        singleDevice={response?.data ? response.data : null}
-      />
+      <SingleProductPage relatedProducts={relatedProducts!} />
     </div>
   );
 };

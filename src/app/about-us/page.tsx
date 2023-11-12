@@ -23,6 +23,7 @@ const AboutUs = async () => {
                 className="lg:w-full md:w-[80%] w-[60%]"
                 src={WhiteLogo}
                 alt=""
+                unoptimized
               />
             </div>
             <div className="flex items-center absolute md:right-[-100px] right-[-70px] md:top-[-28px] top-[-17px]">
@@ -30,6 +31,7 @@ const AboutUs = async () => {
                 className="lg:w-full md:w-[80%] w-[60%]"
                 src={GreenLogo}
                 alt=""
+                unoptimized
               />
             </div>
           </div>
@@ -48,7 +50,7 @@ const AboutUs = async () => {
           </div>
         </div>
         <div className="lg:w-[40%] w-full flex justify-center items-center lg:m-0 mt-8">
-          <Image src={MeetingLogo} className="rounded-xl" alt="" />
+          <Image src={MeetingLogo} className="rounded-xl" alt="" unoptimized />
         </div>
       </div>
       <div className="w-full mt-48">
@@ -64,6 +66,7 @@ const AboutUs = async () => {
               className="absolute right-8 z-40 top-1"
               src={BlueLogo}
               alt=""
+              unoptimized
             />
           }
         >

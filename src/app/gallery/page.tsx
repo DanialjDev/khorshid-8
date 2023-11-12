@@ -21,6 +21,7 @@ const Gallery = async () => {
             style={{ width: "100%", height: "100%" }}
             alt=""
             src={imageUrl}
+            unoptimized
           />
         </div>
       ))}

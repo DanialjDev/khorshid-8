@@ -22,7 +22,7 @@ const FormLayout = ({
   return (
     <div className="w-full">
       <div className="w-full flex justify-center items-center mt-3">
-        <Image width={120} height={120} src={Logo} alt="" />
+        <Image width={120} height={120} src={Logo} alt="" unoptimized />
       </div>
       {authAction === "login" && showForm ? (
         <Login setIsOpen={setIsOpen} />

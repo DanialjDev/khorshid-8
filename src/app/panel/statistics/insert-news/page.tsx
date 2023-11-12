@@ -12,10 +12,6 @@ const InsertNews = async ({
   params: { slug: string };
   searchParams?: { newsId: string | undefined };
 }) => {
-  const singleNewsRes = await getSingleNews(
-    searchParams?.newsId!,
-    cookies().get("token")?.value!
-  );
   return (
     <div className="w-full flex-col">
       <PageTitle
@@ -23,20 +19,8 @@ const InsertNews = async ({
         text="شما می توانید اطلاعات خبر ها را در اینجا وارد یا حذف کنید."
       />
       <div className="w-full mt-8">
-        <InsertBox boxNumber={String(searchParams?.newsId)}>
-          <NewsUpdateForm
-            singleNews={
-              singleNewsRes?.singleNews
-                ? singleNewsRes.singleNews
-                : {
-                    newsId: 0,
-                    title: "",
-                    description: "",
-                    imageUrl: "",
-                    link: "",
-                  }
-            }
-          />
+        <InsertBox>
+          <NewsUpdateForm />
         </InsertBox>
       </div>
     </div>

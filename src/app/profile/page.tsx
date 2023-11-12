@@ -33,3 +33,9 @@ const ProfilePage = async () => {
 };
 
 export default ProfilePage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "پروفایل",
+  };
+};

@@ -11,7 +11,7 @@ interface GallerySectionProps {
 const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
   return (
     <Link
-      href={link}
+      href={link ? link : "/"}
       className="w-full md:h-[240px] h-[200px] md:m-0 mt-5 md:col-span-1 col-span-3 flex flex-col"
     >
       <Image
@@ -22,6 +22,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
         style={{ width: "100%", height: "100%", objectFit: "contain" }}
         src={imageUrl ? imageUrl : ""}
         alt={name}
+        unoptimized
       />
       <p className="text-[14px] md:text-right text-center mr-3">
         {name.length > 20 ? `${name.slice(0, 35)}...` : name}

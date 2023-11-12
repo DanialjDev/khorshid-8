@@ -76,6 +76,7 @@ export default async function Home() {
                 className="lg:w-[60%] w-full"
                 alt="تجهزیت پزشکی"
                 objectFit="cover"
+                unoptimized
               />
             </div>
 
@@ -99,6 +100,7 @@ export default async function Home() {
                   src={OtherSectionSvg}
                   className="lg:flex hidden"
                   alt=""
+                  unoptimized
                 />
                 <p className="text-black lg:text-[23px] text-[19px]">
                   دیگر بخش های کانون آگهی و تبلیغات{" "}
@@ -133,6 +135,7 @@ export default async function Home() {
                       src={PartnerShip}
                       className="rounded-lg"
                       alt=""
+                      unoptimized
                     />
                   }
                   title={
@@ -187,6 +190,7 @@ export default async function Home() {
                       alt=""
                       width={500}
                       height={300}
+                      unoptimized
                     />
                   }
                   title={
@@ -374,6 +378,7 @@ export default async function Home() {
                             alt=""
                             src={imageUrl ? imageUrl : ""}
                             className="border"
+                            unoptimized
                           />
                         </div>
                       </Link>
@@ -392,7 +397,12 @@ export default async function Home() {
           hasBtn
           btnBgColor="bg-secondary"
           SquareLogo={
-            <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
+            <Image
+              className="absolute right-8 z-40"
+              src={GreenSquare}
+              alt=""
+              unoptimized
+            />
           }
           title={
             <p className="text-black md:text-xl text-lg z-40 p-2 bg-white-gray">
@@ -446,6 +456,7 @@ export default async function Home() {
                 className="absolute right-8 z-40"
                 src={BlueSquare}
                 alt=""
+                unoptimized
               />
             }
             btnBgColor="bg-primary"
@@ -525,7 +536,12 @@ export default async function Home() {
           hasBtn
           margin="mt-28 mb-10"
           SquareLogo={
-            <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
+            <Image
+              className="absolute right-8 z-40"
+              src={GreenSquare}
+              alt=""
+              unoptimized
+            />
           }
           title={
             <p className="text-secondary md:text-xl text-lg z-40 p-2 bg-white-gray">

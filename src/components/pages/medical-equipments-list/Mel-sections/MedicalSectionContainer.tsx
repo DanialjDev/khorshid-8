@@ -9,7 +9,7 @@ import AuthInput from "@/components/main/input/AuthInput";
 import Box from "@/components/main/Box/Box";
 import Button from "@/components/main/button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getSectionsData } from "@/services/medical-equipment";
+import { getDeviceBanner, getSectionsData } from "@/services/medical-equipment";
 import TableBodyData from "../TableBodyData";
 import CustomeTable from "@/components/main/table/CustomeTable";
 import Pagination from "@/components/main/pagination/Pagination";
@@ -17,23 +17,27 @@ import CustomSelect from "@/components/main/input/CustomSelect";
 import { toast } from "react-toastify";
 import { jalaaliToGregorianISO } from "@/utills/formatHelper";
 import { getStates } from "@/services/common";
-const MedicalSection = ({
-  tableHeaders,
-  operationName,
-  totalPageCount,
-}: {
-  tableHeaders: { name: string; value: string }[];
-  operationName: OperationNames;
-  totalPageCount?: number;
+import Image from "next/image";
+import { generateHeaders } from "@/utills/generateTableHeaders";
+const MedicalSection = ({}: // tableHeaders,
+// operationName,
+// totalPageCount,
+{
+  // tableHeaders: { name: string; value: string }[];
+  // operationName: OperationNames;
+  // totalPageCount?: number;
 }) => {
   const sectionName = useSearchParams().get("name")!;
 
   const { refresh } = useRouter();
   const [tableData, setTableData] = useState<ReactNode | null>(null);
-  const [headers, setHeaders] = useState(tableHeaders);
-  const [selected, setSelected] = useState(headers[0]);
-  // const [selectedValue, setSelectedValue] = useState(headers[0].value);
+  const [headers, setHeaders] = useState<
+    { name: string; value: string }[] | null
+  >(null);
+  const [selected, setSelected] = useState(headers && headers[0]);
   const [searchValue, setSearchValue] = useState<string | null>("");
+  const [banner, setBanner] = useState<DeviceBannerObject | null>(null);
+  const [totalPageCount, setTotalPageContain] = useState(0);
 
   const updateTableData = async (pageNumber: number) => {
     const nextTableData = await getSectionsData(
@@ -45,7 +49,8 @@ const MedicalSection = ({
       const Data = TableBodyData({
         // @ts-ignore
         data: nextTableData.data,
-        operationName,
+        // @ts-ignore
+        operationName: sectionName,
       });
       setTableData(Data);
     }
@@ -73,7 +78,7 @@ const MedicalSection = ({
       // @ts-ignore
       sectionName,
       null,
-      selected.value,
+      selected!.value ? selected?.name : null,
       filterValue !== null ? filterValue : searchValue
     );
     if (filteredData?.data) {
@@ -89,14 +94,49 @@ const MedicalSection = ({
     }
   };
 
+  const fetchData = async () => {
+    // @ts-ignore
+    const bannerData = await getDeviceBanner(sectionName!);
+    if (bannerData?.banner) {
+      setBanner(bannerData.banner);
+    }
+    // @ts-ignore
+    setHeaders(generateHeaders(sectionName)!);
+    // @ts-ignore
+  };
+
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
     setTableData(null);
-    setHeaders(tableHeaders);
     setSearchValue("");
     refresh();
-  }, [sectionName, tableHeaders, refresh]);
+  }, [sectionName]);
   return (
     <>
+      {banner && banner ? (
+        <div className="my-5 w-full md:h-[450px] sm2:h-[300px] h-[250px] rounded-lg overflow-hidden relative z-20">
+          <Image
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "100% !important",
+              objectFit: "cover",
+              borderRadius: "10px",
+            }}
+            src={banner.imageUrl}
+            alt={banner.description || ""}
+            className="!rounded-lg absolute inset-0"
+            // objectFit="cover"
+            unoptimized
+          />
+        </div>
+      ) : null}
       <>
         <div className="w-full flex flex-col">
           <Box>
@@ -111,12 +151,17 @@ const MedicalSection = ({
               <div className="w-full grid md:gap-8 gap-4 items-stretch grid-cols-2">
                 <div className="md:col-span-1 col-span-2 pt-1 md:h-full h-[60px] relative">
                   <CustomSelect
-                    selected={selected}
-                    setSelected={setSelected}
-                    items={headers.filter(
-                      (item) =>
-                        item.value !== "CityID" && item.value !== "CityId"
-                    )}
+                    selected={selected!}
+                    // @ts-ignore
+                    setSelected={setSelected!}
+                    // @ts-ignore
+                    items={
+                      headers &&
+                      headers.filter(
+                        (item) =>
+                          item.value !== "CityID" && item.value !== "CityId"
+                      )
+                    }
                   />
                 </div>
                 <div className="md:col-span-1 col-span-2 h-full">
@@ -169,7 +214,6 @@ const MedicalSection = ({
                         operationName: sectionName,
                       });
                       setTableData(Data);
-                      console.log(medicalEquipmentData?.data);
                       refresh();
                     }}
                     text="نمایش کل لیست جاری"
@@ -258,7 +302,9 @@ const MedicalSection = ({
             </div>
           </Box>
           <div className="w-full mt-5">
-            <CustomeTable headers={headers}>{tableData}</CustomeTable>
+            <CustomeTable headers={headers ? headers : []}>
+              {tableData}
+            </CustomeTable>
           </div>
           {tableData !== null && (
             <div className="w-full mt-10 flex justify-center">

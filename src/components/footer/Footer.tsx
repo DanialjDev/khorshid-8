@@ -50,6 +50,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
               height={160}
               src={Logo}
               alt="خورشید هشت"
+              unoptimized
             />
           </div>
           <div className="w-full flex flex-col lg:col-span-1 col-span-3 justify-center place-items-center">
@@ -139,6 +140,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
               className="mr-auto"
               src={Logo}
               alt="خورشید هشت"
+              unoptimized
             />
           </div>
         </div>
@@ -296,6 +298,7 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
                         src={item.imageUrl}
                         alt="گاری تصویر"
                         objectFit="cover"
+                        unoptimized
                       />
                     </div>
                   );

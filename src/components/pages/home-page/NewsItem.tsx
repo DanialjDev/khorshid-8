@@ -25,6 +25,7 @@ const NewsItem = ({
           alt=""
           src={imageUrl}
           className="m-auto"
+          unoptimized
         />
       </div>
       <div className="w-[90%] flex flex-col p-4 bg-white shadow-md absolute xl:top-[55%] md:top-[70%] top-[85%] rounded-lg">

@@ -5,22 +5,23 @@ import ImageInput from "@/components/main/image-input/ImageInput";
 import AuthInput from "@/components/main/input/AuthInput";
 import {
   deleteNews,
-  updateNews,
+  getSingleNews,
   updateSingleNews,
 } from "@/services/profile/admin/statistics";
 import { News } from "@/services/profile/admin/statistics/types";
 import { isUrl } from "@/utills/formatHelper";
-import usePanelValidation from "@/utills/validation/panel/validation";
 import { useFormik } from "formik";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
+const NewsUpdateForm = () => {
+  const newsId = useSearchParams().get("newsId");
   const { refresh, push } = useRouter();
   const [isImageChanged, setIsImageChanged] = useState(false);
+  const [singleNews, setSingleNews] = useState<News | null>(null);
 
   const {
     errors,
@@ -32,10 +33,10 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
     setFieldValue,
   } = useFormik({
     initialValues: {
-      title: singleNews.title,
-      description: singleNews.description,
-      image: singleNews.imageUrl,
-      link: singleNews.link,
+      title: singleNews?.title,
+      description: singleNews?.description,
+      image: singleNews?.imageUrl,
+      link: singleNews?.link,
     },
     validationSchema: Yup.object().shape({
       title: Yup.string().required("پرکردن این فیلد الزامی است."),
@@ -60,11 +61,15 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
       const formData = new FormData();
       // @ts-ignore
       formData.append("NewsId", singleNews.newsId);
+      // @ts-ignore
       formData.append("Title", values.title);
+      // @ts-ignore
       formData.append("Description", values.description);
+      // @ts-ignore
       formData.append("Link", values.link);
       // @ts-ignore
       formData.append("IsImageChangedOrDeleted", isImageChanged);
+      // @ts-ignore
       formData.append("Image", values.image);
 
       const updatedNewsRes = await updateSingleNews(
@@ -82,10 +87,24 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
     },
   });
 
+  const fetchData = async () => {
+    const singleNewsRes = await getSingleNews(newsId!, Cookies.get("token")!);
+
+    if (singleNewsRes?.singleNews) {
+      setSingleNews(singleNewsRes.singleNews);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    // console.log(singleNews);
+    console.log(values);
+  }, []);
+
   const deleteSingleNewsHanlder = async () => {
     const deleteNewsRes = await deleteNews(
       {
-        newsID: singleNews.newsId.toString(),
+        newsID: singleNews!.newsId.toString(),
       },
       Cookies.get("token")!
     );
@@ -112,7 +131,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
           name="title"
           label="تیتر خبر"
           placeholder="تا ۸ کلمه"
-          value={values.title}
+          value={singleNews?.title}
         />
       </div>
       <div className="w-full sm:col-span-2 col-span-4">
@@ -124,7 +143,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
           name="link"
           label="لینک قسمت خبر در سایت خبر مورد نظر "
           placeholder="URL"
-          value={values.link}
+          value={singleNews?.link}
         />
       </div>
       <div className="w-full md:col-span-2 col-span-4">
@@ -136,7 +155,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
           name="description"
           label="زیر متن خبر"
           placeholder="تا ۱۶ کلمه"
-          value={values.description}
+          value={singleNews?.description}
         />
       </div>
       <div className="col-span-4">
@@ -149,11 +168,10 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News }) => {
               border="border border-adminFormBorder2"
               name="image"
               touched={touched["image"]}
-              onChange={handleChange}
               handleBlur={handleBlur}
               errors={errors["image"]}
               // @ts-ignore
-              value={values.image}
+              value={singleNews?.image}
               setFieldValue={setFieldValue}
               setIsImgChanged={setIsImageChanged}
             />

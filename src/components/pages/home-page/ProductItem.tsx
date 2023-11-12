@@ -32,6 +32,7 @@ const ProductItem = ({
           objectFit="cover"
           src={imageUrl}
           alt={name}
+          unoptimized
         />
       </div>
       <div className="flex flex-col justify-start w-full p-2 bg-[#F9F9F9] rounded-md my-5">

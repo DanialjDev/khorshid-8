@@ -42,7 +42,7 @@ export default function CustomSelect({
           </div>
           <Listbox.Button className="relative w-full flex hover:shadow-inputHover disabled:opacity-40 cursor-pointer hover:border-inputHoverBorder border border-inputBorder rounded-lg h-full focus:border-primary bg-white pr-3 text-left transition-all focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="h-full flex justify-center items-center text-[14px]">
-              {selected.name}
+              {selected && selected.name}
             </span>
             <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center pr-2">
               <svg
@@ -69,37 +69,38 @@ export default function CustomSelect({
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute border border-inputBorder rounded-lg h-[200px] top-14 z-40 overflow-scroll mt-1 max-h-60 w-full bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
-              {items.map((title, index) => (
-                <>
-                  {title.value !== "" ? (
-                    <Listbox.Option
-                      key={Number(title.value)}
-                      className={({ active }) =>
-                        `relative select-none py-2 pl-10 cursor-pointer pr-4 ${
-                          active
-                            ? "bg-primaryLight text-primary"
-                            : "text-gray-900"
-                        }`
-                      }
-                      value={title}
-                    >
-                      {({ selected }) => {
-                        return (
-                          <>
-                            <span
-                              className={`block truncate ${
-                                selected ? "font-medium" : "font-normal"
-                              }`}
-                            >
-                              {title.name}
-                            </span>
-                          </>
-                        );
-                      }}
-                    </Listbox.Option>
-                  ) : null}
-                </>
-              ))}
+              {items &&
+                items.map((title, index) => (
+                  <>
+                    {title.value !== "" ? (
+                      <Listbox.Option
+                        key={Number(title.value)}
+                        className={({ active }) =>
+                          `relative select-none py-2 pl-10 cursor-pointer pr-4 ${
+                            active
+                              ? "bg-primaryLight text-primary"
+                              : "text-gray-900"
+                          }`
+                        }
+                        value={title}
+                      >
+                        {({ selected }) => {
+                          return (
+                            <>
+                              <span
+                                className={`block truncate ${
+                                  selected ? "font-medium" : "font-normal"
+                                }`}
+                              >
+                                {title.name}
+                              </span>
+                            </>
+                          );
+                        }}
+                      </Listbox.Option>
+                    ) : null}
+                  </>
+                ))}
             </Listbox.Options>
           </Transition>
         </div>

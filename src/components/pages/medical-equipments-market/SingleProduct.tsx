@@ -5,9 +5,8 @@ import Button from "@/components/main/button/Button";
 import { getSingleDevice } from "@/services/shop";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductInfoBox from "./ProductInfoBox";
-import { getHomePageDevies } from "@/services/homePage";
 import SectionBox from "../home-page/SectionBox";
 
 import GreenSquare from "../../../../public/assets/images/home-page/green-square.svg";
@@ -17,23 +16,27 @@ import { SingleProductData } from "@/services/shop/types";
 
 const SingleProductPage = ({
   relatedProducts,
-  singleDevice,
 }: {
   relatedProducts: HomeDevice[];
-  singleDevice: SingleProductData | null;
 }) => {
+  const deviceId = useSearchParams().get("id");
+  const [singleDevice, setSingleDevice] = useState<SingleProductData | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getSingleDevice(deviceId!);
+      if (response?.data) {
+        setSingleDevice(response.data);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
-      {!singleDevice ? (
-        singleDevice && (
-          <div className="w-full flex justify-center items-center">
-            <p className="text-[24px] text-gray">
-              محصولی برای نمایش وجود ندارد
-            </p>
-          </div>
-        )
-      ) : (
-        <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col">
+        {singleDevice && (
           <div className="w-full flex">
             <Box>
               <div className="w-full grid grid-cols-9 gap-4">
@@ -47,6 +50,7 @@ const SingleProductPage = ({
                       objectFit="contain"
                       className="m-auto"
                       alt={singleDevice.deviceName}
+                      unoptimized
                     />
                   </Box>
                 </div>
@@ -144,8 +148,8 @@ const SingleProductPage = ({
               </div>
             </Box>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <div className="w-full mt-24">
         <SectionBox
           href="/medical-equipments-market"
@@ -153,7 +157,12 @@ const SingleProductPage = ({
           hasBtn
           btnBgColor="bg-secondary"
           SquareLogo={
-            <Image className="absolute right-8 z-40" src={GreenSquare} alt="" />
+            <Image
+              className="absolute right-8 z-40"
+              src={GreenSquare}
+              alt=""
+              unoptimized
+            />
           }
           title={
             <p className="text-black lg:text-xl text-lg z-40 p-2 bg-white-gray">

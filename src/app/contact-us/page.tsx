@@ -61,7 +61,7 @@ const ContactUs = async () => {
                 </div>
               </div>
               <div className="w-full shadow-xs rounded-lg mt-5 overflow-hidden border border-[#CBCBCB]">
-                <Image src={MapLogo} alt="آدرس" />
+                <Image src={MapLogo} alt="آدرس" unoptimized />
               </div>
             </div>
           </Box>

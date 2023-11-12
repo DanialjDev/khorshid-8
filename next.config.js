@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "api.khorshidhasht.com",
         port: "",
         pathname: "/images/**",
