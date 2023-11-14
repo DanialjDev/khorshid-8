@@ -28,3 +28,9 @@ const DeansOfUniversities = async () => {
 };
 
 export default DeansOfUniversities;
+
+export const generateMetadata = async () => {
+  return {
+    title: "نام و تلفن ریاست دانشگاه های علوم پزشکی",
+  };
+};

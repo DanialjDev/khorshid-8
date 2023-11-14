@@ -3,11 +3,11 @@
 import Button from "@/components/main/button/Button";
 import Image from "next/image";
 import React from "react";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
+// import { toast } from "react-toastify";
+// import Cookies from "js-cookie";
 import MedicalRegister from "../../../../public/assets/images/medical-register.svg";
 
-const RegisterMedicalDevice = () => {
+const RegisterMedicalDevice = ({ token }: { token: string | undefined }) => {
   return (
     <div className="w-full border-[#F2F2F2] border bg-white flex shadow-xs rounded-lg my-10 sm:py-8 py-4 sm:px-10 px-5">
       <div className="lg:w-[90%] w-full flex lg:flex-row flex-col justify-between items-center">
@@ -21,19 +21,15 @@ const RegisterMedicalDevice = () => {
           </p>
           <div className="mt-4">
             <Button
-              onClick={() => {
-                toast.warning(
-                  "برای دسترسی به این بخش ابتدا وارد حساب کاربری خود شوید"
-                );
-              }}
+              // onClick={() => {
+              //   toast.warning(
+              //     "برای دسترسی به این بخش ابتدا وارد حساب کاربری خود شوید"
+              //   );
+              // }}
               padding="sm:px-[30px] px-[18px] py-[10px] "
               fontSize="md:text-[14px] text-[12px]"
               hover="hover:bg-btnPrimaryHover"
-              href={
-                Cookies.get("token")
-                  ? "/register-medical-equipments-device"
-                  : undefined
-              }
+              href={token ? "/register-medical-equipments-device" : "/"}
               text="تکمیل فرم ثبت دستگاه"
               color="text-white"
               icon={

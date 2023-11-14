@@ -29,3 +29,9 @@ const UpdateOrSetForm = async ({ params }: { params: { id: string } }) => {
 };
 
 export default UpdateOrSetForm;
+
+export const generateMetadata = async () => {
+  return {
+    title: "لیست گروه ها و شرکت های تجهیزات پزشکی",
+  };
+};

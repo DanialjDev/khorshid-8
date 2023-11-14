@@ -11,3 +11,9 @@ const AddSingleLab = () => {
 };
 
 export default AddSingleLab;
+
+export const generateMetadata = async () => {
+  return {
+    title: "اداره امور آزمایشگاه ها",
+  };
+};

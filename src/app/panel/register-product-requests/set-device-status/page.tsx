@@ -31,3 +31,9 @@ const SetDeviceStatus = async ({
 };
 
 export default SetDeviceStatus;
+
+export const generateMetadata = async () => {
+  return {
+    title: "درخواست های ثبت محصول",
+  };
+};

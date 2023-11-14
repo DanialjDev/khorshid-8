@@ -28,3 +28,9 @@ const UpdateOrSetForm = async ({ params }: { params: { id: string } }) => {
 };
 
 export default UpdateOrSetForm;
+
+export const generateMetadata = async () => {
+  return {
+    title: "نام و تلفن شرکت های تجهیزات پزشکی ایران",
+  };
+};

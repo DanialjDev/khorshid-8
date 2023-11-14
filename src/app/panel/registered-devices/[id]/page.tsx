@@ -7,10 +7,8 @@ import React from "react";
 
 const UpdateRegisteredDevice = async ({
   params,
-  searchParams,
 }: {
   params: { id: string };
-  searchParams?: { deviceId: string | undefined };
 }) => {
   const singleDeviceRes = await getSingleAcceptedDevice(
     Number(params?.id),
@@ -39,3 +37,9 @@ const UpdateRegisteredDevice = async ({
 };
 
 export default UpdateRegisteredDevice;
+
+export const generateMetadata = async () => {
+  return {
+    title: "محصولات ثبت شده",
+  };
+};

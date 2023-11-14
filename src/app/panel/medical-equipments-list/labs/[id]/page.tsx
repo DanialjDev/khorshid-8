@@ -19,3 +19,9 @@ const SingleLab = async ({ params }: { params: { id: string } }) => {
 };
 
 export default SingleLab;
+
+export const generateMetadata = async () => {
+  return {
+    title: "اداره امور آزمایشگاه ها",
+  };
+};

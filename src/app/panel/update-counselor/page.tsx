@@ -1,6 +1,3 @@
-import Box from "@/components/main/Box/Box";
-import AuthInput from "@/components/main/input/AuthInput";
-import Textarea from "@/components/main/input/Textarea";
 import UpdateCounselorForm from "@/components/profile/admin/counselor/UpdateCounselorForm";
 import React from "react";
 
@@ -26,3 +23,9 @@ const UpdateCounselor = () => {
 };
 
 export default UpdateCounselor;
+
+export const generateMetadata = async () => {
+  return {
+    title: "تغییر شماره تماس مشاوره",
+  };
+};

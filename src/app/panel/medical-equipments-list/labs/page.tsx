@@ -27,3 +27,9 @@ const Labs = async () => {
 };
 
 export default Labs;
+
+export const generateMetadata = async () => {
+  return {
+    title: "اداره امور آزمایشگاه ها",
+  };
+};

@@ -50,7 +50,13 @@ const UpdateAcceptedDeviceForm = ({
     address: singleDeviceData?.address ? singleDeviceData.address : "",
     website: singleDeviceData?.website ? singleDeviceData.address : "",
   });
-  const [selected, setSelected] = useState(companyFormat(companies)![0]);
+  const [selected, setSelected] = useState(
+    companyFormat(companies)![
+      companies?.findIndex(
+        (item) => item.companyId === singleDeviceData?.companyId
+      )!
+    ]
+  );
   const [selectedCategories, setSelectedCategories] = useState(
     categoryItems?.map((item) => item.categoryName)
   );
@@ -62,6 +68,7 @@ const UpdateAcceptedDeviceForm = ({
     );
     if (singleCompany?.payload) {
       setCompanyData(singleCompany.payload);
+      console.log(companyData);
     }
   };
   const {

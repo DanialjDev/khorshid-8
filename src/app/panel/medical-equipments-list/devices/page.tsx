@@ -1,7 +1,4 @@
-import PageTitle from "@/components/main/pageTitle/PageTitle";
 import AllEquipmentsInfo from "@/components/profile/admin/medical-equipments-list/AllEquipmentsInfo";
-import GetDevicesTable from "@/components/profile/admin/medical-equipments-list/tables/GetDevicesTable";
-import { getDeviceCategories } from "@/services/common";
 import { getMedicalEquipments } from "@/services/profile/admin/medical-equipments-list";
 import { cookies } from "next/headers";
 import React from "react";
@@ -30,3 +27,9 @@ const Devices = async () => {
 };
 
 export default Devices;
+
+export const generateMetadata = async () => {
+  return {
+    title: "لیست گروه ها و شرکت های تجهیزات پزشکی",
+  };
+};

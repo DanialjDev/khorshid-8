@@ -13,16 +13,22 @@ import { ToastContainer } from "react-toastify";
 const ReduxProvider = ({
   children,
   galleryItems,
+  headerPhoneNumber,
+  token,
 }: {
   children: ReactNode;
   galleryItems: GalleryItem[] | null;
+  headerPhoneNumber: string | undefined;
+  token: string | undefined;
 }) => {
   const pathname = usePathname();
 
   return (
     <Provider store={store}>
       <div className="w-full relative no-scrollbar">
-        {!pathname.includes("panel") && <Navbar />}
+        {!pathname.includes("panel") && (
+          <Navbar headerPhoneNumber={headerPhoneNumber} token={token} />
+        )}
         <div className="w-full h-full">
           <MainLayout galleryItems={galleryItems}>
             {pathname !== "/" && !pathname.includes("panel") && <Breadcrumb />}

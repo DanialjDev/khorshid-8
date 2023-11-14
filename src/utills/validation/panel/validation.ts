@@ -85,14 +85,14 @@ const usePanelValidation = (action: Action): ReturnType | undefined => {
         Comment,
         FullName,
         PhoneNumber: Yup.string()
-          .required("انتخاب تصویر الزامی است")
+          .required("پرکردن این فیلد الزامی است")
           .test("isNumeric", "شماره موبایل وارد شده نادرست است", (value) => {
             if (value && value.length > 0) {
               return isNumeric(value);
             }
           }),
         Position,
-        Image: Yup.mixed(),
+        Image,
       });
       return [initialValues, validationSchema];
     case "updatePoster":

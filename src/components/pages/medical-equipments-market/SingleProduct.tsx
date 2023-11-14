@@ -16,23 +16,25 @@ import { SingleProductData } from "@/services/shop/types";
 
 const SingleProductPage = ({
   relatedProducts,
+  singleDevice,
 }: {
   relatedProducts: HomeDevice[];
+  singleDevice: SingleProductData | null;
 }) => {
   const deviceId = useSearchParams().get("id");
-  const [singleDevice, setSingleDevice] = useState<SingleProductData | null>(
-    null
-  );
+  // const [singleDevice, setSingleDevice] = useState<SingleProductData | null>(
+  //   null
+  // );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getSingleDevice(deviceId!);
-      if (response?.data) {
-        setSingleDevice(response.data);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await getSingleDevice(deviceId!);
+  //     if (response?.data) {
+  //       setSingleDevice(response.data);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   return (
     <>
       <div className="w-full flex flex-col">

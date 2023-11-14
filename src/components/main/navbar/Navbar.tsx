@@ -55,14 +55,18 @@ const MenuItem = ({
   );
 };
 
-const Navbar = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-
+const Navbar = ({
+  headerPhoneNumber,
+  token,
+}: {
+  headerPhoneNumber: string | undefined;
+  token: string | undefined;
+}) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   let userInfo: any;
-  if (Cookies.get("token")) {
-    userInfo = Cookies.get("token")
+  if (token) {
+    userInfo = token
       ? JSON.parse(decrypt(Cookies.get("userInfo")))
       : {
           name: "",
@@ -73,16 +77,6 @@ const Navbar = () => {
           email: "",
         };
   }
-
-  useEffect(() => {
-    getHeaderPhoneNumber()
-      .then((res) => {
-        if (res) {
-          setPhoneNumber(res);
-        }
-      })
-      .catch((err) => null);
-  }, []);
 
   const authHandler = () => {
     if (userInfo) {
@@ -169,7 +163,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <div className="flex">
               <Link
-                href={`callto:${phoneNumber}`}
+                href={`callto:${headerPhoneNumber}`}
                 className="flex text-[12px] justify-center items-center bg-primaryLight p-3 rounded-md border-2 border-primary xl:scale-100 scale-[.8]"
               >
                 <svg
@@ -200,7 +194,7 @@ const Navbar = () => {
                 className="flex justify-center text-[12px] cursor-pointer items-center border-2 xl:scale-100 scale-[.8] border-primary text-primary bg-primaryLight rounded-md p-2"
               >
                 <div>
-                  {Cookies.get("token") ? (
+                  {token ? (
                     <p className="ml-1 flex">{userInfo.name}</p>
                   ) : (
                     <p className="ml-1 flex">حساب کاربری</p>

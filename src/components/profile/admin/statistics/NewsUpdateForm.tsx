@@ -17,11 +17,11 @@ import * as Yup from "yup";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const NewsUpdateForm = () => {
+const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
   const newsId = useSearchParams().get("newsId");
   const { refresh, push } = useRouter();
   const [isImageChanged, setIsImageChanged] = useState(false);
-  const [singleNews, setSingleNews] = useState<News | null>(null);
+  // const [singleNews, setSingleNews] = useState<News | null>(null);
 
   const {
     errors,
@@ -87,19 +87,19 @@ const NewsUpdateForm = () => {
     },
   });
 
-  const fetchData = async () => {
-    const singleNewsRes = await getSingleNews(newsId!, Cookies.get("token")!);
+  // const fetchData = async () => {
+  //   const singleNewsRes = await getSingleNews(newsId!, Cookies.get("token")!);
 
-    if (singleNewsRes?.singleNews) {
-      setSingleNews(singleNewsRes.singleNews);
-    }
-  };
+  //   if (singleNewsRes?.singleNews) {
+  //     setSingleNews(singleNewsRes.singleNews);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData();
-    // console.log(singleNews);
-    console.log(values);
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  //   // console.log(singleNews);
+  //   console.log(values);
+  // }, []);
 
   const deleteSingleNewsHanlder = async () => {
     const deleteNewsRes = await deleteNews(
@@ -131,7 +131,7 @@ const NewsUpdateForm = () => {
           name="title"
           label="تیتر خبر"
           placeholder="تا ۸ کلمه"
-          value={singleNews?.title}
+          value={values?.title}
         />
       </div>
       <div className="w-full sm:col-span-2 col-span-4">
@@ -143,7 +143,7 @@ const NewsUpdateForm = () => {
           name="link"
           label="لینک قسمت خبر در سایت خبر مورد نظر "
           placeholder="URL"
-          value={singleNews?.link}
+          value={values?.link}
         />
       </div>
       <div className="w-full md:col-span-2 col-span-4">
@@ -155,7 +155,7 @@ const NewsUpdateForm = () => {
           name="description"
           label="زیر متن خبر"
           placeholder="تا ۱۶ کلمه"
-          value={singleNews?.description}
+          value={values?.description}
         />
       </div>
       <div className="col-span-4">
@@ -171,7 +171,7 @@ const NewsUpdateForm = () => {
               handleBlur={handleBlur}
               errors={errors["image"]}
               // @ts-ignore
-              value={singleNews?.image}
+              value={values?.image}
               setFieldValue={setFieldValue}
               setIsImgChanged={setIsImageChanged}
             />

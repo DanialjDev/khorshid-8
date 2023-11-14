@@ -52,3 +52,9 @@ const RegisteredDevices = async () => {
 };
 
 export default RegisteredDevices;
+
+export const generateMetadata = async () => {
+  return {
+    title: "محصولات ثبت شده",
+  };
+};

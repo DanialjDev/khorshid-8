@@ -9,12 +9,10 @@ import { updateCounselor } from "@/services/profile/admin/consulation";
 import { PanelInitialValues } from "@/utills/validation/panel/types";
 import usePanelValidation from "@/utills/validation/panel/validation";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 
 const UpdateCounselorForm = () => {
-  const [img, setImg] = useState<File | null>(null);
-
   const [initialValues, validationSchema] =
     usePanelValidation("updateCounselor")!;
 
@@ -120,6 +118,11 @@ const UpdateCounselorForm = () => {
             setFieldValue={setFieldValue}
             // @ts-ignore
             value={values.Image}
+            handleBlur={handleBlur}
+            // @ts-ignore
+            touched={touched.Image}
+            // @ts-ignore
+            errors={errors.Image}
           />
         </div>
         <div className="col-span-4">

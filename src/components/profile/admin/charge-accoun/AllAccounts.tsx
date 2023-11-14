@@ -123,7 +123,7 @@ const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
             ))}
         </CustomeTable>
       </div>
-      <div className="w-full flex justify-center mt-10">
+      <div className="w-full flex justify-center my-10">
         <Pagination
           onClick={paginationHandler}
           totalPagesCount={userData?.totalPagesCount!}

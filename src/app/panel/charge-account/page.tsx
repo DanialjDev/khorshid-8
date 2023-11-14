@@ -19,3 +19,9 @@ const ChargeAccount = async () => {
 };
 
 export default ChargeAccount;
+
+export const generateMetadata = async () => {
+  return {
+    title: "شارژ حساب کاربری",
+  };
+};

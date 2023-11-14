@@ -23,3 +23,9 @@ const SingleUniversityPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export default SingleUniversityPage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "سایت دانشگاه های علوم پزشکی",
+  };
+};

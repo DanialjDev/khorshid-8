@@ -176,16 +176,21 @@ const Statistics = async () => {
             <div className="w-full flex flex-col items-start">
               {mostVisitedPages &&
                 mostVisitedPages.visitedPages &&
-                mostVisitedPages.visitedPages.map((page, index) => (
-                  <Link
-                    href={page.path}
-                    className="w-full my-3 flex items-center"
-                    key={page.id}
-                  >
-                    <div className="text-primaryDark6">{index + 1}</div>
-                    <p className="text-[14px] mr-2">{page.title}</p>
-                  </Link>
-                ))}
+                mostVisitedPages.visitedPages.map((page, index) => {
+                  if (index > 3) {
+                    return;
+                  }
+                  return (
+                    <Link
+                      href={page.path}
+                      className="w-full my-3 flex items-center"
+                      key={page.id}
+                    >
+                      <div className="text-primaryDark6">{index + 1}</div>
+                      <p className="text-[14px] mr-2">{page.title}</p>
+                    </Link>
+                  );
+                })}
             </div>
           </div>
         </StatisticsBox>
@@ -233,3 +238,9 @@ const Statistics = async () => {
 };
 
 export default Statistics;
+
+export const generateMetadata = async () => {
+  return {
+    title: "آمار سایت",
+  };
+};

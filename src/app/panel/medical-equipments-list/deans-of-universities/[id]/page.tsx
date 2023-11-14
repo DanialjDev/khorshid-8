@@ -27,3 +27,9 @@ const SingleDeansOfUniPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export default SingleDeansOfUniPage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "نام و تلفن ریاست دانشگاه های علوم پزشکی",
+  };
+};

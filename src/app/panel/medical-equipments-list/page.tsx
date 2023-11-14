@@ -58,3 +58,9 @@ const MedicalEquipmentsList = async () => {
 };
 
 export default MedicalEquipmentsList;
+
+export const generateMetadata = async () => {
+  return {
+    title: "لیست تجهیزات پزشکی",
+  };
+};

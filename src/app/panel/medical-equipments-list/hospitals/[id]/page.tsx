@@ -22,3 +22,9 @@ const SingleHospitalPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export default SingleHospitalPage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "مشخصات بیمارستان های سراسر کشور",
+  };
+};

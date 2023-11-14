@@ -26,3 +26,9 @@ const ConsulationRequest = async () => {
 };
 
 export default ConsulationRequest;
+
+export const generateMetadata = async () => {
+  return {
+    title: "درخواست های مشاوره",
+  };
+};

@@ -99,6 +99,7 @@ const AdminMenu = ({
           alt="khorshidhasht"
           width={170}
           height={170}
+          unoptimized
         />
       </div>
       <div className="w-full flex items-center justify-center p-4 pt-0">

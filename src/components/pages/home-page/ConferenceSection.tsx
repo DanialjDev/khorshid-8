@@ -12,7 +12,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
   return (
     <Link
       href={link ? link : "/"}
-      className="w-full md:h-[240px] h-[200px] md:m-0 mt-5 md:col-span-1 col-span-3 flex flex-col"
+      className="w-full md:m-0 mt-5 md:col-span-1 col-span-3 flex flex-col"
     >
       <Image
         width={0}
@@ -23,6 +23,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
         src={imageUrl ? imageUrl : ""}
         alt={name}
         unoptimized
+        className="rounded-[10px]"
       />
       <p className="text-[14px] md:text-right text-center mr-3">
         {name.length > 20 ? `${name.slice(0, 35)}...` : name}

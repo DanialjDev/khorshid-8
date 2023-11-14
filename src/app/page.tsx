@@ -20,8 +20,10 @@ import { getHomePageDate, getHomePageDevies } from "@/services/homePage";
 import Conferences from "@/components/pages/home-page/ConferenceSection";
 import Link from "next/link";
 import RegisterMedicalDevice from "@/components/pages/home-page/RegisterMedicalDevice";
+import { cookies } from "next/headers";
 
 export default async function Home() {
+  const token = cookies().get("token")?.value;
   const homePageDate = await getHomePageDate();
   const homePageDevices = await getHomePageDevies("7");
   return (
@@ -34,7 +36,7 @@ export default async function Home() {
               <div className="px-7 py-10 lg:w-[40%] w-full text-[30px]">
                 <div className="w-full flex flex-col">
                   <p className="text-[22px]">
-                    کانون معرفی تجهزیتات پزشکی{" "}
+                    کانون معرفی تجهیزات پزشکی{" "}
                     <span className="text-primary">خورشید هشت</span>
                   </p>
                   <p className="text-gray text-[13px] w-[90%] my-10">
@@ -389,7 +391,7 @@ export default async function Home() {
           </div>
         </div>
         {/* Register Medical Devices */}
-        <RegisterMedicalDevice />
+        <RegisterMedicalDevice token={token} />
         {/* Some of the products */}
         <SectionBox
           href="/medical-equipments-market"

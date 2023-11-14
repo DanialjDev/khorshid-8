@@ -394,7 +394,7 @@ const AllEquipmentsInfo = ({
             />
           </div>
         </div>
-        <div className="w-full col-span-2 items-center gap-x-3 grid grid-cols-6">
+        <div className="w-full 2xl:col-span-2 lg:col-span-3 col-span-4 items-center gap-x-3 grid grid-cols-6">
           <div className="col-span-2">
             <Button
               text="خروجی اکسل"
@@ -469,7 +469,7 @@ const AllEquipmentsInfo = ({
               width="w-full"
               isLable
               name="enter_file"
-              text={nonBreakingSpace("وارد کردن از اکسل")}
+              text="وارد کردن از اکسل"
               color="text-primary"
               bg="bg-primaryDark7"
               border="border-[1.5px] border-primary"

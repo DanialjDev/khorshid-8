@@ -189,7 +189,7 @@ const ConfrencesContainer = ({
                 <div className="flex sm:w-fit w-full">
                   <Button
                     type="submit"
-                    text="ذخیره خبر"
+                    text="ذخیره همایش"
                     bg="bg-primaryDark6"
                     padding="px-20 py-[11px]"
                     rounded="rounded-[8px]"
@@ -199,7 +199,7 @@ const ConfrencesContainer = ({
                 </div>
                 <div className="flex sm:mr-8 mt-5 sm:mt-0 sm:w-fit w-full">
                   <Button
-                    text="حذف خبر"
+                    text="حذف همایش"
                     bg="bg-redColorLight"
                     padding="px-4 py-2"
                     border="border border-redColor"

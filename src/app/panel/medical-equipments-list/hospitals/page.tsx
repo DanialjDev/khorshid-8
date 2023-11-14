@@ -31,3 +31,9 @@ const Hospitals = async () => {
 };
 
 export default Hospitals;
+
+export const generateMetadata = async () => {
+  return {
+    title: "مشخصات بیمارستان های سراسر کشور",
+  };
+};

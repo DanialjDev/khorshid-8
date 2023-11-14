@@ -26,3 +26,9 @@ const Universities = async () => {
 };
 
 export default Universities;
+
+export const generateMetadata = async () => {
+  return {
+    title: "سایت دانشگاه های علوم پزشکی",
+  };
+};

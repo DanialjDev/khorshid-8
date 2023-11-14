@@ -78,7 +78,7 @@ const MedicalSection = ({}: // tableHeaders,
       // @ts-ignore
       sectionName,
       null,
-      selected!.value ? selected?.name : null,
+      selected!.value ? selected?.value : null,
       filterValue !== null ? filterValue : searchValue
     );
     if (filteredData?.data) {

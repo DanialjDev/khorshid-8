@@ -24,3 +24,9 @@ const RegisterProductPage = async () => {
 };
 
 export default RegisterProductPage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "درخواست های ثبت محصول",
+  };
+};

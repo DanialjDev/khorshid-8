@@ -29,18 +29,23 @@ const MedicalEquipmentsPurchasingExpert = async () => {
     <PurchasingExpertContainer>
       <div className="w-full">
         <Box>
-          <div className="w-full grid grid-cols-12 p-3 h-full">
+          <div className="grid grid-cols-12 p-3">
             {counselorData?.object && (
               <Image
                 src={counselorData.object.imageUrl}
                 alt={counselorData.object.fullName}
-                width={200}
-                height={100}
-                className="m-auto cos-span-3"
+                width={300}
+                height={200}
+                className="m-auto md:col-span-2 sm:col-span-3 col-span-12"
+                style={{
+                  width: "300px",
+                  height: "200px",
+                  // objectFit: "cover",
+                }}
                 unoptimized
               />
             )}
-            <div className="flex col-span-9 flex-col text-[16px] justify-between text-dark h-full px-4">
+            <div className="flex md:col-span-10 sm:col-span-9 col-span-12 flex-col text-[16px] justify-between text-dark h-full px-4">
               <p className="text-[16px]">{counselorData?.object?.fullName}</p>
               <p className="my-4 text-[16px]">
                 جایگاه:{" "}

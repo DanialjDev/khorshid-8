@@ -22,3 +22,9 @@ const EventsPage = async ({ params }: { params: { id: string } }) => {
 };
 
 export default EventsPage;
+
+export const generateMetadata = async () => {
+  return {
+    title: "مناسبت های پزشکی",
+  };
+};

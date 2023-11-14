@@ -29,3 +29,9 @@ const SingleVicePresidentOfTreatments = async ({
 };
 
 export default SingleVicePresidentOfTreatments;
+
+export const generateMetadata = async () => {
+  return {
+    title: "تلفن و نام معاونت درمانی دانشگاه های علوم پزشکی",
+  };
+};

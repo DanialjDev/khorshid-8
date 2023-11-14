@@ -28,3 +28,9 @@ const Companies = async () => {
 };
 
 export default Companies;
+
+export const generateMetadata = async () => {
+  return {
+    title: "نام و تلفن شرکت های تجهیزات پزشکی ایران",
+  };
+};

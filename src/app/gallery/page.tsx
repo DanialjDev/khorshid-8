@@ -1,4 +1,7 @@
+export const revalidate = 5;
+
 import { getGalleryPhotos } from "@/services/gallery";
+import { getTitle } from "@/utills/getTitle";
 import Image from "next/image";
 import React from "react";
 import { BounceLoader } from "react-spinners";
@@ -30,3 +33,9 @@ const Gallery = async () => {
 };
 
 export default Gallery;
+
+export const generateMetadata = async () => {
+  return {
+    title: getTitle("gallery"),
+  };
+};

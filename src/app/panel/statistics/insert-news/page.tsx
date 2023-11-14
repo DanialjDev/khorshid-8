@@ -12,6 +12,10 @@ const InsertNews = async ({
   params: { slug: string };
   searchParams?: { newsId: string | undefined };
 }) => {
+  const singleNews = await getSingleNews(
+    searchParams?.newsId!,
+    cookies().get("token")?.value!
+  );
   return (
     <div className="w-full flex-col">
       <PageTitle
@@ -20,7 +24,9 @@ const InsertNews = async ({
       />
       <div className="w-full mt-8">
         <InsertBox>
-          <NewsUpdateForm />
+          <NewsUpdateForm
+            singleNews={singleNews?.singleNews ? singleNews.singleNews : null}
+          />
         </InsertBox>
       </div>
     </div>
@@ -28,3 +34,9 @@ const InsertNews = async ({
 };
 
 export default InsertNews;
+
+export const generateMetadata = async (ctx: any) => {
+  return {
+    title: `درج خبر`,
+  };
+};

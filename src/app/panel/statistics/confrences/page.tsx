@@ -20,3 +20,9 @@ const Confrences = async () => {
 };
 
 export default Confrences;
+
+export const generateMetadata = async (ctx: any) => {
+  return {
+    title: "همایش ها",
+  };
+};

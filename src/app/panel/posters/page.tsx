@@ -17,3 +17,9 @@ const Posters = async () => {
 };
 
 export default Posters;
+
+export const generateMetadata = async () => {
+  return {
+    title: "تصاویر و پوستر ها",
+  };
+};

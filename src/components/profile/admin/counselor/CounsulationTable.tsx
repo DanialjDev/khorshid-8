@@ -37,7 +37,7 @@ const CounsulationTable = ({ data }: { data: CounsulationObj }) => {
                 {item.phoneNumber}
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
-                {item.comment}
+                {`${item.comment.slice(0, 70)}...`}
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
                 {gregorianIsoToJalaali(item.creationDate)}

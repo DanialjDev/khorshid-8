@@ -19,10 +19,16 @@ const MedicalEvents = async () => {
         removeUrl="RemoveEvents"
         title=" مناسبت های پزشکی"
         desc="شما می توانید مشخصات بیمارستان های سراسر کشور  ( کتاب ) را در اینجا مشاهده کنید."
-        postListUrl='PostEvents'
+        postListUrl="PostEvents"
       />
     </div>
   );
 };
 
 export default MedicalEvents;
+
+export const generateMetadata = async () => {
+  return {
+    title: "مناسبت های پزشکی",
+  };
+};
