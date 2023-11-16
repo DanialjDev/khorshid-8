@@ -18,14 +18,14 @@ import { isUrl } from "@/utills/formatHelper";
 
 const UpdatePosterModal = ({
   setIsOpen,
+  isLinkRequired,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isLinkRequired?: boolean;
 }) => {
   const { refresh } = useRouter();
   const dispatch = useAppDispatch();
-  const { isLinkRequired, updateAction } = useAppSelector(
-    (state) => state.auth
-  );
+  const { updateAction } = useAppSelector((state) => state.auth);
   const { id } = useAppSelector((state) => state.user);
   const token = Cookies.get("token");
   // const [initialValues, validationSchema] = usePanelValidation("updatePoster")!;
@@ -103,11 +103,13 @@ const UpdatePosterModal = ({
     },
   });
 
-  useEffect(() => {
-    return () => {
-      dispatch(setLinkRequired(true));
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     if (isLinkRequired) {
+  //       dispatch(setLinkRequired(false));
+  //     }
+  //   };
+  // }, []);
   return (
     <form onSubmit={handleSubmit} className="mb-10 grid grid-cols-1">
       <div className="w-full my-2 col-span-1 ">

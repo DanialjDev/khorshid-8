@@ -149,7 +149,7 @@ const MedicalSection = ({}: // tableHeaders,
                 </div>
               </div>
               <div className="w-full grid md:gap-8 gap-4 items-stretch grid-cols-2">
-                <div className="md:col-span-1 col-span-2 pt-1 md:h-full h-[60px] relative">
+                <div className="md:col-span-1 col-span-2 pt-1 md:h-full h-[60px] relative z-40">
                   <CustomSelect
                     selected={selected!}
                     // @ts-ignore

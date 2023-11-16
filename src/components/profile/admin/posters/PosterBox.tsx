@@ -21,7 +21,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Conference } from "@/services/homePage/types";
 import Link from "next/link";
 import Modal from "@/components/main/modal/Modal";
-import FormLayout from "@/components/auth/layout/FormLayout";
+import UpdatePosterModal from "./UpdatePosterModal";
 
 type Action = "gallery" | "medicalEquipment" | "homeSideBanner";
 
@@ -230,13 +230,10 @@ const PosterBox = ({
                   />
                   <IconBox
                     onClick={() => {
-                      dispatch(authToggler("updatePoster"));
+                      // dispatch(authToggler("updatePoster"));
                       setIsOpen(true);
                       dispatch(setUpdateAction(action));
                       dispatch(setId(id));
-                      if (action === "gallery") {
-                        dispatch(setLinkRequired(false));
-                      }
                     }}
                     icon={
                       <svg
@@ -319,13 +316,13 @@ const PosterBox = ({
                   <div
                     className="flex justify-center items-center"
                     onClick={() => {
-                      dispatch(authToggler("updatePoster"));
+                      // dispatch(authToggler("updatePoster"));
                       setIsOpen(true);
                       dispatch(setUpdateAction(action));
                       dispatch(setId(id));
-                      if (action === "gallery") {
-                        dispatch(setLinkRequired(false));
-                      }
+                      // if (action === "gallery") {
+                      //   dispatch(setLinkRequired(false));
+                      // }
                     }}
                   >
                     <svg
@@ -370,7 +367,10 @@ const PosterBox = ({
         </div>
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <FormLayout setIsOpen={setIsOpen} />
+        <UpdatePosterModal
+          isLinkRequired={action === "gallery" ? false : true}
+          setIsOpen={setIsOpen}
+        />
       </Modal>
     </>
   );

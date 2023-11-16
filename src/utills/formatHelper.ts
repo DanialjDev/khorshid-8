@@ -218,6 +218,7 @@ export const getExcelTitles = (action: EndPoints) => {
 };
 
 export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
+  console.log(action);
   switch (action) {
     case "GetDevices":
       // @ts-ignore
@@ -232,6 +233,7 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.imageUrl ? item.imageUrl : "",
         ]);
       });
+      break;
     case "GetCompanies":
       // @ts-ignore
       data.forEach((item) => {
@@ -243,6 +245,8 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.faxNumber,
         ]);
       });
+      break;
+
     case "GetDeansOfUniversities":
       // @ts-ignore
       data.forEach((item) => {
@@ -253,6 +257,7 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.telephone,
         ]);
       });
+      break;
 
     case "GetEvents":
       // @ts-ignore
@@ -262,6 +267,8 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           gregorianIsoToJalaali(item.eventDate),
         ]);
       });
+      break;
+
     case "GetHospitals":
       // @ts-ignore
       data.forEach((item) => {
@@ -276,6 +283,8 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.telephone,
         ]);
       });
+      break;
+
     case "GetLabs":
       // @ts-ignore
       data.forEach((item) => {
@@ -286,6 +295,8 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.telephone,
         ]);
       });
+      break;
+
     case "GetVicePresidentsOfTreatment":
       // @ts-ignore
       data.forEach((item) => {
@@ -295,12 +306,14 @@ export const jsonToExcel = (data: any, targetArray: any, action: EndPoints) => {
           item.telephone,
         ]);
       });
+      break;
+
     case "GetUniversities":
       // @ts-ignore
       data.forEach((item) => {
         targetArray.push([item.universityName, item.website]);
       });
-
-      return targetArray;
+      break;
   }
+  return targetArray;
 };

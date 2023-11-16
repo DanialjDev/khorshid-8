@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "../../../../public/assets/images/navbar-logo.png";
-import { authToggler } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import Cookies from "js-cookie";
 import { decrypt } from "@/utills/crypto";
-import { getHeaderPhoneNumber } from "@/services/common";
 import Modal from "../modal/Modal";
 import Login from "@/components/auth/login/Login";
-import FormLayout from "@/components/auth/layout/FormLayout";
+import Signup from "@/components/auth/signup/Signup";
+import ForgotPassword from "@/components/auth/login/ForgotPassword";
+import ChangePassword from "@/components/auth/login/ChangePassword";
 
 const MenuItem = ({
   href,
@@ -62,8 +62,16 @@ const Navbar = ({
   headerPhoneNumber: string | undefined;
   token: string | undefined;
 }) => {
+  const [authAction, setAuthAction] = useState<
+    | ""
+    | "login"
+    | "signup"
+    | "forgotPassword"
+    | "changePassword"
+    | "updatePoster"
+    | "updateDeviceNumber"
+  >("login");
   const { push } = useRouter();
-  const dispatch = useAppDispatch();
   let userInfo: any;
   if (token) {
     userInfo = token
@@ -87,7 +95,6 @@ const Navbar = ({
       }
     } else {
       setIsOpen(true);
-      dispatch(authToggler("login"));
     }
   };
 
@@ -163,7 +170,7 @@ const Navbar = ({
           <div className="flex items-center">
             <div className="flex">
               <Link
-                href={`callto:${headerPhoneNumber}`}
+                href={`tel:${headerPhoneNumber}`}
                 className="flex text-[12px] justify-center items-center bg-primaryLight p-3 rounded-md border-2 border-primary xl:scale-100 scale-[.8]"
               >
                 <svg
@@ -213,9 +220,30 @@ const Navbar = ({
                   />
                 </svg>
               </div>
-              <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-                <FormLayout setIsOpen={setIsOpen} />
-              </Modal>
+              {isOpen && (
+                <Modal
+                  setAuthAction={setAuthAction}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                >
+                  {authAction === "login" ? (
+                    <Login
+                      setAuthAction={setAuthAction}
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
+                    />
+                  ) : authAction === "signup" ? (
+                    <Signup
+                      setAuthAction={setAuthAction}
+                      setIsOpen={setIsOpen}
+                    />
+                  ) : authAction === "forgotPassword" ? (
+                    <ForgotPassword setAuthAction={setAuthAction} />
+                  ) : authAction === "changePassword" ? (
+                    <ChangePassword />
+                  ) : null}
+                </Modal>
+              )}
             </div>
           </div>
         </div>

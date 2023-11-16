@@ -1,20 +1,36 @@
+"use client";
+
 import React, { ReactNode } from "react";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import Image from "next/image";
 
 import Logo from "../../../../public/assets/images/navbar-logo.png";
+import { usePathname } from "next/navigation";
 
 const Modal = ({
   isOpen,
   setIsOpen,
   children,
+  setAuthAction,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
+  setAuthAction?: React.Dispatch<
+    React.SetStateAction<
+      | ""
+      | "login"
+      | "signup"
+      | "forgotPassword"
+      | "changePassword"
+      | "updatePoster"
+      | "updateDeviceNumber"
+    >
+  >;
 }) => {
+  const pathname = usePathname();
   return (
     <>
       {isOpen && (
@@ -22,7 +38,12 @@ const Modal = ({
           <Dialog
             as="div"
             className="relative z-50"
-            onClose={() => setIsOpen(false)}
+            onClose={() => {
+              setIsOpen(false);
+              if (setAuthAction) {
+                setAuthAction("login");
+              }
+            }}
           >
             <Transition.Child
               as={Fragment}
@@ -53,7 +74,12 @@ const Modal = ({
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
                       <div
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          setIsOpen(false);
+                          if (setAuthAction) {
+                            setAuthAction("login");
+                          }
+                        }}
                         className="absolute z-50 top-2 right-2 p-2 cursor-pointer"
                       >
                         <svg
@@ -79,6 +105,19 @@ const Modal = ({
                           />
                         </svg>
                       </div>
+                      {!pathname.startsWith(
+                        "/panel/register-product-requests/"
+                      ) && (
+                        <div className="w-full flex justify-center items-center mt-3">
+                          <Image
+                            width={120}
+                            height={120}
+                            src={Logo}
+                            alt=""
+                            unoptimized
+                          />
+                        </div>
+                      )}
                     </Dialog.Title>
                     {children}
                   </Dialog.Panel>

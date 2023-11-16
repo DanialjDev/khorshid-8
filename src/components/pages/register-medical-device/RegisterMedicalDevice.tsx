@@ -39,6 +39,7 @@ const RegisterMedicalDevice = ({
     errors,
     touched,
     setFieldValue,
+    resetForm,
   } = useFormik({
     initialValues,
     validationSchema,
@@ -63,19 +64,10 @@ const RegisterMedicalDevice = ({
       const response = await postProfileDevice(formData, Cookies.get("token")!);
 
       if (response?.status === 200) {
-        toast.success(response.message, {
-          autoClose: 2500,
-          style: {
-            width: "max-content",
-          },
-        });
+        toast.success(response.message);
+        resetForm();
       } else {
-        toast.error(response?.message, {
-          autoClose: 2500,
-          style: {
-            width: "max-content",
-          },
-        });
+        toast.error(response?.message);
       }
     },
   });

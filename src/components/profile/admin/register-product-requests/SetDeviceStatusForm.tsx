@@ -106,7 +106,7 @@ const SetDeviceStatusForm = ({
                   fontWeight="font-bold"
                   rounded="rounded-[3px]"
                   padding="py-[5px] px-10"
-                  // onClick={() => declineDevice(deviceInitialValues?.deviceId!)}
+                  onClick={() => declineDevice(deviceInitialValues?.deviceId!)}
                 />
               </div>
               <div className="mr-4">

@@ -14,8 +14,20 @@ import { toast } from "react-toastify";
 
 const Signup = ({
   setIsOpen,
+  setAuthAction,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setAuthAction: React.Dispatch<
+    React.SetStateAction<
+      | ""
+      | "updatePoster"
+      | "updateDeviceNumber"
+      | "login"
+      | "signup"
+      | "forgotPassword"
+      | "changePassword"
+    >
+  >;
 }) => {
   const dispatch = useAppDispatch();
 
@@ -93,7 +105,9 @@ const Signup = ({
           قبلا ثبت نام کردید؟{" "}
           <span
             className="underline cursor-pointer text-primary"
-            onClick={() => dispatch(authToggler("login"))}
+            onClick={() => {
+              setAuthAction("login");
+            }}
           >
             ورود به حساب کاربری
           </span>

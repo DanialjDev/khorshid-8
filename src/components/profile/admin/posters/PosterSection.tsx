@@ -8,7 +8,7 @@ import Button from "@/components/main/button/Button";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
 import Modal from "@/components/main/modal/Modal";
-import FormLayout from "@/components/auth/layout/FormLayout";
+import UpdatePosterModal from "./UpdatePosterModal";
 
 const PosterSection = ({
   title,
@@ -31,8 +31,8 @@ const PosterSection = ({
             color="text-white"
             rounded="rounded-[6px]"
             onClick={() => {
-              dispatch(setLinkRequired(false));
-              dispatch(authToggler("updatePoster"));
+              // dispatch(setLinkRequired(false));
+              // dispatch(authToggler("updatePoster"));
               setIsOpen(true);
             }}
             icon={
@@ -60,7 +60,7 @@ const PosterSection = ({
         {children}
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <FormLayout setIsOpen={setIsOpen} />
+        <UpdatePosterModal isLinkRequired={false} setIsOpen={setIsOpen} />
       </Modal>
     </div>
   );

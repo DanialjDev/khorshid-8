@@ -1,18 +1,31 @@
 import FormButton from "@/components/main/button/FormButton";
 import AuthInput from "@/components/main/input/AuthInput";
-import { authToggler, setEmail } from "@/redux/features/auth/authSlice";
+import { setEmail } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { forgotPasswordHandler } from "@/services/auth";
 import { InitialValues } from "@/utills/validation/auth/types";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({
+  setAuthAction,
+}: {
+  setAuthAction: React.Dispatch<
+    React.SetStateAction<
+      | ""
+      | "login"
+      | "signup"
+      | "forgotPassword"
+      | "changePassword"
+      | "updatePoster"
+      | "updateDeviceNumber"
+    >
+  >;
+}) => {
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("forgotPassword")!;
-  const [isOpen, setIsOpen] = useState(false);
 
   const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
     {
@@ -29,7 +42,7 @@ const ForgotPassword = () => {
           }
           if (response.status === 200 && response.message) {
             toast.success(response.message);
-            dispatch(authToggler("changePassword"));
+            setAuthAction("changePassword");
             // @ts-ignore
             dispatch(setEmail(values.email));
           }

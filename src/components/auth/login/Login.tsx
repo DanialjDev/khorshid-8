@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthInput from "@/components/main/input/AuthInput";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { authToggler, setIsLoggedIn } from "@/redux/features/auth/authSlice";
@@ -9,14 +9,38 @@ import { loginHandler } from "@/services/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/main/modal/Modal";
+import Signup from "../signup/Signup";
 
 const Login = ({
   setIsOpen,
+  isOpen,
+  setAuthAction,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  setAuthAction: React.Dispatch<
+    React.SetStateAction<
+      | ""
+      | "login"
+      | "signup"
+      | "forgotPassword"
+      | "changePassword"
+      | "updatePoster"
+      | "updateDeviceNumber"
+    >
+  >;
 }) => {
   const dispatch = useAppDispatch();
   const { push, refresh } = useRouter();
+  // const [authAction, setAuthAction] = useState<
+  //   | ""
+  //   | "login"
+  //   | "signup"
+  //   | "forgotPassword"
+  //   | "changePassword"
+  //   | "updatePoster"
+  //   | "updateDeviceNumber"
+  // >("login");
   const [initialValues, validationSchema] = useValidation("login")!;
 
   const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
@@ -73,8 +97,9 @@ const Login = ({
         <div className="w-full mt-3">
           <FormButton
             onClick={() => {
-              dispatch(authToggler("forgotPassword"));
-              setIsOpen(true);
+              // dispatch(authToggler("forgotPassword"));
+              // setIsOpen(true);
+              setAuthAction("forgotPassword");
             }}
             text="فراموشی رمزعبور"
             bg="bg-primaryLight"
@@ -87,13 +112,18 @@ const Login = ({
             آیا حساب کاربری ندارید؟{" "}
             <span
               className="underline cursor-pointer text-primary"
-              onClick={() => dispatch(authToggler("signup"))}
+              onClick={() => setAuthAction("signup")}
             >
               ساخت حساب کاربری
             </span>
           </p>
         </div>
       </form>
+      {/* {authAction === "signup" && (
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <Signup setIsOpen={setIsOpen} />
+        </Modal>
+      )} */}
     </>
   );
 };

@@ -69,7 +69,7 @@ const AdminMenu = ({
   nav: boolean;
   setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
   return (
     <div
       className={`w-[270px] h-screen overflow-scroll fixed ${
@@ -678,7 +678,7 @@ const AdminMenu = ({
                 secure: false,
                 sameSite: "Lax",
               });
-
+              refresh();
               push("/");
             }}
           />

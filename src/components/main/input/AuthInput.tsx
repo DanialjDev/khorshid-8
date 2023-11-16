@@ -97,6 +97,7 @@ const AuthInput = ({
                   type={type}
                   name={name}
                   id={name}
+                  autoFocus={false}
                   className={`border text-[14px] pr-10 text-dark focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
                     !disabled
                       ? "hover:shadow-inputHover hover:border-inputHoverBorder"
@@ -132,6 +133,7 @@ const AuthInput = ({
               ) : (
                 <input
                   disabled={disabled}
+                  autoFocus={false}
                   type={type}
                   name={name}
                   id={name}
@@ -157,6 +159,7 @@ const AuthInput = ({
             disabled={disabled}
             type={type}
             name={name}
+            autoFocus={false}
             id={name}
             className={`border focus:border-primary autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 ${
               !disabled

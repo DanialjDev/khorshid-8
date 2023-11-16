@@ -5,23 +5,20 @@ import ImageInput from "@/components/main/image-input/ImageInput";
 import AuthInput from "@/components/main/input/AuthInput";
 import {
   deleteNews,
-  getSingleNews,
   updateSingleNews,
 } from "@/services/profile/admin/statistics";
 import { News } from "@/services/profile/admin/statistics/types";
 import { isUrl } from "@/utills/formatHelper";
 import { useFormik } from "formik";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
-  const newsId = useSearchParams().get("newsId");
   const { refresh, push } = useRouter();
   const [isImageChanged, setIsImageChanged] = useState(false);
-  // const [singleNews, setSingleNews] = useState<News | null>(null);
 
   const {
     errors,
@@ -40,9 +37,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
     },
     validationSchema: Yup.object().shape({
       title: Yup.string().required("پرکردن این فیلد الزامی است."),
-      description: Yup.string()
-        .required("پرکردن این فیلد الزامی است.")
-        .max(16, "زیر متن خبر نمیتواند بیشتر از ۱۶ کارکتر باشد"),
+      description: Yup.string().required("پرکردن این فیلد الزامی است."),
       image: Yup.mixed().required("انتخاب تصویر الزامی است"),
       link: Yup.string()
         .required("پرکردن این فیلد الزامی است.")
@@ -86,20 +81,6 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
       }
     },
   });
-
-  // const fetchData = async () => {
-  //   const singleNewsRes = await getSingleNews(newsId!, Cookies.get("token")!);
-
-  //   if (singleNewsRes?.singleNews) {
-  //     setSingleNews(singleNewsRes.singleNews);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  //   // console.log(singleNews);
-  //   console.log(values);
-  // }, []);
 
   const deleteSingleNewsHanlder = async () => {
     const deleteNewsRes = await deleteNews(

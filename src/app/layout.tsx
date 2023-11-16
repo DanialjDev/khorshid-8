@@ -1,10 +1,8 @@
-import { getHeaderPhoneNumber, postPageView } from "@/services/common";
+import { getHeaderPhoneNumber } from "@/services/common";
 import "./globals.css";
 import ReduxProvider from "@/redux/Provider";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { getGalleryPhotos } from "@/services/gallery";
-import { date } from "yup";
-import { getNews } from "@/services/profile/admin/statistics";
 
 export default async function RootLayout({
   children,
@@ -16,13 +14,7 @@ export default async function RootLayout({
   const token = cookies().get("token")?.value;
 
   return (
-    <html
-      lang="en"
-      dir="rtl"
-      style={{
-        overflow: "auto !important",
-      }}
-    >
+    <html lang="en" dir="rtl">
       <body className="text-dark !bg-[#FCFCFC] h-full">
         <ReduxProvider
           galleryItems={galleryItems?.data ? galleryItems.data! : null}

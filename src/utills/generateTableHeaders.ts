@@ -84,7 +84,7 @@ export const generateHeaders = (
       return [
         { name: "نام و نام خانوادگی", value: "" },
         { name: "شماره تماس", value: "" },
-        { name: "انتخاب واحد مشاوره", value: "" },
+        { name: "متن پیام", value: "" },
         { name: "تاریخ ثبت درخواست", value: "" },
         { name: "اطلاعات بیشتر", value: "" },
       ];

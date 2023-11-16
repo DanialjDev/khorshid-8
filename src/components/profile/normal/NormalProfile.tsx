@@ -265,8 +265,8 @@ const NormalProfile = ({
                     secure: false,
                     sameSite: "Lax",
                   });
-
                   push("/");
+                  refresh();
                 }}
                 icon={
                   <svg

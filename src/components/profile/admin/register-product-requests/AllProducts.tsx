@@ -64,7 +64,10 @@ const AllProducts = ({
   return (
     <div className="w-full flex flex-col">
       <div className="w-full my-3">
-        <CustomeTable headers={tableHeaders ? tableHeaders : []}>
+        <CustomeTable
+          text="درخواستی برای ثبت محصول وجود ندارد"
+          headers={tableHeaders ? tableHeaders : []}
+        >
           {productsData && productsData.data
             ? productsData.data.map((item, index) => (
                 <tr key={item.deviceId}>
