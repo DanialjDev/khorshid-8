@@ -2,7 +2,7 @@
 
 import Box from "@/components/main/Box/Box";
 import Image from "next/image";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Button from "@/components/main/button/Button";
 import SectionBox from "../home-page/SectionBox";
 
@@ -21,6 +21,7 @@ import {
 import AuthInput from "@/components/main/input/AuthInput";
 
 const PurchasingExpertContainer = ({ children }: { children: ReactNode }) => {
+  const [loading, setLoading] = useState(false);
   const [initialValues, validationSchema] = useValidation("contact-us") as [
     InitialValues,
     ValidationSchemaType
@@ -38,24 +39,15 @@ const PurchasingExpertContainer = ({ children }: { children: ReactNode }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true);
       const response = await contactUsPost(values);
-      resetForm();
       if (response?.message) {
         if (response.status === 200 && response.message) {
-          toast.success(response.message, {
-            autoClose: 2500,
-            style: {
-              width: "max-content",
-            },
-          });
+          toast.success(response.message);
           resetForm();
+          setLoading(false);
         } else {
-          toast.error(response.message, {
-            autoClose: 2500,
-            style: {
-              width: "max-content",
-            },
-          });
+          toast.error(response.message);
         }
       }
     },
@@ -309,6 +301,7 @@ const PurchasingExpertContainer = ({ children }: { children: ReactNode }) => {
                   color="text-white"
                   width="w-[180px]"
                   hover="hover:bg-btnPrimaryHover"
+                  loading={loading}
                 />
               </form>
             </div>

@@ -1,6 +1,9 @@
-import React, { ReactNode } from "react";
+"use client";
+
+import React, { ReactNode, useState } from "react";
 import Image from "next/image";
 import Button from "../../main/button/Button";
+import { useRouter } from "next/navigation";
 
 const Ticket = ({
   title,
@@ -29,6 +32,8 @@ const Ticket = ({
   isDisabled?: boolean;
   href?: string;
 }) => {
+  const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
   return (
     <div className="w-full grid grid-cols-5 items-stretch mt-5 gap-5 justify-center">
       <div className="lg:col-span-2 col-span-5 rounded-xl overflow-hidden w-fit">
@@ -41,7 +46,13 @@ const Ticket = ({
           <Button
             bg={btnBgColor}
             disabled={isDisabled}
-            href={href ? href : undefined}
+            onClick={() => {
+              setLoading(true);
+              if (href) {
+                push(href);
+              }
+            }}
+            loading={loading}
             dir={dir}
             text={btnText}
             icon={icon}

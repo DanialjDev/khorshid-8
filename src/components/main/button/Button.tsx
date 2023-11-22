@@ -1,7 +1,8 @@
 "use client";
 
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import React, { ReactNode } from "react";
+import { BeatLoader } from "react-spinners";
 
 interface ButtonProps {
   text?: string;
@@ -22,6 +23,8 @@ interface ButtonProps {
   fontWeight?: string;
   isLable?: boolean;
   name?: string;
+  loading?: boolean;
+  isDanger?: boolean;
 }
 
 const Button = ({
@@ -43,7 +46,24 @@ const Button = ({
   fontWeight,
   isLable,
   name,
+  loading,
+  isDanger,
 }: ButtonProps) => {
+  if (loading) {
+    return (
+      <div
+        className={`${width} transition duration-200 ease-in-out flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed ${
+          hover ? hover : ""
+        } ${border ? border : ""} ${color} ${
+          dir === "rtl" ? "flex-row-reverse" : "flex-row"
+        } ${bg ? `${bg}` : "bg-primary"} ${
+          padding ? padding : "px-[30px] py-[10px]"
+        } ${rounded ? rounded : "rounded-xl"}`}
+      >
+        <BeatLoader color={isDanger ? "#E41819" : "#ffffff"} size={7} />
+      </div>
+    );
+  }
   return (
     <>
       {href && !disabled ? (

@@ -66,7 +66,7 @@ export const filterDevices = async (
       if (lastIndex === "&") {
         categories = categories.substring(0, categories.length - 1);
       }
-      reqUrl = `${baseUrl}?Search=${searchInput}&${categories}`;
+      reqUrl = `${baseUrl}&Search=${searchInput}&${categories}`;
     } else {
       reqUrl = baseUrl;
     }

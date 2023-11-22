@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FormButton from "@/components/main/button/FormButton";
 import Input from "@/components/main/input/AuthInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
@@ -7,8 +7,11 @@ import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { authToggler } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 const ChangePassword = () => {
+  const [loading, setLoading] = useState(false);
+
   const { email } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("changePassword")!;
@@ -18,6 +21,7 @@ const ChangePassword = () => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
+        setLoading(true);
         const data = {
           ...values,
           email,
@@ -25,6 +29,7 @@ const ChangePassword = () => {
         const response = await changePasswordHandler(data);
         if (response && response.message) {
           if (response.status === 200) {
+            setLoading(false);
             toast.success(response.message);
             dispatch(authToggler("login"));
           } else {
@@ -69,7 +74,7 @@ const ChangePassword = () => {
         touched={touched}
       />
       <div className="w-full flex justify-center items-center mt-28 mb-10">
-        <FormButton text="ذخیره تغییرات" />
+        <FormButton loading={loading} text="ذخیره تغییرات" />
       </div>
     </form>
   );

@@ -13,17 +13,19 @@ const Gallery = async () => {
     return <BounceLoader size={20} color="red" />;
   }
   return (
-    <div className="w-full grid items-stretch grid-cols-6">
+    <div className="w-full grid items-stretch gap-5 grid-cols-6">
       {galleryItems?.data?.map(({ id, imageUrl }) => (
-        <div className="lg:col-span-2 md:col-span-3 col-span-6" key={id}>
+        <div
+          className="lg:col-span-2 w-full h-[300px] overflow-hidden rounded-lg shadow-adminFormBox border border-adminFormBorder flex justify-center items-center md:col-span-3 col-span-6"
+          key={id}
+        >
           <Image
-            width={0}
-            height={0}
+            width={600}
+            height={400}
             objectFit="contain"
-            sizes="100vw"
-            style={{ width: "100%", height: "100%" }}
             alt=""
             src={imageUrl}
+            className="overflow-hidden"
             unoptimized
           />
         </div>

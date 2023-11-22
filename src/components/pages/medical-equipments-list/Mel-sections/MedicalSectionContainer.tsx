@@ -1,10 +1,7 @@
 "use client";
 
 import React, { ReactNode, useEffect, useState } from "react";
-import {
-  DeviceBannerObject,
-  OperationNames,
-} from "@/services/medical-equipment/types";
+import { DeviceBannerObject } from "@/services/medical-equipment/types";
 import AuthInput from "@/components/main/input/AuthInput";
 import Box from "@/components/main/Box/Box";
 import Button from "@/components/main/button/Button";
@@ -16,25 +13,20 @@ import Pagination from "@/components/main/pagination/Pagination";
 import CustomSelect from "@/components/main/input/CustomSelect";
 import { toast } from "react-toastify";
 import { jalaaliToGregorianISO } from "@/utills/formatHelper";
-import { getStates } from "@/services/common";
 import Image from "next/image";
-import { generateHeaders } from "@/utills/generateTableHeaders";
-const MedicalSection = ({}: // tableHeaders,
-// operationName,
-// totalPageCount,
-{
-  // tableHeaders: { name: string; value: string }[];
-  // operationName: OperationNames;
-  // totalPageCount?: number;
+const MedicalSection = ({
+  tableHeaders,
+}: {
+  tableHeaders: { name: string; value: string }[] | undefined;
 }) => {
   const sectionName = useSearchParams().get("name")!;
 
-  const { refresh } = useRouter();
+  const [getItemsLoading, setGetItemsLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  const { refresh, push } = useRouter();
   const [tableData, setTableData] = useState<ReactNode | null>(null);
-  const [headers, setHeaders] = useState<
-    { name: string; value: string }[] | null
-  >(null);
-  const [selected, setSelected] = useState(headers && headers[0]);
+  const [selected, setSelected] = useState(tableHeaders && tableHeaders[0]);
   const [searchValue, setSearchValue] = useState<string | null>("");
   const [banner, setBanner] = useState<DeviceBannerObject | null>(null);
   const [totalPageCount, setTotalPageContain] = useState(0);
@@ -61,19 +53,6 @@ const MedicalSection = ({}: // tableHeaders,
     if (sectionName === "GetEvents") {
       filterValue = jalaaliToGregorianISO(searchValue!);
     }
-
-    if (sectionName === "GetHospotals") {
-      const states = await getStates();
-      const stateId =
-        states &&
-        states?.data &&
-        states?.data.filter((item) => item.stateName === filterValue)[0].id;
-      if (stateId) {
-        // @ts-ignore
-        filterValue = stateId;
-      }
-      console.log(stateId);
-    }
     const filteredData = await getSectionsData(
       // @ts-ignore
       sectionName,
@@ -82,12 +61,12 @@ const MedicalSection = ({}: // tableHeaders,
       filterValue !== null ? filterValue : searchValue
     );
     if (filteredData?.data) {
-      console.log(filteredData);
       const Data = TableBodyData({
         data: filteredData.data,
         // @ts-ignore
         operationName: sectionName,
       });
+      setSearchLoading(false);
       setTableData(Data);
     } else {
       toast.error(filteredData?.message);
@@ -100,8 +79,7 @@ const MedicalSection = ({}: // tableHeaders,
     if (bannerData?.banner) {
       setBanner(bannerData.banner);
     }
-    // @ts-ignore
-    setHeaders(generateHeaders(sectionName)!);
+
     // @ts-ignore
   };
 
@@ -114,6 +92,8 @@ const MedicalSection = ({}: // tableHeaders,
     setTableData(null);
     setSearchValue("");
     refresh();
+    // @ts-ignore
+    setSelected(tableHeaders[0]);
   }, [sectionName]);
   return (
     <>
@@ -156,8 +136,8 @@ const MedicalSection = ({}: // tableHeaders,
                     setSelected={setSelected!}
                     // @ts-ignore
                     items={
-                      headers &&
-                      headers.filter(
+                      tableHeaders &&
+                      tableHeaders.filter(
                         (item) =>
                           item.value !== "CityID" && item.value !== "CityId"
                       )
@@ -177,6 +157,7 @@ const MedicalSection = ({}: // tableHeaders,
                         viewBox="0 0 18 18"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        className="z-10"
                       >
                         <path
                           d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
@@ -203,6 +184,7 @@ const MedicalSection = ({}: // tableHeaders,
                 <div className="md:col-span-1 col-span-2">
                   <Button
                     onClick={async () => {
+                      setGetItemsLoading(true);
                       const medicalEquipmentData = await getSectionsData(
                         // @ts-ignore
                         sectionName
@@ -213,9 +195,13 @@ const MedicalSection = ({}: // tableHeaders,
                         // @ts-ignore
                         operationName: sectionName,
                       });
-                      setTableData(Data);
+                      if (Data) {
+                        setTableData(Data);
+                        setGetItemsLoading(false);
+                      }
                       refresh();
                     }}
+                    loading={getItemsLoading}
                     text="نمایش کل لیست جاری"
                     bg="bg-primaryLight"
                     border="border border-primary"
@@ -267,11 +253,13 @@ const MedicalSection = ({}: // tableHeaders,
                     width="w-full"
                     onClick={() => {
                       if (searchValue !== "") {
+                        setSearchLoading(true);
                         filterTableData();
                       } else {
                         toast.warning("لطفا کلمه مورد نظر خود را وارد کنید");
                       }
                     }}
+                    loading={searchLoading}
                     icon={
                       <svg
                         width="18"
@@ -302,7 +290,7 @@ const MedicalSection = ({}: // tableHeaders,
             </div>
           </Box>
           <div className="w-full mt-5">
-            <CustomeTable headers={headers ? headers : []}>
+            <CustomeTable headers={tableHeaders ? tableHeaders : []}>
               {tableData}
             </CustomeTable>
           </div>

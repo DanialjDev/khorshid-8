@@ -37,7 +37,7 @@ const Accordion = ({ title, desc }: AccordionProps) => {
               fill="#2F2F2F"
             />
           </svg>
-          <p className="mr-3 text-[16px]">{title}</p>
+          <p className="mr-3 w-[80%] text-[16px]">{title}</p>
         </div>
         <div className="collapse-content">
           <p className="text-[#707070] text-[14px]">{desc}</p>

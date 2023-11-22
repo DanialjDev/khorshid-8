@@ -1,16 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Box from "@/components/main/Box/Box";
-import SectionBox from "@/components/pages/home-page/SectionBox";
-import ContactInput from "@/components/pages/medical-equipments-purchasing-expert/ContactInput";
 import { getTitle } from "@/utills/getTitle";
-import AccordionContainer from "@/components/pages/medical-equipments-purchasing-expert/accordion/AccordionContainer";
 
-import BlueSquare from "../../../public/assets/images/home-page/blue-square.svg";
-import MedicalExpert from "../../../public/assets/images/medical-expert/medical-expert.svg";
 import { getCounselorData } from "@/services/counselor";
-import { toast } from "react-hot-toast";
-import Button from "@/components/main/button/Button";
 import PurchasingExpertContainer from "@/components/pages/medical-equipments-purchasing-expert/PurchasingExpertContainer";
 import { postPageView } from "@/services/common";
 import { headers } from "next/headers";

@@ -61,7 +61,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
       // @ts-ignore
       formData.append("Description", values.description);
       // @ts-ignore
-      formData.append("Link", values.link);
+      formData.append("Link", decodeURI(values.link));
       // @ts-ignore
       formData.append("IsImageChangedOrDeleted", isImageChanged);
       // @ts-ignore

@@ -20,7 +20,7 @@ const GroupButton = ({ text, flexBasis, value }: GroupBtnProps) => {
   return (
     <Link
       href={`/medical-equipments-list?name=${value}`}
-      className={`flex-1 justify-center mx-auto py-2 px-4 border-2 rounded-lg ${flexBasis} text-[16px] ${
+      className={`flex-1 justify-center mx-auto py-2 px-4 border-2 rounded-lg ${flexBasis} 2xl:text-[16px] text-[14px] ${
         searchParams.get("name") === value
           ? "text-primary border-primary bg-primaryLight"
           : "text-[#707070] border-[#E6E6E6] bg-[#F9F9F9]"

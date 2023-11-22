@@ -30,17 +30,9 @@ const Login = ({
     >
   >;
 }) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const { push, refresh } = useRouter();
-  // const [authAction, setAuthAction] = useState<
-  //   | ""
-  //   | "login"
-  //   | "signup"
-  //   | "forgotPassword"
-  //   | "changePassword"
-  //   | "updatePoster"
-  //   | "updateDeviceNumber"
-  // >("login");
   const [initialValues, validationSchema] = useValidation("login")!;
 
   const { errors, handleBlur, handleChange, handleSubmit, touched } = useFormik(
@@ -48,6 +40,7 @@ const Login = ({
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
+        setLoading(true);
         const response = await loginHandler(values);
         if (response) {
           if (response.status === 200 && response.message) {
@@ -92,7 +85,7 @@ const Login = ({
           touched={touched}
         />
         <div className="w-full mt-10">
-          <FormButton text="ورود" />
+          <FormButton text="ورود" loading={loading} />
         </div>
         <div className="w-full mt-3">
           <FormButton

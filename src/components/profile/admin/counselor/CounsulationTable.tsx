@@ -43,12 +43,12 @@ const CounsulationTable = ({ data }: { data: CounsulationObj }) => {
                 {gregorianIsoToJalaali(item.creationDate)}
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
-                <Link
-                  href={`callto:${item.phoneNumber}`}
+                <a
+                  href={`tel:${item.phoneNumber}`}
                   className="py-3 px-7 cursor-pointer text-primaryDark underline w-fit flex justify-center items-center rounded-full bg-primaryLight"
                 >
                   تماس
-                </Link>
+                </a>
               </td>
             </tr>
           ))}

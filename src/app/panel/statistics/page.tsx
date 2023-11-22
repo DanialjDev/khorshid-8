@@ -23,7 +23,7 @@ const Statistics = async () => {
   const headerPhoneNumber = await getHeaderPhoneNumber();
 
   return (
-    <div className="w-full grid grid-cols-6 gap-6 !h-[450px] items-stretch">
+    <div className="w-full grid grid-cols-6 gap-6 items-stretch">
       <div className="w-full md:col-span-3 col-span-6 h-[470px]">
         <StatisticsBox hasTitleIcon={false}>
           <DeviceLogsChart devicesLogsData={deviceLogs ? deviceLogs : null} />

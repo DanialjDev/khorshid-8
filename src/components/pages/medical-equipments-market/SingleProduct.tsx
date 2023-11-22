@@ -2,10 +2,8 @@
 
 import Box from "@/components/main/Box/Box";
 import Button from "@/components/main/button/Button";
-import { getSingleDevice } from "@/services/shop";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductInfoBox from "./ProductInfoBox";
 import SectionBox from "../home-page/SectionBox";
 
@@ -21,20 +19,6 @@ const SingleProductPage = ({
   relatedProducts: HomeDevice[];
   singleDevice: SingleProductData | null;
 }) => {
-  const deviceId = useSearchParams().get("id");
-  // const [singleDevice, setSingleDevice] = useState<SingleProductData | null>(
-  //   null
-  // );
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await getSingleDevice(deviceId!);
-  //     if (response?.data) {
-  //       setSingleDevice(response.data);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   return (
     <>
       <div className="w-full flex flex-col">
@@ -43,18 +27,20 @@ const SingleProductPage = ({
             <Box>
               <div className="w-full grid grid-cols-9 gap-4">
                 <div className="lg:col-span-2 col-span-9 h-fit">
-                  <Box>
-                    <Image
-                      src={singleDevice.imageUrl}
-                      width={300}
-                      height={500}
-                      // sizes="100vw"
-                      objectFit="contain"
-                      className="m-auto"
-                      alt={singleDevice.deviceName}
-                      unoptimized
-                    />
-                  </Box>
+                  {singleDevice.imageUrl && (
+                    <Box>
+                      <Image
+                        src={singleDevice.imageUrl}
+                        width={300}
+                        height={500}
+                        // sizes="100vw"
+                        objectFit="contain"
+                        className="m-auto"
+                        alt={singleDevice.deviceName}
+                        unoptimized
+                      />
+                    </Box>
+                  )}
                 </div>
                 <div className="lg:col-span-7 col-span-9 flex flex-col md:p-4">
                   <div className="w-full sm2:flex-row flex-col flex items-center justify-between">

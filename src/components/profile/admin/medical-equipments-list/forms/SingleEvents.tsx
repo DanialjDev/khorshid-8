@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -29,6 +29,8 @@ const SingleEvents = ({
   title: string;
   desc: string;
 }) => {
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { push, refresh } = useRouter();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -48,6 +50,7 @@ const SingleEvents = ({
           }),
       }),
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         if (data) {
           const payloadObj = {
             id: data.id,
@@ -60,10 +63,12 @@ const SingleEvents = ({
           );
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/events");
             refresh();
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         } else {
@@ -77,28 +82,34 @@ const SingleEvents = ({
           );
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/events");
             refresh();
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         }
       },
     });
 
-  const deleteLabHandler = async () => {
+  const deleteSingleEvent = async () => {
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       [data?.id!],
       Cookies.get("token")!,
-      "RemoveEvents"
+      "RemoveEvents",
+      true
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/events/");
       refresh();
     } else {
+      setDeleteLoading(false);
       toast.error(deleteLabRes?.message);
     }
   };
@@ -144,11 +155,14 @@ const SingleEvents = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
-                onClick={deleteLabHandler}
+                loading={deleteLoading}
+                isDanger
+                onClick={deleteSingleEvent}
                 text="حذف"
                 color="text-redColor"
                 border="border border-redColor"

@@ -4,15 +4,15 @@ import FormButton from "@/components/main/button/FormButton";
 import AuthInput from "@/components/main/input/AuthInput";
 import { updateProfileCompanyData } from "@/services/profile/user";
 import { InitialValues } from "@/utills/validation/auth/types";
-import { useProfileValidation } from "@/utills/validation/profile/validation";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import * as Yup from "yup";
+import { isMobile, isNumeric, isUrl } from "@/utills/formatHelper";
 
 const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
   const [showIcon, setShowIcon] = useState(false);
-  const validationSchema = useProfileValidation();
 
   const { errors, values, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -29,7 +29,47 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             password: "",
             confirmPassword: "",
           },
-      validationSchema,
+      validationSchema: Yup.object().shape({
+        companyName: Yup.string().required("پرکردن این فیلد الزامی میباشد"),
+        companyManagerFullName: Yup.string().required(
+          "پرکردن این فیلد الزامی میباشد"
+        ),
+        faxNumber: Yup.string()
+          .required("پرکردن این فیلد الزامی میباشد")
+          .test("isNumeric", "شماره فکس وارد شده نامعتبر است", (value) => {
+            if (value && value.length > 0) {
+              return isNumeric(value);
+            }
+          }),
+        website: Yup.string()
+          .required("پرکردن این فیلد الزامی میباشد")
+          .test("isUrl", "آدرس سایت وارد شده نامعتبر است", (value) => {
+            if (value && value.length > 0) {
+              return Boolean(isUrl(value));
+            }
+          }),
+        mobileNumber: Yup.string()
+          .required("پرکردن این فیلد الزامی میباشد")
+          .test("isMobile", "شماره تلفن وارد شده نادرست است", (value) => {
+            if (value && value.length > 0) {
+              return isMobile(value);
+            }
+          }),
+        email: Yup.string()
+          .required("پرکردن این فیلد الزامی میباشد")
+          .email("ایمیل وارد شده معتبر نمی باشد."),
+        password: Yup.string()
+          // .required("پرکردن این فیلد الزامی میباشد")
+          .min(6, "رمز عبور نمیتواند کمتر از ۶ کارکتر باشد."),
+        confirmPassword: Yup.string()
+          // .required("پرکردن این فیلد الزامی میباشد")
+          .oneOf(
+            // @ts-ignore
+            [Yup.ref("password"), null],
+            "رمز عبورها با هم برابر نیستند."
+          ),
+        address: Yup.string().required("پرکردن این فیلد الزامی میباشد"),
+      }),
       onSubmit: async (values: InitialValues) => {
         const data = {
           // @ts-ignore
@@ -45,19 +85,14 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
           // @ts-ignore
           email: values.email,
           // @ts-ignore
-          password: values.password,
+          password: values.password ? values.password : "",
           // @ts-ignore
           address: values.address,
         };
         const response = await updateProfileCompanyData(data);
         if (response?.message) {
           if (response?.status === 200) {
-            toast.success(response.message, {
-              autoClose: 2500,
-              style: {
-                width: "max-content",
-              },
-            });
+            toast.success(response.message);
           } else {
             toast.error(response.message, { autoClose: 2500 });
           }

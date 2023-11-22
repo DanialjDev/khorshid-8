@@ -11,7 +11,7 @@ interface GallerySectionProps {
 const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
   return (
     <Link
-      href={link ? link : "/"}
+      href={link ? (link.startsWith("https") ? link : `https://${link}`) : "/"}
       className="w-full md:m-0 mt-5 md:col-span-1 col-span-3 flex flex-col"
     >
       <Image

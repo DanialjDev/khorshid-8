@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { SingleVicePresidentOfTreatmentsData } from "@/services/profile/admin/medical-equipments-list/vice-president/types";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ import {
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { deleteItems } from "@/services/profile/admin/medical-equipments-list";
 
 const SingelVicePresidnetForm = ({
   data,
@@ -26,6 +27,8 @@ const SingelVicePresidnetForm = ({
   desc: string;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -38,13 +41,14 @@ const SingelVicePresidnetForm = ({
         vicePresident: Yup.string().required("پر کردن این فیلد الزامی است"),
         telephone: Yup.string()
           .required("پر کردن این فیلد الزامی است")
-          .test("isNumeric", "فرمت شماره وارد شده نادرست است", (value) => {
+          .test("isNumeric", "شماره تلفن وارد شده نادرست است", (value) => {
             if (value) {
               return isNumeric(value);
             }
           }),
       }),
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         if (data) {
           const payloadObj = {
             id: data.id,
@@ -56,9 +60,11 @@ const SingelVicePresidnetForm = ({
           );
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/vice-president-of-treatments");
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         } else {
@@ -68,15 +74,37 @@ const SingelVicePresidnetForm = ({
           );
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/vice-president-of-treatments");
             refresh();
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         }
       },
     });
+
+  const deleteItemHandler = async () => {
+    setDeleteLoading(true);
+    const deleteLabRes = await deleteItems(
+      [data?.id!],
+      Cookies.get("token")!,
+      "RemoveVicePresidentsOfTreatments",
+      true
+    );
+
+    if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
+      toast.success(deleteLabRes.message);
+      push("/panel/medical-equipments-list/vice-president-of-treatments/");
+      refresh();
+    } else {
+      toast.error(deleteLabRes?.message);
+      setDeleteLoading(false);
+    }
+  };
   return (
     <MedicalEquipmentsForm
       desc={desc}
@@ -128,6 +156,7 @@ const SingelVicePresidnetForm = ({
       <div className="col-span-4 mt-5 w-full  sm:justify-end justify-between items-center">
         <div className="items-center flex flex-row-reverse">
           <Button
+            loading={submitLoading}
             text="ذخیره اطلاعات"
             color="text-white"
             bg="bg-primaryDark6"
@@ -137,7 +166,9 @@ const SingelVicePresidnetForm = ({
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
-                //   onClick={deleteLabHandler}
+                onClick={deleteItemHandler}
+                loading={deleteLoading}
+                isDanger
                 text="حذف"
                 color="text-redColor"
                 border="border border-redColor"

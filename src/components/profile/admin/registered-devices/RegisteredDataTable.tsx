@@ -8,13 +8,17 @@ import { getRegisteredDevices } from "@/services/profile/admin/registered-device
 import Link from "next/link";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import PageTitle from "@/components/main/pageTitle/PageTitle";
+import Button from "@/components/main/button/Button";
+import { useRouter } from "next/navigation";
 
 const RegisteredDataTable = ({ data }: { data: RegisteredDeviceObj }) => {
+  const { push } = useRouter();
   const [items, setItems] = useState<RegisteredDeviceObj>(data);
+  const [loading, setLoading] = useState(false);
   const tableHeaders = generateHeaders("GetUserAcceptedDevices");
 
   const paginateHandler = async (pageNumber: number) => {
-    console.log(pageNumber);
     const regesteredDevices = await getRegisteredDevices(
       Cookies.get("token")!,
       pageNumber
@@ -26,6 +30,40 @@ const RegisteredDataTable = ({ data }: { data: RegisteredDeviceObj }) => {
   };
   return (
     <>
+      <div className="w-full flex justify-between items-center">
+        <PageTitle
+          title="محصولات ثبت شده"
+          text="شما می توانید محصولات ثبت شده  را در اینجا مشاهده و در صورت نیاز اقدام به حذف آن ها کنید."
+        />
+        <Button
+          loading={loading}
+          onClick={() => {
+            push("/panel/registered-devices/add");
+            setLoading(true);
+          }}
+          text="افزودن دستی"
+          rounded="rounded-[6px]"
+          color="text-white"
+          icon={
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 1V13M1 7H13"
+                stroke="white"
+                stroke-opacity="0.95"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          }
+        />
+      </div>
       <div className="w-full mt-6">
         <CustomeTable
           headers={tableHeaders!}

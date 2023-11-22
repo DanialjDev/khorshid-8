@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,6 +27,8 @@ const SingleUniversity = ({
   desc: string;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -44,6 +46,7 @@ const SingleUniversity = ({
           }),
       }),
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         if (data) {
           const payloadObj = {
             id: data.id,
@@ -52,26 +55,31 @@ const SingleUniversity = ({
           const res = await updateUniversity(payloadObj, Cookies.get("token")!);
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/vice-president-of-treatments");
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         } else {
           const res = await psotUniversity([values], Cookies.get("token")!);
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/universities");
             refresh();
           } else {
+            setSubmitLoading(false);
             toast.error(res?.message);
           }
         }
       },
     });
 
-  const deleteLabHandler = async () => {
+  const deleteUniHandler = async () => {
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       [data?.id!],
       Cookies.get("token")!,
@@ -79,10 +87,12 @@ const SingleUniversity = ({
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/universities/");
       refresh();
     } else {
+      setDeleteLoading(false);
       toast.error(deleteLabRes?.message);
     }
   };
@@ -124,11 +134,14 @@ const SingleUniversity = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
-                onClick={deleteLabHandler}
+                loading={deleteLoading}
+                isDanger
+                onClick={deleteUniHandler}
                 text="حذف"
                 color="text-redColor"
                 border="border border-redColor"

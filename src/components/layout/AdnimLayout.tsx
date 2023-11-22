@@ -8,13 +8,13 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="w-full h-full flex">
       <AdminMenu setNav={setNav} nav={nav} />
-      <div
+      {/* <div
         className={`w-full h-screen bg-[#e6e6e686] absolute ${
           nav ? "flex" : "hidden"
-        } z-40`}
-      ></div>
+        } z-30`}
+      ></div> */}
 
-      <div className="lg2:w-[calc(100%-270px)] w-full !h-screen overflow-scroll relative flex flex-col py-5 sm:px-10 px-6 mr-auto">
+      <div className="lg2:w-[calc(100%-270px)] mb-10 w-full overflow-scroll h-full relative flex flex-col py-5 sm:px-10 px-6 mr-auto">
         <div className="w-full flex items-center py-2 pb-4 lg2:justify-end justify-between border-b border-menuHeaderBorder">
           <button className="lg2:hidden flex" onClick={() => setNav(true)}>
             <svg
@@ -52,7 +52,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
         </div>
-        <div className="w-full justify-center relative flex m-auto h-full mt-6">
+        <div className="w-full mb-10 justify-center relative flex m-auto mt-6">
           {children}
         </div>
       </div>

@@ -15,6 +15,7 @@ import { setLinkRequired } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { isUrl } from "@/utills/formatHelper";
+import Button from "@/components/main/button/Button";
 
 const UpdatePosterModal = ({
   setIsOpen,
@@ -24,11 +25,11 @@ const UpdatePosterModal = ({
   isLinkRequired?: boolean;
 }) => {
   const { refresh } = useRouter();
-  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
   const { updateAction } = useAppSelector((state) => state.auth);
   const { id } = useAppSelector((state) => state.user);
   const token = Cookies.get("token");
-  // const [initialValues, validationSchema] = usePanelValidation("updatePoster")!;
+
   const {
     handleBlur,
     errors,
@@ -52,6 +53,7 @@ const UpdatePosterModal = ({
       Image: Yup.mixed().required("انتخاب تصویر الزامی است"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       const formData = new FormData();
       let url = "";
       // @ts-ignore
@@ -79,37 +81,33 @@ const UpdatePosterModal = ({
         if (url === "PostImageToGallery") {
           const response = await postImageToGallery(formData, token);
           if (response?.status === 200) {
+            setLoading(false);
             toast.success(response.message);
             setTimeout(() => {
               setIsOpen(false);
               refresh();
             }, 2000);
           } else {
+            setLoading(false);
             toast.error(response?.message);
           }
         } else {
           const response = await updatePosters(formData, token, url);
           if (response?.status === 200) {
+            setLoading(false);
             toast.success(response.message);
             setTimeout(() => {
               setIsOpen(false);
               refresh();
             }, 2000);
           } else {
+            setLoading(false);
             toast.error(response?.message);
           }
         }
       }
     },
   });
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (isLinkRequired) {
-  //       dispatch(setLinkRequired(false));
-  //     }
-  //   };
-  // }, []);
   return (
     <form onSubmit={handleSubmit} className="mb-10 grid grid-cols-1">
       <div className="w-full my-2 col-span-1 ">
@@ -143,7 +141,14 @@ const UpdatePosterModal = ({
         </div>
       ) : null}
       <div className="w-full my-5">
-        <FormButton text="ثبت تصویر" bg="bg-primary" />
+        <Button
+          type="submit"
+          loading={loading}
+          text="ثبت تصویر"
+          bg="bg-primary"
+          width="w-full"
+          color="text-white"
+        />
       </div>
     </form>
   );

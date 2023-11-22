@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -32,6 +32,8 @@ const SingleCompany = ({
   companies: SingleCompany[] | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -62,6 +64,7 @@ const SingleCompany = ({
           }),
       }),
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         if (data) {
           const payloadObj = {
             companyId: data.companyId,
@@ -73,6 +76,7 @@ const SingleCompany = ({
           );
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/companies");
           } else {
@@ -82,6 +86,7 @@ const SingleCompany = ({
           const res = await psotSingleCompany([values], Cookies.get("token")!);
 
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/companies");
             refresh();
@@ -93,18 +98,22 @@ const SingleCompany = ({
     });
 
   const deleteLabHandler = async () => {
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       [data?.companyId!],
       Cookies.get("token")!,
-      "RemoveCompanies"
+      "RemoveCompanies",
+      true
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/companies/");
       refresh();
     } else {
       toast.error(deleteLabRes?.message);
+      setDeleteLoading(false);
     }
   };
   return (
@@ -194,11 +203,14 @@ const SingleCompany = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
                 onClick={deleteLabHandler}
+                loading={deleteLoading}
+                isDanger
                 text="حذف"
                 color="text-redColor"
                 border="border border-redColor"

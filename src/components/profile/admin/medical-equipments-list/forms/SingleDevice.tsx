@@ -33,6 +33,8 @@ const SingleDevice = ({
   deviceCategories: DeviceName[] | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(
     companyFormat(companies)![0]
   );
@@ -108,6 +110,7 @@ const SingleDevice = ({
         toast.error("لطفا گروه تخصصی کاربری دستگاه را انتخاب کنید");
         return;
       }
+      setSubmitLoading(true);
       const formData = new FormData();
       // @ts-ignore
       formData.append("CompanyId", Number(selectedCompany.value));
@@ -136,6 +139,7 @@ const SingleDevice = ({
         );
 
         if (res?.status === 200) {
+          setSubmitLoading(false);
           toast.success(res.message);
           push("/panel/medical-equipments-list/devices");
           refresh();
@@ -147,6 +151,7 @@ const SingleDevice = ({
         const res = await postSingleDevice(formData, Cookies.get("token")!);
 
         if (res?.status === 200) {
+          setSubmitLoading(false);
           toast.success(res.message);
           push("/panel/medical-equipments-list/devices");
           refresh();
@@ -157,15 +162,19 @@ const SingleDevice = ({
       }
     },
   });
+  console.log(categoryItems);
 
   const deleteLabHandler = async () => {
+    setDeleteLoading(true);
     const deleteDeviceRes = await deleteItems(
       [singleDeviceData?.deviceId!],
       Cookies.get("token")!,
-      "RemoveDevices"
+      "RemoveDevices",
+      true
     );
 
     if (deleteDeviceRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteDeviceRes.message);
       push("/panel/medical-equipments-list/devices/");
       refresh();
@@ -234,6 +243,28 @@ const SingleDevice = ({
           onClick={() => setShowCategories((prevState) => !prevState)}
           className="w-full cursor-pointer h-[47px] flex flex-col relative border text-dark text-[14px] transition-all focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 hover:shadow-inputHover hover:border-inputHoverBorder"
         >
+          <div
+            className={`absolute transition-all duration-200 scale-90 left-5 ${
+              showCategories ? "-rotate-180" : ""
+            }`}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19.9201 8.9502L13.4001 15.4702C12.6301 16.2402 11.3701 16.2402 10.6001 15.4702L4.08008 8.9502"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
           <div className="w-fit flex">
             {categoryItems?.map((item, index) => {
               const seperator = index === 0 ? "" : " / ";
@@ -253,7 +284,9 @@ const SingleDevice = ({
                 htmlFor={item.id.toString()}
                 key={item.id}
                 className={`w-full cursor-pointer p-3 flex ${
-                  categoryItems?.includes(item) ? "bg-primaryLight" : ""
+                  categoryItems?.some((c) => c.id === item.id)
+                    ? "bg-primaryLight"
+                    : ""
                 }`}
                 // onClick={}
               >
@@ -262,7 +295,7 @@ const SingleDevice = ({
                   id={item.id.toString()}
                   type="checkbox"
                   className="checkbox-accent border-[1px] checkbox cursor-pointer bg-none scale-[.80]"
-                  checked={categoryItems?.includes(item)}
+                  checked={categoryItems?.some((c) => c.id === item.id)}
                   onChange={(e) => {
                     if (!categoryItems?.includes(item)) {
                       setSelectedCategories([
@@ -385,10 +418,13 @@ const SingleDevice = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {singleDeviceData && (
             <div className="sm:ml-5 mr-0">
               <Button
+                loading={deleteLoading}
+                isDanger
                 onClick={deleteLabHandler}
                 text="حذف"
                 color="text-redColor"

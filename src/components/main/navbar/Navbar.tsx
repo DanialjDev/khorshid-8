@@ -169,7 +169,7 @@ const Navbar = ({
           </div>
           <div className="flex items-center">
             <div className="flex">
-              <Link
+              <a
                 href={`tel:${headerPhoneNumber}`}
                 className="flex text-[12px] justify-center items-center bg-primaryLight p-3 rounded-md border-2 border-primary xl:scale-100 scale-[.8]"
               >
@@ -191,7 +191,7 @@ const Navbar = ({
                     strokeWidth="0.05"
                   />
                 </svg>
-              </Link>
+              </a>
             </div>
             <div className="flex mr-2">
               <div

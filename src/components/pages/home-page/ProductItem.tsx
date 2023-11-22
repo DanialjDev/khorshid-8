@@ -26,14 +26,16 @@ const ProductItem = ({
       className="w-full flex flex-col p-3 bg-white shadow-xs rounded-[10px] cursor-pointer"
     >
       <div className="w-full h-[220px] overflow-hidden flex justify-center items-center">
-        <Image
-          width={200}
-          height={200}
-          objectFit="cover"
-          src={imageUrl}
-          alt={name}
-          unoptimized
-        />
+        {imageUrl && (
+          <Image
+            width={200}
+            height={200}
+            objectFit="cover"
+            src={imageUrl}
+            alt={name}
+            unoptimized
+          />
+        )}
       </div>
       <div className="flex flex-col justify-start w-full p-2 bg-[#F9F9F9] rounded-md my-5">
         <p className="text-[14px]">{name}</p>

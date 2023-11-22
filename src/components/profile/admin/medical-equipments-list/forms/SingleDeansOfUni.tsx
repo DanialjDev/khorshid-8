@@ -32,6 +32,8 @@ const SingleDeansOfUniForm = ({
   states: StateType[] | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [stateItems, setStateItems] = useState<
     { name: string; value: string }[]
   >(
@@ -71,6 +73,7 @@ const SingleDeansOfUniForm = ({
       }),
       enableReinitialize: true,
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         const cityId = cityItems.filter(
           (item) => item.name === values.cityName
         )[0].value;
@@ -94,11 +97,13 @@ const SingleDeansOfUniForm = ({
             Cookies.get("token")!
           );
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/deans-of-universities");
             refresh();
           } else {
             toast.error(res?.message);
+            setSubmitLoading(false);
           }
         } else {
           const payloadObj = {
@@ -115,11 +120,13 @@ const SingleDeansOfUniForm = ({
             Cookies.get("token")!
           );
           if (res?.status === 200) {
+            setSubmitLoading(false);
             toast.success(res.message);
             push("/panel/medical-equipments-list/deans-of-universities");
             refresh();
           } else {
             toast.error(res?.message);
+            setSubmitLoading(false);
           }
         }
       },
@@ -133,18 +140,23 @@ const SingleDeansOfUniForm = ({
     };
     getCities();
   }, [selectedState]);
-  const deleteLabHandler = async () => {
+  const deleteSingleDeanOfUni = async () => {
+    console.log(data?.id);
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       [data?.id!],
       Cookies.get("token")!,
-      "RemoveUniversities"
+      "RemoveDeanOfUniversities",
+      true
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/deans-of-universities/");
       refresh();
     } else {
+      setDeleteLoading(false);
       toast.error(deleteLabRes?.message);
     }
   };
@@ -229,12 +241,15 @@ const SingleDeansOfUniForm = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
-                onClick={deleteLabHandler}
+                onClick={deleteSingleDeanOfUni}
+                loading={deleteLoading}
                 text="حذف"
+                isDanger
                 color="text-redColor"
                 border="border border-redColor"
                 bg="bg-redColorLight"

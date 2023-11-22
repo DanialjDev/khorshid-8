@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MedicalEquipmentsForm from "../MedicalEquipmentsForm";
 import { SingleLab } from "@/services/profile/admin/medical-equipments-list/labs/types";
 import AuthInput from "@/components/main/input/AuthInput";
@@ -15,6 +15,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { deleteItems } from "@/services/profile/admin/medical-equipments-list";
+import { isNumeric } from "@/utills/formatHelper";
 
 const SigleLabForm = ({
   singleLab,
@@ -26,6 +27,8 @@ const SigleLabForm = ({
   desc: string;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -42,9 +45,16 @@ const SigleLabForm = ({
         universityName: Yup.string().required("پر کردن این فیلد الزامی است"),
         headOfLaboratory: Yup.string().required("پر کردن این فیلد الزامی است"),
         address: Yup.string().required("پر کردن این فیلد الزامی است"),
-        telephone: Yup.string().required("پر کردن این فیلد الزامی است"),
+        telephone: Yup.string()
+          .required("پر کردن این فیلد الزامی است")
+          .test("isNumeric", "شماره تلقن وارد شده نادرست است", (value) => {
+            if (value && value.length > 0) {
+              return isNumeric(value);
+            }
+          }),
       }),
       onSubmit: async (values) => {
+        setSubmitLoading(true);
         if (singleLab) {
           const data = {
             id: singleLab?.id,
@@ -54,6 +64,7 @@ const SigleLabForm = ({
 
           if (updateLab?.message) {
             if (updateLab?.status === 200) {
+              setSubmitLoading(false);
               toast.success(updateLab.message);
               push("/panel/medical-equipments-list/labs/");
               refresh();
@@ -68,6 +79,7 @@ const SigleLabForm = ({
           );
           if (postLab) {
             if (postLab.status === 200) {
+              setSubmitLoading(false);
               toast.success(postLab.message);
               push("/panel/medical-equipments-list/labs/");
               refresh();
@@ -80,14 +92,17 @@ const SigleLabForm = ({
     });
 
   const deleteLabHandler = async () => {
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       // @ts-ignore
       [singleLab?.id],
       Cookies.get("token")!,
-      "RemoveLabs"
+      "RemoveLabs",
+      true
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/labs/");
       refresh();
@@ -156,10 +171,13 @@ const SigleLabForm = ({
           bg="bg-primaryDark6"
           padding="py-[13px] px-10"
           type="submit"
+          loading={submitLoading}
         />
         {singleLab && (
           <div className="sm:mr-5 mr-0">
             <Button
+              isDanger
+              loading={deleteLoading}
               onClick={deleteLabHandler}
               text="حذف"
               color="text-redColor"

@@ -7,6 +7,7 @@ import React from "react";
 import MapLogo from "../../../public/assets/images/contact-us/map.png";
 import { getTitle } from "@/utills/getTitle";
 import ContactForm from "@/components/pages/contact-us/ContactForm";
+import Map from "@/components/pages/contact-us/Map";
 
 const ContactUs = async () => {
   return (
@@ -61,7 +62,7 @@ const ContactUs = async () => {
                 </div>
               </div>
               <div className="w-full shadow-xs rounded-lg mt-5 overflow-hidden border border-[#CBCBCB]">
-                <Image src={MapLogo} alt="آدرس" unoptimized />
+                <Map />
               </div>
             </div>
           </Box>

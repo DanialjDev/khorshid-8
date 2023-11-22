@@ -33,6 +33,8 @@ const SingleHospital = ({
   states: StateType[] | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [stateItems, setStateItems] = useState<
     { name: string; value: string }[]
   >(
@@ -52,102 +54,105 @@ const SingleHospital = ({
   );
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState(data?.cityName);
-  const [cityId, setCityId] = useState(0);
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setFieldValue,
-  } = useFormik({
-    initialValues: {
-      hospitalName: data && data.hospitalName ? data.hospitalName : "",
-      category: data && data.category ? data.category : "",
-      coveredName: data && data.coveredName ? data.coveredName : "",
-      numberOfBeds: data && data.numberOfBeds ? data.numberOfBeds : "",
-      universityName: data && data.universityName ? data.universityName : "",
-      address: data && data.address ? data.address : "",
-      telephone: data && data.telephone ? data.telephone : "",
-      stateName: selectedState,
-      cityName: data ? selectedCity : "",
-    },
-    validationSchema: Yup.object().shape({
-      hospitalName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      category: Yup.string().required("پر کردن این فیلد الزامی است"),
-      coveredName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      numberOfBeds: Yup.string()
-        .required("پر کردن این فیلد الزامی است")
-        .test("isNumeric", "تنها کارکتر عدد قابل قبول است", (value) => {
-          if (value && value.length > 0) {
-            return isNumeric(value);
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        hospitalName: data && data.hospitalName ? data.hospitalName : "",
+        category: data && data.category ? data.category : "",
+        coveredName: data && data.coveredName ? data.coveredName : "",
+        numberOfBeds: data && data.numberOfBeds ? data.numberOfBeds : "",
+        universityName: data && data.universityName ? data.universityName : "",
+        address: data && data.address ? data.address : "",
+        telephone: data && data.telephone ? data.telephone : "",
+        stateName: selectedState,
+        cityName: data ? selectedCity : "",
+      },
+      validationSchema: Yup.object().shape({
+        hospitalName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        category: Yup.string().required("پر کردن این فیلد الزامی است"),
+        coveredName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        numberOfBeds: Yup.string()
+          .required("پر کردن این فیلد الزامی است")
+          .test("isNumeric", "تنها کارکتر عدد قابل قبول است", (value) => {
+            if (value && value.length > 0) {
+              return isNumeric(value);
+            }
+          }),
+        universityName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        address: Yup.string().required("پر کردن این فیلد الزامی است"),
+        telephone: Yup.string().required("پر کردن این فیلد الزامی است"),
+        stateName: Yup.string().required("پر کردن این فیلد الزامی است"),
+        cityName: Yup.string().required("پر کردن این فیلد الزامی است"),
+      }),
+      enableReinitialize: true,
+      onSubmit: async (values) => {
+        setSubmitLoading(true);
+        const cityId = cityItems.filter(
+          (item) => item.name === values.cityName
+        )[0].value;
+        if (data) {
+          const payloadObj = {
+            id: data.id,
+            stateId: states?.filter(
+              (item) => item.stateName === selectedState
+            )[0].id!,
+            cityId: Number(cityId),
+            address: values.address,
+            hospitalName: values.hospitalName,
+            telephone: values.telephone,
+            category: values.category,
+            numberOfBeds: Number(values.numberOfBeds),
+            universityName: values.universityName,
+            coveredName: values.coveredName,
+          };
+          if (!cityId) {
+            toast.warning("لطفا نام شهرستان را نتخاب کنید");
+            setSubmitLoading(false);
+            return;
           }
-        }),
-      universityName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      address: Yup.string().required("پر کردن این فیلد الزامی است"),
-      telephone: Yup.string().required("پر کردن این فیلد الزامی است"),
-      stateName: Yup.string().required("پر کردن این فیلد الزامی است"),
-      cityName: Yup.string().required("پر کردن این فیلد الزامی است"),
-    }),
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      const cityId = cityItems.filter(
-        (item) => item.name === values.cityName
-      )[0].value;
-      if (data) {
-        const payloadObj = {
-          id: data.id,
-          stateId: states?.filter((item) => item.stateName === selectedState)[0]
-            .id!,
-          cityId: Number(cityId),
-          address: values.address,
-          hospitalName: values.hospitalName,
-          telephone: values.telephone,
-          category: values.category,
-          numberOfBeds: Number(values.numberOfBeds),
-          universityName: values.universityName,
-          coveredName: values.coveredName,
-        };
-        if (!cityId) {
-          toast.warning("لطفا نام شهرستان را نتخاب کنید");
-          return;
-        }
-        const res = await updateSingleHospital(
-          payloadObj!,
-          Cookies.get("token")!
-        );
-        if (res?.status === 200) {
-          toast.success(res.message);
-          push("/panel/medical-equipments-list/hospitals");
-          refresh();
+          const res = await updateSingleHospital(
+            payloadObj!,
+            Cookies.get("token")!
+          );
+          if (res?.status === 200) {
+            setSubmitLoading(false);
+            toast.success(res.message);
+            push("/panel/medical-equipments-list/hospitals");
+            refresh();
+          } else {
+            setSubmitLoading(false);
+            toast.error(res?.message);
+          }
         } else {
-          toast.error(res?.message);
+          const payloadObj = {
+            stateId: states?.filter(
+              (item) => item.stateName === selectedState
+            )[0].id!,
+            cityId: Number(cityId),
+            address: values.address,
+            hospitalName: values.hospitalName,
+            telephone: values.telephone,
+            category: values.category,
+            numberOfBeds: Number(values.numberOfBeds),
+            universityName: values.universityName,
+            coveredName: values.coveredName,
+          };
+          const res = await postSingleHospital(
+            payloadObj,
+            Cookies.get("token")!
+          );
+          if (res?.status === 200) {
+            setSubmitLoading(false);
+            toast.success(res.message);
+            push("/panel/medical-equipments-list/hospitals");
+            refresh();
+          } else {
+            setSubmitLoading(false);
+            toast.error(res?.message);
+          }
         }
-      } else {
-        const payloadObj = {
-          stateId: states?.filter((item) => item.stateName === selectedState)[0]
-            .id!,
-          cityId: Number(cityId),
-          address: values.address,
-          hospitalName: values.hospitalName,
-          telephone: values.telephone,
-          category: values.category,
-          numberOfBeds: Number(values.numberOfBeds),
-          universityName: values.universityName,
-          coveredName: values.coveredName,
-        };
-        const res = await postSingleHospital(payloadObj, Cookies.get("token")!);
-        if (res?.status === 200) {
-          toast.success(res.message);
-          push("/panel/medical-equipments-list/hospitals");
-          refresh();
-        } else {
-          toast.error(res?.message);
-        }
-      }
-    },
-  });
+      },
+    });
   useEffect(() => {
     const getCities = async () => {
       if (selectedState !== "") {
@@ -157,19 +162,23 @@ const SingleHospital = ({
     };
     getCities();
   }, [selectedState]);
-  const deleteLabHandler = async () => {
+  const deleteHospitalHandler = async () => {
+    setDeleteLoading(true);
     const deleteLabRes = await deleteItems(
       [data?.id!],
       Cookies.get("token")!,
-      "RemoveUniversities"
+      "RemoveHospitals",
+      true
     );
 
     if (deleteLabRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteLabRes.message);
       push("/panel/medical-equipments-list/hospitals/");
       refresh();
     } else {
       toast.error(deleteLabRes?.message);
+      setDeleteLoading(false);
     }
   };
   return (
@@ -302,11 +311,14 @@ const SingleHospital = ({
             bg="bg-primaryDark6"
             padding="py-[13px] px-14"
             type="submit"
+            loading={submitLoading}
           />
           {data && (
             <div className="sm:ml-5 mr-0">
               <Button
-                onClick={deleteLabHandler}
+                isDanger
+                loading={deleteLoading}
+                onClick={deleteHospitalHandler}
                 text="حذف"
                 color="text-redColor"
                 border="border border-redColor"

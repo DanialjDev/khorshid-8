@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthInput from "../../main/input/AuthInput";
 import FormButton from "../../main/button/FormButton";
 import { authToggler, setIsLoggedIn } from "@/redux/features/auth/authSlice";
@@ -29,6 +29,7 @@ const Signup = ({
     >
   >;
 }) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const [initialValues, validationSchema] = useValidation("signup")! as [
@@ -41,6 +42,7 @@ const Signup = ({
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
+        setLoading(true);
         const response = await signupHandler(values);
         if (response !== undefined && response.message) {
           if (response.status === 409) {
@@ -48,6 +50,7 @@ const Signup = ({
           }
         }
         if (response?.status === 200 && response.message) {
+          setLoading(false);
           toast.success(response.message);
           dispatch(authToggler(""));
           dispatch(setIsLoggedIn(true));
@@ -98,7 +101,7 @@ const Signup = ({
         touched={touched}
       />
       <div className="w-full mt-10">
-        <FormButton text="ثبت نام" />
+        <FormButton text="ثبت نام" loading={loading} />
       </div>
       <div className="w-full flex justify-center items-center my-10">
         <p className="text-[#A0AEC0]">

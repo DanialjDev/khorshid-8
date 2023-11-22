@@ -30,6 +30,8 @@ const UpdateAcceptedDeviceForm = ({
   deviceCategories: DeviceName[] | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [categoryItems, setCategoryItems] = useState(
@@ -68,7 +70,6 @@ const UpdateAcceptedDeviceForm = ({
     );
     if (singleCompany?.payload) {
       setCompanyData(singleCompany.payload);
-      console.log(companyData);
     }
   };
   const {
@@ -107,6 +108,7 @@ const UpdateAcceptedDeviceForm = ({
       imageUrl: Yup.mixed().nullable(),
     }),
     onSubmit: async (values) => {
+      setSubmitLoading(true);
       if (!categoryItems || categoryItems?.length === 0) {
         toast.error("لطفا گروه تخصصی کاربری دستگاه را انتخاب کنید");
         return;
@@ -139,10 +141,12 @@ const UpdateAcceptedDeviceForm = ({
         );
 
         if (res?.status === 200) {
+          setSubmitLoading(false);
           toast.success(res.message);
           push("/panel/registered-devices");
           refresh();
         } else {
+          setSubmitLoading(false);
           toast.error(res?.message);
         }
       } else {
@@ -152,6 +156,7 @@ const UpdateAcceptedDeviceForm = ({
           "Panel_AcceptedDevice/PostSingleDevice"
         );
         if (res?.status === 200) {
+          setSubmitLoading(false);
           toast.success(res.message);
           push("/panel/registered-devices");
           refresh();
@@ -162,7 +167,8 @@ const UpdateAcceptedDeviceForm = ({
     },
   });
 
-  const deleteLabHandler = async () => {
+  const deleteDeviceHandler = async () => {
+    setDeleteLoading(true);
     const deleteDeviceRes = await deleteItems(
       [singleDeviceData?.deviceId!],
       Cookies.get("token")!,
@@ -171,10 +177,12 @@ const UpdateAcceptedDeviceForm = ({
     );
 
     if (deleteDeviceRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteDeviceRes.message);
       push("/panel/registered-devices");
       refresh();
     } else {
+      setDeleteLoading(false);
       toast.error(deleteDeviceRes?.message);
     }
   };
@@ -239,6 +247,28 @@ const UpdateAcceptedDeviceForm = ({
             onClick={() => setShowCategories((prevState) => !prevState)}
             className="w-full cursor-pointer h-[47px] flex flex-col relative border text-dark text-[14px] transition-all focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 hover:shadow-inputHover hover:border-inputHoverBorder"
           >
+            <div
+              className={`absolute transition-all duration-200 scale-90 left-5 ${
+                showCategories ? "-rotate-180" : ""
+              }`}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19.9201 8.9502L13.4001 15.4702C12.6301 16.2402 11.3701 16.2402 10.6001 15.4702L4.08008 8.9502"
+                  stroke="#292D32"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
             <div className="w-fit flex">
               {categoryItems?.map((item, index) => {
                 const seperator = index === 0 ? "" : " / ";
@@ -386,6 +416,7 @@ const UpdateAcceptedDeviceForm = ({
         <div className="col-span-2 mt-5 w-full flex sm:justify-end justify-between items-center">
           <div className="items-center flex flex-row-reverse">
             <Button
+              loading={submitLoading}
               text="ذخیره اطلاعات"
               color="text-white"
               bg="bg-primaryDark6"
@@ -395,7 +426,9 @@ const UpdateAcceptedDeviceForm = ({
             {singleDeviceData && (
               <div className="sm:ml-5 mr-0">
                 <Button
-                  onClick={deleteLabHandler}
+                  loading={deleteLoading}
+                  isDanger
+                  onClick={deleteDeviceHandler}
                   text="حذف"
                   color="text-redColor"
                   border="border border-redColor"

@@ -1,7 +1,7 @@
 import UpdateCounselorForm from "@/components/profile/admin/counselor/UpdateCounselorForm";
 import React from "react";
 
-const UpdateCounselor = () => {
+const UpdateCounselor = async () => {
   return (
     <div className="w-full flex flex-col mt-2">
       <div className="w-full flex justify-start items-center">

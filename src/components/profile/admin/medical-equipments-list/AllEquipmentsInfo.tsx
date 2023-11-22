@@ -80,12 +80,16 @@ const AllEquipmentsInfo = ({
   const [rows, setRows] = useState<number[]>([]);
   const [isDelete, setIsDelete] = useState(false);
   const [searchValue, setSearchValue] = useState<string | null>("");
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const filterDataHandler = async () => {
+    setSearchLoading(true);
     let filterData = searchValue;
     if (selected?.value === "CityID" || selected?.value === "CityId") {
       if (selectedCities.value === "") {
         toast.error("شهرستان مورد نظر شما در استان انتخاب شده وجود ندارد");
+        setSearchLoading(false);
         return;
       }
       filterData = selectedCities.value;
@@ -98,6 +102,7 @@ const AllEquipmentsInfo = ({
     );
 
     if (filteredValues?.payload) {
+      setSearchLoading(false);
       setPayload(filteredValues.payload);
     } else {
       toast.warning(filteredValues?.message);
@@ -118,6 +123,7 @@ const AllEquipmentsInfo = ({
   };
 
   const deleteItemsHanlder = async () => {
+    setDeleteLoading(true);
     const deleteItemsRes = await deleteItems(
       rows,
       Cookies.get("token")!,
@@ -135,10 +141,12 @@ const AllEquipmentsInfo = ({
       );
 
       if (updatedData?.payload) {
+        setDeleteLoading(false);
         setPayload(updatedData.payload);
         setIsDelete(false);
       }
     } else {
+      setDeleteLoading(false);
       toast.error(deleteItemsRes?.message);
     }
   };
@@ -213,6 +221,8 @@ const AllEquipmentsInfo = ({
                 deleteItemsHanlder();
               }
             }}
+            loading={deleteLoading}
+            isDanger
             border="border border-redColor"
             bg="bg-redColorLight"
             padding="px-6 py-2"
@@ -314,7 +324,7 @@ const AllEquipmentsInfo = ({
       </div>
       <div className="w-full grid grid-cols-4 gap-3 items-center mt-5">
         <div className="w-full col-span-4 items-center grid grid-cols-8 gap-x-5">
-          <div className="col-span-2 relative h-[49px]">
+          <div className="col-span-2 relative h-[47px]">
             <CustomSelect
               selected={selected!}
               // @ts-ignore
@@ -392,13 +402,23 @@ const AllEquipmentsInfo = ({
               text="جستجو"
               color="text-white"
               onClick={filterDataHandler}
+              loading={searchLoading}
             />
+            <div className="mr-3">
+              <Button
+                bg="bg-primaryDark7"
+                border="border border-primary"
+                text="نمایش همه"
+                color="text-primary"
+                onClick={() => setPayload(deviceInfo)}
+              />
+            </div>
           </div>
         </div>
-        <div className="w-full 2xl:col-span-2 lg:col-span-3 col-span-4 items-center gap-x-3 grid grid-cols-6">
-          <div className="col-span-2">
+        <div className="w-full 2xl:col-span-2 lg:col-span-3 col-span-4 items-center gap-3 grid grid-cols-6">
+          <div className="sm:col-span-2 col-span-6">
             <Button
-              text="خروجی اکسل"
+              text={nonBreakingSpace("خروجی اکسل")}
               onClick={exportExcel}
               bg="bg-primaryDark7"
               width="w-full"
@@ -436,9 +456,9 @@ const AllEquipmentsInfo = ({
               }
             />
           </div>
-          <div className="col-span-2">
+          <div className="sm:col-span-2 col-span-6">
             <Button
-              text="افزودن دستی"
+              text={nonBreakingSpace("افزودن دستی")}
               color="text-white"
               bg="bg-primary"
               border="border-[1.5px] border-primary"
@@ -465,12 +485,12 @@ const AllEquipmentsInfo = ({
               }
             />
           </div>
-          <div className="col-span-2">
+          <div className="sm:col-span-2 col-span-6">
             <Button
               width="w-full"
               isLable
               name="enter_file"
-              text="وارد کردن از اکسل"
+              text={nonBreakingSpace("وارد کردن از اکسل")}
               color="text-primary"
               bg="bg-primaryDark7"
               border="border-[1.5px] border-primary"

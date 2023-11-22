@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { InitialValues } from "@/utills/validation/auth/types";
 import Button from "@/components/main/button/Button";
 import { UserProfileDevice } from "@/services/profile/user/types";
-import { decrypt } from "@/utills/crypto";
 import {
   getUserRegisteredDevices,
   removeUserDevice,
@@ -29,12 +28,16 @@ const NormalProfile = ({
   totalPageContain?: number | null;
   remainingDevices: number | null;
 }) => {
+  const [logoutLoading, setLogoutLoading] = useState(false);
+  const [registerDeviceLoading, setRegisterDeviceLoading] = useState(false);
+  const [removeDeviceLoading, setRemoveDeviceLoading] = useState(false);
   const { push, refresh } = useRouter();
   const [selectedTab, setSelectedTab] = useState<"userInfo" | "devices">(
     "userInfo"
   );
 
   const [deviceId, setDeviceId] = useState<number | null>(null);
+  const [isDeviceSelected, setIsDeviceSelected] = useState<boolean>(false);
 
   const [tableData, setTableData] = useState<UserProfileDevice[] | undefined>(
     userDevices
@@ -42,11 +45,8 @@ const NormalProfile = ({
 
   const tableHeaders = generateHeaders("ProfileDevices");
 
-  const user = Cookies.get("userInfo")
-    ? JSON.parse(decrypt(Cookies.get("userInfo")))
-    : null;
-
   const removeUserDeviceHandler = async (deviceID: number) => {
+    setRemoveDeviceLoading(true);
     const removeDeviceRes = await removeUserDevice(
       {
         deviceID,
@@ -55,6 +55,8 @@ const NormalProfile = ({
     );
 
     if (removeDeviceRes?.status === 200) {
+      setRemoveDeviceLoading(false);
+      setIsDeviceSelected(false);
       toast.success(removeDeviceRes.message);
       const userDevices = await getUserRegisteredDevices(Cookies.get("token")!);
       if (userDevices?.data) {
@@ -159,7 +161,11 @@ const NormalProfile = ({
             <div className="flex sm:flex-row flex-col items-center sm:m-0 mt-3">
               <div className="">
                 <Button
-                  href="/register-medical-equipments-device"
+                  loading={registerDeviceLoading}
+                  onClick={() => {
+                    setRegisterDeviceLoading(true);
+                    push("/register-medical-equipments-device");
+                  }}
                   text="اضافه نمودن دستگاه جدید"
                   color="text-white"
                   bg="bg-primary"
@@ -186,61 +192,74 @@ const NormalProfile = ({
               </div>
               <div className="sm:mr-5 sm:mt-0 mt-3">
                 <Button
-                  text="حذف درخواست"
+                  isDanger
+                  text={
+                    isDeviceSelected && !deviceId
+                      ? "بازگشت به حالت قبل"
+                      : "حذف درخواست"
+                  }
+                  loading={removeDeviceLoading}
                   color="text-redColor"
                   bg="bg-redColorLight"
                   border="border border-redColor"
-                  onClick={() =>
-                    deviceId !== null
-                      ? removeUserDeviceHandler(deviceId)
-                      : toast.warning(
-                          "لطفا دستگاه مورد نظر خود را از جدول زیر انتخاب کنید"
-                        )
-                  }
+                  onClick={() => {
+                    if (deviceId !== null) {
+                      removeUserDeviceHandler(deviceId);
+                    } else {
+                      if (isDeviceSelected) {
+                        setIsDeviceSelected(false);
+                      } else {
+                        toast.warning("لطفا دستگاه مورد نظر خود را نتخاب کنید");
+                        setIsDeviceSelected(true);
+                      }
+                    }
+                  }}
                   icon={
-                    <svg
-                      width="28"
-                      height="28"
-                      viewBox="0 0 28 28"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M24.5 6.97738C20.615 6.59238 16.7067 6.39404 12.81 6.39404C10.5 6.39404 8.19 6.51071 5.88 6.74404L3.5 6.97738"
-                        stroke="#C92626"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M9.91667 5.7985L10.1733 4.27016C10.36 3.16183 10.5 2.3335 12.4717 2.3335H15.5283C17.5 2.3335 17.6517 3.2085 17.8267 4.28183L18.0833 5.7985"
-                        stroke="#C92626"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M21.9921 10.6631L21.2338 22.4114C21.1055 24.2431 21.0005 25.6664 17.7455 25.6664H10.2555C7.00046 25.6664 6.89546 24.2431 6.76712 22.4114L6.00879 10.6631"
-                        stroke="#C92626"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M12.0517 19.25H15.9367"
-                        stroke="#C92626"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M11.0833 14.5835H16.9167"
-                        stroke="#C92626"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
+                    !(isDeviceSelected && !deviceId) && (
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 28 28"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M24.5 6.97738C20.615 6.59238 16.7067 6.39404 12.81 6.39404C10.5 6.39404 8.19 6.51071 5.88 6.74404L3.5 6.97738"
+                          stroke="#C92626"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M9.91667 5.7985L10.1733 4.27016C10.36 3.16183 10.5 2.3335 12.4717 2.3335H15.5283C17.5 2.3335 17.6517 3.2085 17.8267 4.28183L18.0833 5.7985"
+                          stroke="#C92626"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M21.9921 10.6631L21.2338 22.4114C21.1055 24.2431 21.0005 25.6664 17.7455 25.6664H10.2555C7.00046 25.6664 6.89546 24.2431 6.76712 22.4114L6.00879 10.6631"
+                          stroke="#C92626"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M12.0517 19.25H15.9367"
+                          stroke="#C92626"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M11.0833 14.5835H16.9167"
+                          stroke="#C92626"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    )
                   }
                 />
               </div>
@@ -248,11 +267,14 @@ const NormalProfile = ({
           ) : (
             <div className="sm:m-0 mt-3">
               <Button
+                isDanger
                 text="خروج از حساب کاربری"
                 bg="bg-redColorLight"
                 color="text-redColor"
+                loading={logoutLoading}
                 border="border border-redColor"
                 onClick={() => {
+                  setLogoutLoading(true);
                   Cookies.remove("token", {
                     expires: 1 / 6,
                     path: "/",
@@ -313,13 +335,28 @@ const NormalProfile = ({
                   tableData.map((item, index) => (
                     <tr
                       key={item.deviceId}
-                      className={` ${
-                        deviceId === item.deviceId ? "!bg-primaryLight" : ""
-                      } cursor-pointer`}
-                      onClick={() => setDeviceId(item.deviceId)}
+                      className={`cursor-pointer`}
+                      onClick={() => {
+                        if (item.deviceId === deviceId) {
+                          setDeviceId(null);
+                        } else {
+                          setDeviceId(item.deviceId);
+                        }
+                      }}
                     >
                       <td className="whitespace-nowrap p-4 text-[14px]">
-                        {index + 1}
+                        {isDeviceSelected ? (
+                          <input
+                            type="checkbox"
+                            name="device"
+                            id="device"
+                            checked={deviceId === item.deviceId}
+                            onChange={() => setDeviceId(item.deviceId)}
+                            className="checkbox-accent checkbox cursor-pointer bg-none scale-[0.8]"
+                          />
+                        ) : (
+                          <>{index + 1}</>
+                        )}
                       </td>
                       <td className="whitespace-nowrap p-4 text-[14px]">
                         {item.name}

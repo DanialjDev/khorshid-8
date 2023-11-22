@@ -5,7 +5,7 @@ import AuthInput from "@/components/main/input/AuthInput";
 import { updatePhoneNumber } from "@/services/profile/admin/statistics";
 import usePanelValidation from "@/utills/validation/panel/validation";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -16,6 +16,7 @@ const UpdatePhoneNumber = ({
 }: {
   phoneNumber: string | undefined;
 }) => {
+  const [loading, setLoading] = useState(false);
   const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
     useFormik({
       initialValues: {
@@ -29,6 +30,7 @@ const UpdatePhoneNumber = ({
           ),
       }),
       onSubmit: async (values) => {
+        setLoading(true);
         const updatePhoneNumberRes = await updatePhoneNumber(
           {
             // @ts-ignore
@@ -38,6 +40,7 @@ const UpdatePhoneNumber = ({
         );
 
         if (updatePhoneNumberRes?.status === 200) {
+          setLoading(false);
           toast.success(updatePhoneNumberRes.message);
           return;
         }
@@ -68,6 +71,7 @@ const UpdatePhoneNumber = ({
           bg="bg-primaryDark6"
           color="text-white"
           type="submit"
+          loading={loading}
         />
       </div>
     </form>

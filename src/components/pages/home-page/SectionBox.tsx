@@ -1,8 +1,11 @@
-import React, { ReactNode } from "react";
+"use client";
+
+import React, { ReactNode, useState } from "react";
 
 import WhiteSquare from "../../../../public/assets/images/home-page/white-square.svg";
 import Image from "next/image";
 import Button from "../../main/button/Button";
+import { useRouter } from "next/navigation";
 
 interface SectionBoxProps {
   title: ReactNode;
@@ -24,6 +27,8 @@ const SectionBox = ({
   btnHover,
   href,
 }: SectionBoxProps) => {
+  const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
   return (
     <div className="w-full flex flex-col relative">
       <div className="w-full flex justify-center items-center">
@@ -43,9 +48,15 @@ const SectionBox = ({
             <Button
               hover={btnHover}
               bg={btnBgColor}
-              href={href}
+              onClick={() => {
+                setLoading(true);
+                if (href) {
+                  push(href);
+                }
+              }}
               dir="rtl"
               color={"text-white"}
+              loading={loading}
               icon={
                 <svg
                   width="15"

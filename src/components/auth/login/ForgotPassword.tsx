@@ -6,7 +6,8 @@ import { forgotPasswordHandler } from "@/services/auth";
 import { InitialValues } from "@/utills/validation/auth/types";
 import useValidation from "@/utills/validation/auth/validation";
 import { useFormik } from "formik";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const ForgotPassword = ({
@@ -24,6 +25,8 @@ const ForgotPassword = ({
     >
   >;
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useAppDispatch();
   const [initialValues, validationSchema] = useValidation("forgotPassword")!;
 
@@ -32,6 +35,7 @@ const ForgotPassword = ({
       initialValues,
       validationSchema,
       onSubmit: async (values: InitialValues) => {
+        setLoading(true);
         const response = await forgotPasswordHandler(values);
 
         if (response) {
@@ -41,6 +45,7 @@ const ForgotPassword = ({
             toast.error(response.message);
           }
           if (response.status === 200 && response.message) {
+            setLoading(false);
             toast.success(response.message);
             setAuthAction("changePassword");
             // @ts-ignore
@@ -63,7 +68,7 @@ const ForgotPassword = ({
         touched={touched}
       />
       <div className="w-full mt-10 mb-20">
-        <FormButton text="ارسال کد تایید" />
+        <FormButton text="ارسال کد تایید" loading={loading} />
       </div>
     </form>
   );
