@@ -17,6 +17,7 @@ import { postProfileDevice } from "@/services/profile/user";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import ImageInput from "@/components/main/image-input/ImageInput";
+import { IoWarningOutline } from "react-icons/io5";
 
 const RegisterMedicalDevice = ({
   devices,
@@ -25,6 +26,7 @@ const RegisterMedicalDevice = ({
   devices: DeviceName[] | undefined;
   userInfo: InitialValues;
 }) => {
+  console.log(userInfo);
   const [initialValues, validationSchema] = useValidation(
     "register-medical-device"
   ) as [InitialValues, ValidationSchemaType];
@@ -74,11 +76,13 @@ const RegisterMedicalDevice = ({
 
   return (
     <div className="w-full flex flex-col bg-[#FCFCFC]">
-      {!userInfo && (
-        <div className="w-full p-3 bg-tableHeadColor rounded-[5px]">
-          <p className="text-black">
+      {/* @ts-ignore */}
+      {!userInfo.companyName && (
+        <div className="w-full flex items-center p-3 bg-tableHeadColor rounded-[5px]">
+          <IoWarningOutline color="darkgoldenrod" />
+          <p className="text-inputLabelColor mr-2 text-[12px] md:text-[14px] ">
             کاربر گرامی لطفا برای ثبت دستگاه خود ابتدا وارد پروفایل کاربری شوید
-            و سپس اطلاعات کاربری خود را کامل نمایید
+            و سپس اطلاعات کاربری خود را کامل نمایید!
           </p>
         </div>
       )}
@@ -155,7 +159,6 @@ const RegisterMedicalDevice = ({
           </div>
         </div>
       </RegisterForm>
-
       {/* Register Device Type */}
       <form onSubmit={handleSubmit}>
         <RegisterForm
@@ -306,7 +309,8 @@ const RegisterMedicalDevice = ({
         <div className="w-full flex justify-center items-center mt-5">
           <div className="w-[350px] py-2">
             <button
-              disabled={!checked}
+              // @ts-ignore
+              disabled={!checked || !userInfo.companyName}
               type="submit"
               className="w-full text-lg py-2 disabled:opacity-50 disabled:cursor-not-allowed rounded-md bg-primary flex justify-center text-white"
             >
@@ -339,7 +343,6 @@ const RegisterMedicalDevice = ({
           </div>
         </div>
       </form>
-
       <div className="w-full border-t border-[#CBCBCB] mt-5 pt-4">
         <div className="w-full flex justify-start items-center">
           <svg

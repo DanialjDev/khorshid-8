@@ -123,7 +123,10 @@ const Navbar = ({
             </svg>
           </button>
           <div className="flex lg:w-[30rem] w-auto justify-between items-center">
-            <div className="hidden sm2:flex justify-center items-center ml-4">
+            <Link
+              href={"/"}
+              className="hidden sm2:flex justify-center items-center ml-4"
+            >
               <Image
                 src={Logo}
                 alt="خورشید هشت"
@@ -131,7 +134,7 @@ const Navbar = ({
                 height={100}
                 unoptimized
               />
-            </div>
+            </Link>
             <div className="w-[400px] h-[40px] lg:flex hidden justify-between border-2 border-slate-200 rounded-md p-1">
               <input
                 className="w-[270px] outline-none p-1 bg-transparent placeholder:text-[12px]"

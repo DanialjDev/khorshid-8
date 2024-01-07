@@ -33,7 +33,6 @@ const MedicalEquipmentsPurchasingExpert = async () => {
                 style={{
                   width: "300px",
                   height: "200px",
-                  // objectFit: "cover",
                 }}
                 unoptimized
               />
@@ -72,9 +71,12 @@ const MedicalEquipmentsPurchasingExpert = async () => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <p className="text-[14px]">
+                  <a
+                    href={`tel:${counselorData?.object?.phoneNumber}`}
+                    className="text-[14px]"
+                  >
                     {counselorData?.object?.phoneNumber}
-                  </p>
+                  </a>
                 </div>
               </div>
             </div>

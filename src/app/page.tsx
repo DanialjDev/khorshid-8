@@ -35,7 +35,7 @@ export default async function Home() {
             <HeroSection />
 
             {/* Contrences Section */}
-            <div className="w-full grid grid-cols-3 gap-y-2 mt-5">
+            <div className="w-full grid grid-cols-3 gap-4 mt-3">
               {homePageDate?.conferences.map(
                 ({ conferenceId, imageUrl, link, name }) => {
                   return (
@@ -181,7 +181,7 @@ export default async function Home() {
                         target="_blank"
                         className="w-full flex justify-center items-center border border-profileBorderColor shadow-md rounded-[6px]"
                       >
-                        <div className="w-full overflow-hidden rounded-lg">
+                        <div className="w-full overflow-hidden">
                           <Image
                             width={400}
                             height={400}
@@ -189,7 +189,7 @@ export default async function Home() {
                             // style={{ width: "100%", height: "auto" }}
                             alt=""
                             src={imageUrl ? imageUrl : ""}
-                            className="border"
+                            className="border rounded-lg"
                             unoptimized
                           />
                         </div>

@@ -11,3 +11,9 @@ const NotFound = () => {
 };
 
 export default NotFound;
+
+export const generateMetadata = async () => {
+  return {
+    title: "صفحه مورد نظر پیدا نشد!",
+  };
+};

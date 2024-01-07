@@ -1,16 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import Logo from "../../../public/assets/images/navbar-logo.png";
 import FooterBox from "./FooterBox";
 import FooterIcons from "./FooterIcons";
 import Link from "next/link";
-import { getGalleryPhotos } from "@/services/gallery";
 
 const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
-  const [gallery, setGallery] = useState<GalleryItem[] | null>(null);
   const scrollTopHandler = () => {
     window.scrollTo({
       top: 0,
@@ -244,44 +242,8 @@ const Footer = ({ galleryItems }: { galleryItems: GalleryItem[] | null }) => {
               </div>
             </div>
           </FooterBox>
-          {/* <FooterBox title="مقالات">
-            <div className="w-full flex flex-col">
-              <div className="w-full flex flex-col ">
-                <p className="text-white text-[17px]">
-                  چگونه طراحی یو ای یو ایکس را شروع کنیم؟
-                </p>
-                <p className="text-lg text-primary mt-2 text-[14px]">
-                  آگاهی کافی نسبت به مهارت های خود
-                </p>
-              </div>
-              <div className="w-full flex flex-col">
-                <p className="text-white text-[17px]">
-                  چگونه طراحی یو ای یو ایکس را شروع کنیم؟
-                </p>
-                <p className="text-lg text-primary mt-2 text-[14px]">
-                  آگاهی کافی نسبت به مهارت های خود
-                </p>
-              </div>
-              <div className="w-full flex flex-col">
-                <p className="text-white text-[17px]">
-                  چگونه طراحی یو ای یو ایکس را شروع کنیم؟
-                </p>
-                <p className="text-lg text-primary mt-2 text-[14px]">
-                  آگاهی کافی نسبت به مهارت های خود
-                </p>
-              </div>
-              <div className="w-full flex flex-col">
-                <p className="text-white text-[17px]">
-                  چگونه طراحی یو ای یو ایکس را شروع کنیم؟
-                </p>
-                <p className="text-lg text-primary mt-2 text-[14px]">
-                  آگاهی کافی نسبت به مهارت های خود
-                </p>
-              </div>
-            </div>
-          </FooterBox> */}
           <FooterBox title="گالری تصاویر">
-            <div className="w-[80%] grid grid-cols-2 gap-3">
+            <div className="w-[80%] grid grid-cols-2 gap-7">
               {galleryItems &&
                 galleryItems.map((item, index) => {
                   if (index > 3) {

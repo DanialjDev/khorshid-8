@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
   const { refresh, push } = useRouter();
   const [isImageChanged, setIsImageChanged] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const {
     errors,
@@ -53,6 +55,7 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
         ),
     }),
     onSubmit: async (values) => {
+      setSubmitLoading(true);
       const formData = new FormData();
       // @ts-ignore
       formData.append("NewsId", singleNews.newsId);
@@ -73,16 +76,19 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
       );
 
       if (updatedNewsRes?.status === 200) {
+        setSubmitLoading(false);
         toast.success(updatedNewsRes.message);
         refresh();
         push("/panel/statistics");
       } else {
+        setSubmitLoading(false);
         toast.error(updatedNewsRes?.message);
       }
     },
   });
 
   const deleteSingleNewsHanlder = async () => {
+    setDeleteLoading(true);
     const deleteNewsRes = await deleteNews(
       {
         newsID: singleNews!.newsId.toString(),
@@ -91,10 +97,12 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
     );
 
     if (deleteNewsRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteNewsRes.message);
       refresh();
       push("/panel/statistics");
     } else {
+      setDeleteLoading(false);
       toast.error(deleteNewsRes?.message);
     }
   };
@@ -167,10 +175,13 @@ const NewsUpdateForm = ({ singleNews }: { singleNews: News | null }) => {
                 rounded="rounded-[8px]"
                 color="text-white"
                 width="sm:w-fit w-full"
+                loading={submitLoading}
               />
             </div>
             <div className="flex sm:mr-8 mt-5 sm:mt-0 sm:w-fit w-full">
               <Button
+                loading={deleteLoading}
+                isDanger
                 text="حذف خبر"
                 bg="bg-redColorLight"
                 padding="px-4 py-2"

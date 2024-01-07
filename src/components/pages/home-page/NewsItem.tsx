@@ -17,14 +17,14 @@ const NewsItem = ({
   const now = new Date();
   const DaysRange = getDatesRange(now, new Date(creationDate));
   return (
-    <div className="w-full flex items-center  flex-col xl:col-span-1 md:col-span-2 col-span-4 relative lg:mb-8 md:mb-16 mb-32">
+    <div className="w-full flex items-center flex-col xl:col-span-1 md:col-span-2 col-span-4 relative lg:mb-8 md:mb-16 mb-32">
       <div className="w-full">
         <Image
           width={300}
           height={250}
           alt=""
           src={imageUrl}
-          className="m-auto"
+          className="rounded-[10px] m-auto"
           unoptimized
         />
       </div>
@@ -57,7 +57,7 @@ const NewsItem = ({
           </div>
           <div className="">
             <Button
-              href={`${link.startsWith("https://") ? link : `https://${link}`}`}
+              href={`${link.startsWith("http") ? link : `https://${link}`}`}
               fontSize="xl:text-[12px] text-[10px]"
               padding="p-0"
               icon={

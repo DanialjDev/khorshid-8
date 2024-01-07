@@ -1,5 +1,6 @@
 import { isAxiosError } from "axios";
 import { get } from "../axios";
+import Cookies from "js-cookie";
 
 type ReturnType = {
   data?: GalleryItem[];

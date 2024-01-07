@@ -44,6 +44,7 @@ const Login = ({
         const response = await loginHandler(values);
         if (response) {
           if (response.status === 200 && response.message) {
+            setLoading(false);
             toast.success(response.message);
             dispatch(setIsLoggedIn(true));
             setTimeout(() => {
@@ -54,6 +55,7 @@ const Login = ({
               push("panel/statistics");
             }
           } else if (response?.status === 400) {
+            setLoading(false);
             if (response.message) {
               toast.error(response.message);
             }

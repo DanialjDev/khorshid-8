@@ -114,7 +114,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="companyName"
             onChange={handleChange}
             label="نام کامل شرکت"
-            isRequired
             value={
               // @ts-ignore
               values.companyName ? values.companyName : ""
@@ -129,7 +128,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="companyManagerFullName"
             onChange={handleChange}
             label="نام و نام خانوادگی مدیر عامل"
-            isRequired
             value={
               // @ts-ignore
               values.companyManagerFullName
@@ -146,8 +144,7 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             touched={touched}
             name="faxNumber"
             onChange={handleChange}
-            label="فکس"
-            isRequired
+            label="شماره شرکت"
             // @ts-ignore
             value={values.faxNumber ? values.faxNumber : ""}
           />
@@ -160,7 +157,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="website"
             onChange={handleChange}
             label="وب سایت"
-            isRequired
             // @ts-ignore
             value={values.website ? values.website : ""}
           />
@@ -173,7 +169,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="mobileNumber"
             onChange={handleChange}
             label="شماره تماس"
-            isRequired
             value={
               // @ts-ignore
               values.mobileNumber ? values.mobileNumber : ""
@@ -188,7 +183,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="email"
             onChange={handleChange}
             label="ایمیل"
-            isRequired
             // @ts-ignore
             value={values.email ? values.email : ""}
           />
@@ -201,7 +195,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="password"
             onChange={handleChange}
             label="رمز عبور جدید"
-            isRequired
             type={showIcon ? "text" : "password"}
             // @ts-ignore
             value={values.password ? values.password : ""}
@@ -221,7 +214,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="confirmPassword"
             onChange={handleChange}
             label="تکرار رمز عبور جدید"
-            isRequired
             type={showIcon ? "text" : "password"}
             // @ts-ignore
             value={values.confirmPassword ? values.confirmPassword : ""}
@@ -241,7 +233,6 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
             name="address"
             onChange={handleChange}
             label="آدرس شرکت"
-            isRequired
             // @ts-ignore
             value={values.address ? values.address : ""}
           />

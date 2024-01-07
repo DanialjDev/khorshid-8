@@ -26,7 +26,7 @@ export const signupHandler = async (
           expires: 1 / 6,
           path: "/",
           secure: false,
-          sameSite: "None",
+          sameSite: "Lax",
         });
         const encryptedData = encrypt(
           JSON.stringify({
@@ -42,11 +42,12 @@ export const signupHandler = async (
           expires: 1 / 6,
           path: "/",
           secure: false,
-          sameSite: "None",
+          sameSite: "Lax",
         });
         return {
           message: data.message,
           status: data.status,
+          role: data.object.roleNameEn,
         };
       }
     }
@@ -100,7 +101,6 @@ export const loginHandler = async (
           secure: false,
           sameSite: "Lax",
         });
-        // Cookies.set('userData', data.object);
         return {
           message: data.message,
           status: data.status,

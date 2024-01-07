@@ -11,6 +11,7 @@ import {
 import { useFormik } from "formik";
 import { signupHandler } from "@/services/auth";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Signup = ({
   setIsOpen,
@@ -29,6 +30,7 @@ const Signup = ({
     >
   >;
 }) => {
+  const { refresh } = useRouter();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -44,18 +46,20 @@ const Signup = ({
       onSubmit: async (values) => {
         setLoading(true);
         const response = await signupHandler(values);
-        if (response !== undefined && response.message) {
-          if (response.status === 409) {
-            toast.error(response.message);
-          }
-        }
+        // if (response !== undefined && response.message) {
+        //   if (response.status === 409) {
+        //     toast.error(response.message);
+        //   }
+        // }
         if (response?.status === 200 && response.message) {
           setLoading(false);
           toast.success(response.message);
           dispatch(authToggler(""));
           dispatch(setIsLoggedIn(true));
           setIsOpen(false);
+          refresh();
         } else {
+          setLoading(false);
           toast.error(response?.message);
         }
       },

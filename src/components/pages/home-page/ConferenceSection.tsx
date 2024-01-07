@@ -19,7 +19,7 @@ const Conferences = ({ name, imageUrl, link }: GallerySectionProps) => {
         height={0}
         // objectFit="cover"
         sizes="100vw"
-        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        style={{ width: "100%", objectFit: "cover" }}
         src={imageUrl ? imageUrl : ""}
         alt={name}
         unoptimized

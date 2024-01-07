@@ -45,6 +45,7 @@ const Ticket = ({
         <div className="">
           <Button
             bg={btnBgColor}
+            isConfirm
             disabled={isDisabled}
             onClick={() => {
               setLoading(true);

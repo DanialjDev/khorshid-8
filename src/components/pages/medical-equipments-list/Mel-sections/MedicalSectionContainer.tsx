@@ -79,8 +79,6 @@ const MedicalSection = ({
     if (bannerData?.banner) {
       setBanner(bannerData.banner);
     }
-
-    // @ts-ignore
   };
 
   useEffect(() => {
@@ -92,8 +90,12 @@ const MedicalSection = ({
     setTableData(null);
     setSearchValue("");
     refresh();
-    // @ts-ignore
-    setSelected(tableHeaders[0]);
+    setSelected(
+      // @ts-ignore
+      tableHeaders.filter(
+        (item) => item.value !== "CityID" && item.value !== "CityId"
+      )[0]
+    );
   }, [sectionName]);
   return (
     <>

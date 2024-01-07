@@ -272,42 +272,44 @@ const PosterBox = ({
 
                   <IconBox
                     icon={
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M9 1.5V6.75L10.5 5.25"
-                          stroke="#060607"
-                          stroke-width="1.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M9 6.75L7.5 5.25"
-                          stroke="#060607"
-                          stroke-width="1.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M1.48438 9.75H4.79187C5.07687 9.75 5.33188 9.9075 5.45938 10.1625L6.33687 11.9175C6.59187 12.4275 7.10938 12.75 7.67938 12.75H10.3269C10.8969 12.75 11.4144 12.4275 11.6694 11.9175L12.5469 10.1625C12.6744 9.9075 12.9369 9.75 13.2144 9.75H16.4844"
-                          stroke="#060607"
-                          stroke-width="1.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M5.25 3.09668C2.595 3.48668 1.5 5.04668 1.5 8.24918V11.2492C1.5 14.9992 3 16.4992 6.75 16.4992H11.25C15 16.4992 16.5 14.9992 16.5 11.2492V8.24918C16.5 5.04668 15.405 3.48668 12.75 3.09668"
-                          stroke="#060607"
-                          stroke-width="1.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
+                      <a href={imageUrl} download="file.png" target="_blank">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M9 1.5V6.75L10.5 5.25"
+                            stroke="#060607"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M9 6.75L7.5 5.25"
+                            stroke="#060607"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M1.48438 9.75H4.79187C5.07687 9.75 5.33188 9.9075 5.45938 10.1625L6.33687 11.9175C6.59187 12.4275 7.10938 12.75 7.67938 12.75H10.3269C10.8969 12.75 11.4144 12.4275 11.6694 11.9175L12.5469 10.1625C12.6744 9.9075 12.9369 9.75 13.2144 9.75H16.4844"
+                            stroke="#060607"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M5.25 3.09668C2.595 3.48668 1.5 5.04668 1.5 8.24918V11.2492C1.5 14.9992 3 16.4992 6.75 16.4992H11.25C15 16.4992 16.5 14.9992 16.5 11.2492V8.24918C16.5 5.04668 15.405 3.48668 12.75 3.09668"
+                            stroke="#060607"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </a>
                     }
                   />
                 </>

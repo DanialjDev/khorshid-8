@@ -26,6 +26,8 @@ const ConfrencesContainer = ({
   confrences: Conference[] | undefined;
 }) => {
   const { refresh, push } = useRouter();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [singleConfrence, setSingleConfrence] = useState<Conference | null>(
     null
   );
@@ -77,6 +79,7 @@ const ConfrencesContainer = ({
       imageUrl: Yup.mixed().required("انتخاب تصویر الزامی است"),
     }),
     onSubmit: async (values) => {
+      setSubmitLoading(true);
       const formData = new FormData();
       // @ts-ignore
       formData.append("ConferenceId", selectedConfrence);
@@ -92,8 +95,10 @@ const ConfrencesContainer = ({
           Cookies.get("token")!
         );
         if (updatedConfrenceRes?.status === 200) {
+          setSubmitLoading(false);
           toast.success(updatedConfrenceRes.message);
         } else {
+          setSubmitLoading(false);
           toast.error(updatedConfrenceRes?.message);
         }
       }
@@ -102,6 +107,7 @@ const ConfrencesContainer = ({
   });
 
   const deleteSingleConfrenceHandler = async () => {
+    setDeleteLoading(true);
     const deleteConfrenceRes = await deleteSingleConfrence(
       {
         conferenceID: singleConfrence?.conferenceId!,
@@ -110,10 +116,12 @@ const ConfrencesContainer = ({
     );
 
     if (deleteConfrenceRes?.status === 200) {
+      setDeleteLoading(false);
       toast.success(deleteConfrenceRes.message);
       refresh();
       push("/panel/statistics");
     } else {
+      setDeleteLoading(false);
       toast.error(deleteConfrenceRes?.message);
     }
   };
@@ -188,6 +196,7 @@ const ConfrencesContainer = ({
               <div className="col-span-4 xl:col-span-2 xl:justify-end mt-7 xl:m-0 flex sm:flex-row flex-col items-center">
                 <div className="flex sm:w-fit w-full">
                   <Button
+                    loading={submitLoading}
                     type="submit"
                     text="ذخیره همایش"
                     bg="bg-primaryDark6"
@@ -199,6 +208,8 @@ const ConfrencesContainer = ({
                 </div>
                 <div className="flex sm:mr-8 mt-5 sm:mt-0 sm:w-fit w-full">
                   <Button
+                    loading={deleteLoading}
+                    isDanger
                     text="حذف همایش"
                     bg="bg-redColorLight"
                     padding="px-4 py-2"

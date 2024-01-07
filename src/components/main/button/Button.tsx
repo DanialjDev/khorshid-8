@@ -25,6 +25,7 @@ interface ButtonProps {
   name?: string;
   loading?: boolean;
   isDanger?: boolean;
+  isConfirm?: boolean;
 }
 
 const Button = ({
@@ -48,6 +49,7 @@ const Button = ({
   name,
   loading,
   isDanger,
+  isConfirm,
 }: ButtonProps) => {
   if (loading) {
     return (
@@ -60,7 +62,10 @@ const Button = ({
           padding ? padding : "px-[30px] py-[10px]"
         } ${rounded ? rounded : "rounded-xl"}`}
       >
-        <BeatLoader color={isDanger ? "#E41819" : "#ffffff"} size={7} />
+        <BeatLoader
+          color={isDanger ? "#E41819" : isConfirm ? "#1DC9A0" : "#ffffff"}
+          size={7}
+        />
       </div>
     );
   }

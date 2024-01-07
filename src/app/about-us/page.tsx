@@ -2,7 +2,7 @@ import { getTitle } from "@/utills/getTitle";
 import Image from "next/image";
 import React from "react";
 
-import MeetingLogo from "../../../public/assets/images/about-us/meeting.png";
+import AboutUsImg from "../../../public/assets/images/about-us/about-us.jpg";
 import WhiteLogo from "../../../public/assets/images/home-page/white-square.svg";
 import GreenLogo from "../../../public/assets/images/home-page/green-square.svg";
 import BlueLogo from "../../../public/assets/images/home-page/blue-square.svg";
@@ -36,7 +36,7 @@ const AboutUs = async () => {
             </div>
           </div>
           <div className="text-[#979797] text-[16px]">
-            <p className="my-10 !text-[#979797]">
+            <p className="my-10 leading-7 !text-[#979797]">
               کانون تبلیغاتی خورشید هشت با مجوز رسمی از وزارت فرهنگ و ارشاد
               اسلامی، از جمله کانون های فعال در حوزه سلامت می باشد که با سابقه
               ای بالغ بر 3 دهه توانسته است در زمینه های گوناگون از جمله چاپ کتاب
@@ -50,7 +50,7 @@ const AboutUs = async () => {
           </div>
         </div>
         <div className="lg:w-[40%] w-full flex justify-center items-center lg:m-0 mt-8">
-          <Image src={MeetingLogo} className="rounded-xl" alt="" unoptimized />
+          <Image src={AboutUsImg} className="rounded-xl" alt="" unoptimized />
         </div>
       </div>
       <div className="w-full mt-48">

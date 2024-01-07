@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 import NotFoundLogo from "../../../../public/assets/images/not-found.svg";
 import Button from "@/components/main/button/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const NotFoundContainer = () => {
-  const { push, back } = useRouter();
+  const { push, back, refresh } = useRouter();
+  const [loading, setLoading] = useState(false);
   return (
     <>
       <div className="w-full flex justify-center items-center">
@@ -32,7 +33,12 @@ const NotFoundContainer = () => {
             bg="bg-primary"
             color="text-white"
             rounded="rounded-[5px]"
-            onClick={() => push("/")}
+            loading={loading}
+            onClick={() => {
+              setLoading(true);
+              push("/");
+              refresh();
+            }}
           />
         </div>
         <div className="mr-5">
@@ -48,6 +54,7 @@ const NotFoundContainer = () => {
       </div>
       <div className="flex w-full justify-center items-center mt-[50px]">
         <Link
+          onClick={() => refresh()}
           href={"/"}
           className="w-fit px-10 border-r border-l-0 border-notFoundItemBorder text-gray hover:text-primary transition-all duration-300"
         >

@@ -40,7 +40,7 @@ const PostersContainer = ({
               >
                 <PosterBox
                   fontSize={"sm:text-[14px] text-[13px]"}
-                  title={`بنز شماره ${String(item.homeSideBannerId)}`}
+                  title={`بنر شماره ${String(item.homeSideBannerId)}`}
                   imageUrl={item.imageUrl!}
                   action="homeSideBanner"
                   id={item.homeSideBannerId}

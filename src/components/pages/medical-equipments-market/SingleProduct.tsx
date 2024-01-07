@@ -119,6 +119,11 @@ const SingleProductPage = ({
                       <ProductInfoBox
                         label="وب سایت:"
                         text={singleDevice.website}
+                        link={
+                          singleDevice.website.startsWith("https://")
+                            ? singleDevice.website
+                            : `https://${singleDevice.website}`
+                        }
                       />
                     </div>
                     <div className="w-full grid grid-cols-4 gap-20 border-b border-productInfoBorder pb-5">

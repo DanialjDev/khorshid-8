@@ -5,7 +5,6 @@ import { getConsulations } from "@/services/profile/admin/consulation";
 import { CounsulationObj } from "@/services/profile/admin/consulation/types";
 import { gregorianIsoToJalaali } from "@/utills/formatHelper";
 import { generateHeaders } from "@/utills/generateTableHeaders";
-import Link from "next/link";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import Pagination from "@/components/main/pagination/Pagination";
@@ -37,7 +36,7 @@ const CounsulationTable = ({ data }: { data: CounsulationObj }) => {
                 {item.phoneNumber}
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
-                {`${item.comment.slice(0, 70)}...`}
+                {item.comment}
               </td>
               <td className="whitespace-nowrap p-4 text-[14px]">
                 {gregorianIsoToJalaali(item.creationDate)}

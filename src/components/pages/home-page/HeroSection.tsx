@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import MedicalLogo from "../../../../public/assets/images/medial-equipment.png";
+import HomePageBanner from "../../../../public/assets/images/home-page/homepage-banner.jpg";
 import Button from "@/components/main/button/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -54,12 +54,11 @@ const HeroSection = () => {
         </div>
       </div>
       <Image
-        style={{ objectFit: "contain", height: "100%" }}
+        style={{ objectFit: "cover", height: "100%" }}
         sizes="100%"
-        src={MedicalLogo}
+        src={HomePageBanner}
         className="lg:w-[60%] w-full"
         alt="تجهزیت پزشکی"
-        objectFit="cover"
         unoptimized
       />
     </div>

@@ -23,6 +23,8 @@ const SetDeviceStatusForm = ({
   deviceInitialValues: SingleDeviceObj | null;
 }) => {
   const { push, refresh } = useRouter();
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [declineLoading, setDeclineLoading] = useState(false);
   const [initialValues, setInitialValues] = useState<SingleDeviceObj | null>(
     deviceInitialValues
   );
@@ -35,6 +37,7 @@ const SetDeviceStatusForm = ({
       imageUrl: Yup.mixed(),
     }),
     onSubmit: async (values) => {
+      setConfirmLoading(true);
       if (Cookies.get("token")) {
         const confirmDeviceRes = await confirmDeviceHandler(
           {
@@ -45,10 +48,12 @@ const SetDeviceStatusForm = ({
         );
 
         if (confirmDeviceRes?.status === 200) {
+          setConfirmLoading(false);
           toast.success(confirmDeviceRes.message);
           push("/panel/register-product-requests/");
           refresh();
         } else {
+          setConfirmLoading(false);
           toast.error(confirmDeviceRes?.message);
         }
       }
@@ -60,6 +65,7 @@ const SetDeviceStatusForm = ({
     string | null
   >("");
   const declineDevice = async (deviceID: number) => {
+    setDeclineLoading(true);
     if (Cookies.get("token")) {
       const declineDeviceRes = await declineDeviceHandler(
         {
@@ -70,10 +76,12 @@ const SetDeviceStatusForm = ({
       );
 
       if (declineDeviceRes?.status === 200) {
+        setDeclineLoading(false);
         toast.success(declineDeviceRes.message);
         push("/panel/register-product-requests/");
         refresh();
       } else {
+        setDeclineLoading(false);
         toast.error(declineDeviceRes?.message);
       }
       setOpenModal(false);
@@ -100,6 +108,7 @@ const SetDeviceStatusForm = ({
             <div className="w-full flex items-center mt-2">
               <div className="ml-2">
                 <Button
+                  loading={declineLoading}
                   text="عدم تایید"
                   color="text-white"
                   bg="bg-redColor"
@@ -150,7 +159,7 @@ const SetDeviceStatusForm = ({
         <div className="col-span-2 md:col-span-1">
           <AuthInput
             name="faxNumber"
-            label="فکس"
+            label="شاره شرکت"
             disabled
             value={initialValues?.faxNumber ? initialValues.faxNumber : ""}
           />
@@ -281,6 +290,8 @@ const SetDeviceStatusForm = ({
           <div className="whitespace-nowrap flex gap-x-4 text-[14px]">
             <Button
               // onClick={() => confirmDevice(initialValues?.deviceId!)}
+              loading={confirmLoading}
+              isConfirm
               type="submit"
               rounded="rounded-[5px]"
               bg="bg-confirmBtnBg"
