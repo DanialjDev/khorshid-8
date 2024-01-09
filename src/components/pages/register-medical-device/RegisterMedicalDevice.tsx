@@ -26,7 +26,6 @@ const RegisterMedicalDevice = ({
   devices: DeviceName[] | undefined;
   userInfo: InitialValues;
 }) => {
-  console.log(userInfo);
   const [initialValues, validationSchema] = useValidation(
     "register-medical-device"
   ) as [InitialValues, ValidationSchemaType];
@@ -256,7 +255,6 @@ const RegisterMedicalDevice = ({
                 onChange={handleChange}
                 touched={touched}
                 label="نام سفارش دهنده"
-                isRequired
                 name="OrderedByName"
               />
             </div>
@@ -269,7 +267,6 @@ const RegisterMedicalDevice = ({
                 onChange={handleChange}
                 touched={touched}
                 label="نام خانوادگی سفارش دهنده"
-                isRequired
                 name="OrderedByLastName"
               />
             </div>
@@ -282,7 +279,6 @@ const RegisterMedicalDevice = ({
                 onChange={handleChange}
                 touched={touched}
                 label="شماره تماس سفارش دهنده"
-                isRequired
                 name="OrderedByMobileNumber"
               />
             </div>

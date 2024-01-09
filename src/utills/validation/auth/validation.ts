@@ -175,17 +175,18 @@ const useValidation = (action: Action): ReturnType | undefined => {
         country: "",
         name: "",
       };
+      // @ts-ignore
       validationSchema = Yup.object().shape({
         brand: defaultErrorValidation,
-        Image: Yup.mixed().required("لطفا تصویر دستگاه را بارگذاری کنید."),
-        OrderedByLastName: defaultErrorValidation,
-        OrderedByName: defaultErrorValidation,
-        OrderedByMobileNumber: phoneNumber,
+        Image: Yup.mixed(),
+        // OrderedByLastName: defaultErrorValidation,
+        // OrderedByName: defaultErrorValidation,
+        // OrderedByMobileNumber: phoneNumber,
         country: defaultErrorValidation,
         name: defaultErrorValidation,
       });
       return [initialValues, validationSchema];
-      // case "consulation":
+    case "consulation":
       initialValues = {
         firstName: "",
         lastName: "",

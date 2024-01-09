@@ -36,18 +36,11 @@ const SingleEvents = ({
     useFormik({
       initialValues: {
         eventName: data && data.eventName ? data.eventName : "",
-        eventDate:
-          data && data.eventDate ? gregorianIsoToJalaali(data.eventDate) : "",
+        eventDate: data && data.eventDate ? data.eventDate : "",
       },
       validationSchema: Yup.object().shape({
         eventName: Yup.string().required("پر کردن این فیلد الزامی است"),
-        eventDate: Yup.string()
-          .required("پر کردن این فیلد الزامی است")
-          .test("isDate", "تاریخ وارد شده نادرست است", (values) => {
-            if (values) {
-              return Boolean(jalaaliToGregorianISO(values));
-            }
-          }),
+        eventDate: Yup.string().required("پر کردن این فیلد الزامی است"),
       }),
       onSubmit: async (values) => {
         setSubmitLoading(true);
@@ -122,8 +115,8 @@ const SingleEvents = ({
       <div className="col-span-2">
         <AuthInput
           name="eventName"
-          label="نام دانشگاه"
-          placeholder="نام دانشگاه را وارد کنید"
+          label="نام روز"
+          placeholder="مناسبت مورد نظر را وارد کنید"
           onChange={handleChange}
           handleBlur={handleBlur}
           value={values.eventName}
@@ -136,8 +129,8 @@ const SingleEvents = ({
       <div className="col-span-2">
         <AuthInput
           name="eventDate"
-          label="آدرس سایت"
-          placeholder="آدرس سایت را وارد کنید"
+          label="تاریخ"
+          placeholder="تاریخ مورد نظر را وارد کنید"
           onChange={handleChange}
           handleBlur={handleBlur}
           // @ts-ignore

@@ -95,9 +95,9 @@ export interface RegisterDeviceValues {
 export interface RegisterDeviceAnyObject {
   brand: undefined;
   name: undefined;
-  OrderedByName: undefined;
-  OrderedByLastName: undefined;
-  OrderedByMobileNumber: undefined;
+  // OrderedByName: undefined;
+  // OrderedByLastName: undefined;
+  // OrderedByMobileNumber: undefined;
   Image: undefined;
   country: undefined;
 }

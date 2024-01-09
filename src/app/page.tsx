@@ -11,7 +11,7 @@ import NewsItem from "@/components/pages/home-page/NewsItem";
 // Svg & Png
 import OtherSectionSvg from "../../public/assets/images/other-sections.svg";
 import PartnerShip from "../../public/assets/images/partnership 1.png";
-import About from "../../public/assets/images/about.png";
+import About from "../../public/assets/images/about-us/about-us.jpg";
 import GreenSquare from "../../public/assets/images/home-page/green-square.svg";
 import { getHomePageDate, getHomePageDevies } from "@/services/homePage";
 import Conferences from "@/components/pages/home-page/ConferenceSection";

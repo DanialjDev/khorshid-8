@@ -191,6 +191,9 @@ const MedicalSection = ({
                         // @ts-ignore
                         sectionName
                       );
+                      setTotalPageContain(
+                        medicalEquipmentData?.totalPageCount!
+                      );
                       const Data = TableBodyData({
                         // @ts-ignore
                         data: medicalEquipmentData?.data,

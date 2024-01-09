@@ -36,7 +36,7 @@ const UserInfo = ({ userInfo }: { userInfo: InitialValues | undefined }) => {
         ),
         faxNumber: Yup.string()
           .required("پرکردن این فیلد الزامی میباشد")
-          .test("isNumeric", "شماره فکس وارد شده نامعتبر است", (value) => {
+          .test("isNumeric", "شماره وارد شده نامعتبر است", (value) => {
             if (value && value.length > 0) {
               return isNumeric(value);
             }
