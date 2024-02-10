@@ -1,6 +1,9 @@
 import RegisterMedicalDevice from "@/components/pages/register-medical-device/RegisterMedicalDevice";
 import { getDeviceCategories } from "@/services/common";
-import { getProfileCompanyData } from "@/services/profile/user";
+import {
+  getLatestOrderData,
+  getProfileCompanyData,
+} from "@/services/profile/user";
 import { getTitle } from "@/utills/getTitle";
 import { cookies } from "next/headers";
 import React from "react";
@@ -15,6 +18,9 @@ const RegisterMedicalDevicePage = async () => {
   const managerInfo = await getProfileCompanyData(
     cookies().get("token")?.value!,
     "registerDevice"
+  );
+  const latestOrderData = await getLatestOrderData(
+    cookies().get("token")?.value!
   );
   return (
     <RegisterMedicalDevice
@@ -32,6 +38,7 @@ const RegisterMedicalDevicePage = async () => {
               address: "",
             }
       }
+      latestOrderData={latestOrderData}
       devices={response?.data}
     />
   );

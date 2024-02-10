@@ -81,24 +81,26 @@ export const generateItemsDevicedBySix = (
 };
 
 export const getMedicalEquipmentsRoutes = (id: number): string | undefined => {
+  console.log(id);
   switch (id) {
-    case 1:
+    case 9:
       return "/devices";
-    case 2:
+    case 10:
       return "/companies";
-    case 3:
+    case 11:
       return "/deans-of-universities";
-    case 4:
+    case 12:
       return "/events";
-    case 5:
+    case 12:
       return "/hospitals";
-    case 6:
+    case 14:
       return "/labs";
-    case 7:
+    case 15:
       return "/vice-president-of-treatments";
-    case 8:
+    case 16:
       return "/universities";
   }
+  return undefined;
 };
 
 export const nonBreakingSpace = (str: string) => {

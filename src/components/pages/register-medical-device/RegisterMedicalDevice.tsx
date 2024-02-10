@@ -18,17 +18,26 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import ImageInput from "@/components/main/image-input/ImageInput";
 import { IoWarningOutline } from "react-icons/io5";
+import { LatestOrderData } from "@/services/profile/user/types";
+import * as Yup from "yup";
 
 const RegisterMedicalDevice = ({
   devices,
   userInfo,
+  latestOrderData,
 }: {
   devices: DeviceName[] | undefined;
   userInfo: InitialValues;
+  latestOrderData?: {
+    orderedByName: string;
+    orderedByLastName: string;
+    orderedByMobileNumber: string;
+  };
 }) => {
-  const [initialValues, validationSchema] = useValidation(
-    "register-medical-device"
-  ) as [InitialValues, ValidationSchemaType];
+  console.log(latestOrderData);
+  // const [initialValues, validationSchema] = useValidation(
+  //   "register-medical-device"
+  // ) as [InitialValues, ValidationSchemaType];
   const [checked, setChecked] = useState(false);
 
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
@@ -42,10 +51,30 @@ const RegisterMedicalDevice = ({
     setFieldValue,
     resetForm,
   } = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: {
+      brand: "",
+      OrderedByName: latestOrderData?.orderedByName
+        ? latestOrderData.orderedByName
+        : "",
+      OrderedByLastName: latestOrderData?.orderedByLastName
+        ? latestOrderData.orderedByLastName
+        : "",
+      OrderedByMobileNumber: latestOrderData?.orderedByMobileNumber
+        ? latestOrderData.orderedByMobileNumber
+        : "",
+      Image: "",
+      country: "",
+      name: "",
+    },
+    validationSchema: Yup.object().shape({
+      brand: Yup.string().required("پرکردن این فیلد الزامی است."),
+      Image: Yup.mixed(),
+      country: Yup.string().required("پرکردن این فیلد الزامی است."),
+      name: Yup.string().required("پرکردن این فیلد الزامی است."),
+    }),
     onSubmit: async (values) => {
       const formData = new FormData();
+      console.log(values);
 
       // @ts-ignore
       formData.append("Name", values.name);
@@ -63,9 +92,11 @@ const RegisterMedicalDevice = ({
       formData.append("OrderedByMobileNumber", values.OrderedByMobileNumber);
       deviceIds.map((id) => formData.append("CategoryIDs", id));
       const response = await postProfileDevice(formData, Cookies.get("token")!);
+      console.log(formData.get("CategoryIDs"));
 
       if (response?.status === 200) {
         toast.success(response.message);
+        setDeviceIds([]);
         resetForm();
       } else {
         toast.error(response?.message);
@@ -165,7 +196,7 @@ const RegisterMedicalDevice = ({
           title="لطفا برای ثبت نوع دستگاه خود  را انتخاب کنید."
         >
           <div className="w-full flex p-3 flex-col">
-            <div className="w-full flex-wrap flex-grow flex items-center">
+            <div className="w-full flex-wrap flex-grow flex items-center overflow-scroll">
               {devices &&
                 devices.map(({ categoryName, id }) => (
                   <DeviceCategory
@@ -246,7 +277,7 @@ const RegisterMedicalDevice = ({
         {/* Customer Informatoin */}
         <RegisterForm title="اطلاعات سفارش دهنده">
           <div className="w-full grid grid-cols-3 gap-5 px-8">
-            <div className="col-span-1">
+            <div className="xl:col-span-1 col-span-3">
               <AuthInput
                 // @ts-ignore
                 value={values.OrderedByName}
@@ -258,7 +289,7 @@ const RegisterMedicalDevice = ({
                 name="OrderedByName"
               />
             </div>
-            <div className="col-span-1">
+            <div className="xl:col-span-1 col-span-3">
               <AuthInput
                 // @ts-ignore
                 value={values.OrderedByLastName}
@@ -270,7 +301,7 @@ const RegisterMedicalDevice = ({
                 name="OrderedByLastName"
               />
             </div>
-            <div className="col-span-1">
+            <div className="xl:col-span-1 col-span-3">
               <AuthInput
                 // @ts-ignore
                 value={values.OrderedByMobileNumber}

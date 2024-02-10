@@ -31,10 +31,10 @@ const SetDeviceStatusForm = ({
 
   const { values, errors, touched, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
-      imageUrl: initialValues?.imageUrl ? initialValues.imageUrl : null,
+      imageUrl: initialValues?.imageUrl ? initialValues.imageUrl : '',
     },
     validationSchema: Yup.object().shape({
-      imageUrl: Yup.mixed(),
+      imageUrl: Yup.mixed().optional(),
     }),
     onSubmit: async (values) => {
       setConfirmLoading(true);

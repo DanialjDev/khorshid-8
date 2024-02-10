@@ -104,3 +104,20 @@ export interface UserRemainingDevices {
   };
   list: null;
 }
+
+// latest order data
+export interface LatestOrderData {
+  exMessage: string | null;
+  message: string;
+  operationDate: string;
+  operationName: string;
+  status: number;
+  success: boolean;
+  object: {
+    companyId: number;
+    orderedByName: string;
+    orderedByLastName: string;
+    orderedByMobileNumber: string;
+  };
+  list: null;
+}

@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import {
   CompanyData,
   CompanyObject,
+  LatestOrderData,
   PostProfileDevice,
   UpdateProfileData,
   UserProfileDevice,
@@ -162,6 +163,7 @@ export const postProfileDevice = async (
       };
     }
   } catch (error) {
+    console.log(error);
     if (isAxiosError(error)) {
       if (error.response?.status === 409) {
         // if (error.response?.status === 409) {
@@ -272,4 +274,33 @@ export const getUserRemainingDevices = async (
       };
     }
   } catch (error) {}
+};
+
+// Get latest order data
+export const getLatestOrderData = async (
+  token: string
+): Promise<
+  | {
+      orderedByName: string;
+      orderedByLastName: string;
+      orderedByMobileNumber: string;
+    }
+  | undefined
+> => {
+  try {
+    const { data, status } = await get<LatestOrderData>(
+      "Profile/GetLatestOrderedData",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return data.object;
+    }
+  } catch (error) {
+    return undefined;
+  }
 };

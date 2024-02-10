@@ -38,8 +38,9 @@ const AllAccounts = ({ userAccounts }: { userAccounts: UsersObj | null }) => {
       searchInput ? searchInput : null,
       pageNumber
     );
-
-    if (updatedData?.status === 200) {
+    console.log(updatedData?.status);
+    if (updatedData?.data) {
+      console.log(updatedData?.data?.data);
       setUserData(updatedData.data!);
     }
   };

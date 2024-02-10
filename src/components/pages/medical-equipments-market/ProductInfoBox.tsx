@@ -10,7 +10,7 @@ const ProductInfoBox = ({
   text: string | string[];
   link?: string;
 }) => {
-  console.log(Boolean(link));
+  console.log(text);
   return (
     <div
       className={`${
@@ -30,12 +30,15 @@ const ProductInfoBox = ({
             </Link>
           ) : (
             <>
-              {/* @ts-ignore */}
-              {text.map((item, index) => (
-                <p key={index} className="text-dark text-[14px] mr-3">
-                  {item} ,
-                </p>
-              ))}
+              {text && typeof text === "object" ? (
+                text.map((item, index) => (
+                  <p key={index} className="text-dark text-[14px] mr-3">
+                    {item} ,
+                  </p>
+                ))
+              ) : (
+                <p className="text-dark text-[14px] mr-3">{text} ,</p>
+              )}
             </>
           )}
         </div>

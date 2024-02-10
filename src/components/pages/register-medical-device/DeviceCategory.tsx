@@ -1,3 +1,4 @@
+import { nonBreakingSpace } from "@/utills/formatHelper";
 import React from "react";
 
 const DeviceCategory = ({
@@ -31,8 +32,8 @@ const DeviceCategory = ({
           }
         }}
       />
-      <label htmlFor={text} className="mr-2 cursor-pointer">
-        {text}
+      <label htmlFor={text} className="mr-1 ml-5 cursor-pointer flex flex-wrap">
+        {nonBreakingSpace(text)}
       </label>
     </div>
   );
