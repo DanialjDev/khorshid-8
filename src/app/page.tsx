@@ -26,6 +26,7 @@ export default async function Home() {
   const token = cookies().get("token")?.value;
   const homePageDate = await getHomePageDate();
   const homePageDevices = await getHomePageDevies("7");
+  console.log("banners", homePageDate?.homeSideBanners);
   return (
     <div className={`w-full`}>
       <div className="w-full">

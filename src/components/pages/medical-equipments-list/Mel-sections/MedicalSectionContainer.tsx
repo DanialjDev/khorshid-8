@@ -66,6 +66,9 @@ const MedicalSection = ({
         // @ts-ignore
         operationName: sectionName,
       });
+      setTotalPageContain(
+        filteredData.totalPageCount ? filteredData.totalPageCount : 0
+      );
       setSearchLoading(false);
       setTableData(Data);
     } else {

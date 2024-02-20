@@ -1,12 +1,6 @@
-import {
-  HomeSideBanners,
-  MedicalEquipmentBanners,
-  Gallery,
-} from "@/services/profile/admin/posters/types";
 import React, { ReactNode, useState } from "react";
 import Button from "@/components/main/button/Button";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { authToggler, setLinkRequired } from "@/redux/features/auth/authSlice";
 import Modal from "@/components/main/modal/Modal";
 import UpdatePosterModal from "./UpdatePosterModal";
 

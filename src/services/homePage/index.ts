@@ -7,10 +7,13 @@ export const getHomePageDate = async () => {
     const { data, status } = await get<HomePageDate>(
       "HomePage/GetHomePageData/"
     );
+    console.log(data);
     if (status === 200) {
       return data.object;
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get Home‌ Page Devices
