@@ -5,6 +5,7 @@ import { getMedicalEquipments } from "@/services/profile/admin/medical-equipment
 import { generateHeaders } from "@/utills/generateTableHeaders";
 import { getTitle } from "@/utills/getTitle";
 import React from "react";
+import {getDeviceCategories, getStates} from "@/services/common";
 
 const MedicalEquipmentsList = async ({
   searchParams,
@@ -12,12 +13,14 @@ const MedicalEquipmentsList = async ({
   searchParams: { name: string };
 }) => {
   // @ts-ignore
-  const tableHeaders = generateHeaders(searchParams.name);
+  const tableHeaders = generateHeaders(searchParams.name!);
+  const deviceCategories = await getDeviceCategories();
+  const states = await getStates();
   return (
     <>
       <div className="w-full flex flex-col">
         <SelectBox />
-        <MedicalSection tableHeaders={tableHeaders} />
+        <MedicalSection states={states?.data ? states.data : []} deviceCategories={deviceCategories?.data ? deviceCategories.data : []} tableHeaders={tableHeaders} />
       </div>
     </>
   );

@@ -24,9 +24,25 @@ const GetDevicesTable = ({
       {data &&
         data.data.length > 0 &&
         data.data.map((item, index) => (
-          <tr className="cursor-pointer" key={item.deviceId}>
+          <tr
+            className="cursor-pointer relative"
+            key={item.deviceId}
+            onClick={() => {
+              if (isDelete) {
+                if (rows.includes(item.deviceId)) {
+                  setRows((prevState) =>
+                    prevState.filter((id) => id !== item.deviceId)
+                  );
+                } else {
+                  setRows([...rows, item.deviceId]);
+                }
+                return;
+              }
+              push(`/panel/medical-equipments-list/devices/${item.deviceId}`);
+            }}
+          >
             {isDelete ? (
-              <td className="p-2 whitespace-nowrap text-[13px]">
+              <td className="p-2 whitespace-nowrap text-[13px] relative z-30">
                 <input
                   id="registerDeviceCheckbox"
                   name="registerDeviceCheckbox"
@@ -38,76 +54,12 @@ const GetDevicesTable = ({
             ) : (
               <td className="p-4 whitespace-nowrap text-[13px]">{index + 1}</td>
             )}
-            <td
-              className="p-4 whitespace-nowrap text-[13px]"
-              onClick={() => {
-                if (isDelete) {
-                  if (rows.includes(item.deviceId)) {
-                    setRows((prevState) =>
-                      prevState.filter((id) => id !== item.deviceId)
-                    );
-                  } else {
-                    setRows([...rows, item.deviceId]);
-                  }
-                  return;
-                }
-                push(`/panel/medical-equipments-list/devices/${item.deviceId}`);
-              }}
-            >
-              {item.name}
-            </td>
-            <td
-              className="whitespace-nowrap p-4 text-[14px]"
-              onClick={() => {
-                if (isDelete) {
-                  if (rows.includes(item.deviceId)) {
-                    setRows((prevState) =>
-                      prevState.filter((id) => id !== item.deviceId)
-                    );
-                  } else {
-                    setRows([...rows, item.deviceId]);
-                  }
-                  return;
-                }
-                push(`/panel/medical-equipments-list/devices/${item.deviceId}`);
-              }}
-            >
-              {item.brand}
-            </td>
-            <td
-              className="whitespace-nowrap p-4 text-[14px]"
-              onClick={() => {
-                if (isDelete) {
-                  if (rows.includes(item.deviceId)) {
-                    setRows((prevState) =>
-                      prevState.filter((id) => id !== item.deviceId)
-                    );
-                  } else {
-                    setRows([...rows, item.deviceId]);
-                  }
-                  return;
-                }
-                push(`/panel/medical-equipments-list/devices/${item.deviceId}`);
-              }}
-            >
+            <td className="p-4 whitespace-nowrap text-[13px]">{item.name}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">{item.brand}</td>
+            <td className="whitespace-nowrap p-4 text-[14px]">
               {item.country}
             </td>
-            <td
-              className="whitespace-nowrap p-4 text-[14px]"
-              onClick={() => {
-                if (isDelete) {
-                  if (rows.includes(item.deviceId)) {
-                    setRows((prevState) =>
-                      prevState.filter((id) => id !== item.deviceId)
-                    );
-                  } else {
-                    setRows([...rows, item.deviceId]);
-                  }
-                  return;
-                }
-                push(`/panel/medical-equipments-list/devices/${item.deviceId}`);
-              }}
-            >
+            <td className="whitespace-nowrap p-4 text-[14px]">
               {item.companyName}
             </td>
             <td className="whitespace-nowrap p-4 text-[14px]">

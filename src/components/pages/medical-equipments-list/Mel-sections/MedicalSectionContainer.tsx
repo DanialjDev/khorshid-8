@@ -14,22 +14,35 @@ import CustomSelect from "@/components/main/input/CustomSelect";
 import { toast } from "react-toastify";
 import { jalaaliToGregorianISO } from "@/utills/formatHelper";
 import Image from "next/image";
+import {CityType} from "@/services/common/types";
+import {getCitiesById} from "@/services/common";
 const MedicalSection = ({
   tableHeaders,
+  deviceCategories,
+  states
 }: {
   tableHeaders: { name: string; value: string }[] | undefined;
+  deviceCategories: { id: number; categoryName: string }[];
+  states: {id: number, stateName: string}[];
 }) => {
   const sectionName = useSearchParams().get("name")!;
-
   const [getItemsLoading, setGetItemsLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const { refresh, push } = useRouter();
+  const { refresh } = useRouter();
   const [tableData, setTableData] = useState<ReactNode | null>(null);
   const [selected, setSelected] = useState(tableHeaders && tableHeaders[0]);
   const [searchValue, setSearchValue] = useState<string | null>("");
   const [banner, setBanner] = useState<DeviceBannerObject | null>(null);
   const [totalPageCount, setTotalPageContain] = useState(0);
+  const [selectedState, setSelectedState] = useState({name: 'استان خود را نتخاب کنید', value: ''})
+  const [showCategories, setShowCategories] = useState(false);
+  const [categoryItems, setCategoryItems] = useState<{id: number, categoryName: string}[]>([])
+  const [selectedCategories, setSelectedCategories] = useState(
+      categoryItems?.map((item) => item.categoryName)
+  );
+  const [cities, setCities] = useState<CityType[]>([])
+  const [selectedCity, setSelectedCity] = useState({name: 'شهرستان خود را انتخاب کنید', value: ''})
 
   const updateTableData = async (pageNumber: number) => {
     const nextTableData = await getSectionsData(
@@ -50,31 +63,87 @@ const MedicalSection = ({
 
   const filterTableData = async () => {
     let filterValue = searchValue;
+    let filterCategoryUrl = '';
+    let filterCity = '';
+    categoryItems.filter(item => {
+      filterCategoryUrl += `CategoryIDs=${item.id}&`
+    })
     if (sectionName === "GetEvents") {
       filterValue = jalaaliToGregorianISO(searchValue!);
     }
-    const filteredData = await getSectionsData(
-      // @ts-ignore
-      sectionName,
-      null,
-      selected!.value ? selected?.value : null,
-      filterValue !== null ? filterValue : searchValue
-    );
-    if (filteredData?.data) {
-      const Data = TableBodyData({
-        data: filteredData.data,
-        // @ts-ignore
-        operationName: sectionName,
-      });
-      setTotalPageContain(
-        filteredData.totalPageCount ? filteredData.totalPageCount : 0
+    // try {
+    //   if(filterValue === '' && selectedCategories?.length === 0 && !selected?.value.includes('City')) {
+    //     toast.error('لطفا فیلد های مربوطه را پر کنید')
+    //   } else if(filterValue === '' && selected?.value.includes('City') && selectedState.value === '' && selectedCity.value === '') {
+    //     toast.error('لطفا فیلد های مربوطه را پر کنید')
+    //   } else if (filterValue === '') {
+    //
+    //   }
+    // } catch (e) {
+    //
+    // }
+    try {
+      if(selected?.value.includes('City')) {
+        filterCity = `&${selected?.value}=${selectedCity.value}`;
+      }
+      const filteredData = await getSectionsData(
+          // @ts-ignore
+          sectionName,
+          null,
+          selected!.value ? selected?.value : null,
+          filterValue !== null ? filterValue : searchValue,
+          filterCategoryUrl,
+          filterCity
       );
-      setSearchLoading(false);
-      setTableData(Data);
-    } else {
-      toast.error(filteredData?.message);
+      if (filteredData?.data) {
+        const Data = TableBodyData({
+          data: filteredData.data,
+          // @ts-ignore
+          operationName: sectionName,
+        });
+        setTotalPageContain(
+            filteredData.totalPageCount ? filteredData.totalPageCount : 0
+        );
+        setSearchLoading(false);
+        setTableData(Data);
+      } else {
+        toast.error(filteredData?.message);
+      }
+    } catch (e) {
+      console.log(e)
     }
+    // const filteredData = await getSectionsData(
+    //   // @ts-ignore
+    //   sectionName,
+    //   null,
+    //   selected!.value ? selected?.value : null,
+    //   filterValue !== null ? filterValue : searchValue,
+    //     filterCategoryUrl
+    // );
+    // if (filteredData?.data) {
+    //   const Data = TableBodyData({
+    //     data: filteredData.data,
+    //     // @ts-ignore
+    //     operationName: sectionName,
+    //   });
+    //   setTotalPageContain(
+    //     filteredData.totalPageCount ? filteredData.totalPageCount : 0
+    //   );
+    //   setSearchLoading(false);
+    //   setTableData(Data);
+    // } else {
+    //   toast.error(filteredData?.message);
+    // }
   };
+
+  const fetchCitiesByStateId = async () => {
+    const citiesByName = await getCitiesById(selectedState.name);
+
+    if(citiesByName?.data) {
+      setCities(citiesByName.data)
+    }
+  }
+
 
   const fetchData = async () => {
     // @ts-ignore
@@ -92,14 +161,22 @@ const MedicalSection = ({
     fetchData();
     setTableData(null);
     setSearchValue("");
+    setCities([])
+    setSelectedCity({
+      name: 'شهرستان خود را انتخاب کنید',
+      value: ''
+    })
+    setSelectedState({
+      name: 'استان خود را انتخاب کنید',
+      value: ''
+    })
+    setSelected(tableHeaders && tableHeaders[0])
     refresh();
-    setSelected(
-      // @ts-ignore
-      tableHeaders.filter(
-        (item) => item.value !== "CityID" && item.value !== "CityId"
-      )[0]
-    );
   }, [sectionName]);
+
+  useEffect(() => {
+    fetchCitiesByStateId()
+  }, [selectedState])
   return (
     <>
       {banner && banner ? (
@@ -117,7 +194,6 @@ const MedicalSection = ({
             src={banner.imageUrl}
             alt={banner.description || ""}
             className="!rounded-lg absolute inset-0"
-            // objectFit="cover"
             unoptimized
           />
         </div>
@@ -133,8 +209,8 @@ const MedicalSection = ({
                   </p>
                 </div>
               </div>
-              <div className="w-full grid md:gap-8 gap-4 items-stretch grid-cols-2">
-                <div className="md:col-span-1 col-span-2 pt-1 md:h-full h-[60px] relative z-40">
+              <div className="w-full grid md:gap-8 gap-4 items-stretch grid-cols-4">
+                <div className="md:col-span-2 col-span-4 pt-1 h-[60px] relative z-50">
                   <CustomSelect
                     selected={selected!}
                     // @ts-ignore
@@ -142,79 +218,188 @@ const MedicalSection = ({
                     // @ts-ignore
                     items={
                       tableHeaders &&
-                      tableHeaders.filter(
-                        (item) =>
-                          item.value !== "CityID" && item.value !== "CityId"
-                      )
+                      tableHeaders
                     }
                   />
                 </div>
-                <div className="md:col-span-1 col-span-2 h-full">
-                  <AuthInput
-                    dir="ltr"
-                    placeholder="کلمه مورد نظر خود را تایپ کنید."
-                    value={searchValue!}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    icon={
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="z-10"
+                {sectionName === "GetDevices" && (
+                    <div className="md:col-span-2 col-span-4 relative">
+                      <div onClick={() => setShowCategories((prevState) => !prevState)} className="text-inputLabelColor cursor-pointer absolute z-30 top-[35%] right-2 text-[14px] mr-[2px]">
+                        گروه تخصصی کاربردی
+                      </div>
+                      <div
+                          onClick={() => setShowCategories((prevState) => !prevState)}
+                          className="w-full cursor-pointer h-[47px] flex flex-col relative border text-dark text-[14px] transition-all focus:border-primary bg-white autofill:!bg-white border-inputBorder rounded-lg p-[12px] disabled:opacity-60 bg-transparent outline-none mt-1 hover:shadow-inputHover hover:border-inputHoverBorder"
                       >
-                        <path
-                          d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
-                          stroke="#060607"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M16.5 16.5L15 15"
-                          stroke="#060607"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
+                        <div
+                            className={`absolute transition-all duration-200 scale-90 left-5 ${
+                                showCategories ? "-rotate-180" : ""
+                            }`}
+                        >
+                          <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                                d="M19.9201 8.9502L13.4001 15.4702C12.6301 16.2402 11.3701 16.2402 10.6001 15.4702L4.08008 8.9502"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-miterlimit="10"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      {showCategories && (
+                          <div
+                              className="w-[400px] shadow-lg border border-adminFormBorder h-[300px] z-30 transition-all bg-white flex flex-col rounded-[10px] absolute top-[60px] overflow-scroll">
+                            {deviceCategories?.map((item) => (
+                                <label
+                                    htmlFor={item.id.toString()}
+                                    key={item.id}
+                                    className={`w-full cursor-pointer p-3 flex ${
+                                        categoryItems?.some((c) => c.id === item.id)
+                                            ? "bg-primaryLight"
+                                            : ""
+                                    }`}
+                                    // onClick={}
+                                >
+                                  <input
+                                      name={item.id.toString()}
+                                      id={item.id.toString()}
+                                      type="checkbox"
+                                      className="checkbox-accent border-[1px] checkbox cursor-pointer bg-none scale-[.80]"
+                                      checked={categoryItems?.some((c) => c.id === item.id)}
+                                      onChange={(e) => {
+                                        if (!categoryItems?.includes(item)) {
+                                          setSelectedCategories([
+                                            ...selectedCategories!,
+                                            item.categoryName,
+                                          ]);
+                                          setCategoryItems([...categoryItems!, item]);
+                                        } else {
+                                          setSelectedCategories((prevState) =>
+                                              prevState?.filter((x) => x !== item.categoryName)
+                                          );
+                                          setCategoryItems((prevState) =>
+                                              prevState?.filter(
+                                                  (x) => x.categoryName !== item.categoryName
+                                              )
+                                          );
+                                        }
+                                      }}
+                                  />
+                                  <p className="w-full mr-2">{item.categoryName}</p>
+                                </label>
+                            ))}
+                          </div>
+                      )}
+                    </div>
+                )}
+                {selected?.value.includes('City') && <div
+                    className={
+                      "md:col-span-2 col-span-4 pt-1 md:h-full h-[60px] relative z-40"
                     }
-                    name="searchValue"
-                    mt="mt-0"
+                >
+                  <CustomSelect
+                      selected={selectedState!}
+                      // @ts-ignore
+                      setSelected={setSelectedState!}
+                      // @ts-ignore
+                      items={states ? states.map(item => ({
+                        name: item.stateName,
+                        value: item.id.toString()
+                      })) : []}
+                  />
+                </div>}
+                {selected?.value.includes('City') &&
+                    <div
+                        className={
+                          "md:col-span-2 col-span-4 pt-1 md:h-full h-[60px] relative z-40"
+                        }
+                    >
+                      <CustomSelect
+                          selected={selectedCity!}
+                          // @ts-ignore
+                          setSelected={setSelectedCity!}
+                          // @ts-ignore
+                          items={cities ? cities.map(item => ({
+                            name: item.cityName,
+                            value: item.id.toString()
+                          })) : []}
+                          disabled={cities.length === 0}
+                      />
+                    </div>}
+                <div className="md:col-span-2 col-span-4 h-full">
+                  <AuthInput
+                      dir="ltr"
+                      placeholder="کلمه مورد نظر خود را تایپ کنید."
+                      value={searchValue!}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      icon={
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 18 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="z-10"
+                        >
+                          <path
+                              d="M8.625 15.75C12.56 15.75 15.75 12.56 15.75 8.625C15.75 4.68997 12.56 1.5 8.625 1.5C4.68997 1.5 1.5 4.68997 1.5 8.625C1.5 12.56 4.68997 15.75 8.625 15.75Z"
+                              stroke="#060607"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                          />
+                          <path
+                              d="M16.5 16.5L15 15"
+                              stroke="#060607"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                          />
+                        </svg>
+                      }
+                      name="searchValue"
+                      mt="mt-0"
                   />
                 </div>
               </div>
               <div className="w-full grid grid-cols-2 gap-3">
                 <div className="md:col-span-1 col-span-2">
                   <Button
-                    onClick={async () => {
-                      setGetItemsLoading(true);
-                      const medicalEquipmentData = await getSectionsData(
-                        // @ts-ignore
-                        sectionName
-                      );
-                      setTotalPageContain(
-                        medicalEquipmentData?.totalPageCount!
-                      );
-                      const Data = TableBodyData({
-                        // @ts-ignore
-                        data: medicalEquipmentData?.data,
-                        // @ts-ignore
-                        operationName: sectionName,
-                      });
-                      if (Data) {
-                        setTableData(Data);
-                        setGetItemsLoading(false);
-                      }
-                      refresh();
-                    }}
-                    loading={getItemsLoading}
-                    text="نمایش کل لیست جاری"
-                    bg="bg-primaryLight"
-                    border="border border-primary"
-                    dir="rtl"
-                    width="w-full"
+                      onClick={async () => {
+                        setGetItemsLoading(true);
+                        const medicalEquipmentData = await getSectionsData(
+                            // @ts-ignore
+                            sectionName
+                        );
+                        setTotalPageContain(
+                            medicalEquipmentData?.totalPageCount!
+                        );
+                        const Data = TableBodyData({
+                          // @ts-ignore
+                          data: medicalEquipmentData?.data,
+                          // @ts-ignore
+                          operationName: sectionName,
+                        });
+                        if (Data) {
+                          setTableData(Data);
+                          setGetItemsLoading(false);
+                        }
+                        refresh();
+                      }}
+                      loading={getItemsLoading}
+                      text="نمایش کل لیست جاری"
+                      bg="bg-primaryLight"
+                      border="border border-primary"
+                      dir="rtl"
+                      width="w-full"
                     icon={
                       <svg
                         width="18"
@@ -260,11 +445,13 @@ const MedicalSection = ({
                     color="text-white"
                     width="w-full"
                     onClick={() => {
-                      if (searchValue !== "") {
+                      if(searchValue === '' && selectedCategories?.length === 0 && !selected?.value.includes('City')) {
+                        toast.error('لطفا فیلد های مربوطه را پر کنید')
+                      } else if(searchValue === '' && selected?.value.includes('City') && selectedState.value === '' && selectedCity.value === '') {
+                        toast.error('لطفا فیلد های مربوطه را پر کنید')
+                      } else {
                         setSearchLoading(true);
                         filterTableData();
-                      } else {
-                        toast.warning("لطفا کلمه مورد نظر خود را وارد کنید");
                       }
                     }}
                     loading={searchLoading}

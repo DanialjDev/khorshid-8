@@ -31,6 +31,7 @@ export const getDeviceCategories = async (): Promise<
       };
     }
   } catch (error) {
+    console.log('error', error)
     if (isAxiosError(error)) {
       return {
         message: error.response?.data.message,
