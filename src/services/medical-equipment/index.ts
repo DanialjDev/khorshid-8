@@ -63,6 +63,7 @@ export const getSectionsData = async (
   let filterNameUrl =
     filterName && filterValue ? `&${filterName}=${filterValue}` : "";
   let filterCategoryUrl = categoryUrl ? `&${categoryUrl?.lastIndexOf('&') !== -1 ? categoryUrl.slice(0, -1) : categoryUrl}` : '';
+  console.log(`${filterNameUrl}${filterCategoryUrl}${filterCity ? filterCity : ''}`)
   try {
     const { data, status } = await get(
       `MedicalEquipment/${url}?PageContain=10&PageNumber=${
@@ -80,11 +81,11 @@ export const getSectionsData = async (
   } catch (error) {
     console.log(error)
     if (isAxiosError(error)) {
-      // if (error.response?.data.errors.EventDate[0] && error.response.data.errors.EventDate[0] !== undefined) {
-      //   return {
-      //     message: "تاریخ وارد شده نادرست می باشد",
-      //   };
-      // }
+      if (error.response?.data.errors.EventDate[0]) {
+        return {
+          message: "تاریخ وارد شده نادرست می باشد",
+        };
+      }
       return {
         message: error.response?.data.message,
       };

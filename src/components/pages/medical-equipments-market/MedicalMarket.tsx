@@ -45,11 +45,11 @@ const MedicalMarket = ({
       setTotalPagesCount(filteredDevices.data?.totalPagesCount);
     }
     setShowFilterSection(false);
-    setSearch("");
   };
 
   const updateDevice = async (pageNumber: number) => {
-    const updatedDeviceList = await getDevices(pageNumber.toString());
+
+    const updatedDeviceList = await getDevices(pageNumber.toString(), search);
     if (updatedDeviceList?.status === 200 && updatedDeviceList.data) {
       setClientDevices(updatedDeviceList.data);
       setTotalPagesCount(updatedDeviceList.data.totalPagesCount);

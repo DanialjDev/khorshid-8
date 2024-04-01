@@ -332,8 +332,7 @@ const AllEquipmentsInfo = ({
               items={tableHeaders ? tableHeaders : []}
             />
           </div>
-          {selected?.value === "CityID" ||
-            (selected?.value === "CityId" && (
+          {selected?.value.includes('City') && (
               <div className={` col-span-2 h-full`}>
                 <CustomSelect
                   items={stateItems!}
@@ -341,7 +340,7 @@ const AllEquipmentsInfo = ({
                   setSelected={setSelectedState}
                 />
               </div>
-            ))}
+            )}
           <div className="col-span-2 h-full">
             {selected?.value === "CityID" || selected?.value === "CityId" ? (
               <CustomSelect

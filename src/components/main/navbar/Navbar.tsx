@@ -102,7 +102,7 @@ const Navbar = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav id="nav" className="w-full flex items-center flex-col fixed z-50">
+    <nav id="nav" className="w-full flex items-center flex-col fixed !z-[1000]">
       {/* Top Nav */}
       <div className="w-full flex justify-center items-center shadow-md py-2 bg-white">
         <div className="w-[85%] h-[64px] flex justify-between items-center">

@@ -7,6 +7,7 @@ import {
   SingleProductData,
   TableData,
 } from "./types";
+import {string} from "yup";
 
 type ReturnTyp = {
   status?: number;
@@ -16,12 +17,16 @@ type ReturnTyp = {
 };
 
 export const getDevices = async (
-  pageNumber?: string
+  pageNumber?: string,
+  search?: string
 ): Promise<ReturnTyp | undefined> => {
   let baseUrl = `Shop/GetShopDevices?PageContain=9`;
   try {
     if (pageNumber) {
       baseUrl = `${baseUrl}&PageNumber=${pageNumber}`;
+    }
+    if(search) {
+      baseUrl = `${baseUrl}&Search=${search}`
     }
     const { data, status } = await get<ShopDevices>(baseUrl);
 

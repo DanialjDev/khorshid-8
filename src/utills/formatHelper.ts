@@ -91,7 +91,7 @@ export const getMedicalEquipmentsRoutes = (id: number): string | undefined => {
       return "/deans-of-universities";
     case 12:
       return "/events";
-    case 12:
+    case 13:
       return "/hospitals";
     case 14:
       return "/labs";

@@ -59,6 +59,7 @@ const SingleDeviceRecord = ({
         },
         Cookies.get("token")!
       );
+        console.log(confirmDeviceRes)
       if (confirmDeviceRes?.status === 200) {
         setConfirmLoading(false);
         toast.success(confirmDeviceRes.message);

@@ -37,7 +37,7 @@ const Modal = ({
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
-            className="relative z-50"
+            className="relative z-[100000]"
             onClose={() => {
               setIsOpen(false);
               if (setAuthAction) {

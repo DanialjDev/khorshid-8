@@ -44,44 +44,17 @@ const MedicalSection = ({
   const [cities, setCities] = useState<CityType[]>([])
   const [selectedCity, setSelectedCity] = useState({name: 'شهرستان خود را انتخاب کنید', value: ''})
 
-  const updateTableData = async (pageNumber: number) => {
-    const nextTableData = await getSectionsData(
-      // @ts-ignore
-      sectionName,
-      pageNumber
-    );
-    if (nextTableData?.data) {
-      const Data = TableBodyData({
-        // @ts-ignore
-        data: nextTableData.data,
-        // @ts-ignore
-        operationName: sectionName,
-      });
-      setTableData(Data);
-    }
-  };
+  let filterValue = searchValue;
+  let filterCategoryUrl = '';
+  let filterCity = '';
 
-  const filterTableData = async () => {
-    let filterValue = searchValue;
-    let filterCategoryUrl = '';
-    let filterCity = '';
+  const filterTableData = async (pageNumber?: number) => {
     categoryItems.filter(item => {
       filterCategoryUrl += `CategoryIDs=${item.id}&`
     })
     if (sectionName === "GetEvents") {
       filterValue = jalaaliToGregorianISO(searchValue!);
     }
-    // try {
-    //   if(filterValue === '' && selectedCategories?.length === 0 && !selected?.value.includes('City')) {
-    //     toast.error('لطفا فیلد های مربوطه را پر کنید')
-    //   } else if(filterValue === '' && selected?.value.includes('City') && selectedState.value === '' && selectedCity.value === '') {
-    //     toast.error('لطفا فیلد های مربوطه را پر کنید')
-    //   } else if (filterValue === '') {
-    //
-    //   }
-    // } catch (e) {
-    //
-    // }
     try {
       if(selected?.value.includes('City')) {
         filterCity = `&${selected?.value}=${selectedCity.value}`;
@@ -89,7 +62,7 @@ const MedicalSection = ({
       const filteredData = await getSectionsData(
           // @ts-ignore
           sectionName,
-          null,
+          pageNumber ? pageNumber : null,
           selected!.value ? selected?.value : null,
           filterValue !== null ? filterValue : searchValue,
           filterCategoryUrl,
@@ -112,28 +85,6 @@ const MedicalSection = ({
     } catch (e) {
       console.log(e)
     }
-    // const filteredData = await getSectionsData(
-    //   // @ts-ignore
-    //   sectionName,
-    //   null,
-    //   selected!.value ? selected?.value : null,
-    //   filterValue !== null ? filterValue : searchValue,
-    //     filterCategoryUrl
-    // );
-    // if (filteredData?.data) {
-    //   const Data = TableBodyData({
-    //     data: filteredData.data,
-    //     // @ts-ignore
-    //     operationName: sectionName,
-    //   });
-    //   setTotalPageContain(
-    //     filteredData.totalPageCount ? filteredData.totalPageCount : 0
-    //   );
-    //   setSearchLoading(false);
-    //   setTableData(Data);
-    // } else {
-    //   toast.error(filteredData?.message);
-    // }
   };
 
   const fetchCitiesByStateId = async () => {
@@ -493,7 +444,7 @@ const MedicalSection = ({
             <div className="w-full mt-10 flex justify-center">
               <Pagination
                 totalPagesCount={totalPageCount!}
-                onClick={updateTableData}
+                onClick={filterTableData}
               />
             </div>
           )}
